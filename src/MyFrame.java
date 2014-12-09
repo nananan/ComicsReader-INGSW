@@ -17,7 +17,7 @@ public class MyFrame extends JFrame
 		this.setVisible(true);
 		this.setContentPane(p);
 		this.setSize(larghezza, altezza);
-//		System.out.println(larghezza+" "+altezza);
+		System.out.println(larghezza+" "+altezza);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 	}

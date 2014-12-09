@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,6 +22,8 @@ public class MyPanel extends JPanel
 	MyButton buttonUtentsRated = new MyButton("Utents Rated");
 	MyButton buttonFavorites = new MyButton("Favorites Comics");
 	MyButton buttonToRead = new MyButton("To Read");
+	MyButton buttonChronology = new MyButton("Chronology");
+	MyButton buttonOffline = new MyButton("Offline");
 	
 	JPanel pannelloDestro = new JPanel();
 	JPanel pannelloSinistro = new JPanel();
@@ -39,9 +42,10 @@ public class MyPanel extends JPanel
 		this.setLayout(new BorderLayout());
 		
 		pannelloSotto.setBackground(new Color(91,84,84));
-		pannelloSotto.setPreferredSize(new Dimension(10, 50));
+		pannelloSotto.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 50));
 		pannelloSotto.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.setLayout(new BorderLayout());
+		pannelloSotto.setLayout(null);
 		
 		pannelloDestro.setBackground(new Color(91,84,84));
 		pannelloDestro.setPreferredSize(new Dimension(200, 0));
@@ -76,6 +80,16 @@ public class MyPanel extends JPanel
 		
 		buttonToRead.setDimension(pannelloSinistro, buttonFavorites.getY()+25);
 		pannelloSinistro.add(buttonToRead);
+		
+		buttonChronology.setDimension(pannelloSinistro, buttonToRead.getY()+25);
+		pannelloSinistro.add(buttonChronology);
+
+		
+		buttonOffline.setPreferredSize(new Dimension(100,20));
+		int X = (int)pannelloSotto.getPreferredSize().getWidth() - (int)buttonOffline.getPreferredSize().getWidth();
+		int Y = ((int)pannelloSotto.getPreferredSize().getHeight()/2) - ((int)buttonOffline.getPreferredSize().getHeight()/2);
+		buttonOffline.setBounds(X, Y, 100,20);
+		pannelloSotto.add(buttonOffline);
 	}
 
 	@Override
