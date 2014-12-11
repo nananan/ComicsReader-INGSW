@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -18,6 +19,7 @@ public class MyFrame extends JFrame
 		this.setContentPane(p);
 		this.setSize(larghezza, altezza);
 		System.out.println(larghezza+" "+altezza);
+		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 	}

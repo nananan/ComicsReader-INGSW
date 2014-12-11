@@ -22,10 +22,10 @@ public class MyButton extends JButton
 		setFont(font);
 	}
 
-	public void setDimension(JPanel panel, int Y)
+	public void setDimension(JPanel panel, JPanel centro, int Y)
 	{
-		setPreferredSize(new Dimension((int) panel.getPreferredSize().getWidth()-2,20));
-		setBounds(1, Y, (int) panel.getPreferredSize().getWidth()-2,20);
+		setPreferredSize(new Dimension((int) panel.getPreferredSize().getWidth()-centro.getInsets().bottom,20));
+		setBounds(panel.getInsets().bottom, Y, (int) panel.getPreferredSize().getWidth()-centro.getInsets().bottom,20);
 	}
 	
 }
