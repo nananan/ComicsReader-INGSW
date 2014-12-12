@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -25,6 +27,17 @@ public class PannelloSopra extends JPanel
 				
 		buttonOffline.setBounds(X - pannelloCentro.getInsets().bottom, Y, (int)buttonOffline.getPreferredSize().getWidth()-pannelloCentro.getInsets().bottom,20);
 		add(buttonOffline);
+		
+		buttonOffline.addMouseListener(new MouseAdapter() 
+		 {
+			public void mouseClicked(MouseEvent e)
+			{
+				System.out.println("premo");
+				repaint();
+			}
+			//public void 
+		 });
+		 
 	}
 	
 	@Override
