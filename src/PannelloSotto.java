@@ -9,15 +9,24 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 
 public class PannelloSotto extends JPanel
 {
-	ImageIcon image = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/buttonPlay.jpg");
+	ImageIcon image = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/play.png");
+	ImageIcon imageNext = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/next.png");
+	ImageIcon imagePrev = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/icon-prev.png");
+	ImageIcon imageNext2 = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/next2.png");
+	ImageIcon imagePrev2 = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/prev2.png");
 	Image scaledImage = null;
 	
 	JButton play = new JButton();
+	JButton next = new JButton();
+	JButton next2 = new JButton();
+	JButton prev = new JButton();
+	JButton prev2 = new JButton();
 	
 	public PannelloSotto() 
 	{
@@ -32,19 +41,66 @@ public class PannelloSotto extends JPanel
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		
-		try
-		{
-//			image = ImageIO.read(new File("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/buttonPlay.jpg"));
-//			scaledImage = image.getScaledInstance(50,50, Image.SCALE_AREA_AVERAGING);
-			
-		}
-		catch (Exception e){}
+		//PLAY
+		Image imageScaled = image.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+		image.setImage(imageScaled);
 		
-//		play.setIcon(image);
-//		play.setPressedIcon(image);
-		play.setBackground(Color.BLACK);
-		play.setBounds((int)getPreferredSize().getWidth()/2, (int)getPreferredSize().getHeight(), 30, 30);
+		play.setIcon(image);
+		play.setPressedIcon(image);
+		play.setBorderPainted(false);
+		play.setFocusPainted(false);
+		play.setBackground(getBackground());
+		play.setBounds((int)getPreferredSize().getWidth()/2, (int)getPreferredSize().getHeight()/4, image.getIconWidth(), image.getIconHeight());
+		
+		//NEXT
+		imageScaled = imageNext.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+		imageNext.setImage(imageScaled);
+		
+		next.setIcon(imageNext);
+		next.setPressedIcon(imageNext);
+		next.setBorderPainted(false);
+		next.setFocusPainted(false);
+		next.setBackground(getBackground());
+		next.setBounds((int)getPreferredSize().getWidth()/2 + image.getImage().getWidth(null)*2, (int)getPreferredSize().getHeight()/4, imageNext.getIconWidth(), imageNext.getIconHeight());
+		
+		//NEXTNEXT
+		imageScaled = imageNext2.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+		imageNext2.setImage(imageScaled);
+		
+		next2.setIcon(imageNext2);
+		next2.setPressedIcon(imageNext2);
+		next2.setBorderPainted(false);
+		next2.setFocusPainted(false);
+		next2.setBackground(getBackground());
+		next2.setBounds((int)getPreferredSize().getWidth()/2 + imageNext.getImage().getWidth(null)*4, (int)getPreferredSize().getHeight()/4, imageNext2.getIconWidth(), imageNext2.getIconHeight());
+		
+		//PREV
+		imageScaled = imagePrev.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+		imagePrev.setImage(imageScaled);
+		
+		prev.setIcon(imagePrev);
+		prev.setPressedIcon(imagePrev);
+		prev.setBorderPainted(false);
+		prev.setFocusPainted(false);
+		prev.setBackground(getBackground());
+		prev.setBounds((int)getPreferredSize().getWidth()/2 - image.getImage().getWidth(null)*2, (int)getPreferredSize().getHeight()/4, imagePrev.getIconWidth(), imagePrev.getIconHeight());
+		
+		//PREVPREV
+		imageScaled = imagePrev2.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+		imagePrev2.setImage(imageScaled);
+		
+		prev2.setIcon(imagePrev2);
+		prev2.setPressedIcon(imagePrev2);
+		prev2.setBorderPainted(false);
+		prev2.setFocusPainted(false);
+		prev2.setBackground(getBackground());
+		prev2.setBounds((int)getPreferredSize().getWidth()/2 - imagePrev.getImage().getWidth(null)*4, (int)getPreferredSize().getHeight()/4, imagePrev2.getIconWidth(), imagePrev2.getIconHeight());
+		
 		add(play);
+		add(next);
+		add(next2);
+		add(prev);
+		add(prev2);
 	}
 	
 	@Override
