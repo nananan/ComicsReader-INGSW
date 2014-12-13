@@ -15,11 +15,11 @@ import javax.swing.JPanel;
 
 public class PannelloSotto extends JPanel
 {
-	ImageIcon image = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/image/play.png");
-	ImageIcon imageNext = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/image/next.png");
-	ImageIcon imagePrev = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/image/prev-icon.png");
-	ImageIcon imageNext2 = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/image/next2.png");
-	ImageIcon imagePrev2 = new ImageIcon("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/image/prev2.png");
+	ImageIcon image = new ImageIcon("image/play.png");
+	ImageIcon imageNext = new ImageIcon("image/next.png");
+	ImageIcon imagePrev = new ImageIcon("image/prev-icon.png");
+	ImageIcon imageNext2 = new ImageIcon("image/next2.png");
+	ImageIcon imagePrev2 = new ImageIcon("image/prev2.png");
 	Image scaledImage = null;
 	
 	JButton play = new JButton();
