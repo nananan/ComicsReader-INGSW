@@ -25,7 +25,7 @@ public class PannelloCentrale extends JPanel
 		
 		try
 		{
-			image = ImageIO.read(new File("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/ciao.jpg"));
+			image = ImageIO.read(new File("/home/eliana/Interfacce grafiche ed eventi/javaWorkspace/INGSW/src/image/manga1.jpg"));
 			scaledImage = image.getScaledInstance((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight(), Image.SCALE_AREA_AVERAGING);
 			
 		}

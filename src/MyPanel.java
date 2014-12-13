@@ -18,7 +18,7 @@ public class MyPanel extends JPanel
 	PannelloCentrale pannelloCentro = new PannelloCentrale();
 	PannelloSotto pannelloSotto = new PannelloSotto();
 	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro);
-	PannelloSopra pannelloSopra = new PannelloSopra(pannelloCentro);
+	PannelloSopra pannelloSopra = new PannelloSopra(pannelloCentro, this);
 	PannelloDestro pannelloDestro = new PannelloDestro();
 	
 	private Image image = null;

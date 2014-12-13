@@ -8,14 +8,16 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-
 public class PannelloSopra extends JPanel
 {
 	MyButton buttonOffline = new MyButton("Offline");
+	MyPanel panel;
+	boolean put = false;
 	
-	public PannelloSopra(JPanel pannelloCentro) 
+	
+	public PannelloSopra(JPanel pannelloCentro, final MyPanel panel) 
 	{
-		
+		this.panel = panel;
 		setBackground(new Color(91,84,84));
 		setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 30));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
@@ -28,12 +30,21 @@ public class PannelloSopra extends JPanel
 		buttonOffline.setBounds(X - pannelloCentro.getInsets().bottom, Y, (int)buttonOffline.getPreferredSize().getWidth()-pannelloCentro.getInsets().bottom,20);
 		add(buttonOffline);
 		
-		buttonOffline.addMouseListener(new MouseAdapter() 
-		 {
+		buttonOffline.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e)
 			{
-				System.out.println("premo");
-				repaint();
+				if (!put)
+				{
+					panel.pannelloSotto.setVisible(true);
+					put = true;
+					repaint();
+				}
+				else
+				{
+					panel.pannelloSotto.setVisible(false);
+					put = false;
+					repaint();
+				}
 			}
 			//public void 
 		 });
