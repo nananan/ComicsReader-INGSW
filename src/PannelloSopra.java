@@ -30,24 +30,24 @@ public class PannelloSopra extends JPanel
 		buttonOffline.setBounds(X - pannelloCentro.getInsets().bottom, Y, (int)buttonOffline.getPreferredSize().getWidth()-pannelloCentro.getInsets().bottom,20);
 		add(buttonOffline);
 		
-		buttonOffline.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				if (!put)
-				{
-					panel.pannelloSotto.setVisible(true);
-					put = true;
-					repaint();
-				}
-				else
-				{
-					panel.pannelloSotto.setVisible(false);
-					put = false;
-					repaint();
-				}
-			}
-			//public void 
-		 });
+//		buttonOffline.addMouseListener(new MouseAdapter() {
+//			public void mouseClicked(MouseEvent e)
+//			{
+//				if (!put)
+//				{
+//					panel.pannelloSotto.setVisible(true);
+//					put = true;
+//					repaint();
+//				}
+//				else
+//				{
+//					panel.pannelloSotto.setVisible(false);
+//					put = false;
+//					repaint();
+//				}
+//			}
+//			//public void 
+//		 });
 		 
 	}
 	

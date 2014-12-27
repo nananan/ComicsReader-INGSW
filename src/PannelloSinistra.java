@@ -1,6 +1,9 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -15,8 +18,14 @@ public class PannelloSinistra extends JPanel
 	MyButton buttonFavorites = new MyButton("Favorites Comics");
 	MyButton buttonToRead = new MyButton("To Read");
 	MyButton buttonChronology = new MyButton("Chronology");	
+	MyButton buttonFiltra = new MyButton("Filtra");
 	
-	public PannelloSinistra(JPanel pannelloCentro) 
+	MyButton buttonManga = new MyButton("Manga");
+	MyButton buttonFumetti = new MyButton("Fumetti");
+	
+	boolean filtraggio = false;
+	
+	public PannelloSinistra(final JPanel pannelloCentro, final MyPanel panel, final JPanel pannelloFiltraggio) 
 	{
 		setBackground(new Color(91,84,84));
 		setPreferredSize(new Dimension(180, 0));
@@ -44,6 +53,37 @@ public class PannelloSinistra extends JPanel
 		buttonChronology.setDimension(this, pannelloCentro, buttonToRead.getY()+25);
 		add(buttonChronology);
 		
+		buttonFiltra.setDimension(this, pannelloCentro, buttonChronology.getY()+25);
+		add(buttonFiltra);
+		
+		
+//		final PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, panel);
+		
+		buttonManga.setDimension(this, pannelloCentro, buttonFiltra.getY()+30);
+		buttonFumetti.setDimension(this, pannelloCentro, buttonManga.getY()+25);
+
+		buttonFiltra.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e)
+			{
+				filtraggio = true;
+//				add(buttonManga);
+//				
+//				add(buttonFumetti);
+				
+				panel.Premi();
+			}
+		 });
+		
+	}
+	
+	public boolean getFiltraggio()
+	{
+		return filtraggio;
+	}
+	
+	public void setFiltraggio(boolean filtraggio)
+	{
+		this.filtraggio = filtraggio;
 	}
 	
 	@Override

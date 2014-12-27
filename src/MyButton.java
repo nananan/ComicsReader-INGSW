@@ -20,6 +20,7 @@ public class MyButton extends JButton
 		setFocusPainted(false);
 		setForeground(Color.WHITE);
 		setFont(font);
+		setContentAreaFilled(false);
 	}
 
 	public void setDimension(JPanel panel, JPanel centro, int Y)

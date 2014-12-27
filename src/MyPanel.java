@@ -17,9 +17,10 @@ public class MyPanel extends JPanel
 {		
 	PannelloCentrale pannelloCentro = new PannelloCentrale();
 	PannelloSotto pannelloSotto = new PannelloSotto();
-	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro);
 	PannelloSopra pannelloSopra = new PannelloSopra(pannelloCentro, this);
 	PannelloDestro pannelloDestro = new PannelloDestro();
+	PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, this);
+	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro, this, pannelloFiltraggio);
 	
 	private Image image = null;
 	
@@ -29,6 +30,8 @@ public class MyPanel extends JPanel
 //		this.setBackground(new Color(137,130,130));
 		this.setLayout(new BorderLayout());
 		
+//		this.add(pannelloFiltraggio,BorderLayout.WEST);
+		
 		this.add(pannelloDestro,BorderLayout.EAST);
 		this.add(pannelloSinistro,BorderLayout.WEST);
 		this.add(pannelloSotto, BorderLayout.SOUTH);
@@ -36,7 +39,7 @@ public class MyPanel extends JPanel
 		this.add(pannelloCentro, BorderLayout.CENTER);
 		
 		pannelloSotto.setVisible(false);
-
+//		pannelloFiltraggio.setVisible(false);
 //		JMenu menu = new JMenu("ciao");
 //		
 //		JMenuBar menuBar = new JMenuBar();
@@ -51,6 +54,22 @@ public class MyPanel extends JPanel
 //		updateUI();
 	}
 
+	public void Premi()
+	{
+		pannelloSinistro.setVisible(false);
+		this.add(pannelloFiltraggio,BorderLayout.WEST);
+		pannelloFiltraggio.setVisible(true);
+		repaint();
+	}
+	
+	public void PremiPerPannelloSinistro()
+	{
+		pannelloFiltraggio.setVisible(false);
+		this.add(pannelloSinistro,BorderLayout.WEST);
+		pannelloSinistro.setVisible(true);
+		repaint();
+	}
+	
 	@Override
 	protected void paintComponent(Graphics g) 
 	{
