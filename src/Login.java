@@ -20,6 +20,8 @@ public class Login extends JPanel
 	MyButton buttonOk = new MyButton("Ok");
 	MyButton buttonAnnulla = new MyButton("Annulla");
 	
+	boolean pressedOk = false;
+	
 	public Login(int larghezza, int altezza) 
 	{
 		super();
@@ -60,7 +62,7 @@ public class Login extends JPanel
 					System.out.println("inserisci la password");
 				
 				System.out.println(text);
-				buttonOk.setForeground(Color.BLACK);
+				pressedOk = true;
 			}
 		 });
 		
@@ -74,11 +76,11 @@ public class Login extends JPanel
 	
 	public boolean pareCheHaInseritoTutto()
 	{
-		if (buttonOk.getForeground() == Color.BLACK)
+		if (pressedOk)
 		{
 			if (textAreaPassword.getText().isEmpty() || textAreaName.getText().isEmpty())
 			{	
-				buttonOk.setForeground(Color.WHITE);
+				pressedOk = false;
 				if (textAreaPassword.getText().isEmpty() && textAreaName.getText().isEmpty())
 				{
 					textAreaPassword.setBackground(Color.RED);

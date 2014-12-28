@@ -12,35 +12,32 @@ import javax.swing.JPanel;
 
 public class PannelloFiltraggio extends JPanel
 {
-	MyButton buttonManga = new MyButton("Manga");
-	MyButton buttonFumetti = new MyButton("Fumetti");
 	Text textGenere = new Text("Genere");
 	Text textStato = new Text("Stato");
+	Text textManga = new Text("Manga");
+	Text textFumetti = new Text("Fumetti");
+
+	MyButton buttonManga = new MyButton("Manga");
+	MyButton buttonFumetti = new MyButton("Fumetti");
 	MyButton buttonStatoCompletoManga = new MyButton("Completi");
 	MyButton buttonStatoIncompletoManga = new MyButton("Incompleti");
 	MyButton buttonStatoCompletoFumetto = new MyButton("Completi");
 	MyButton buttonStatoIncompletoFumetto = new MyButton("Incompleti");
-	
-	Text textManga = new Text("Manga");
-	Text textFumetti = new Text("Fumetti");
-	
 	MyButton clean = new MyButton("Clean");
 	MyButton fine = new MyButton("Fine");
-	
-	Font font = new Font("Caladea", Font.BOLD, 14);
-	
 	MyButton manga[] = new MyButton[14];
 	String nameButtonManga[] = {"Aniparo", "CyberPunk", "Kodomo", "Shonen", "Seinen", "Gekiga", "Gore", "Josei", "Maho Shojo", "Mecha", "Meitantei", "Romakome", "Spokon", "Suriraa"};
 	
 	MyButton fumetti[] = new MyButton[11];
 	String nameButtonFumetti[] = {"Fantascienza", "Western", "Poliziesco", "Horror", "Avventura", "Fantasy", "Comico", "Satira", "Pulp e Trash", "Sportivo", "Romantico"};
 	
+	Font font = new Font("Caladea", Font.BOLD, 14);
+	
 	ArrayList<String> filtriManga = new ArrayList<>();
 	ArrayList<String> filtriFumetto = new ArrayList<>();
 	
 	boolean filtraggioManga = false;
 	boolean filtraggioFumetto = false;
-	
 	boolean putCompletoManga = false;
 	boolean putIncompletoManga = false;
 	boolean putCompletoFumetto = false;
