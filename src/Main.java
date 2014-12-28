@@ -10,7 +10,7 @@ public class Main {
 		{
 //			System.out.println("non devo fare niente");
 		}
-		
+		f.setVisible(false);
 		f = new MyFrame();
 		f.repaint();
 	}

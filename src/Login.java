@@ -15,8 +15,8 @@ public class Login extends JPanel
 	
 	JTextField textAreaName = new JTextField();
 	JTextField textAreaPassword = new JTextField();
-	Text insertName = new Text("Inserisci il Nome");
-	Text insertPassword = new Text("Inserisci la Password");
+	Text insertName = new Text("UserName");
+	Text insertPassword = new Text("Password");
 	MyButton buttonOk = new MyButton("Ok");
 	MyButton buttonAnnulla = new MyButton("Annulla");
 	
@@ -29,19 +29,19 @@ public class Login extends JPanel
 		this.add(panel, BorderLayout.CENTER);
 		
 		insertName.setPreferredSize(new Dimension(larghezza,20));
-		insertName.setBounds(0+panel.getInsets().bottom*2, 20,(int) insertName.getPreferredSize().getWidth(),(int) insertName.getPreferredSize().getHeight());
+		insertName.setBounds(panel.getInsets().bottom*2, 20,(int) insertName.getPreferredSize().getWidth(),(int) insertName.getPreferredSize().getHeight());
 		panel.add(insertName);
 		
 		textAreaName.setPreferredSize(new Dimension(80,20));
-		textAreaName.setBounds(0+panel.getInsets().bottom*2, 25 +insertName.getY(),(int) textAreaName.getPreferredSize().getWidth(),(int) textAreaName.getPreferredSize().getHeight());
+		textAreaName.setBounds(panel.getInsets().bottom*2, 20 +insertName.getY(),(int) textAreaName.getPreferredSize().getWidth(),(int) textAreaName.getPreferredSize().getHeight());
 		panel.add(textAreaName);
 		
 		insertPassword.setPreferredSize(new Dimension(larghezza,20));
-		insertPassword.setBounds(0+panel.getInsets().bottom*2, 25+textAreaName.getY(),(int) insertPassword.getPreferredSize().getWidth(),(int) insertPassword.getPreferredSize().getHeight());
+		insertPassword.setBounds(panel.getInsets().bottom*2, 30+textAreaName.getY(),(int) insertPassword.getPreferredSize().getWidth(),(int) insertPassword.getPreferredSize().getHeight());
 		panel.add(insertPassword);
 		
 		textAreaPassword.setPreferredSize(new Dimension(80,20));
-		textAreaPassword.setBounds(0+panel.getInsets().bottom*2, 25 +insertPassword.getY(),(int) textAreaPassword.getPreferredSize().getWidth(),(int) textAreaPassword.getPreferredSize().getHeight());
+		textAreaPassword.setBounds(panel.getInsets().bottom*2, 20 +insertPassword.getY(),(int) textAreaPassword.getPreferredSize().getWidth(),(int) textAreaPassword.getPreferredSize().getHeight());
 		panel.add(textAreaPassword);
 		
 		buttonAnnulla.setPreferredSize(new Dimension(90,30));

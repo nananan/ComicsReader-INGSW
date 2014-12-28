@@ -21,6 +21,9 @@ public class PannelloFiltraggio extends JPanel
 	MyButton buttonStatoCompletoFumetto = new MyButton("Completi");
 	MyButton buttonStatoIncompletoFumetto = new MyButton("Incompleti");
 	
+	Text textManga = new Text("Manga");
+	Text textFumetti = new Text("Fumetti");
+	
 	MyButton clean = new MyButton("Clean");
 	MyButton fine = new MyButton("Fine");
 	
@@ -52,11 +55,14 @@ public class PannelloFiltraggio extends JPanel
 		
 		final JPanel panelSec = this;
 		
+		textManga.setFont(font);
+		textFumetti.setFont(font);
+		
 		textGenere.setForeground(new Color(51,47,47));
 		textGenere.setFont(font);
 		textStato.setForeground(new Color(51,47,47));
 		textStato.setFont(font);
-		
+
 		buttonManga.setDimension(this, pannelloCentro, 20);
 		add(buttonManga);
 		
@@ -156,12 +162,14 @@ public class PannelloFiltraggio extends JPanel
 					removeFumetti();
 					filtraggioFumetto = false;
 				}
-				Text textManga = new Text("Manga");
-				textManga.setBounds(panelSec.getInsets().bottom, 0, buttonManga.getWidth(), buttonManga.getHeight());
+				textManga.setBounds(panelSec.getInsets().bottom+(int)getPreferredSize().getWidth()/3, 0, buttonManga.getWidth(), buttonManga.getHeight());
 //				buttonManga.setEnabled(false);
+				remove(buttonManga);
+				add(textManga);
 				addManga(pannelloCentro);
 				buttonFumetti.setBounds(panelSec.getInsets().bottom, fine.getY()-25, buttonFumetti.getWidth(), buttonFumetti.getHeight());
 //				buttonFumetti.setEnabled(true);
+				add(buttonFumetti);
 				repaint();
 			}
 		 });
@@ -175,12 +183,14 @@ public class PannelloFiltraggio extends JPanel
 					removeManga();
 					filtraggioManga = false;
 				}
-				Text textFumetti = new Text("Fumetti");
-				textFumetti.setBounds(panelSec.getInsets().bottom, 0, buttonFumetti.getWidth(), buttonFumetti.getHeight());
+				textFumetti.setBounds(panelSec.getInsets().bottom+(int)getPreferredSize().getWidth()/3, 0, buttonFumetti.getWidth(), buttonFumetti.getHeight());
 //				buttonFumetti.setEnabled(false);
+				remove(buttonFumetti);
+				add(textFumetti);
 				addFumetto(pannelloCentro);
 				buttonManga.setBounds(panelSec.getInsets().bottom, fine.getY()-25, buttonManga.getWidth(), buttonManga.getHeight());
 //				buttonManga.setEnabled(true);
+				add(buttonManga);
 				repaint();
 			}
 		 });
@@ -194,7 +204,7 @@ public class PannelloFiltraggio extends JPanel
 		int height = 20;
 
 		textStato.setPreferredSize(new Dimension(100, 20));
-		textStato.setBounds(this.getInsets().bottom, buttonManga.getY()+25, 100,20);
+		textStato.setBounds(this.getInsets().bottom, textManga.getY()+25, 100,20);
 		add(textStato);
 		
 		buttonStatoCompletoManga.setPreferredSize(new Dimension(width, height));
@@ -298,7 +308,7 @@ public class PannelloFiltraggio extends JPanel
 		int height = 20;
 
 		textStato.setPreferredSize(new Dimension(100, 20));
-		textStato.setBounds(this.getInsets().bottom, buttonFumetti.getY()+25, 100,20);
+		textStato.setBounds(this.getInsets().bottom, textFumetti.getY()+25, 100,20);
 		add(textStato);
 		
 		buttonStatoCompletoFumetto.setPreferredSize(new Dimension(width, height));
@@ -402,6 +412,7 @@ public class PannelloFiltraggio extends JPanel
 		remove(buttonStatoCompletoManga);
 		remove(buttonStatoIncompletoManga);
 		remove(textGenere);
+		remove(textManga);
 		
 		for (int i= 0; i < manga.length; i++)
 		{
@@ -415,6 +426,7 @@ public class PannelloFiltraggio extends JPanel
 		remove(buttonStatoCompletoFumetto);
 		remove(buttonStatoIncompletoFumetto);
 		remove(textGenere);
+		remove(textFumetti);
 		
 		for (int i=0; i < fumetti.length; i++)
 		{
