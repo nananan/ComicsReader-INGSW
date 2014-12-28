@@ -219,8 +219,8 @@ public class PannelloFiltraggio extends JPanel
 				if (putCompletoManga)
 				{
 					buttonStatoCompletoManga.setForeground(Color.WHITE);
-					if (!filtriManga.get(0).equals("All"))
-						filtriManga.add(0,"All");
+//					if (!filtriManga.get(0).equals("All"))
+//						filtriManga.add(0,"All");
 					filtriManga.remove(buttonStatoCompletoManga.getText());
 					putCompletoManga = false;
 				}
@@ -228,7 +228,7 @@ public class PannelloFiltraggio extends JPanel
 				{
 					buttonStatoCompletoManga.setForeground(Color.RED);
 					filtriManga.add(0, buttonStatoCompletoManga.getText());
-					filtriManga.remove("All");
+//					filtriManga.remove("All");
 					putCompletoManga = true;
 				}
 			}
@@ -249,8 +249,8 @@ public class PannelloFiltraggio extends JPanel
 				if (putIncompletoManga)
 				{
 					buttonStatoIncompletoManga.setForeground(Color.WHITE);
-					if (!filtriManga.get(0).equals("All"))
-						filtriManga.add(0,"All");
+//					if (!filtriManga.get(0).equals("All"))
+//						filtriManga.add(0,"All");
 					filtriManga.remove(buttonStatoIncompletoManga.getText());
 					putIncompletoManga = false;
 				}
@@ -258,7 +258,7 @@ public class PannelloFiltraggio extends JPanel
 				{
 					buttonStatoIncompletoManga.setForeground(Color.RED);
 					filtriManga.add(0, buttonStatoIncompletoManga.getText());
-					filtriManga.remove("All");
+//					filtriManga.remove("All");
 					putIncompletoManga = true;
 				}
 			}
@@ -323,8 +323,8 @@ public class PannelloFiltraggio extends JPanel
 				if (putCompletoFumetto)
 				{
 					buttonStatoCompletoFumetto.setForeground(Color.WHITE);
-					if (!filtriFumetto.get(0).equals("All"))
-						filtriFumetto.add(0,"All");
+//					if (!filtriFumetto.get(0).equals("All"))
+//						filtriFumetto.add(0,"All");
 					filtriFumetto.remove(buttonStatoCompletoFumetto.getText());
 					putCompletoFumetto = false;
 				}
@@ -332,7 +332,7 @@ public class PannelloFiltraggio extends JPanel
 				{
 					buttonStatoCompletoFumetto.setForeground(Color.RED);
 					filtriFumetto.add(0, buttonStatoCompletoFumetto.getText());
-					filtriFumetto.remove("All");
+//					filtriFumetto.remove("All");
 					putCompletoFumetto = true;
 				}
 			}
@@ -353,8 +353,8 @@ public class PannelloFiltraggio extends JPanel
 				if (putIncompletoFumetto)
 				{
 					buttonStatoIncompletoFumetto.setForeground(Color.WHITE);
-					if (!filtriFumetto.get(0).equals("All"))
-						filtriFumetto.add(0,"All");
+//					if (!filtriFumetto.get(0).equals("All"))
+//						filtriFumetto.add(0,"All");
 					filtriFumetto.remove(buttonStatoIncompletoFumetto.getText());
 					putIncompletoFumetto = false;
 				}
@@ -362,7 +362,7 @@ public class PannelloFiltraggio extends JPanel
 				{
 					buttonStatoIncompletoFumetto.setForeground(Color.RED);
 					filtriFumetto.add(0, buttonStatoIncompletoFumetto.getText());
-					filtriFumetto.remove("All");
+//					filtriFumetto.remove("All");
 					putIncompletoFumetto = true;
 				}
 			}
