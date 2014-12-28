@@ -214,7 +214,7 @@ public class PannelloFiltraggio extends JPanel
 		buttonStatoCompletoManga.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e)
 			{
-				if (buttonStatoIncompletoManga.isEnabled())
+				if (buttonStatoIncompletoManga.getForeground() == Color.RED)
 				{
 					buttonStatoIncompletoManga.setForeground(Color.WHITE);
 					filtriManga.remove(buttonStatoIncompletoManga.getText());
@@ -244,7 +244,7 @@ public class PannelloFiltraggio extends JPanel
 		buttonStatoIncompletoManga.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e)
 			{
-				if (buttonStatoCompletoManga.isEnabled())
+				if (buttonStatoCompletoManga.getForeground() == Color.RED)
 				{
 					buttonStatoCompletoManga .setForeground(Color.WHITE);
 					filtriManga.remove(buttonStatoCompletoManga.getText());
@@ -318,7 +318,7 @@ public class PannelloFiltraggio extends JPanel
 		buttonStatoCompletoFumetto.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e)
 			{
-				if (buttonStatoIncompletoFumetto.isEnabled())
+				if (buttonStatoIncompletoFumetto.getForeground() == Color.RED)
 				{
 					buttonStatoIncompletoFumetto.setForeground(Color.WHITE);
 					filtriFumetto.remove(buttonStatoIncompletoFumetto.getText());
@@ -348,7 +348,7 @@ public class PannelloFiltraggio extends JPanel
 		buttonStatoIncompletoFumetto.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e)
 			{
-				if (buttonStatoCompletoFumetto.isEnabled())
+				if (buttonStatoCompletoFumetto.getForeground() == Color.RED)
 				{
 					buttonStatoCompletoFumetto.setForeground(Color.WHITE);
 					filtriFumetto.remove(buttonStatoCompletoFumetto.getText());
