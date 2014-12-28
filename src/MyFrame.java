@@ -23,14 +23,5 @@ public class MyFrame extends JFrame
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 	}
-	
-	public static void main(String[] args) 
-	{
-		JFrame f=new MyFrame();
-//		while (true)
-//		{
-//			f.repaint();
-//		}
-	}
 
 }

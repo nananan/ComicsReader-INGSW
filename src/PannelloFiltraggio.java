@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -13,8 +14,8 @@ public class PannelloFiltraggio extends JPanel
 {
 	MyButton buttonManga = new MyButton("Manga");
 	MyButton buttonFumetti = new MyButton("Fumetti");
-	MyButton buttonGenere = new MyButton("Genere");
-	MyButton buttonStato = new MyButton("Stato");
+	Text textGenere = new Text("Genere");
+	Text textStato = new Text("Stato");
 	MyButton buttonStatoCompletoManga = new MyButton("Completi");
 	MyButton buttonStatoIncompletoManga = new MyButton("Incompleti");
 	MyButton buttonStatoCompletoFumetto = new MyButton("Completi");
@@ -22,6 +23,8 @@ public class PannelloFiltraggio extends JPanel
 	
 	MyButton clean = new MyButton("Clean");
 	MyButton fine = new MyButton("Fine");
+	
+	Font font = new Font("Caladea", Font.BOLD, 14);
 	
 	MyButton manga[] = new MyButton[14];
 	String nameButtonManga[] = {"Aniparo", "CyberPunk", "Kodomo", "Shonen", "Seinen", "Gekiga", "Gore", "Josei", "Maho Shojo", "Mecha", "Meitantei", "Romakome", "Spokon", "Suriraa"};
@@ -48,6 +51,11 @@ public class PannelloFiltraggio extends JPanel
 		setLayout(null);
 		
 		final JPanel panelSec = this;
+		
+		textGenere.setForeground(new Color(51,47,47));
+		textGenere.setFont(font);
+		textStato.setForeground(new Color(51,47,47));
+		textStato.setFont(font);
 		
 		buttonManga.setDimension(this, pannelloCentro, 20);
 		add(buttonManga);
@@ -148,7 +156,8 @@ public class PannelloFiltraggio extends JPanel
 					removeFumetti();
 					filtraggioFumetto = false;
 				}
-				buttonManga.setBounds(panelSec.getInsets().bottom, 0, buttonManga.getWidth(), buttonManga.getHeight());
+				Text textManga = new Text("Manga");
+				textManga.setBounds(panelSec.getInsets().bottom, 0, buttonManga.getWidth(), buttonManga.getHeight());
 //				buttonManga.setEnabled(false);
 				addManga(pannelloCentro);
 				buttonFumetti.setBounds(panelSec.getInsets().bottom, fine.getY()-25, buttonFumetti.getWidth(), buttonFumetti.getHeight());
@@ -166,7 +175,8 @@ public class PannelloFiltraggio extends JPanel
 					removeManga();
 					filtraggioManga = false;
 				}
-				buttonFumetti.setBounds(panelSec.getInsets().bottom, 0, buttonFumetti.getWidth(), buttonFumetti.getHeight());
+				Text textFumetti = new Text("Fumetti");
+				textFumetti.setBounds(panelSec.getInsets().bottom, 0, buttonFumetti.getWidth(), buttonFumetti.getHeight());
 //				buttonFumetti.setEnabled(false);
 				addFumetto(pannelloCentro);
 				buttonManga.setBounds(panelSec.getInsets().bottom, fine.getY()-25, buttonManga.getWidth(), buttonManga.getHeight());
@@ -183,13 +193,12 @@ public class PannelloFiltraggio extends JPanel
 		int width = (int) this.getPreferredSize().getWidth()-pannelloCentro.getInsets().bottom;
 		int height = 20;
 
-		buttonStato.setPreferredSize(new Dimension(100, 20));
-		buttonStato.setBounds(this.getInsets().bottom, buttonManga.getY()+25, 100,20);
-		buttonStato.setEnabled(false);
-		add(buttonStato);
+		textStato.setPreferredSize(new Dimension(100, 20));
+		textStato.setBounds(this.getInsets().bottom, buttonManga.getY()+25, 100,20);
+		add(textStato);
 		
 		buttonStatoCompletoManga.setPreferredSize(new Dimension(width, height));
-		buttonStatoCompletoManga.setBounds(this.getInsets().bottom, buttonStato.getY()+25, width, height);
+		buttonStatoCompletoManga.setBounds(this.getInsets().bottom, textStato.getY()+25, width, height);
 		add(buttonStatoCompletoManga);
 		
 		buttonStatoCompletoManga.addMouseListener(new MouseAdapter() {
@@ -248,10 +257,9 @@ public class PannelloFiltraggio extends JPanel
 			}
 		});
 		
-		buttonGenere.setPreferredSize(new Dimension(100, 20));
-		buttonGenere.setBounds(this.getInsets().bottom, buttonStatoIncompletoManga.getY()+25, 100,20);
-		buttonGenere.setEnabled(false);
-		add(buttonGenere);
+		textGenere.setPreferredSize(new Dimension(100, 20));
+		textGenere.setBounds(this.getInsets().bottom, buttonStatoIncompletoManga.getY()+25, 100,20);
+		add(textGenere);
 		
 		for (int i=0; i < manga.length; i++)
 		{
@@ -259,7 +267,7 @@ public class PannelloFiltraggio extends JPanel
 			if (i != 0) 
 				manga[i].setBounds(this.getInsets().bottom, manga[i-1].getY()+25, width, height);
 			else
-				manga[i].setBounds(this.getInsets().bottom, buttonGenere.getY()+25, width, height);
+				manga[i].setBounds(this.getInsets().bottom, textGenere.getY()+25, width, height);
 			
 			add(manga[i]);
 			
@@ -289,13 +297,12 @@ public class PannelloFiltraggio extends JPanel
 		int width = (int) this.getPreferredSize().getWidth()-pannelloCentro.getInsets().bottom;
 		int height = 20;
 
-		buttonStato.setPreferredSize(new Dimension(100, 20));
-		buttonStato.setBounds(this.getInsets().bottom, buttonFumetti.getY()+25, 100,20);
-		buttonStato.setEnabled(false);
-		add(buttonStato);
+		textStato.setPreferredSize(new Dimension(100, 20));
+		textStato.setBounds(this.getInsets().bottom, buttonFumetti.getY()+25, 100,20);
+		add(textStato);
 		
 		buttonStatoCompletoFumetto.setPreferredSize(new Dimension(width, height));
-		buttonStatoCompletoFumetto.setBounds(this.getInsets().bottom, buttonStato.getY()+25, width, height);
+		buttonStatoCompletoFumetto.setBounds(this.getInsets().bottom, textStato.getY()+25, width, height);
 		add(buttonStatoCompletoFumetto);
 		
 		buttonStatoCompletoFumetto.addMouseListener(new MouseAdapter() {
@@ -354,10 +361,9 @@ public class PannelloFiltraggio extends JPanel
 			}
 		});
 		
-		buttonGenere.setPreferredSize(new Dimension(100, 20));
-		buttonGenere.setBounds(this.getInsets().bottom, buttonStatoIncompletoFumetto.getY()+25, 100,20);
-		buttonGenere.setEnabled(false);
-		add(buttonGenere);
+		textGenere.setPreferredSize(new Dimension(100, 20));
+		textGenere.setBounds(this.getInsets().bottom, buttonStatoIncompletoFumetto.getY()+25, 100,20);
+		add(textGenere);
 		
 		
 		for (int i=0; i < fumetti.length; i++)
@@ -366,7 +372,7 @@ public class PannelloFiltraggio extends JPanel
 			if (i != 0) 
 				fumetti[i].setBounds(this.getInsets().bottom, fumetti[i-1].getY()+25, width, height);
 			else
-				fumetti[i].setBounds(this.getInsets().bottom, buttonGenere.getY()+25, width, height);
+				fumetti[i].setBounds(this.getInsets().bottom, textGenere.getY()+25, width, height);
 			
 			add(fumetti[i]);
 			
@@ -392,10 +398,10 @@ public class PannelloFiltraggio extends JPanel
 	
 	public void removeManga()
 	{
-		remove(buttonStato);
+		remove(textStato);
 		remove(buttonStatoCompletoManga);
 		remove(buttonStatoIncompletoManga);
-		remove(buttonGenere);
+		remove(textGenere);
 		
 		for (int i= 0; i < manga.length; i++)
 		{
@@ -405,10 +411,10 @@ public class PannelloFiltraggio extends JPanel
 	
 	public void removeFumetti()
 	{
-		remove(buttonStato);
+		remove(textStato);
 		remove(buttonStatoCompletoFumetto);
 		remove(buttonStatoIncompletoFumetto);
-		remove(buttonGenere);
+		remove(textGenere);
 		
 		for (int i=0; i < fumetti.length; i++)
 		{
