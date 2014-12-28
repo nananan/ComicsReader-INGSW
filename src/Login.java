@@ -17,7 +17,8 @@ public class Login extends JPanel
 	JTextField textAreaPassword = new JTextField();
 	Text insertName = new Text("Inserisci il Nome");
 	Text insertPassword = new Text("Inserisci la Password");
-	Text buttonOk = new Text("OK");
+	MyButton buttonOk = new MyButton("Ok");
+	MyButton buttonAnnulla = new MyButton("Annulla");
 	
 	public Login(int larghezza, int altezza) 
 	{
@@ -43,10 +44,13 @@ public class Login extends JPanel
 		textAreaPassword.setBounds(0+panel.getInsets().bottom*2, 25 +insertPassword.getY(),(int) textAreaPassword.getPreferredSize().getWidth(),(int) textAreaPassword.getPreferredSize().getHeight());
 		panel.add(textAreaPassword);
 		
-		buttonOk.setPreferredSize(new Dimension(70,30));
-		buttonOk.setBounds(larghezza-(int)buttonOk.getPreferredSize().getWidth(), altezza-(int)buttonOk.getPreferredSize().getHeight()*2, (int)buttonOk.getPreferredSize().getWidth(), (int)buttonOk.getPreferredSize().getHeight());
-		panel.add(buttonOk);
+		buttonAnnulla.setPreferredSize(new Dimension(90,30));
+		buttonAnnulla.setBounds(larghezza-(int)buttonAnnulla.getPreferredSize().getWidth(), altezza-(int)buttonAnnulla.getPreferredSize().getHeight(), (int)buttonAnnulla.getPreferredSize().getWidth(), (int)buttonAnnulla.getPreferredSize().getHeight());
+		panel.add(buttonAnnulla);
 		
+		buttonOk.setPreferredSize(new Dimension(70,30));
+		buttonOk.setBounds(larghezza-(int)buttonAnnulla.getPreferredSize().getWidth()-(int)buttonOk.getPreferredSize().getWidth(), altezza-(int)buttonOk.getPreferredSize().getHeight(), (int)buttonOk.getPreferredSize().getWidth(), (int)buttonOk.getPreferredSize().getHeight());
+		panel.add(buttonOk);
 		buttonOk.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e)
 			{
@@ -56,14 +60,21 @@ public class Login extends JPanel
 					System.out.println("inserisci la password");
 				
 				System.out.println(text);
-				buttonOk.setForeground(Color.GREEN);
+				buttonOk.setForeground(Color.BLACK);
+			}
+		 });
+		
+		buttonAnnulla.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e)
+			{
+				System.exit(0);
 			}
 		 });
 	}
 	
 	public boolean pareCheHaInseritoTutto()
 	{
-		if (buttonOk.getForeground() == Color.GREEN)
+		if (buttonOk.getForeground() == Color.BLACK)
 		{
 			if (textAreaPassword.getText().isEmpty() || textAreaName.getText().isEmpty())
 			{	

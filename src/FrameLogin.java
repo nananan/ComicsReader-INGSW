@@ -14,11 +14,13 @@ public class FrameLogin extends JFrame
 	{
 		super();
 		this.setTitle("Login for Comics Reader");
-		this.setVisible(true);
 		this.setContentPane(p);
 		this.setSize(larghezza, altezza);
 		this.setBounds((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/3, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3, larghezza, altezza);
 		System.out.println((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 + " "+ (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
+		
+		this.setUndecorated(true);
+		this.setVisible(true);
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		

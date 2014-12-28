@@ -8,13 +8,11 @@ public class Main {
 		JFrame f = new FrameLogin();
 		while (!((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
 		{
-			System.out.println("non devo fare niente");
+//			System.out.println("non devo fare niente");
 		}
-		if (((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
-		{
-			f = new MyFrame();
-			f.repaint();
-		}
+		
+		f = new MyFrame();
+		f.repaint();
 	}
 
 }

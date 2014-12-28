@@ -26,7 +26,7 @@ public class PannelloLogin extends JPanel
 		try
 		{
 			image = ImageIO.read(new File("image/yoda.jpg"));
-			scaledImage = image.getScaledInstance((int)getPreferredSize().getWidth()/2-50, (int)getPreferredSize().getHeight()/4, Image.SCALE_AREA_AVERAGING);
+			scaledImage = image.getScaledInstance((int)getPreferredSize().getWidth()/2-50, (int)getPreferredSize().getHeight()/3, Image.SCALE_AREA_AVERAGING);
 			
 		}
 		catch (Exception e){}
