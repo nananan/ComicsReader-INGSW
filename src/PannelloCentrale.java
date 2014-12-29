@@ -14,12 +14,20 @@ public class PannelloCentrale extends JPanel
 	Image image = null;
 	Image scaledImage = null;
 	
+	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	
 	public PannelloCentrale() 
 	{
-		int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 		
-		setBounds(180, 30, larghezza-200, altezza-50);
+	}
+	
+	public void setDimensioniPannello(PannelloDestro pannelloDestro, PannelloSinistra pannelloSinistra)
+	{
+		larghezza = larghezza - (int) pannelloDestro.getPreferredSize().getWidth() - (int) pannelloSinistra.getPreferredSize().getWidth();
+//		altezza = altezza - (int) pannelloDestro.getPreferredSize().getHeight() - (int) pannelloSinistra.getPreferredSize().getHeight();
+		
+		setBounds(0, 0, larghezza, altezza);
 		setBorder(BorderFactory.createLineBorder(Color.black,3));
 		setLayout(null);
 		

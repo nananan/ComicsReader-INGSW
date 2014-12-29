@@ -14,19 +14,21 @@ public class PannelloLogin extends JPanel
 	Image image = null;
 	public Image scaledImage = null;
 	
-	public PannelloLogin() 
+	final int costanteDivisione = 3;
+	
+	public PannelloLogin(int larghezza, int altezza) 
 	{
-		int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+//		int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/costanteDivisione;
+//		int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()/(costanteDivisione+1);
 		
-		setBounds(0, 0, larghezza-200, altezza-50);
+		setBounds(0, 0, larghezza, altezza);
 		setBorder(BorderFactory.createLineBorder(Color.black,3));
 		setLayout(null);
 		
 		try
 		{
 			image = ImageIO.read(new File("image/yoda.jpg"));
-			scaledImage = image.getScaledInstance((int)getPreferredSize().getWidth()/2-50, (int)getPreferredSize().getHeight()/3, Image.SCALE_AREA_AVERAGING);
+			scaledImage = image.getScaledInstance((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight(), Image.SCALE_AREA_AVERAGING);
 			
 		}
 		catch (Exception e){}

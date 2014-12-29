@@ -1,15 +1,8 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.Toolkit;
 
-import javax.swing.BorderFactory;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 
@@ -17,20 +10,21 @@ public class MyPanel extends JPanel
 {		
 	PannelloCentrale pannelloCentro = new PannelloCentrale();
 	PannelloSotto pannelloSotto = new PannelloSotto();
-	PannelloSopra pannelloSopra = new PannelloSopra(pannelloCentro, this);
+	PannelloSopra pannelloSopra = null;
 	PannelloDestro pannelloDestro = new PannelloDestro();
 	PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, this);
 	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro, this, pannelloFiltraggio);
 	
 	private Image image = null;
 	
-	public MyPanel() 
+	public MyPanel(String name) 
 	{
 		super();
 //		this.setBackground(new Color(137,130,130));
 		this.setLayout(new BorderLayout());
-		
+		pannelloSopra = new PannelloSopra(pannelloCentro, this, name, pannelloDestro);
 //		this.add(pannelloFiltraggio,BorderLayout.WEST);
+		pannelloCentro.setDimensioniPannello(pannelloDestro, pannelloSinistro);
 		
 		this.add(pannelloDestro,BorderLayout.EAST);
 		this.add(pannelloSinistro,BorderLayout.WEST);

@@ -6,15 +6,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 
 public class Login extends JPanel
 {
-	PannelloLogin panel = new PannelloLogin();
+	PannelloLogin panel = null;
 	
 	JTextField textAreaName = new JTextField();
-	JTextField textAreaPassword = new JTextField();
+	JPasswordField textAreaPassword = new JPasswordField();
 	Text insertName = new Text("UserName");
 	Text insertPassword = new Text("Password");
 	MyButton buttonOk = new MyButton("Ok");
@@ -28,29 +29,34 @@ public class Login extends JPanel
 		this.setBackground(new Color(137,130,130));
 		this.setLayout(new BorderLayout());
 		
-		this.add(panel, BorderLayout.CENTER);
+		int altezzaText = altezza/11;
+		int altezzaButton = altezza/9;
 		
-		insertName.setPreferredSize(new Dimension(larghezza,20));
-		insertName.setBounds(panel.getInsets().bottom*2, 20,(int) insertName.getPreferredSize().getWidth(),(int) insertName.getPreferredSize().getHeight());
+		panel = new PannelloLogin(larghezza,altezza);
+		System.out.println(altezza);
+		this.add(panel, BorderLayout.CENTER);
+		insertName.setPreferredSize(new Dimension(larghezza,altezzaText));
+		insertName.setBounds(panel.getInsets().bottom*2, altezzaText,(int) insertName.getPreferredSize().getWidth(),(int) insertName.getPreferredSize().getHeight());
 		panel.add(insertName);
 		
-		textAreaName.setPreferredSize(new Dimension(80,20));
-		textAreaName.setBounds(panel.getInsets().bottom*2, 20 +insertName.getY(),(int) textAreaName.getPreferredSize().getWidth(),(int) textAreaName.getPreferredSize().getHeight());
+		textAreaName.setPreferredSize(new Dimension(larghezza/3, altezzaText));
+		textAreaName.setBounds(panel.getInsets().bottom*2, altezzaText + insertName.getY(),(int) textAreaName.getPreferredSize().getWidth(),(int) textAreaName.getPreferredSize().getHeight());
 		panel.add(textAreaName);
 		
-		insertPassword.setPreferredSize(new Dimension(larghezza,20));
-		insertPassword.setBounds(panel.getInsets().bottom*2, 30+textAreaName.getY(),(int) insertPassword.getPreferredSize().getWidth(),(int) insertPassword.getPreferredSize().getHeight());
+		insertPassword.setPreferredSize(new Dimension(larghezza, altezzaText));
+		insertPassword.setBounds(panel.getInsets().bottom*2, altezzaText*2 + textAreaName.getY(),(int) insertPassword.getPreferredSize().getWidth(),(int) insertPassword.getPreferredSize().getHeight());
 		panel.add(insertPassword);
 		
-		textAreaPassword.setPreferredSize(new Dimension(80,20));
-		textAreaPassword.setBounds(panel.getInsets().bottom*2, 20 +insertPassword.getY(),(int) textAreaPassword.getPreferredSize().getWidth(),(int) textAreaPassword.getPreferredSize().getHeight());
+		textAreaPassword.setPreferredSize(new Dimension((int)textAreaName.getPreferredSize().getWidth(), altezzaText));
+		textAreaPassword.setEchoChar('*');
+		textAreaPassword.setBounds(panel.getInsets().bottom*2, altezzaText +insertPassword.getY(),(int) textAreaPassword.getPreferredSize().getWidth(),(int) textAreaPassword.getPreferredSize().getHeight());
 		panel.add(textAreaPassword);
 		
-		buttonAnnulla.setPreferredSize(new Dimension(90,30));
+		buttonAnnulla.setPreferredSize(new Dimension(90,altezzaButton));
 		buttonAnnulla.setBounds(larghezza-(int)buttonAnnulla.getPreferredSize().getWidth(), altezza-(int)buttonAnnulla.getPreferredSize().getHeight(), (int)buttonAnnulla.getPreferredSize().getWidth(), (int)buttonAnnulla.getPreferredSize().getHeight());
 		panel.add(buttonAnnulla);
 		
-		buttonOk.setPreferredSize(new Dimension(70,30));
+		buttonOk.setPreferredSize(new Dimension(70,altezzaButton));
 		buttonOk.setBounds(larghezza-(int)buttonAnnulla.getPreferredSize().getWidth()-(int)buttonOk.getPreferredSize().getWidth(), altezza-(int)buttonOk.getPreferredSize().getHeight(), (int)buttonOk.getPreferredSize().getWidth(), (int)buttonOk.getPreferredSize().getHeight());
 		panel.add(buttonOk);
 		buttonOk.addMouseListener(new MouseAdapter() {
@@ -97,6 +103,11 @@ public class Login extends JPanel
 			return true;
 		}
 		return false;
+	}
+	
+	public String getTextName()
+	{
+		return textAreaName.getText();
 	}
 	
 	@Override

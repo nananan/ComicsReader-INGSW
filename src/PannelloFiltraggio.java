@@ -43,10 +43,12 @@ public class PannelloFiltraggio extends JPanel
 	boolean putCompletoFumetto = false;
 	boolean putIncompletoFumetto = false;
 	
+	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 6;
+	
 	public PannelloFiltraggio(final JPanel pannelloCentro, final MyPanel panel) 
 	{
 		setBackground(new Color(91,84,84));
-		setPreferredSize(new Dimension(180, 0));
+		setPreferredSize(new Dimension(larghezza, 0));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		

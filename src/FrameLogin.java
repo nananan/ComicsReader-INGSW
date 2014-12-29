@@ -6,8 +6,10 @@ import javax.swing.JPanel;
 
 public class FrameLogin extends JFrame
 {
-	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 3;
-	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 4;
+	final int costanteDivisione = 2;
+	
+	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / costanteDivisione;
+	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / (costanteDivisione+1);
 	
 	Login p = new Login(larghezza, altezza);
 	public FrameLogin()
@@ -16,8 +18,8 @@ public class FrameLogin extends JFrame
 		this.setTitle("Login for Comics Reader");
 		this.setContentPane(p);
 		this.setSize(larghezza, altezza);
-		this.setBounds((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/3, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3, larghezza, altezza);
-		System.out.println((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2 + " "+ (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
+		this.setBounds(larghezza-(int)p.getPreferredSize().getWidth()/2, altezza, larghezza, altezza);
+//		System.out.println((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/(costanteDivisione-1) + " "+ (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()/(costanteDivisione-1));
 		
 		this.setUndecorated(true);
 		this.setVisible(true);

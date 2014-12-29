@@ -13,13 +13,9 @@ public class Text extends JTextArea
 	{
 		super();
 		setText(text);
-//		setBackground(new Color(137,130,130));
 		setEditable(false);
 		setOpaque(false);
-//		setBorderPainted(false);
-//		setFocusPainted(false);
 		setForeground(Color.WHITE);
 		setFont(font);
-//		setContentAreaFilled(true);
 	}
 }

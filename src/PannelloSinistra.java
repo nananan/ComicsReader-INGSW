@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -25,14 +26,17 @@ public class PannelloSinistra extends JPanel
 	
 	boolean filtraggio = false;
 	
+	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 6;
+	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	
 	public PannelloSinistra(final JPanel pannelloCentro, final MyPanel panel, final JPanel pannelloFiltraggio) 
 	{
 		setBackground(new Color(91,84,84));
-		setPreferredSize(new Dimension(180, 0));
+		setPreferredSize(new Dimension(larghezza, 0));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		
-		button.setDimension(this, pannelloCentro, 200);
+		button.setDimension(this, pannelloCentro, altezza/4);
 		add(button);
 		
 		buttonTopRead.setDimension(this, pannelloCentro, button.getY()+25);
