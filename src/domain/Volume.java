@@ -18,7 +18,7 @@ public class Volume {
 	private ImageIcon copertina;
 	private String urlCopertina;
 	private String nomeFumetto;
-
+	
 	private TabellaCapitolo tuplaCapitolo;
 	private Capitolo[] capitoli;
 	private int numeroCapitoli;
