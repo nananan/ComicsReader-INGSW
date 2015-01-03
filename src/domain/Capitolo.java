@@ -34,7 +34,7 @@ public class Capitolo {
 		pagine = new ImageIcon[numeroPagine];
 		
 		for(int pagina = 0; pagina < numeroPagine;pagina++){
-			pagine[pagina] = new ImageIcon(new URL(urlCapitolo+(pagina +1)+".jpg").toString());
+			pagine[pagina] = new ImageIcon(new URL(urlCapitolo+(pagina +1)).toString());
 		}
 		
 	}
