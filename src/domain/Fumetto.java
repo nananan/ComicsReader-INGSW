@@ -1,12 +1,9 @@
 package domain;
 
-import java.awt.Image;
-import java.awt.Toolkit;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
 
 import javax.swing.ImageIcon;
 
@@ -29,7 +26,6 @@ public class Fumetto {
 	
 	private Volume[] volumi;
 	private int numeroVolumi;
-	private boolean volumiVisualizzati;
 	private TabellaVolume tuplaVolume;
 	
 	public Fumetto(String nome, String autore, String artista, String descrizione,
@@ -64,21 +60,28 @@ public class Fumetto {
 		copertina = new ImageIcon(new URL(url).toString());
 		
 		tuplaVolume = new TabellaVolume(nome);
-		numeroVolumi = tuplaVolume.getNumeroVolumi(nome);
-		volumi = new Volume[numeroVolumi];
-		volumiVisualizzati= false;
+		numeroVolumi = 0;
+		volumi = null;
+		
 	}
 	
-	public void visualizzaVolumi() throws SQLException, MalformedURLException{
+	public void caricaVolumi() throws SQLException, MalformedURLException{
 		
-		if(volumiVisualizzati) return;
+		if(numeroVolumi == tuplaVolume.getNumeroVolumi()) return;
 		
-		while(tuplaVolume.nextVolume()){
+		numeroVolumi = tuplaVolume.getNumeroVolumi();
+		
+		if(volumi != null)
+			tuplaVolume.aggiorna();
+		
+		volumi = new Volume[numeroVolumi];
+		
+		while(tuplaVolume.nextVolume())
+		{
 			Volume volume = new Volume (tuplaVolume);
 			volumi[volume.getNumero()-1]= volume;
 		}
-		tuplaVolume.close();
-		volumiVisualizzati = true;
+	
 	}
 
 	public String getNome() {

@@ -2,9 +2,7 @@ package domain;
 
 import java.net.MalformedURLException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map.Entry;
 
 import technicalService.DataBase;
@@ -39,14 +37,14 @@ public class Libreria {
 				}
 				System.out.println("***********************************************************");
 				Fumetto dn= fumetti.get("Death Note");
-				dn.visualizzaVolumi();
+				dn.caricaVolumi();
 				Volume[] volumi = dn.getVolumi();
 				
 				for (Volume volume : volumi) {
 					System.out.println("***********************************************************");
 					System.out.println(volume.getNome());
 					System.out.println(volume.getNumero());
-					System.out.println(volume.getUrl_copertina());
+					System.out.println(volume.getUrlCopertina());
 					
 				}
 				System.out.println("***********************************************************");
