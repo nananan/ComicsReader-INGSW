@@ -1,7 +1,8 @@
+package Swing;
 import java.awt.BorderLayout;
-
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 
@@ -14,10 +15,11 @@ public class MyPanel extends JPanel
 	PannelloDestro pannelloDestro = new PannelloDestro();
 	PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, this);
 	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro, this, pannelloFiltraggio);
+	PannelloDiscover pannelloDiscover = new PannelloDiscover();
 	
 	private Image image = null;
 	
-	public MyPanel(String name) 
+	public MyPanel(String name) throws IOException 
 	{
 		super();
 //		this.setBackground(new Color(137,130,130));
@@ -33,6 +35,8 @@ public class MyPanel extends JPanel
 		this.add(pannelloCentro, BorderLayout.CENTER);
 		
 		pannelloSotto.setVisible(false);
+		
+		pannelloDiscover.setPannelloCentrale(pannelloCentro);
 //		pannelloFiltraggio.setVisible(false);
 //		JMenu menu = new JMenu("ciao");
 //		
@@ -61,6 +65,14 @@ public class MyPanel extends JPanel
 		pannelloFiltraggio.setVisible(false);
 		this.add(pannelloSinistro,BorderLayout.WEST);
 		pannelloSinistro.setVisible(true);
+		repaint();
+	}
+	
+	public void PremiPerDiscover()
+	{
+		pannelloCentro.setVisible(false);
+		this.add(pannelloDiscover,BorderLayout.CENTER);
+		pannelloDiscover.setVisible(true);
 		repaint();
 	}
 	

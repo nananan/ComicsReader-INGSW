@@ -1,3 +1,4 @@
+package Swing;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,12 +30,16 @@ public class PannelloSinistra extends JPanel
 	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 6;
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	
-	public PannelloSinistra(final JPanel pannelloCentro, final MyPanel panel, final JPanel pannelloFiltraggio) 
+	PannelloCentrale pannelloCentrale = null;
+	
+	public PannelloSinistra(final PannelloCentrale pannelloCentro, final MyPanel panel, final JPanel pannelloFiltraggio) 
 	{
 		setBackground(new Color(91,84,84));
 		setPreferredSize(new Dimension(larghezza, 0));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
+		
+		pannelloCentrale = pannelloCentro;
 		
 		button.setDimension(this, pannelloCentro, altezza/4);
 		add(button);
@@ -75,6 +80,13 @@ public class PannelloSinistra extends JPanel
 //				add(buttonFumetti);
 				
 				panel.Premi();
+			}
+		 });
+		
+		button.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e)
+			{
+				panel.PremiPerDiscover();
 			}
 		 });
 		
