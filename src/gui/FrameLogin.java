@@ -1,4 +1,4 @@
-package Swing;
+package gui;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;

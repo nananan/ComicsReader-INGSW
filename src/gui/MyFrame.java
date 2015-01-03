@@ -1,4 +1,4 @@
-package Swing;
+package gui;
 import java.awt.Toolkit;
 import java.io.IOException;
 
