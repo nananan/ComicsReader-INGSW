@@ -99,6 +99,7 @@ public class PannelloDiscover extends JPanel
 		return scaledImage;
 	}
 	
+	//ciao
 	
 	@Override
 	protected void paintComponent(Graphics g) 
