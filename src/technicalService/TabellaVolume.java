@@ -11,7 +11,7 @@ public class TabellaVolume {
 	
 	public TabellaVolume(String nomeFumetto) throws SQLException {
 		
-		QUERY_VOLUMI = "SELECT numero,nome,url_copertina FROM volume WHERE nome_fumetto='"+nomeFumetto+"';";
+		QUERY_VOLUMI = "SELECT numero,nome,nome_fumetto,url_copertina FROM volume WHERE nome_fumetto='"+nomeFumetto+"';";
 		cursoreVolume = DataBase.getStatement().executeQuery(QUERY_VOLUMI);
 		
 	}
@@ -32,7 +32,7 @@ public class TabellaVolume {
 	
 	public String getUrlCopertina() throws SQLException {
 		
-		return cursoreVolume.getString(3);
+		return cursoreVolume.getString(4);
 	}
 	public void close() throws SQLException {
 		cursoreVolume.close();
@@ -46,5 +46,8 @@ public class TabellaVolume {
 		r.close();
 		return numero;
 	
+	}
+	public String getNomeFumetto() throws SQLException {
+		return cursoreVolume.getString(3);
 	}
 }

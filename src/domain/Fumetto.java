@@ -61,7 +61,6 @@ public class Fumetto {
 		valutazioneMedia = tuplaFumetto.getValutazioneMedia();
 		numeroLetture = tuplaFumetto.getNumeroLetture(); 
 		//TODO inizializzare generi
-		
 		copertina = new ImageIcon(new URL(url).toString());
 		
 		tuplaVolume = new TabellaVolume(nome);

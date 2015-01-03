@@ -13,23 +13,27 @@ import technicalService.TabellaVolume;
 
 public class Volume {
 	
+	
 	private String nome;
 	private int numero;
 	private ImageIcon copertina;
 	private String url_copertina;
-	
-	private TabellaCapitolo cursoreCapitolo;
+	private String nomeFumetto;
+
+	private TabellaCapitolo tuplaCapitolo;
 	private Capitolo[] capitoli;
 	private int numeroCapitolo;
+	
 	
 	public Volume(TabellaVolume tuplaVolume) throws SQLException, MalformedURLException {
 		
 		nome = tuplaVolume.getNome();
 		numero = tuplaVolume.getNumero();
 		url_copertina = tuplaVolume.getUrlCopertina();
+		nomeFumetto = tuplaVolume.getNomeFumetto();
 		copertina = new ImageIcon(new URL(url_copertina).toString());
-		
-		cursoreCapitolo = new TabellaCapitolo();
+	
+		tuplaCapitolo = new TabellaCapitolo(nomeFumetto,numero);
 		
 		
 	}
