@@ -1,4 +1,4 @@
-package gui;
+package ui;
 import java.io.IOException;
 
 import javax.swing.JFrame;
