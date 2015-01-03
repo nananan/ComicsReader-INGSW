@@ -61,6 +61,7 @@ public class Fumetto {
 		valutazioneMedia = tuplaFumetto.getValutazioneMedia();
 		numeroLetture = tuplaFumetto.getNumeroLetture(); 
 		//TODO inizializzare generi
+		
 		copertina = new ImageIcon(new URL(url).toString());
 		
 		tuplaVolume = new TabellaVolume(nome);
@@ -69,7 +70,7 @@ public class Fumetto {
 		volumiVisualizzati= false;
 	}
 	
-	public void visualizzaVolumi() throws SQLException{
+	public void visualizzaVolumi() throws SQLException, MalformedURLException{
 		
 		if(volumiVisualizzati) return;
 		
