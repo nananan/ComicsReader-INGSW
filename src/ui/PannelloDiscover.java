@@ -39,7 +39,7 @@ public class PannelloDiscover extends JPanel
 		super();		
 	}
 	
-	public void setPannelloCentrale(PannelloCentrale pannelloCentrale) throws IOException
+	public void setPannelloCentrale(PannelloCentrale pannelloCentrale, MyPanel panel) throws IOException
 	{
 		this.pannelloCentrale = pannelloCentrale;
 		setBackground(Color.GRAY);
@@ -71,7 +71,7 @@ public class PannelloDiscover extends JPanel
 			int j=0, i=0;
 			for(Entry<String,Fumetto> f : fumetti.entrySet())
 			{
-				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(f.getValue().getUrl()));
+				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(f.getValue().getUrl()), panel, f.getValue());
 
 				bottoniFumetti.add(bottoneFumetto);
 				bottoniFumetti.get(j).setPreferredSize(new Dimension(200,300));

@@ -10,6 +10,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import domain.Fumetto;
+
 
 public class MyPanel extends JPanel
 {		
@@ -20,7 +22,7 @@ public class MyPanel extends JPanel
 	PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, this);
 	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro, this, pannelloFiltraggio);
 	PannelloDiscover pannelloDiscover = new PannelloDiscover();
-	PannelloScrollPane pane = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
+	PannelloScrollPane pannelloScrollDiscover = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
 	
 	private Image image = null;
 	
@@ -41,13 +43,14 @@ public class MyPanel extends JPanel
 		
 		pannelloSotto.setVisible(false);
 		
-		pannelloDiscover.setPannelloCentrale(pannelloCentro);
+		pannelloDiscover.setPannelloCentrale(pannelloCentro, this);
 	}
 
 	public void Premi()
 	{
 		pannelloSinistro.setVisible(false);
 		this.add(pannelloFiltraggio,BorderLayout.WEST);
+		this.validate();
 		pannelloFiltraggio.setVisible(true);
 		repaint();
 	}
@@ -56,24 +59,37 @@ public class MyPanel extends JPanel
 	{
 		pannelloFiltraggio.setVisible(false);
 		this.add(pannelloSinistro,BorderLayout.WEST);
+		this.validate();
 		pannelloSinistro.setVisible(true);
 		repaint();
 	}
 	
 	public void PremiPerDiscover()
 	{
-		pannelloCentro.setVisible(false);
-		this.add(pane,BorderLayout.CENTER);
-		pane.setVisible(true);
+//		pannelloCentro.setVisible(false);
+		remove(pannelloCentro);
+		this.add(pannelloScrollDiscover, BorderLayout.CENTER);
+		this.validate();
+		pannelloScrollDiscover.setVisible(true);
 		repaint();
 	}
+	
+	public void PremiPerFumetto(Fumetto fumetto)
+	{
+//		pannelloScrollDiscover.setVisible(false);
+		remove(pannelloScrollDiscover);
+		PannelloScrollPane pannelloScrollDescrizione = new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro), null);
+//		pannelloSinistro.setVisible(false);
+		this.add(pannelloScrollDescrizione, BorderLayout.CENTER);
+		this.validate();
+		pannelloScrollDescrizione.setVisible(true);
+		repaint();
+	}	
 	
 	@Override
 	protected void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
-//		pannelloCentro.getGraphics().drawImage(image, 0,0, pannelloCentro);
-//		System.out.println("ciao");
-		
+//		pannelloCentro.getGraphics().drawImage(image, 0,0, pannelloCentro);		
 	}
 }
