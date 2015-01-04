@@ -19,7 +19,7 @@ public class Fumetto {
 	private boolean ecompleto;	
 	private boolean occidentale;
 	private Genere[] generi;
-	private ImageIcon copertina;
+	private ImageIcon copertina = null;
 	private String url;
 	private double valutazioneMedia;
 	private int numeroLetture;
