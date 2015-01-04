@@ -9,8 +9,6 @@ public class DataBase {
     final private static String DRIVER = "org.mariadb.jdbc.Driver"; 
     private static Connection connection;
     private static Statement statement;
-    
-
 
 	static public void connect() throws SQLException, ClassNotFoundException{
     	

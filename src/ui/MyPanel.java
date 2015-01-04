@@ -1,10 +1,14 @@
 package ui;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 
 public class MyPanel extends JPanel
@@ -16,6 +20,7 @@ public class MyPanel extends JPanel
 	PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, this);
 	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro, this, pannelloFiltraggio);
 	PannelloDiscover pannelloDiscover = new PannelloDiscover();
+	PannelloScrollPane pane = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
 	
 	private Image image = null;
 	
@@ -37,19 +42,6 @@ public class MyPanel extends JPanel
 		pannelloSotto.setVisible(false);
 		
 		pannelloDiscover.setPannelloCentrale(pannelloCentro);
-//		pannelloFiltraggio.setVisible(false);
-//		JMenu menu = new JMenu("ciao");
-//		
-//		JMenuBar menuBar = new JMenuBar();
-//		
-//		menuBar.add(menu);
-//		
-//		menuBar.setBounds(0, 0, 10, 30);
-//		this.add(menuBar);
-		
-		
-//		setVisible(true);
-//		updateUI();
 	}
 
 	public void Premi()
@@ -71,8 +63,8 @@ public class MyPanel extends JPanel
 	public void PremiPerDiscover()
 	{
 		pannelloCentro.setVisible(false);
-		this.add(pannelloDiscover,BorderLayout.CENTER);
-		pannelloDiscover.setVisible(true);
+		this.add(pane,BorderLayout.CENTER);
+		pane.setVisible(true);
 		repaint();
 	}
 	

@@ -19,7 +19,7 @@ public class Fumetto {
 	private boolean ecompleto;	
 	private boolean occidentale;
 	private Genere[] generi;
-	private ImageIcon copertina;
+	private ImageIcon copertina = null;
 	private String url;
 	private double valutazioneMedia;
 	private int numeroLetture;
@@ -56,7 +56,7 @@ public class Fumetto {
 		url = tuplaFumetto.getUrlCopertina();
 		valutazioneMedia = tuplaFumetto.getValutazioneMedia();
 		numeroLetture = tuplaFumetto.getNumeroLetture(); 
-		//TODO inizializzare generi
+		//TODO inizializzare generi...
 		copertina = new ImageIcon(new URL(url).toString());
 		generi = null;
 		tuplaVolume = new TabellaVolume(nome);

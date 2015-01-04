@@ -14,12 +14,12 @@ public class TabellaFumetto {
 		cursoreFumetto = DataBase.getStatement().executeQuery(QUERY_FUMETTO);	
 	}
 	
-	public boolean nextFumetto() throws SQLException{
+	public boolean nextFumetto() throws SQLException {
 		
 		return cursoreFumetto.next();
 	}
 	
-	public String getNome() throws SQLException{
+	public String getNome() throws SQLException {
 		
 		return nomeFumettoCorrente = cursoreFumetto.getString(1);
 	}
