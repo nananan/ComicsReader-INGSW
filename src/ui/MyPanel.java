@@ -66,7 +66,6 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerDiscover()
 	{
-//		pannelloCentro.setVisible(false);
 		remove(pannelloCentro);
 		this.add(pannelloScrollDiscover, BorderLayout.CENTER);
 		this.validate();
@@ -76,10 +75,8 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerFumetto(Fumetto fumetto)
 	{
-//		pannelloScrollDiscover.setVisible(false);
 		remove(pannelloScrollDiscover);
 		PannelloScrollPane pannelloScrollDescrizione = new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro), null);
-//		pannelloSinistro.setVisible(false);
 		this.add(pannelloScrollDescrizione, BorderLayout.CENTER);
 		this.validate();
 		pannelloScrollDescrizione.setVisible(true);

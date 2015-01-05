@@ -25,8 +25,8 @@ import domain.Fumetto;
 
 public class PannelloDiscover extends JPanel
 {
-	PannelloCentrale pannelloCentrale = null;
-	File file = null;
+	private PannelloCentrale pannelloCentrale;
+	File file;
 	Image imageSfondo = null;
 	Image scaledImage = null;
 	
@@ -46,15 +46,6 @@ public class PannelloDiscover extends JPanel
 		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
 		setBounds(0, 0, (int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight());
 		setLayout(null);
-		
-//		try {
-//			imageSfondo = ImageIO.read(pannelloCentrale.getFile());
-////			System.out.println((int)getPreferredSize().getWidth()+","+ (int)getPreferredSize().getHeight());
-//			scaledImage = imageSfondo.getScaledInstance((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight(), imageSfondo.SCALE_AREA_AVERAGING);
-//		} 
-//		catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		
 		try {
 			DataBase.connect();

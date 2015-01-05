@@ -33,7 +33,6 @@ public class BottoneFumetto extends JButton
 			public void mouseClicked(MouseEvent e)
 			{
 				panel.PremiPerFumetto(fumetto);
-				System.out.println(fumetto.getNome());
 			}
 		 });
 		
