@@ -76,7 +76,7 @@ public class MyPanel extends JPanel
 	public void PremiPerFumetto(Fumetto fumetto)
 	{
 		remove(pannelloScrollDiscover);
-		PannelloScrollPane pannelloScrollDescrizione = new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro), null);
+		PannelloScrollPane pannelloScrollDescrizione = new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null);
 		this.add(pannelloScrollDescrizione, BorderLayout.CENTER);
 		this.validate();
 		pannelloScrollDescrizione.setVisible(true);
