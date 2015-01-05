@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class PannelloDiscover extends JPanel
 		super();		
 	}
 	
-	public void setPannelloCentrale(PannelloCentrale pannelloCentrale, MyPanel panel) throws IOException
+	public void setPannelloCentrale(PannelloCentrale pannelloCentrale, final MyPanel panel) throws IOException
 	{
 		this.pannelloCentrale = pannelloCentrale;
 		setBackground(Color.GRAY);
@@ -60,7 +62,7 @@ public class PannelloDiscover extends JPanel
 			tupleFumetto.close();
 
 			int j=0, i=0;
-			for(Entry<String,Fumetto> f : fumetti.entrySet())
+			for(final Entry<String,Fumetto> f : fumetti.entrySet())
 			{
 				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(f.getValue().getUrl()), panel, f.getValue());
 
@@ -86,6 +88,13 @@ public class PannelloDiscover extends JPanel
 					setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight()+i+(int)bottoniFumetti.get(j).getPreferredSize().getHeight()));
 				}
 				
+				bottoniFumetti.get(j).addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e)
+					{
+						panel.PremiPerFumetto(f.getValue());
+					}
+				});
+	
 				j++;
 			}
 			

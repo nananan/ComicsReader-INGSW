@@ -29,12 +29,7 @@ public class BottoneFumetto extends JButton
 		this.scaledImage = image;
 		this.fumetto = fumetto;
 		
-		this.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				panel.PremiPerFumetto(fumetto);
-			}
-		 });
+		
 		
 	}	
 	
