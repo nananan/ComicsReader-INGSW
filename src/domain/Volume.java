@@ -32,7 +32,7 @@ public class Volume {
 		copertina = new ImageIcon(new URL(urlCopertina).toString());
 	
 		tuplaCapitolo = new TabellaCapitolo(nomeFumetto,numero);
-		numeroCapitoli = tuplaCapitolo.getNumeroCapitoli();
+		numeroCapitoli = 0;
 		capitoli = null;
 	}
 	public void caricaCapitoli() throws SQLException{

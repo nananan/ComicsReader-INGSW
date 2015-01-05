@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class PannelloDiscover extends JPanel
 		setLayout(null);
 		
 		try {
-			DataBase.connect();
+//			DataBase.connect();
 			
 			TabellaFumetto tupleFumetto = new TabellaFumetto();
 			while(tupleFumetto.nextFumetto())
@@ -91,26 +92,29 @@ public class PannelloDiscover extends JPanel
 				bottoniFumetti.get(j).addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e)
 					{
-						panel.PremiPerFumetto(f.getValue());
+						try {
+							panel.PremiPerFumetto(f.getValue());
+						} catch (MalformedURLException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 	
 				j++;
 			}
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		}  catch (SQLException e) {
 			e.printStackTrace();
 		}
-		finally{
-			try {
-				DataBase.disconnect();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+//		finally{
+//			try {
+//				DataBase.disconnect();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
 			
-		}
+//		}
 	}
 	
 	public Image getURL(String stringa) throws IOException

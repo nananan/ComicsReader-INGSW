@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -73,7 +75,7 @@ public class MyPanel extends JPanel
 		repaint();
 	}
 	
-	public void PremiPerFumetto(Fumetto fumetto)
+	public void PremiPerFumetto(Fumetto fumetto) throws MalformedURLException, SQLException
 	{
 		remove(pannelloScrollDiscover);
 		PannelloScrollPane pannelloScrollDescrizione = new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null);

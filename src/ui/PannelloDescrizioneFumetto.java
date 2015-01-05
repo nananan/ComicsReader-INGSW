@@ -44,7 +44,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private Text eOccidentale;	
 		
 	private HashMap<String,Fumetto> volumi = new HashMap<>();
-	private ArrayList<BottoneFumetto> bottoniFumetti = new ArrayList<>();
+	private ArrayList<BottoneFumetto> bottoniVolumi = new ArrayList<>();
 	
 	public PannelloDescrizioneFumetto(Fumetto fumetto, PannelloCentrale pannelloCentrale, MyPanel panel) 
 	{
@@ -63,7 +63,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		add(nome);
 		
 		try {
-			scaledImage = getURL(fumetto.getUrl());
+			scaledImage = getURL(fumetto.getUrl(),200,300);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -138,7 +138,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		add(descrizione);
 		
 		Text stringaVolumi = new Text("Volumi");
-		stringaVolumi.setFont(new Font("Caladea", Font.BOLD, 18));
+		stringaVolumi.setFont(new Font("Caladea", Font.BOLD, 24));
 		stringaVolumi.setForeground(Color.DARK_GRAY);
 		stringaVolumi.setBounds(10,25+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight(), (int)stringaVolumi.getPreferredSize().getWidth(), (int)stringaVolumi.getPreferredSize().getHeight());
 		add(stringaVolumi);
@@ -164,23 +164,28 @@ public class PannelloDescrizioneFumetto extends JPanel
 			numeroVolume.setFont(new Font("Caladea", Font.BOLD, 22));
 			numeroVolume.setForeground(Color.WHITE);
 			
+			Text nomeVolume = new Text("Volume "+fumetto.getNome());
+			nomeVolume.setFont(new Font("Caladea", Font.BOLD, 22));
+			nomeVolume.setForeground(Color.WHITE);
+			
 			try {
-				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(fumetto.getUrl()), panel, fumetto);
-				bottoniFumetti.add(bottoneFumetto);
+				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(fumetto.getUrl(),60,90), panel, fumetto);
+				bottoniVolumi.add(bottoneFumetto);
 	
-				bottoniFumetti.get(j).setPreferredSize(new Dimension(60,80));
+				bottoniVolumi.get(j).setPreferredSize(new Dimension(60,80));
 				
 				if (j == 0)
 				{
-					bottoniFumetti.get(j).setBounds(10,35+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniFumetti.get(j).getPreferredSize().getWidth(), (int)bottoniFumetti.get(j).getPreferredSize().getHeight());
-					numeroVolume.setBounds(25+(int)bottoniFumetti.get(j).getPreferredSize().getWidth(),35+(int)bottoniFumetti.get(j).getPreferredSize().getHeight()/2+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)numeroVolume.getPreferredSize().getWidth(), (int)numeroVolume.getPreferredSize().getHeight());
+					bottoniVolumi.get(j).setBounds(10,35+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
+					numeroVolume.setBounds(25+(int)bottoniVolumi.get(j).getPreferredSize().getWidth(),35+(int)bottoniVolumi.get(j).getPreferredSize().getHeight()/3+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)numeroVolume.getPreferredSize().getWidth(), (int)numeroVolume.getPreferredSize().getHeight());
+					nomeVolume.setBounds(50+(int)bottoniVolumi.get(j).getPreferredSize().getWidth()+(int)numeroVolume.getPreferredSize().getWidth(),35+(int)bottoniVolumi.get(j).getPreferredSize().getHeight()/3+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)nomeVolume.getPreferredSize().getWidth(), (int)nomeVolume.getPreferredSize().getHeight());
 				}
 				else
 				{
-					bottoniFumetti.get(j).setBounds(10,45+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight()+(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight(), (int)bottoniFumetti.get(j).getPreferredSize().getWidth(), (int)bottoniFumetti.get(j).getPreferredSize().getHeight());
-					z += bottoniFumetti.get(j).getPreferredSize().getHeight()+10;
-					numeroVolume.setBounds(25+(int)bottoniFumetti.get(j).getPreferredSize().getWidth(),45+(int)bottoniFumetti.get(j).getPreferredSize().getHeight()/2+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight()+(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight(), (int)numeroVolume.getPreferredSize().getWidth(), (int)numeroVolume.getPreferredSize().getHeight());
-
+					bottoniVolumi.get(j).setBounds(10,45+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight()+(int)bottoniVolumi.get(j-1).getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
+					z += bottoniVolumi.get(j).getPreferredSize().getHeight()+10;
+					numeroVolume.setBounds(25+(int)bottoniVolumi.get(j).getPreferredSize().getWidth(),45+(int)bottoniVolumi.get(j).getPreferredSize().getHeight()/3+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight()+(int)bottoniVolumi.get(j-1).getPreferredSize().getHeight(), (int)numeroVolume.getPreferredSize().getWidth(), (int)numeroVolume.getPreferredSize().getHeight());
+					nomeVolume.setBounds(50+(int)bottoniVolumi.get(j).getPreferredSize().getWidth()+(int)numeroVolume.getPreferredSize().getWidth(),45+(int)bottoniVolumi.get(j).getPreferredSize().getHeight()/3+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight()+(int)bottoniVolumi.get(j-1).getPreferredSize().getHeight(), (int)nomeVolume.getPreferredSize().getWidth(), (int)nomeVolume.getPreferredSize().getHeight());
 					
 				}
 				add(bottoneFumetto);
@@ -188,7 +193,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 				
 				if (z > (int)getPreferredSize().getHeight())
 				{
-					setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight()+z+(int)bottoniFumetti.get(j).getPreferredSize().getHeight()));
+					setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight()+z+(int)bottoniVolumi.get(j).getPreferredSize().getHeight()));
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -196,12 +201,13 @@ public class PannelloDescrizioneFumetto extends JPanel
 			
 			
 			add(numeroVolume);
+			add(nomeVolume);
 		}		
 		
 		
 	}
 	
-	public Image getURL(String stringa) throws IOException
+	public Image getURL(String stringa, int w, int h) throws IOException
 	{
 		URL url = new URL(stringa);
 		BufferedImage bufferedImage = ImageIO.read(url);
@@ -223,7 +229,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		ImageIO.write(bufferedImage, "jpg", imageOutputStream);
 		
 		bufferedImage = ImageIO.read(url);
-		Image scaledImageFumetto = bufferedImage.getScaledInstance(200,300, bufferedImage.SCALE_AREA_AVERAGING);
+		Image scaledImageFumetto = bufferedImage.getScaledInstance(w,h, bufferedImage.SCALE_AREA_AVERAGING);
 		
 		file.deleteOnExit();
 		
@@ -234,6 +240,11 @@ public class PannelloDescrizioneFumetto extends JPanel
 	@Override
 	protected void paintComponent(Graphics g) 
 	{
+		for (BottoneFumetto bottoneFumetto : bottoniVolumi) 
+		{
+			g.drawImage(bottoneFumetto.getImageScaled(), 0,0, this);
+		}
+		
 		super.paintComponent(g);
 	}
 	

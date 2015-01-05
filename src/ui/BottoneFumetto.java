@@ -29,8 +29,6 @@ public class BottoneFumetto extends JButton
 		this.scaledImage = image;
 		this.fumetto = fumetto;
 		
-		
-		
 	}	
 	
 	public Image getImageScaled()

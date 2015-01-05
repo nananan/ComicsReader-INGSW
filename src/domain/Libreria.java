@@ -36,7 +36,7 @@ public class Libreria {
 
 				}
 				System.out.println("***********************************************************");
-				Fumetto dn= fumetti.get("Death Note");
+				Fumetto dn= fumetti.get("666 Satan");
 				dn.caricaVolumi();
 				Volume[] volumi = dn.getVolumi();
 				
