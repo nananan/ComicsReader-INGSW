@@ -1,7 +1,7 @@
 package domain;
 
-import java.net.URL;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import technicalService.TabellaLettore;
 
@@ -13,8 +13,30 @@ public class Lettore {
 	
 	private TabellaLettore tuplaLettore;
 	
+//	private HashMap<String, Lettore> follows;
+	private HashMap<String, Fumetto> preferiti;
 
-	Lettore(TabellaLettore tuplaLettore) throws SQLException{
+	public String getIdFacebook() {
+		return idFacebook;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getUrlFoto() {
+		return urlFoto;
+	}
+
+	public TabellaLettore getTuplaLettore() {
+		return tuplaLettore;
+	}
+
+	public HashMap<String, Fumetto> getPreferiti() {
+		return preferiti;
+	}
+
+	public Lettore(TabellaLettore tuplaLettore) throws SQLException{
 		
 		this.tuplaLettore = tuplaLettore;
 		
@@ -22,5 +44,8 @@ public class Lettore {
 		nome = tuplaLettore.getNome();
 		urlFoto = tuplaLettore.getUrlFoto();
 	}
+	
+	
+	
 	
 }

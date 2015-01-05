@@ -26,6 +26,7 @@ public class DataBase {
 	
     	return connection;
 	}
+
 	public static Statement getStatement() throws SQLException {
 		
 		statement.close();

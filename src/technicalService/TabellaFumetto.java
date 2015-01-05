@@ -6,7 +6,7 @@ import java.sql.SQLException;
 public class TabellaFumetto {
 	
 	private ResultSet cursoreFumetto;
-	private String nomeFumettoCorrente;
+//	private String nomeFumettoCorrente;
 	final private String QUERY_FUMETTO = "SELECT * FROM fumetto";
 	
 	public TabellaFumetto() throws SQLException {
@@ -14,6 +14,10 @@ public class TabellaFumetto {
 		cursoreFumetto = DataBase.getStatement().executeQuery(QUERY_FUMETTO);	
 	}
 	
+	public TabellaFumetto(ResultSet cursorePreferiti) {
+		cursoreFumetto = cursorePreferiti;
+	}
+
 	public boolean nextFumetto() throws SQLException {
 		
 		return cursoreFumetto.next();
@@ -21,7 +25,8 @@ public class TabellaFumetto {
 	
 	public String getNome() throws SQLException {
 		
-		return nomeFumettoCorrente = cursoreFumetto.getString(1);
+//		return nomeFumettoCorrente = cursoreFumetto.getString(1);
+		return cursoreFumetto.getString(1);
 	}
 	
 //	TODO Migliorare getGeneri
