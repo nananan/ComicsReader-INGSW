@@ -25,8 +25,8 @@ import domain.Fumetto;
 
 public class PannelloDiscover extends JPanel
 {
-	PannelloCentrale pannelloCentrale = null;
-	File file = null;
+	private PannelloCentrale pannelloCentrale;
+	File file;
 	Image imageSfondo = null;
 	Image scaledImage = null;
 	
@@ -39,22 +39,13 @@ public class PannelloDiscover extends JPanel
 		super();		
 	}
 	
-	public void setPannelloCentrale(PannelloCentrale pannelloCentrale) throws IOException
+	public void setPannelloCentrale(PannelloCentrale pannelloCentrale, MyPanel panel) throws IOException
 	{
 		this.pannelloCentrale = pannelloCentrale;
 		setBackground(Color.GRAY);
 		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
 		setBounds(0, 0, (int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight());
 		setLayout(null);
-		
-//		try {
-//			imageSfondo = ImageIO.read(pannelloCentrale.getFile());
-////			System.out.println((int)getPreferredSize().getWidth()+","+ (int)getPreferredSize().getHeight());
-//			scaledImage = imageSfondo.getScaledInstance((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight(), imageSfondo.SCALE_AREA_AVERAGING);
-//		} 
-//		catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		
 		try {
 			DataBase.connect();
@@ -71,16 +62,15 @@ public class PannelloDiscover extends JPanel
 			int j=0, i=0;
 			for(Entry<String,Fumetto> f : fumetti.entrySet())
 			{
-				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(f.getValue().getUrl()));
+				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(f.getValue().getUrl()), panel, f.getValue());
 
 				bottoniFumetti.add(bottoneFumetto);
 				bottoniFumetti.get(j).setPreferredSize(new Dimension(200,300));
 								
 				if (j == 0)
-					bottoneFumetto.setBounds(10,10, 200,300);
+					bottoniFumetti.get(j).setBounds(10,10, 200,300);
 				else
 				{
-					
 					if (j % 4 == 0)
 					{
 						bottoniFumetti.get(j).setBounds(10,10+(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight()+bottoniFumetti.get(j-1).getY(), 200,300);

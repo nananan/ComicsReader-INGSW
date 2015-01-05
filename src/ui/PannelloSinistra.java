@@ -75,21 +75,18 @@ public class PannelloSinistra extends JPanel
 			public void mouseClicked(MouseEvent e)
 			{
 				filtraggio = true;
-//				add(buttonManga);
-//				
-//				add(buttonFumetti);
-				
 				panel.Premi();
 			}
 		 });
 		
 		button.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
+			@Override
+			public void mouseReleased(MouseEvent e) 
 			{
+//				super.mouseReleased(e);
 				panel.PremiPerDiscover();
 			}
 		 });
-		
 	}
 	
 	public boolean getFiltraggio()

@@ -37,9 +37,10 @@ public class TabellaVolume {
 	public void close() throws SQLException {
 		cursoreVolume.close();
 	}
-	public int getNumeroVolumi() throws SQLException {
+	public int getNumeroVolumi() throws SQLException{
 		
-		String queryNumeroVolumi = "SELECT count(*) FROM volume WHERE nome_fumetto='"+getNomeFumetto()+"';";
+		String queryNumeroVolumi = "SELECT count(*) FROM volume WHERE nome_fumetto=\"666 Satan\";";
+
 		ResultSet r=DataBase.getStatement().executeQuery(queryNumeroVolumi);
 		r.next();
 		int numero = r.getInt(1);
@@ -54,5 +55,10 @@ public class TabellaVolume {
 		cursoreVolume.close();
 		cursoreVolume = DataBase.getStatement().executeQuery(QUERY_VOLUMI);
 
+	}
+	public static void main(String[] args) {
+		String queryNumeroVolumi = "SELECT count(*) FROM volume WHERE nome_fumetto=\"666 Satan\";";
+
+		System.out.println(queryNumeroVolumi);
 	}
 }

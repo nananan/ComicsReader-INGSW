@@ -23,7 +23,7 @@ public class PannelloScrollPane extends JScrollPane
 		super(panel);
 		setOpaque(false);
 		setBorder(BorderFactory.createLineBorder(Color.black,3));
-		
+
 //		try {
 //			imageSfondo = ImageIO.read(file);
 //			System.out.println((int)getPreferredSize().getWidth()+","+ (int)getPreferredSize().getHeight());
