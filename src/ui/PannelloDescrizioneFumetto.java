@@ -8,7 +8,9 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,6 +22,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import technicalService.DataBase;
+import technicalService.TabellaFumetto;
+import technicalService.TabellaVolume;
 import domain.Fumetto;
 import domain.Volume;
 
@@ -38,6 +43,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private Text eCompleto;
 	private Text eOccidentale;	
 		
+	private HashMap<String,Fumetto> volumi = new HashMap<>();
 	private ArrayList<BottoneFumetto> bottoniFumetti = new ArrayList<>();
 	
 	public PannelloDescrizioneFumetto(Fumetto fumetto, PannelloCentrale pannelloCentrale) 
@@ -137,13 +143,51 @@ public class PannelloDescrizioneFumetto extends JPanel
 		stringaVolumi.setBounds(10,25+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight(), (int)stringaVolumi.getPreferredSize().getWidth(), (int)stringaVolumi.getPreferredSize().getHeight());
 		add(stringaVolumi);
 		
-		for (int i = 0; i < fumetto.getVolumi().length; i++) 
-		{
-			
+		this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(), (int)this.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()));
+		
+		try {
+			fumetto.caricaVolumi();
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 		
-		this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(), (int)this.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()));
+		int j=0, z=0;
+		System.out.println("volumi: "+fumetto.getVolumi().length);
+//		for (int i = 0; i < fumetto.getVolumi().length; i++) 
+//		{
+//			try {
+//				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(fumetto.getVolumi()[i].getUrlCopertina()), null, fumetto);
+//				bottoniFumetti.add(bottoneFumetto);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//
+//			bottoniFumetti.get(j).setPreferredSize(new Dimension(50,100));
+//							
+//			if (j == 0)
+//				bottoniFumetti.get(j).setBounds(10,25+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniFumetti.get(j).getPreferredSize().getWidth(), (int)bottoniFumetti.get(j).getPreferredSize().getHeight());
+//			else
+//			{
+//				bottoniFumetti.get(j).setBounds(10,25+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight()+(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight(), (int)bottoniFumetti.get(j).getPreferredSize().getWidth(), (int)bottoniFumetti.get(j).getPreferredSize().getHeight());
+//				z += bottoniFumetti.get(j).getPreferredSize().getHeight()+10;
+//				
+//			}
+//			add(bottoniFumetti.get(j));
+//			
+//			if (z > (int)getPreferredSize().getHeight())
+//			{
+//				setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight()+z+(int)bottoniFumetti.get(j).getPreferredSize().getHeight()));
+//			}
+//			
+//			j++;
+//		}
+		
+		
 		
 	}
 	
