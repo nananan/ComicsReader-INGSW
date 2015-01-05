@@ -7,11 +7,15 @@ public class TabellaCapitolo {
 	
 	private ResultSet cursoreCapitolo;
 	private String queryCapitolo;
+	private String nomeFumettoCorrente;
+	private int numeroVolumeCorrente;
 	
-	public TabellaCapitolo(String nomeFumetto, int numero) throws SQLException {
+	public TabellaCapitolo(String nomeFumetto, int numeroVolume) throws SQLException {
 		
-		queryCapitolo = "SELECT * FROM capitolo WHERE nome_fumetto='"+nomeFumetto+"' and numero_volume='"+numero+"';";
+		queryCapitolo = "SELECT * FROM capitolo WHERE nome_fumetto='"+nomeFumetto+"' and numero_volume='"+numeroVolume+"';";
 		cursoreCapitolo = DataBase.getStatement().executeQuery(queryCapitolo);
+		nomeFumettoCorrente = nomeFumetto;
+		numeroVolumeCorrente = numeroVolume;
 	}
 	
 	
@@ -26,12 +30,12 @@ public class TabellaCapitolo {
 	}
 	public int getNumeroVolume() throws SQLException{
 		
-		return cursoreCapitolo.getInt(2);
+		return numeroVolumeCorrente=cursoreCapitolo.getInt(2);
 	}
 	
 	public String getNomeFumetto() throws SQLException{
 		
-		return cursoreCapitolo.getString(1);
+		return nomeFumettoCorrente=cursoreCapitolo.getString(1);
 	}
 	
 	public String getTitolo() throws SQLException{
@@ -46,8 +50,8 @@ public class TabellaCapitolo {
 
 	public int getNumeroCapitoli() throws SQLException {
 		
-		String queryNumeroCapitoli = "SELECT count(*) FROM volume WHERE nome_fumetto='"+getNomeFumetto()+
-				"' and numero_volume="+getNumeroVolume()+";";
+		String queryNumeroCapitoli = "SELECT count(*) FROM volume WHERE nome_fumetto='"+nomeFumettoCorrente+
+				"' and numero_volume="+numeroVolumeCorrente+";";
 		ResultSet r=DataBase.getStatement().executeQuery(queryNumeroCapitoli);
 		r.next();
 		int numero = r.getInt(1);
@@ -66,7 +70,10 @@ public class TabellaCapitolo {
 		cursoreCapitolo = DataBase.getStatement().executeQuery(queryCapitolo);
 		
 	}
-
+	
+	public static void main(String[] args) {
+		
+	}
 
 
 	

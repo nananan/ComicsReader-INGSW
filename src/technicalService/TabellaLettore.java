@@ -7,6 +7,7 @@ public class TabellaLettore {
 	
 	private ResultSet cursoreLettore;
 	final private String QUERY_LETTORE = "SELECT * FROM utente";
+//	private String idFacebookCorrente;
 
 	public TabellaLettore() throws SQLException{
 	
