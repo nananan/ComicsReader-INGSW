@@ -92,7 +92,7 @@ public class TabellaLettore {
 	}
 	
 	public void aggiungiCronologia(String nomeFumetto) throws SQLException{
-		
+		//TODO continuare
 	}
 	public String getIdFacebook() throws SQLException {
 		
