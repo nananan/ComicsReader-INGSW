@@ -13,7 +13,12 @@ public class TabellaLettore {
 	
 		cursoreLettore = DataBase.getStatement().executeQuery(QUERY_LETTORE);
 	}
-	
+	public TabellaLettore(String id) throws SQLException{
+		
+		String query = "SELECT * FROM utente WHERE id_facebook=\""+id+"\";";
+		cursoreLettore = DataBase.getStatement().executeQuery(query);
+
+	}
 	public TabellaLettore(ResultSet cursore){
 		cursoreLettore = cursore;
 	}
