@@ -12,7 +12,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import technicalService.DataBase;
 import domain.Fumetto;
+import domain.Volume;
 
 
 public class MyPanel extends JPanel
@@ -27,6 +29,8 @@ public class MyPanel extends JPanel
 	PannelloScrollPane pannelloScrollDiscover = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
 	
 	private Image image = null;
+	private PannelloScrollPane pannelloScrollDescrizione;
+	private PannelloScrollPane pannelloScrollCapitoli;
 	
 	public MyPanel(String name) throws IOException 
 	{
@@ -66,9 +70,11 @@ public class MyPanel extends JPanel
 		repaint();
 	}
 	
-	public void PremiPerDiscover()
+	public void PremiPerDiscover() throws SQLException
 	{
 		remove(pannelloCentro);
+		if (pannelloScrollDescrizione != null)
+			remove(pannelloScrollDescrizione);
 		this.add(pannelloScrollDiscover, BorderLayout.CENTER);
 		this.validate();
 		pannelloScrollDiscover.setVisible(true);
@@ -78,12 +84,26 @@ public class MyPanel extends JPanel
 	public void PremiPerFumetto(Fumetto fumetto) throws MalformedURLException, SQLException
 	{
 		remove(pannelloScrollDiscover);
-		PannelloScrollPane pannelloScrollDescrizione = new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null);
+		
+//		if (pannelloScrollDescrizione == null)
+			pannelloScrollDescrizione = new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null);
 		this.add(pannelloScrollDescrizione, BorderLayout.CENTER);
 		this.validate();
 		pannelloScrollDescrizione.setVisible(true);
 		repaint();
 	}	
+	
+	public void PremiPerCapitolo(Volume volume) 
+	{
+		remove(pannelloScrollDescrizione);
+		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloCapitoli(volume, pannelloCentro, this), null);
+		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
+		this.validate();
+		pannelloScrollCapitoli.setVisible(true);
+		repaint();
+	}
+
+	
 	
 	@Override
 	protected void paintComponent(Graphics g) 
@@ -91,4 +111,5 @@ public class MyPanel extends JPanel
 		super.paintComponent(g);
 //		pannelloCentro.getGraphics().drawImage(image, 0,0, pannelloCentro);		
 	}
+
 }

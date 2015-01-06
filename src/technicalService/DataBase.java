@@ -16,7 +16,9 @@ public class DataBase {
     	connection= DriverManager.getConnection(CONNECTION_URL, USER, PASS);
     	statement = connection.createStatement(); 	
     }
-    
+    static public boolean isConnect() throws SQLException {
+    	return !connection.isClosed();
+    }
     static public void disconnect() throws SQLException{
     	
     	connection.close();

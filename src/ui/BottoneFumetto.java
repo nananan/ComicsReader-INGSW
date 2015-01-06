@@ -23,7 +23,7 @@ public class BottoneFumetto extends JButton
 	private Image scaledImage;
 	private Fumetto fumetto;
 	
-	public BottoneFumetto(Image image, final MyPanel panel, final Fumetto fumetto) 
+	public BottoneFumetto(Image image, final Fumetto fumetto) 
 	{
 		super();
 		this.scaledImage = image;

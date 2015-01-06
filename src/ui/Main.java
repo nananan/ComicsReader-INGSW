@@ -22,19 +22,11 @@ public class Main {
 //		f.setVisible(false);
 			f = new MyFrame(((FrameLogin) f).getPanel().getTextName());
 			f.repaint();
+			DataBase.disconnect();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally
-		{
-			try {
-				DataBase.disconnect();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		
 		

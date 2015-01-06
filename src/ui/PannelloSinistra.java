@@ -1,14 +1,17 @@
 package ui;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.xml.crypto.Data;
+
+import technicalService.DataBase;
 
 
 public class PannelloSinistra extends JPanel
@@ -83,8 +86,20 @@ public class PannelloSinistra extends JPanel
 			@Override
 			public void mouseReleased(MouseEvent e) 
 			{
-//				super.mouseReleased(e);
-				panel.PremiPerDiscover();
+				super.mouseReleased(e);
+				try {
+					try {
+						DataBase.connect();
+						//TODO VEDERE PERCHE IL MOUSELISTENER DISCONNETTE IL DATABASE
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					panel.PremiPerDiscover();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			}
 		 });
 	}

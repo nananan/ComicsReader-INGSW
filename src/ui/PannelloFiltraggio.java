@@ -13,11 +13,13 @@ import javax.swing.JPanel;
 
 public class PannelloFiltraggio extends JPanel
 {
-	Text textGenere = new Text("Genere");
-	Text textStato = new Text("Stato");
-	Text textManga = new Text("Manga");
-	Text textFumetti = new Text("Fumetti");
+	Text textGenere;
+	Text textStato;
+	Text textManga;
+	Text textFumetti;
 
+	MyPanel panel;
+	
 	MyButton buttonManga = new MyButton("Manga");
 	MyButton buttonFumetti = new MyButton("Fumetti");
 	MyButton buttonStatoCompletoManga = new MyButton("Completi");
@@ -31,8 +33,6 @@ public class PannelloFiltraggio extends JPanel
 	
 	MyButton fumetti[] = new MyButton[11];
 	String nameButtonFumetti[] = {"Fantascienza", "Western", "Poliziesco", "Horror", "Avventura", "Fantasy", "Comico", "Satira", "Pulp e Trash", "Sportivo", "Romantico"};
-	
-	Font font = new Font("Caladea", Font.BOLD, 14);
 	
 	ArrayList<String> filtriManga = new ArrayList<>();
 	ArrayList<String> filtriFumetto = new ArrayList<>();
@@ -48,21 +48,21 @@ public class PannelloFiltraggio extends JPanel
 	
 	public PannelloFiltraggio(final JPanel pannelloCentro, final MyPanel panel) 
 	{
+		super();
+		
+		this.panel = panel;
+		
 		setBackground(new Color(91,84,84));
 		setPreferredSize(new Dimension(larghezza, 0));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		
-		final JPanel panelSec = this;
+		textManga = new Text("Manga", 14, Color.WHITE);
+		textFumetti = new Text("Fumetti", 14, Color.WHITE);
 		
-		textManga.setFont(font);
-		textFumetti.setFont(font);
+		textGenere = new Text("Genere", 14, new Color(51,47,47));
+		textStato = new Text("Stato", 14, new Color(51,47,47));
 		
-		textGenere.setForeground(new Color(51,47,47));
-		textGenere.setFont(font);
-		textStato.setForeground(new Color(51,47,47));
-		textStato.setFont(font);
-
 		buttonManga.setDimension(this, pannelloCentro, 20);
 		add(buttonManga);
 		
@@ -162,12 +162,12 @@ public class PannelloFiltraggio extends JPanel
 					removeFumetti();
 					filtraggioFumetto = false;
 				}
-				textManga.setBounds(panelSec.getInsets().bottom+(int)getPreferredSize().getWidth()/3, 0, buttonManga.getWidth(), buttonManga.getHeight());
+				textManga.setBounds(panel.getInsets().bottom+(int)getPreferredSize().getWidth()/3, 0, buttonManga.getWidth(), buttonManga.getHeight());
 //				buttonManga.setEnabled(false);
 				remove(buttonManga);
 				add(textManga);
 				addManga(pannelloCentro);
-				buttonFumetti.setBounds(panelSec.getInsets().bottom, fine.getY()-25, buttonFumetti.getWidth(), buttonFumetti.getHeight());
+				buttonFumetti.setBounds(panel.getInsets().bottom, fine.getY()-25, buttonFumetti.getWidth(), buttonFumetti.getHeight());
 //				buttonFumetti.setEnabled(true);
 				add(buttonFumetti);
 				repaint();
@@ -183,12 +183,12 @@ public class PannelloFiltraggio extends JPanel
 					removeManga();
 					filtraggioManga = false;
 				}
-				textFumetti.setBounds(panelSec.getInsets().bottom+(int)getPreferredSize().getWidth()/3, 0, buttonFumetti.getWidth(), buttonFumetti.getHeight());
+				textFumetti.setBounds(panel.getInsets().bottom+(int)getPreferredSize().getWidth()/3, 0, buttonFumetti.getWidth(), buttonFumetti.getHeight());
 //				buttonFumetti.setEnabled(false);
 				remove(buttonFumetti);
 				add(textFumetti);
 				addFumetto(pannelloCentro);
-				buttonManga.setBounds(panelSec.getInsets().bottom, fine.getY()-25, buttonManga.getWidth(), buttonManga.getHeight());
+				buttonManga.setBounds(panel.getInsets().bottom, fine.getY()-25, buttonManga.getWidth(), buttonManga.getHeight());
 //				buttonManga.setEnabled(true);
 				add(buttonManga);
 				repaint();

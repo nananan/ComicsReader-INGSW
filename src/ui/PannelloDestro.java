@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class PannelloDestro extends JPanel
 {
-	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 3;
+	int larghezza = ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 3) - 50 ;
 	
 	public PannelloDestro()
 	{

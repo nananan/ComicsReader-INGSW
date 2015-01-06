@@ -39,7 +39,7 @@ public class PannelloDiscover extends JPanel
 	
 	public PannelloDiscover()
 	{
-		super();		
+		super();	
 	}
 	
 	public void setPannelloCentrale(PannelloCentrale pannelloCentrale, final MyPanel panel) throws IOException
@@ -65,7 +65,7 @@ public class PannelloDiscover extends JPanel
 			int j=0, i=0;
 			for(final Entry<String,Fumetto> f : fumetti.entrySet())
 			{
-				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(f.getValue().getUrl()), panel, f.getValue());
+				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(f.getValue().getUrl()), f.getValue());
 
 				bottoniFumetti.add(bottoneFumetto);
 				bottoniFumetti.get(j).setPreferredSize(new Dimension(200,300));
@@ -88,14 +88,14 @@ public class PannelloDiscover extends JPanel
 				{
 					setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight()+i+(int)bottoniFumetti.get(j).getPreferredSize().getHeight()));
 				}
-				
+
 				bottoniFumetti.get(j).addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e)
 					{
 						try {
+							System.out.println("....."+DataBase.isConnect());
 							panel.PremiPerFumetto(f.getValue());
 						} catch (MalformedURLException | SQLException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}

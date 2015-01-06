@@ -1,9 +1,11 @@
 package ui;
+import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 
 public class MyFrame extends JFrame
@@ -25,5 +27,19 @@ public class MyFrame extends JFrame
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 	}
+	
+//	public void switchTo(final JPanel panel) {
+//		SwingUtilities.invokeLater(new Runnable() {
+//			@Override
+//			public void run() {
+//				if (MyFrame.this.contentPanel.getComponentCount() > 0) {
+//					MyFrame.this.contentPanel.removeAll();
+//				}
+//				MyFrame.this.contentPanel.add(panel, BorderLayout.CENTER);
+//				MyFrame.this.contentPanel.updateUI();
+//				panel.requestFocus();
+//			}
+//		});
+//	}
 
 }
