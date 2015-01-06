@@ -86,24 +86,29 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerFumetto(Fumetto fumetto) throws MalformedURLException, SQLException
 	{
-//		remove(pannelloScrollDiscover);
-//		
-//		arrayPannelli.add(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this));
-//		
-////		if (pannelloScrollDescrizione == null)
-//		for (PannelloDescrizioneFumetto jPanel : arrayPannelli)
-//		{
-//			if (fumetto == jPanel.getFumetto())
-//				
-////			else
-////				pannelloScrollDescrizione = new PannelloScrollPane(arrayPannelli.get(i), null);
-//			
-//		}
-//		
-//		this.add(pannelloScrollDescrizione, BorderLayout.CENTER);
-//		this.validate();
-//		pannelloScrollDescrizione.setVisible(true);
-//		repaint();
+		remove(pannelloScrollDiscover);
+		
+		if (arrayPannelli.size() == 0)
+			arrayPannelli.add(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this));
+		else
+		{
+//		if (pannelloScrollDescrizione == null)
+			for (PannelloDescrizioneFumetto jPanel : arrayPannelli)
+			{
+//				if (fumetto == jPanel.getFumetto())
+//					pannelloScrollDescrizione
+//				else
+//				{
+//					arrayPannelli.add(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this));
+//					pannelloScrollDescrizione = new PannelloScrollPane(jPanel, null);
+//				}
+			}
+		}
+		
+		this.add(pannelloScrollDescrizione, BorderLayout.CENTER);
+		this.validate();
+		pannelloScrollDescrizione.setVisible(true);
+		repaint();
 	}	
 	
 	public void PremiPerCapitolo() 
