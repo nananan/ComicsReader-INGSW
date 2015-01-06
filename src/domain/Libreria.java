@@ -3,7 +3,6 @@ package domain;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import technicalService.DataBase;
 import technicalService.TabellaFumetto;
@@ -22,20 +21,20 @@ public class Libreria {
 					fumetti.put(fumetto.getNome(), fumetto);
 				}
 				tupleFumetto.close();
-				
-				for(Entry<String,Fumetto> f : fumetti.entrySet()){
-					System.out.println("***********************************************************");
-					System.out.println(f.getValue().getNome());
-					System.out.println(f.getValue().getAutore());
-					System.out.println(f.getValue().getArtista());
-					System.out.println(f.getValue().getDescrizione());
-					System.out.println(f.getValue().isEcompleto());
-					System.out.println(f.getValue().isOccidentale());
-					System.out.println(f.getValue().getCopertina());
-					
-
-				}
-				System.out.println("***********************************************************");
+//				
+//				for(Entry<String,Fumetto> f : fumetti.entrySet()){
+//					System.out.println("***********************************************************");
+//					System.out.println(f.getValue().getNome());
+//					System.out.println(f.getValue().getAutore());
+//					System.out.println(f.getValue().getArtista());
+//					System.out.println(f.getValue().getDescrizione());
+//					System.out.println(f.getValue().isEcompleto());
+//					System.out.println(f.getValue().isOccidentale());
+//					System.out.println(f.getValue().getCopertina());
+//					
+//
+//				}
+//				System.out.println("***********************************************************");
 				Fumetto dn= fumetti.get("666 Satan");
 				dn.caricaVolumi();
 				Volume[] volumi = dn.getVolumi();
@@ -45,9 +44,21 @@ public class Libreria {
 					System.out.println(volume.getNome());
 					System.out.println(volume.getNumero());
 					System.out.println(volume.getUrlCopertina());
-					
+
+					System.out.println("***********************Capitoli****************************");
+					volume.caricaCapitoli();
+					System.out.println(volume.getNumeroCapitoli());
+
+					Capitolo[] capitoli = volume.getCapitoli();
+					for(Capitolo capitolo : capitoli){
+						System.out.println(capitolo.getNumero()+" "+capitolo.getTitolo()+" "+capitolo.getNumeroPagine());
+
+					}
 				}
 				System.out.println("***********************************************************");
+				
+				
+				
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

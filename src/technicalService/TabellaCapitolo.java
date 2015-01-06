@@ -24,6 +24,12 @@ public class TabellaCapitolo {
 		return cursoreCapitolo.next();
 	}
 	
+	public int primoCapitoloVolume() throws SQLException{
+		 cursoreCapitolo.next();
+		 int n=cursoreCapitolo.getInt(3);
+		 cursoreCapitolo.previous();
+		 return n;
+	}
 	public int getNumero() throws SQLException{
 		
 		return cursoreCapitolo.getInt(3);
@@ -47,9 +53,10 @@ public class TabellaCapitolo {
 		return cursoreCapitolo.getString(6);
 	}
 
+
 	public int getNumeroCapitoli() throws SQLException {
 		
-		String queryNumeroCapitoli = "SELECT count(*) FROM volume WHERE nome_fumetto='"+nomeFumettoCorrente+
+		String queryNumeroCapitoli = "SELECT count(*) FROM capitolo WHERE nome_fumetto='"+nomeFumettoCorrente+
 				"' and numero_volume="+numeroVolumeCorrente+";";
 		ResultSet r=DataBase.getStatement().executeQuery(queryNumeroCapitoli);
 		r.next();

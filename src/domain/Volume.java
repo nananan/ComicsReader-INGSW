@@ -13,6 +13,16 @@ import technicalService.TabellaVolume;
 public class Volume {
 	
 	
+	public String getNomeFumetto() {
+		return nomeFumetto;
+	}
+	public TabellaCapitolo getTuplaCapitolo() {
+		return tuplaCapitolo;
+	}
+	public int getNumeroCapitoli() {
+		return numeroCapitoli;
+	}
+
 	private String nome;
 	private int numero;
 	private ImageIcon copertina;
@@ -39,17 +49,18 @@ public class Volume {
 		
 		if(numeroCapitoli == tuplaCapitolo.getNumeroCapitoli()) return;
 		
-		numero = tuplaCapitolo.getNumeroCapitoli();
+		int nPrimoC=tuplaCapitolo.primoCapitoloVolume();
 		
+		numeroCapitoli= tuplaCapitolo.getNumeroCapitoli();
+
 		if(capitoli==null)
 			tuplaCapitolo.aggiorna();
 		
 		capitoli = new Capitolo[numeroCapitoli];
-		
 		while(tuplaCapitolo.nextCapitolo())
-		{
+		{		
 			Capitolo capitolo = new Capitolo(tuplaCapitolo);
-			capitoli[capitolo.getNumero() - 1] = capitolo;
+			capitoli[capitolo.getNumero()-nPrimoC] = capitolo;
 		}
 		
 		
@@ -75,9 +86,7 @@ public class Volume {
 		return urlCopertina;
 	}
 	
-	public Capitolo[] getCapitoli() {
+	public Capitolo[] getCapitoli(){
 		return capitoli;
 	}
-	
-	
 }
