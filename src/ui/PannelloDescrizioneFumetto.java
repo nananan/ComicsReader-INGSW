@@ -135,6 +135,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		starRated.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ stringaValutazione.getY() + (int) stringaValutazione.getPreferredSize().getHeight(), (int)starRated.getPreferredSize().getWidth(), (int)starRated.getPreferredSize().getHeight());
 		add(starRated);
 		
+		
 		descrizione = new Text(fumetto.getDescrizione(), 14, Color.WHITE);
 		System.out.println((int)this.getPreferredSize().getWidth());
 		descrizione.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth() - (int)this.getPreferredSize().getHeight()/8, (int)this.getPreferredSize().getHeight() / 2));
