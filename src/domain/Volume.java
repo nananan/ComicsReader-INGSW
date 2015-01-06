@@ -74,4 +74,10 @@ public class Volume {
 	public String getUrlCopertina() {
 		return urlCopertina;
 	}
+	
+	public Capitolo[] getCapitoli() {
+		return capitoli;
+	}
+	
+	
 }

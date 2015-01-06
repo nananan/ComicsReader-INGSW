@@ -47,7 +47,6 @@ public class TabellaCapitolo {
 		return cursoreCapitolo.getString(6);
 	}
 
-
 	public int getNumeroCapitoli() throws SQLException {
 		
 		String queryNumeroCapitoli = "SELECT count(*) FROM volume WHERE nome_fumetto='"+nomeFumettoCorrente+

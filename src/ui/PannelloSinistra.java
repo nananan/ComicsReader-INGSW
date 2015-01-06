@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -16,7 +18,9 @@ import technicalService.DataBase;
 
 public class PannelloSinistra extends JPanel
 {
-	MyButton button = new MyButton("Discover");
+	MyPanel panel;
+	
+	MyButton buttonDiscover = new MyButton("Discover");
 	MyButton buttonTopRead = new MyButton("Top Read");
 	MyButton buttonTopRated = new MyButton("Top Rated Comics");
 	MyButton buttonUtentsRated = new MyButton("Utents Rated");
@@ -28,8 +32,6 @@ public class PannelloSinistra extends JPanel
 	MyButton buttonManga = new MyButton("Manga");
 	MyButton buttonFumetti = new MyButton("Fumetti");
 	
-	boolean filtraggio = false;
-	
 	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 6;
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	
@@ -37,6 +39,8 @@ public class PannelloSinistra extends JPanel
 	
 	public PannelloSinistra(final PannelloCentrale pannelloCentro, final MyPanel panel, final JPanel pannelloFiltraggio) 
 	{
+		super();
+		this.panel = panel;
 		setBackground(new Color(91,84,84));
 		setPreferredSize(new Dimension(larghezza, 0));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
@@ -44,10 +48,10 @@ public class PannelloSinistra extends JPanel
 		
 		pannelloCentrale = pannelloCentro;
 		
-		button.setDimension(this, pannelloCentro, altezza/4);
-		add(button);
+		buttonDiscover.setDimension(this, pannelloCentro, altezza/4);
+		add(buttonDiscover);
 		
-		buttonTopRead.setDimension(this, pannelloCentro, button.getY()+25);
+		buttonTopRead.setDimension(this, pannelloCentro, buttonDiscover.getY()+25);
 		add(buttonTopRead);
 		  
 		buttonTopRated.setDimension(this, pannelloCentro, buttonTopRead.getY()+25);
@@ -68,50 +72,14 @@ public class PannelloSinistra extends JPanel
 		buttonFiltra.setDimension(this, pannelloCentro, buttonChronology.getY()+25);
 		add(buttonFiltra);
 		
-		
-//		final PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, panel);
-		
 		buttonManga.setDimension(this, pannelloCentro, buttonFiltra.getY()+30);
 		buttonFumetti.setDimension(this, pannelloCentro, buttonManga.getY()+25);
 
-		buttonFiltra.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				filtraggio = true;
-				panel.Premi();
-			}
-		 });
+		MyListener listener = new MyListener();
 		
-		button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) 
-			{
-				super.mouseReleased(e);
-				try {
-					try {
-						DataBase.connect();
-						//TODO VEDERE PERCHE IL MOUSELISTENER DISCONNETTE IL DATABASE
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					panel.PremiPerDiscover();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		 });
-	}
-	
-	public boolean getFiltraggio()
-	{
-		return filtraggio;
-	}
-	
-	public void setFiltraggio(boolean filtraggio)
-	{
-		this.filtraggio = filtraggio;
+		buttonFiltra.addActionListener(listener);
+		
+		buttonDiscover.addActionListener(listener);
 	}
 	
 	@Override
@@ -119,6 +87,41 @@ public class PannelloSinistra extends JPanel
 	{
 		super.paintComponent(g);
 //		g.drawImage(image, 0,0, this);
+	}
+	
+	private class MyListener implements ActionListener 
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			Object source = e.getSource();
+			
+			try {
+				DataBase.connect();
+			} catch (ClassNotFoundException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			
+			
+			if (source == buttonDiscover)
+			{
+				try {
+					panel.PremiPerDiscover();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			else if (source == buttonFiltra)
+			{
+				panel.Premi();
+			}
+		}
+
 	}
 	
 }
