@@ -12,17 +12,6 @@ import technicalService.TabellaVolume;
 
 public class Volume {
 	
-	
-	public String getNomeFumetto() {
-		return nomeFumetto;
-	}
-	public TabellaCapitolo getTuplaCapitolo() {
-		return tuplaCapitolo;
-	}
-	public int getNumeroCapitoli() {
-		return numeroCapitoli;
-	}
-
 	private String nome;
 	private int numero;
 	private ImageIcon copertina;
@@ -45,6 +34,7 @@ public class Volume {
 		numeroCapitoli = 0;
 		capitoli = null;
 	}
+	
 	public void caricaCapitoli() throws SQLException{
 		
 		if(numeroCapitoli == tuplaCapitolo.getNumeroCapitoli()) return;
@@ -65,6 +55,19 @@ public class Volume {
 		
 		
 	}
+	
+	public String getNomeFumetto() {
+		return nomeFumetto;
+	}
+	
+	public TabellaCapitolo getTuplaCapitolo() {
+		return tuplaCapitolo;
+	}
+	
+	public int getNumeroCapitoli() {
+		return numeroCapitoli;
+	}
+	
 	@Override
 	public int hashCode() {
 		return numero;

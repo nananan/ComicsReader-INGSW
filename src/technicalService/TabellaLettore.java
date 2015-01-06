@@ -66,9 +66,18 @@ public class TabellaLettore {
 				+ "valutazione_percentuale,numero_letture"
 				+ "FROM fumetto as f, letture_recenti as r"
 				+ "WHERE r.utente =\""+getIdFacebook()+"\" and r.nome_fumetto = f.nome"
-				+ "ORDER BY data_lettura; ";
+				+ "ORDER BY data_lettura DESC; ";
 		ResultSet cursoreDaLeggere = DataBase.getStatement().executeQuery(query);
 		return new TabellaFumetto(cursoreDaLeggere );
+	}
+	
+	public int getValutazione(String nomeFumetto) throws SQLException{
+		String query = "SELECT valutazione"
+				+ "FROM valuta"
+				+ "WHERE utente =\""+getIdFacebook()+"\" and d.nome_fumetto =\""+nomeFumetto+"\";";
+		ResultSet valutazione = DataBase.getStatement().executeQuery(query);
+		valutazione.next();
+		return valutazione.getInt(1);
 	}
 	//TODO prova con array
 	public void aggiungiPreferiti(String nomeFumetto) throws SQLException{
@@ -92,8 +101,32 @@ public class TabellaLettore {
 		DataBase.getStatement().executeUpdate(query);	
 	}
 	
-	public void aggiungiCronologia(String nomeFumetto) throws SQLException{
-		//TODO continuare
+	public void aggiungiCronologia(String nomeFumetto) {
+		//TODO inserire la data della lettura;
+//		String query = "INSERT INTO letture_recenti(utente,nome_fumetto,data_lettura) values(\""+getIdFacebook()
+//				+"\",\""+nomeFumetto+"\",'"+Data"');";
+//		DataBase.getStatement().executeUpdate(query);	
+	}
+	
+	public void aggiungiValutazione(String nomeFumetto, int valutazione)throws ValoreNonCorrettoException, SQLException {
+		
+		if(valutazione > 6 || valutazione < 0) throw new ValoreNonCorrettoException();
+		//TODO chiamare la procedura per la valutazione dei fumetti
+		
+		String query = "call aggiungiValutazione(\""+getIdFacebook()+"\",\""+nomeFumetto+"\","
+				+valutazione+");";
+		DataBase.getStatement().execute(query);
+	}
+	
+	public void aggiungiSegnalibro(String nomeFumetto,int numeroVolume, int numeroCapitolo, int numeroPagina) throws SQLException{
+		String query = "call agginugiSegnalibro(\""+getIdFacebook()+"\",\""+nomeFumetto+"\","
+				+numeroVolume+","+numeroCapitolo+","+numeroPagina+");";
+		DataBase.getStatement().execute(query);
+	}	
+	
+	public boolean nextLettore() throws SQLException{
+		
+		return cursoreLettore.next();
 	}
 	public String getIdFacebook() throws SQLException {
 		
@@ -109,6 +142,18 @@ public class TabellaLettore {
 		
 		return cursoreLettore.getString(3);
 	}
+	public int getNumFollows() throws SQLException{
+		
+		return cursoreLettore.getInt(4);
+	}
+	public int getNumFollower() throws SQLException{
+		
+		return cursoreLettore.getInt(5);
+	}
+	public void close() throws SQLException {
+	
+		cursoreLettore.close();
+	}
 public static void main(String[] args) {
 	String id="12415";
 	String nomeFumetto="Naruto";
@@ -117,4 +162,5 @@ public static void main(String[] args) {
 			+"\",\""+nomeFumetto+"\");";
 	System.out.println(query);
 }
+
 }

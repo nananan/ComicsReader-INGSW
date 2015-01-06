@@ -12,8 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import sun.org.mozilla.javascript.ContextFactory.Listener;
-
 public class PannelloProfilo extends JPanel
 {
 	Text nomeAccount;
