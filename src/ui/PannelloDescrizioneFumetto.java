@@ -43,7 +43,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private Text eOccidentale;	
 
 	private MyPanel panel;
-	
+	private StarRater starRated;
 	private JButton bottoneIndietro;
 	private JButton bottoneAvantiVolumi;
 	private JButton bottoneIndietroVolumi;
@@ -126,6 +126,14 @@ public class PannelloDescrizioneFumetto extends JPanel
 			eOccidentale = new Text("Orientale", 16, Color.WHITE);
 		eOccidentale.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ stringaTipo.getY() + (int) stringaTipo.getPreferredSize().getHeight(), (int)eOccidentale.getPreferredSize().getWidth(), (int)eOccidentale.getPreferredSize().getHeight());
 		add(eOccidentale);
+		
+		Text stringaValutazione = new Text("Valutazione", 18, Color.DARK_GRAY);
+		stringaValutazione.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 3+ eOccidentale.getY() + (int) eOccidentale.getPreferredSize().getHeight(), (int)stringaValutazione.getPreferredSize().getWidth(), (int)stringaValutazione.getPreferredSize().getHeight());
+		add(stringaValutazione);
+		starRated = new StarRater();
+		starRated.setPreferredSize(new Dimension(300, 10));
+		starRated.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ stringaValutazione.getY() + (int) stringaValutazione.getPreferredSize().getHeight(), (int)starRated.getPreferredSize().getWidth(), (int)starRated.getPreferredSize().getHeight());
+		add(starRated);
 		
 		descrizione = new Text(fumetto.getDescrizione(), 14, Color.WHITE);
 		System.out.println((int)this.getPreferredSize().getWidth());
