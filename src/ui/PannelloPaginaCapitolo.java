@@ -27,8 +27,9 @@ public class PannelloPaginaCapitolo extends JPanel
 	
 	public PannelloPaginaCapitolo() 
 	{
-		setBounds(0, 0, larghezza, altezza);
-		System.out.println(larghezza+","+altezza);
+		super();
+//		setBounds(0, 0, larghezza, altezza);
+		setBackground(Color.GREEN);
 		setBorder(BorderFactory.createLineBorder(Color.black,3));
 		setLayout(null);
 	}
@@ -66,6 +67,6 @@ public class PannelloPaginaCapitolo extends JPanel
 	protected void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
-		g.drawImage(scaledImage, 0,0, this);
+//		g.drawImage(scaledImage, 0,0, this);
 	}
 }

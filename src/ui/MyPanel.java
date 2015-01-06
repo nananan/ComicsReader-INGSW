@@ -1,23 +1,21 @@
 package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Scrollbar;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
-import technicalService.DataBase;
 import domain.Fumetto;
-import domain.Volume;
-
 
 public class MyPanel extends JPanel
 {		
@@ -29,19 +27,16 @@ public class MyPanel extends JPanel
 	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro, this, pannelloFiltraggio);
 	PannelloDiscover pannelloDiscover = new PannelloDiscover();
 	PannelloScrollPane pannelloScrollDiscover = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
+	PannelloProfilo pannelloProfilo;
 	
-	private Image image = null;
-	private PannelloScrollPane pannelloScrollDescrizione;
 	private PannelloScrollPane pannelloScrollCapitoli;
-	private ArrayList<PannelloDescrizioneFumetto> arrayPannelli = new ArrayList<>();
+	private HashMap<String,PannelloScrollPane> arrayPannelli = new HashMap<>();
 	
 	public MyPanel(String name) throws IOException 
 	{
 		super();
-//		this.setBackground(new Color(137,130,130));
 		this.setLayout(new BorderLayout());
 		pannelloSopra = new PannelloSopra(pannelloCentro, this, name, pannelloDestro);
-//		this.add(pannelloFiltraggio,BorderLayout.WEST);
 		pannelloCentro.setDimensioniPannello(pannelloDestro, pannelloSinistro);
 		
 		this.add(pannelloDestro,BorderLayout.EAST);
@@ -53,6 +48,7 @@ public class MyPanel extends JPanel
 		pannelloSotto.setVisible(false);
 		
 		pannelloDiscover.setPannelloCentrale(pannelloCentro, this);
+		pannelloProfilo = new PannelloProfilo(name, pannelloCentro);
 	}
 
 	public void Premi()
@@ -76,11 +72,18 @@ public class MyPanel extends JPanel
 	public void PremiPerDiscover() throws SQLException
 	{
 		remove(pannelloCentro);
-		if (pannelloScrollDescrizione != null)
-			remove(pannelloScrollDescrizione);
+		
+		Iterator it = arrayPannelli.entrySet().iterator();
+	    while (it.hasNext())
+	    {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        if (it != null)
+	        	remove(arrayPannelli.get(pairs.getKey()));
+	    }
+		
 		this.add(pannelloScrollDiscover, BorderLayout.CENTER);
 		this.validate();
-		pannelloScrollDiscover.setVisible(true);
+//		pannelloScrollDiscover.setVisible(true);
 		repaint();
 	}
 	
@@ -88,40 +91,51 @@ public class MyPanel extends JPanel
 	{
 		remove(pannelloScrollDiscover);
 		
-		if (arrayPannelli.size() == 0)
-			arrayPannelli.add(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this));
+		if (arrayPannelli.isEmpty())
+		{
+			arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null));
+			this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
+		}
 		else
 		{
-//		if (pannelloScrollDescrizione == null)
-			for (PannelloDescrizioneFumetto jPanel : arrayPannelli)
+			if(arrayPannelli.containsKey(fumetto.getNome()))
+				this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
+			else
 			{
-//				if (fumetto == jPanel.getFumetto())
-//					pannelloScrollDescrizione
-//				else
-//				{
-//					arrayPannelli.add(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this));
-//					pannelloScrollDescrizione = new PannelloScrollPane(jPanel, null);
-//				}
+				arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null));
+				this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
 			}
 		}
 		
-		this.add(pannelloScrollDescrizione, BorderLayout.CENTER);
 		this.validate();
-		pannelloScrollDescrizione.setVisible(true);
+//		pannelloScrollDescrizione.setVisible(true);
 		repaint();
 	}	
 	
 	public void PremiPerCapitolo() 
 	{
-		remove(pannelloScrollDescrizione);
-//		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloCapitoli(volume, pannelloCentro, this), null);
+		Iterator it = arrayPannelli.entrySet().iterator();
+	    while (it.hasNext())
+	    {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        if (it != null)
+	        	remove(arrayPannelli.get(pairs.getKey()));
+	    }
+	    
+		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloPaginaCapitolo(), null);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
 		this.validate();
-		pannelloScrollCapitoli.setVisible(true);
+//		pannelloScrollCapitoli.setVisible(true);
 		repaint();
 	}
 
-	
+	public void PremiPerProfiloUtente()
+	{
+		remove(pannelloCentro);
+		this.add(pannelloProfilo,BorderLayout.CENTER);
+		this.validate();
+		repaint();
+	}
 	
 	@Override
 	protected void paintComponent(Graphics g) 

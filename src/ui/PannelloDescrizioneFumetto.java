@@ -133,6 +133,9 @@ public class PannelloDescrizioneFumetto extends JPanel
 		descrizione.setBounds(10, 10 + forImage.getY() +(int)forImage.getPreferredSize().getHeight(), (int)descrizione.getPreferredSize().getWidth(), 200);
 		descrizione.setLineWrap(true);
 		descrizione.setWrapStyleWord(true);
+		
+//		for (String string: controllaLunghezzaDescrizione(descrizione.getText()))
+//			descrizione.add(string);
 		add(descrizione);
 		
 		stringaVolumi = new Text("Volumi", 24, Color.DARK_GRAY);
@@ -284,7 +287,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		int altezza = 0;
 		for (int j = 0; j < volume.getCapitoli().length; j++) 
 		{			
-			MyButton nomeCapitolo = new MyButton("Capitolo: "+volume.getCapitoli()[j].getNumero(), 18, Color.WHITE);
+			MyButton nomeCapitolo = new MyButton("Capitolo "+volume.getCapitoli()[j].getNumero()+ ": "+volume.getCapitoli()[j].getTitolo(), 18, Color.WHITE);
 			bottoniCapitoli.add(nomeCapitolo);
 			
 			if (j == 0)

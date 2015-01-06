@@ -17,10 +17,11 @@ import javax.swing.JPanel;
 
 public class PannelloSopra extends JMenuBar implements ActionListener, ItemListener
 {
-	private JMenu buttonOptions = null;
+	private JMenu buttonOptions;
 	private JMenuItem logOut = new JMenuItem("Log out");
 	private JMenuItem privateSession = new JMenuItem("Sessione Privata");
 	private JMenuItem offlineSession = new JMenuItem("Offline");
+	private JMenuItem profilo;
 	MyPanel panel;
 	boolean put = false;
 	
@@ -44,6 +45,9 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		
 		buttonOptions.setBounds(X - pannelloCentro.getInsets().bottom, Y, (int)pannelloDestro.getPreferredSize().getWidth()-pannelloDestro.getInsets().bottom,20);
 		
+		profilo = new JMenuItem(name+"ciao");
+		
+		impostaButtonJMenu(profilo, pannelloCentro);
 		impostaButtonJMenu(logOut, pannelloCentro);
 		impostaButtonJMenu(privateSession, pannelloCentro);
 		impostaButtonJMenu(offlineSession, pannelloCentro);
@@ -51,6 +55,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		buttonOptions.setLayout(null);
 		add(buttonOptions);
 
+		buttonOptions.add(profilo);
 		buttonOptions.add(privateSession);
 		buttonOptions.add(offlineSession);
 		buttonOptions.add(logOut);
@@ -58,10 +63,12 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		logOut.setActionCommand("ESC");
 		privateSession.setActionCommand("PRIVATE");
 		offlineSession.setActionCommand("OFFLINE");
+		profilo.setActionCommand("PROFILO");
 		
 		buttonOptions.getItem(0).addActionListener(this);
 		buttonOptions.getItem(1).addActionListener(this);
 		buttonOptions.getItem(2).addActionListener(this);
+		buttonOptions.getItem(3).addActionListener(this);
 		
 		
 	}
@@ -98,12 +105,14 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		{
 			System.out.println("SESSIONE OFFLINE");
 		}
-		
+		else if (e.getActionCommand().equals(profilo.getActionCommand()))
+		{
+			panel.PremiPerProfiloUtente();
+		}		
 	}
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		
 		
 	}
 }
