@@ -31,6 +31,18 @@ public class MyButton extends JButton
 			setFont(new Font("Caladea", Font.BOLD, 10));
 	}
 
+	public MyButton(String text, int larghezza, Color colore) 
+	{
+		super();
+		setText(text);
+		setBackground(colore);
+		setBorderPainted(false);
+		setFocusPainted(false);
+		setForeground(Color.WHITE);
+		setContentAreaFilled(false);
+		setFont(new Font("Caladea", Font.BOLD, larghezza));
+	}
+	
 	public void setDimension(JPanel panel, JPanel centro, int Y)
 	{
 		setPreferredSize(new Dimension((int) panel.getPreferredSize().getWidth()-centro.getInsets().bottom,20));

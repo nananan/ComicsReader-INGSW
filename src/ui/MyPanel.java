@@ -1,12 +1,14 @@
 package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -31,6 +33,7 @@ public class MyPanel extends JPanel
 	private Image image = null;
 	private PannelloScrollPane pannelloScrollDescrizione;
 	private PannelloScrollPane pannelloScrollCapitoli;
+	private ArrayList<PannelloDescrizioneFumetto> arrayPannelli = new ArrayList<>();
 	
 	public MyPanel(String name) throws IOException 
 	{
@@ -83,17 +86,27 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerFumetto(Fumetto fumetto) throws MalformedURLException, SQLException
 	{
-		remove(pannelloScrollDiscover);
-		
-//		if (pannelloScrollDescrizione == null)
-			pannelloScrollDescrizione = new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null);
-		this.add(pannelloScrollDescrizione, BorderLayout.CENTER);
-		this.validate();
-		pannelloScrollDescrizione.setVisible(true);
-		repaint();
+//		remove(pannelloScrollDiscover);
+//		
+//		arrayPannelli.add(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this));
+//		
+////		if (pannelloScrollDescrizione == null)
+//		for (PannelloDescrizioneFumetto jPanel : arrayPannelli)
+//		{
+//			if (fumetto == jPanel.getFumetto())
+//				
+////			else
+////				pannelloScrollDescrizione = new PannelloScrollPane(arrayPannelli.get(i), null);
+//			
+//		}
+//		
+//		this.add(pannelloScrollDescrizione, BorderLayout.CENTER);
+//		this.validate();
+//		pannelloScrollDescrizione.setVisible(true);
+//		repaint();
 	}	
 	
-	public void PremiPerCapitolo(Volume volume) 
+	public void PremiPerCapitolo() 
 	{
 		remove(pannelloScrollDescrizione);
 //		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloCapitoli(volume, pannelloCentro, this), null);
