@@ -96,7 +96,7 @@ public class MyPanel extends JPanel
 	public void PremiPerCapitolo(Volume volume) 
 	{
 		remove(pannelloScrollDescrizione);
-		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloCapitoli(volume, pannelloCentro, this), null);
+//		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloCapitoli(volume, pannelloCentro, this), null);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
 		this.validate();
 		pannelloScrollCapitoli.setVisible(true);
