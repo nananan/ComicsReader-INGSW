@@ -127,8 +127,15 @@ public class PannelloDescrizioneFumetto extends JPanel
 		eOccidentale.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ stringaTipo.getY() + (int) stringaTipo.getPreferredSize().getHeight(), (int)eOccidentale.getPreferredSize().getWidth(), (int)eOccidentale.getPreferredSize().getHeight());
 		add(eOccidentale);
 		
+		Text stringaGenere = new Text("Genere", 18, Color.DARK_GRAY);
+		stringaGenere.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 3+ eOccidentale.getY() + (int) eOccidentale.getPreferredSize().getHeight(), (int)stringaGenere.getPreferredSize().getWidth(), (int)stringaGenere.getPreferredSize().getHeight());
+		add(stringaGenere);
+		Text generi = new Text("generi...", 16, Color.WHITE);
+		generi.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ stringaGenere.getY() + (int) stringaGenere.getPreferredSize().getHeight(), (int)generi.getPreferredSize().getWidth(), (int)generi.getPreferredSize().getHeight());
+		add(generi);
+
 		Text stringaValutazione = new Text("Valutazione", 18, Color.DARK_GRAY);
-		stringaValutazione.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 3+ eOccidentale.getY() + (int) eOccidentale.getPreferredSize().getHeight(), (int)stringaValutazione.getPreferredSize().getWidth(), (int)stringaValutazione.getPreferredSize().getHeight());
+		stringaValutazione.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 3+ generi.getY() + (int) generi.getPreferredSize().getHeight(), (int)stringaValutazione.getPreferredSize().getWidth(), (int)stringaValutazione.getPreferredSize().getHeight());
 		add(stringaValutazione);
 		starRated = new StarRater();
 		starRated.setPreferredSize(new Dimension(300, 10));
