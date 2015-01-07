@@ -212,7 +212,6 @@ public class PannelloDescrizioneFumetto extends JPanel
 		}
 		
 		bottoneAvantiVolumi.addActionListener(listener);
-		
 		bottoneIndietroVolumi.addActionListener(listener);
 		
 		bottoneIndietro = new JButton();
@@ -245,6 +244,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		bottone.setPressedIcon(imagePrev);
 		bottone.setBorderPainted(false);
 		bottone.setFocusPainted(false);
+		bottone.setContentAreaFilled(false);
 		bottone.setBackground(this.getBackground());
 	}
 	

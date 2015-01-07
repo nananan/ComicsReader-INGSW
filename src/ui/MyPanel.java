@@ -52,6 +52,7 @@ public class MyPanel extends JPanel
 		
 		pannelloDiscover.setPannelloCentrale(pannelloCentro, this);
 	    pannelloScrollDiscover.getVerticalScrollBar().setUnitIncrement(15);
+	    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		pannelloProfilo = new PannelloProfilo(name, pannelloCentro);
 	}
 
@@ -100,6 +101,7 @@ public class MyPanel extends JPanel
 		{
 			arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null));
 			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
+			arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
 		}
 		else
@@ -110,6 +112,7 @@ public class MyPanel extends JPanel
 			{
 				arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null));
 				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
+				arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 				this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
 			}
 		}
