@@ -4,47 +4,40 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
+
+import domain.Fumetto;
 
 public class PannelloFiltraggio extends JPanel
 {
-	Text textGenere;
-	Text textStato;
-	Text textManga;
-	Text textFumetti;
+	private MyPanel panel;
+	private Text textGenere;
+	private Text textStato;
 
-	MyPanel panel;
+	private MyButton buttonManga;
+	private MyButton buttonFumetti;
+	private MyButton clean;
+	private MyButton fine;
 	
-	MyButton buttonManga = new MyButton("Manga");
-	MyButton buttonFumetti = new MyButton("Fumetti");
-	MyButton buttonStatoCompletoManga = new MyButton("Completi");
-	MyButton buttonStatoIncompletoManga = new MyButton("Incompleti");
-	MyButton buttonStatoCompletoFumetto = new MyButton("Completi");
-	MyButton buttonStatoIncompletoFumetto = new MyButton("Incompleti");
-	MyButton clean = new MyButton("Clean");
-	MyButton fine = new MyButton("Fine");
-	MyButton manga[] = new MyButton[14];
-	String nameButtonManga[] = {"Aniparo", "CyberPunk", "Kodomo", "Shonen", "Seinen", "Gekiga", "Gore", "Josei", "Maho Shojo", "Mecha", "Meitantei", "Romakome", "Spokon", "Suriraa"};
+	private String nomiGeneriFiltri[];
+	private MyButton bottoniGeneriFiltri[];
+	private ArrayList<String> filtri = new ArrayList<>();
 	
-	MyButton fumetti[] = new MyButton[11];
-	String nameButtonFumetti[] = {"Fantascienza", "Western", "Poliziesco", "Horror", "Avventura", "Fantasy", "Comico", "Satira", "Pulp e Trash", "Sportivo", "Romantico"};
+	private int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 6;
+	private Text tipo;
+	private MyButton buttonStatoCompleto;
+	private MyButton buttonStatoIncompleto;
 	
-	ArrayList<String> filtriManga = new ArrayList<>();
-	ArrayList<String> filtriFumetto = new ArrayList<>();
-	
-	boolean filtraggioManga = false;
-	boolean filtraggioFumetto = false;
-	boolean putCompletoManga = false;
-	boolean putIncompletoManga = false;
-	boolean putCompletoFumetto = false;
-	boolean putIncompletoFumetto = false;
-	
-	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 6;
+	private MyListener listener;
 	
 	public PannelloFiltraggio(final JPanel pannelloCentro, final MyPanel panel) 
 	{
@@ -53,384 +46,195 @@ public class PannelloFiltraggio extends JPanel
 		this.panel = panel;
 		
 		setBackground(new Color(91,84,84));
-		setPreferredSize(new Dimension(larghezza, 0));
-		setBorder(BorderFactory.createLineBorder(Color.black,1));
+		setPreferredSize(new Dimension(larghezza, (int)pannelloCentro.getPreferredSize().getHeight()));
 		setLayout(null);
 		
-		textManga = new Text("Manga", 14, Color.WHITE);
-		textFumetti = new Text("Fumetti", 14, Color.WHITE);
+		listener = new MyListener();
 		
-		textGenere = new Text("Genere", 14, new Color(51,47,47));
-		textStato = new Text("Stato", 14, new Color(51,47,47));
+		tipo = new Text("TIPO", 16, Color.BLACK);
+		tipo.setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), 20));
+		tipo.setBounds(10, 10, (int)tipo.getPreferredSize().getWidth(), (int)tipo.getPreferredSize().getHeight());
+		add(tipo);
 		
-		buttonManga.setDimension(this, pannelloCentro, 20);
+		buttonManga = new MyButton("Orientale");
+		buttonManga.setBounds(10, 10+tipo.getY()+(int)tipo.getPreferredSize().getHeight(), (int)buttonManga.getPreferredSize().getWidth(), (int)buttonManga.getPreferredSize().getHeight());
+		buttonManga.addActionListener(listener);
 		add(buttonManga);
-		
-		buttonFumetti.setDimension(this, pannelloCentro, buttonManga.getY()+25);
+
+		buttonFumetti = new MyButton("Occidentale");
+		buttonFumetti.setBounds(10, buttonManga.getY()+(int)buttonManga.getPreferredSize().getHeight() -5, (int)buttonFumetti.getPreferredSize().getWidth(), (int)buttonFumetti.getPreferredSize().getHeight());
+		buttonFumetti.addActionListener(listener);
 		add(buttonFumetti);
 		
+		textStato = new Text("STATO", 16, Color.BLACK);
+		textStato.setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), 20));
+		textStato.setBounds(10,10 + buttonFumetti.getY()+(int)buttonFumetti.getPreferredSize().getHeight(), (int)textStato.getPreferredSize().getWidth(), (int)textStato.getPreferredSize().getHeight());
+		add(textStato);
+		
+		buttonStatoCompleto = new MyButton("Completo");
+		buttonStatoCompleto.setBounds(10, 10 + textStato.getY()+(int)textStato.getPreferredSize().getHeight(), (int)buttonStatoCompleto.getPreferredSize().getWidth(), (int)buttonStatoCompleto.getPreferredSize().getHeight());
+		buttonStatoCompleto.addActionListener(listener);
+		add(buttonStatoCompleto);
+		
+		buttonStatoIncompleto = new MyButton("Incompleto");
+		buttonStatoIncompleto.setBounds(10, buttonStatoCompleto.getY()+(int)buttonStatoCompleto.getPreferredSize().getHeight() - 5, (int)buttonStatoIncompleto.getPreferredSize().getWidth(), (int)buttonStatoIncompleto.getPreferredSize().getHeight());
+		buttonStatoIncompleto.addActionListener(listener);
+		add(buttonStatoIncompleto);
+		
+		textGenere = new Text("GENERE", 16, Color.BLACK);
+		textGenere.setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), 20));
+		textGenere.setBounds(10,10 + buttonStatoIncompleto.getY()+(int)buttonStatoIncompleto.getPreferredSize().getHeight(), (int)textGenere.getPreferredSize().getWidth(), (int)textGenere.getPreferredSize().getHeight());
+		add(textGenere);
+		
+		try
+		{
+			nomiGeneriFiltri = Fumetto.getGeneri();
+			bottoniGeneriFiltri = new MyButton[nomiGeneriFiltri.length];
+			
+		} catch (SQLException e1)
+		{
+			e1.printStackTrace();
+		}
+		
+		for (int i = 0; i < nomiGeneriFiltri.length; i++)
+		{
+			bottoniGeneriFiltri[i] = new MyButton(nomiGeneriFiltri[i]);
+			
+			if (i == 0)
+				bottoniGeneriFiltri[i].setBounds(10, 10 + textGenere.getY()+(int)textGenere.getPreferredSize().getHeight(), (int)bottoniGeneriFiltri[i].getPreferredSize().getWidth(), (int)bottoniGeneriFiltri[i].getPreferredSize().getHeight());
+			else
+				bottoniGeneriFiltri[i].setBounds(10, bottoniGeneriFiltri[i-1].getY()+(int)bottoniGeneriFiltri[i-1].getPreferredSize().getHeight(), (int)bottoniGeneriFiltri[i].getPreferredSize().getWidth(), (int)bottoniGeneriFiltri[i].getPreferredSize().getHeight());
+			
+			add(bottoniGeneriFiltri[i]);
+			
+			bottoniGeneriFiltri[i].addActionListener(listener);
+			
+			if (bottoniGeneriFiltri[i].getY() + (int)bottoniGeneriFiltri[i].getPreferredSize().getHeight() > this.getPreferredSize().getHeight())
+				this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(), (int)bottoniGeneriFiltri[i].getPreferredSize().getHeight() + (int)bottoniGeneriFiltri[i].getPreferredSize().getHeight()));
+		}
+		
+		
 		//BUTTON FINE, TORNA AL MENU PRINCIPALE
-		fine.setPreferredSize(new Dimension(70, 20));
-		fine.setBounds((int)this.getPreferredSize().getWidth()-(int)fine.getPreferredSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()-150, (int)fine.getPreferredSize().getWidth()-pannelloCentro.getInsets().bottom,20);
+		fine = new MyButton("Fine");
+		fine.setBounds((int)this.getPreferredSize().getWidth()-(int)fine.getPreferredSize().getWidth() - 10, 10 + bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getY() + (int)bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getPreferredSize().getHeight() , (int)fine.getPreferredSize().getWidth()-pannelloCentro.getInsets().bottom,20);
+		fine.addActionListener(listener);
 		add(fine);
 		
-		fine.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
+		//BUTTON PER CANCELLARE I FILTRI
+		clean = new MyButton("Clean");
+		clean.setBounds(this.getInsets().bottom, 10 + bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getY() + (int)bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getPreferredSize().getHeight() , (int)clean.getPreferredSize().getWidth()+this.getInsets().bottom,20);
+		clean.addActionListener(listener);
+		add(clean);
+		
+		this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(), clean.getY() + (int)clean.getPreferredSize().getHeight()));
+		
+	}
+	
+	private class MyListener implements ActionListener 
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			Object source = e.getSource();
+			if (source == buttonManga)
 			{
-				if (filtriFumetto.size() != 0)
+				if (buttonManga.getForeground() == Color.WHITE)
 				{
-					System.out.println("FUMETTI");
-					for (String string : filtriFumetto) {
+					filtri.add(0,buttonManga.getText());
+					buttonManga.setForeground(Color.RED);
+					buttonFumetti.setForeground(Color.WHITE);
+				}
+				else
+				{
+					buttonManga.setForeground(Color.WHITE);
+					filtri.remove(buttonManga.getText());
+				}
+			}
+			else if (source == buttonFumetti)
+			{
+				if (buttonFumetti.getForeground() == Color.WHITE)
+				{
+					filtri.add(0,buttonFumetti.getText());
+					buttonFumetti.setForeground(Color.RED);
+					buttonManga.setForeground(Color.WHITE);
+				}
+				else
+				{
+					buttonFumetti.setForeground(Color.WHITE);
+					filtri.remove(buttonFumetti.getText());
+				}
+			}
+			if (source == buttonStatoCompleto)
+			{
+				if (buttonStatoCompleto.getForeground() == Color.WHITE)
+				{
+					filtri.add(1,buttonStatoCompleto.getText());
+					buttonStatoCompleto.setForeground(Color.RED);
+					buttonStatoIncompleto.setForeground(Color.WHITE);
+				}
+				else
+				{
+					filtri.remove(buttonStatoCompleto.getText());
+					buttonStatoCompleto.setForeground(Color.WHITE);
+				}
+			}
+			else if (source == buttonStatoIncompleto)
+			{
+				if (buttonStatoIncompleto.getForeground() == Color.WHITE)
+				{
+					filtri.add(1,buttonStatoIncompleto.getText());
+					buttonStatoIncompleto.setForeground(Color.RED);
+					buttonStatoCompleto.setForeground(Color.WHITE);
+				}
+				else
+				{
+					filtri.remove(buttonStatoIncompleto.getText());
+					buttonStatoIncompleto.setForeground(Color.WHITE);
+				}
+			}
+			
+			
+			for (int i = 0; i < bottoniGeneriFiltri.length; i++)
+			{
+				if (source == bottoniGeneriFiltri[i])
+				{
+					if (bottoniGeneriFiltri[i].getForeground() == Color.WHITE)
+					{
+						bottoniGeneriFiltri[i].setForeground(Color.RED);
+						filtri.add(bottoniGeneriFiltri[i].getText());
+					}
+					else
+					{
+						filtri.remove(bottoniGeneriFiltri[i].getText());
+						bottoniGeneriFiltri[i].setForeground(Color.WHITE);
+					}
+				}
+			}
+			
+			if (source == clean)
+			{
+				for (int i = 0; i < bottoniGeneriFiltri.length; i++)
+					bottoniGeneriFiltri[i].setForeground(Color.WHITE);
+				
+				buttonFumetti.setForeground(Color.WHITE);
+				buttonManga.setForeground(Color.WHITE);
+				buttonStatoCompleto.setForeground(Color.WHITE);
+				buttonStatoIncompleto.setForeground(Color.WHITE);
+				
+				filtri.clear();
+			}
+			
+			if (source == fine)
+			{
+				if (filtri.size() != 0)
+				{
+					for (String string : filtri) {
 						System.out.println(string);
 					}
 				}
-				if (filtriManga.size() != 0)
-				{
-					System.out.println("MANGA");
-					for (String string2 : filtriManga) {
-						System.out.println(string2);
-					}	
-				}
-				
 				panel.PremiPerPannelloSinistro();
-				
-				//TODO implementare poi le query che cercheranno i fumetti con i filtri
 			}
-		 });
-		
-		
-		//BUTTON PER CANCELLARE I FILTRI
-		clean.setPreferredSize(new Dimension(70, 20));
-		clean.setBounds(this.getInsets().bottom, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()-150, (int)clean.getPreferredSize().getWidth()+this.getInsets().bottom,20);
-		add(clean);
-		
-		clean.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				if (filtraggioFumetto)
-				{
-					for (String string : filtriFumetto) {
-						for (int i = 0; i < fumetti.length; i++)
-						{
-							if (fumetti[i].getText().equals(string))
-							{
-								fumetti[i].setForeground(Color.WHITE);
-							}
-						}
-					}
-					
-					buttonStatoCompletoFumetto.setForeground(Color.WHITE);
-					buttonStatoIncompletoFumetto.setForeground(Color.WHITE);
-					
-					filtriFumetto.clear();	
-				}
-				
-				if (filtraggioManga)
-				{
-					for (String string : filtriManga) {
-						for (int i = 0; i < manga.length; i++)
-						{
-							if (manga[i].getText().equals(string))
-							{
-								manga[i].setForeground(Color.WHITE);
-							}
-						}
-					}
-					
-					buttonStatoCompletoManga.setForeground(Color.WHITE);
-					buttonStatoIncompletoManga.setForeground(Color.WHITE);
-					
-					filtriManga.clear();	
-				}
-					
-			}
-		 });
-		
-		
-		for (int i = 0; i < manga.length; i++)
-			manga[i] = new MyButton(nameButtonManga[i]);
-		
-		for (int i = 0; i < fumetti.length; i++)
-			fumetti[i] = new MyButton(nameButtonFumetti[i]);
-		
-		buttonManga.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				filtraggioManga = true;
-				if (filtraggioFumetto)
-				{
-					removeFumetti();
-					filtraggioFumetto = false;
-				}
-				textManga.setBounds(panel.getInsets().bottom+(int)getPreferredSize().getWidth()/3, 0, buttonManga.getWidth(), buttonManga.getHeight());
-//				buttonManga.setEnabled(false);
-				remove(buttonManga);
-				add(textManga);
-				addManga(pannelloCentro);
-				buttonFumetti.setBounds(panel.getInsets().bottom, fine.getY()-25, buttonFumetti.getWidth(), buttonFumetti.getHeight());
-//				buttonFumetti.setEnabled(true);
-				add(buttonFumetti);
-				repaint();
-			}
-		 });
-		
-		buttonFumetti.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				filtraggioFumetto = true;
-				if (filtraggioManga)
-				{
-					removeManga();
-					filtraggioManga = false;
-				}
-				textFumetti.setBounds(panel.getInsets().bottom+(int)getPreferredSize().getWidth()/3, 0, buttonFumetti.getWidth(), buttonFumetti.getHeight());
-//				buttonFumetti.setEnabled(false);
-				remove(buttonFumetti);
-				add(textFumetti);
-				addFumetto(pannelloCentro);
-				buttonManga.setBounds(panel.getInsets().bottom, fine.getY()-25, buttonManga.getWidth(), buttonManga.getHeight());
-//				buttonManga.setEnabled(true);
-				add(buttonManga);
-				repaint();
-			}
-		 });
-	}
-	
-	
-	//AGGIUNTA FILTRAGGI MANGA
-	public void addManga(JPanel pannelloCentro)
-	{
-		int width = (int) this.getPreferredSize().getWidth()-pannelloCentro.getInsets().bottom;
-		int height = 20;
-
-		textStato.setPreferredSize(new Dimension(100, 20));
-		textStato.setBounds(this.getInsets().bottom, textManga.getY()+25, 100,20);
-		add(textStato);
-		
-		buttonStatoCompletoManga.setPreferredSize(new Dimension(width, height));
-		buttonStatoCompletoManga.setBounds(this.getInsets().bottom, textStato.getY()+25, width, height);
-		add(buttonStatoCompletoManga);
-		
-		buttonStatoCompletoManga.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				if (buttonStatoIncompletoManga.getForeground() == Color.RED)
-				{
-					buttonStatoIncompletoManga.setForeground(Color.WHITE);
-					filtriManga.remove(buttonStatoIncompletoManga.getText());
-				}
-				if (putCompletoManga)
-				{
-					buttonStatoCompletoManga.setForeground(Color.WHITE);
-//					if (!filtriManga.get(0).equals("All"))
-//						filtriManga.add(0,"All");
-					filtriManga.remove(buttonStatoCompletoManga.getText());
-					putCompletoManga = false;
-				}
-				else
-				{
-					buttonStatoCompletoManga.setForeground(Color.RED);
-					filtriManga.add(0, buttonStatoCompletoManga.getText());
-//					filtriManga.remove("All");
-					putCompletoManga = true;
-				}
-			}
-		});
-		
-		buttonStatoIncompletoManga.setPreferredSize(new Dimension(width, height));
-		buttonStatoIncompletoManga.setBounds(this.getInsets().bottom, buttonStatoCompletoManga.getY()+25, width, height);
-		add(buttonStatoIncompletoManga);
-		
-		buttonStatoIncompletoManga.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				if (buttonStatoCompletoManga.getForeground() == Color.RED)
-				{
-					buttonStatoCompletoManga .setForeground(Color.WHITE);
-					filtriManga.remove(buttonStatoCompletoManga.getText());
-				}
-				if (putIncompletoManga)
-				{
-					buttonStatoIncompletoManga.setForeground(Color.WHITE);
-//					if (!filtriManga.get(0).equals("All"))
-//						filtriManga.add(0,"All");
-					filtriManga.remove(buttonStatoIncompletoManga.getText());
-					putIncompletoManga = false;
-				}
-				else
-				{
-					buttonStatoIncompletoManga.setForeground(Color.RED);
-					filtriManga.add(0, buttonStatoIncompletoManga.getText());
-//					filtriManga.remove("All");
-					putIncompletoManga = true;
-				}
-			}
-		});
-		
-		textGenere.setPreferredSize(new Dimension(100, 20));
-		textGenere.setBounds(this.getInsets().bottom, buttonStatoIncompletoManga.getY()+25, 100,20);
-		add(textGenere);
-		
-		for (int i=0; i < manga.length; i++)
-		{
-			manga[i].setPreferredSize(new Dimension(width, height));
-			if (i != 0) 
-				manga[i].setBounds(this.getInsets().bottom, manga[i-1].getY()+25, width, height);
-			else
-				manga[i].setBounds(this.getInsets().bottom, textGenere.getY()+25, width, height);
 			
-			add(manga[i]);
-			
-			final int indice = i;
-			manga[indice].addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e)
-				{
-					if (manga[indice].getForeground() == Color.RED)
-					{
-						manga[indice].setForeground(Color.WHITE);
-						filtriManga.remove(nameButtonManga[indice]);
-					}
-					else
-					{
-						manga[indice].setForeground(Color.RED);
-						filtriManga.add(nameButtonManga[indice]);
-					}
-				}
-			 });
-		}
-	}
-	
-	
-	//AGGIUNTA FILTRAGGI FUMETTO
-	public void addFumetto(JPanel pannelloCentro)
-	{
-		int width = (int) this.getPreferredSize().getWidth()-pannelloCentro.getInsets().bottom;
-		int height = 20;
-
-		textStato.setPreferredSize(new Dimension(100, 20));
-		textStato.setBounds(this.getInsets().bottom, textFumetti.getY()+25, 100,20);
-		add(textStato);
-		
-		buttonStatoCompletoFumetto.setPreferredSize(new Dimension(width, height));
-		buttonStatoCompletoFumetto.setBounds(this.getInsets().bottom, textStato.getY()+25, width, height);
-		add(buttonStatoCompletoFumetto);
-		
-		buttonStatoCompletoFumetto.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				if (buttonStatoIncompletoFumetto.getForeground() == Color.RED)
-				{
-					buttonStatoIncompletoFumetto.setForeground(Color.WHITE);
-					filtriFumetto.remove(buttonStatoIncompletoFumetto.getText());
-				}
-				if (putCompletoFumetto)
-				{
-					buttonStatoCompletoFumetto.setForeground(Color.WHITE);
-//					if (!filtriFumetto.get(0).equals("All"))
-//						filtriFumetto.add(0,"All");
-					filtriFumetto.remove(buttonStatoCompletoFumetto.getText());
-					putCompletoFumetto = false;
-				}
-				else
-				{
-					buttonStatoCompletoFumetto.setForeground(Color.RED);
-					filtriFumetto.add(0, buttonStatoCompletoFumetto.getText());
-//					filtriFumetto.remove("All");
-					putCompletoFumetto = true;
-				}
-			}
-		});
-		
-		buttonStatoIncompletoFumetto.setPreferredSize(new Dimension(width, height));
-		buttonStatoIncompletoFumetto.setBounds(this.getInsets().bottom, buttonStatoCompletoFumetto.getY()+25, width, height);
-		add(buttonStatoIncompletoFumetto);
-		
-		buttonStatoIncompletoFumetto.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				if (buttonStatoCompletoFumetto.getForeground() == Color.RED)
-				{
-					buttonStatoCompletoFumetto.setForeground(Color.WHITE);
-					filtriFumetto.remove(buttonStatoCompletoFumetto.getText());
-				}
-				if (putIncompletoFumetto)
-				{
-					buttonStatoIncompletoFumetto.setForeground(Color.WHITE);
-//					if (!filtriFumetto.get(0).equals("All"))
-//						filtriFumetto.add(0,"All");
-					filtriFumetto.remove(buttonStatoIncompletoFumetto.getText());
-					putIncompletoFumetto = false;
-				}
-				else
-				{
-					buttonStatoIncompletoFumetto.setForeground(Color.RED);
-					filtriFumetto.add(0, buttonStatoIncompletoFumetto.getText());
-//					filtriFumetto.remove("All");
-					putIncompletoFumetto = true;
-				}
-			}
-		});
-		
-		textGenere.setPreferredSize(new Dimension(100, 20));
-		textGenere.setBounds(this.getInsets().bottom, buttonStatoIncompletoFumetto.getY()+25, 100,20);
-		add(textGenere);
-		
-		
-		for (int i=0; i < fumetti.length; i++)
-		{
-			fumetti[i].setPreferredSize(new Dimension(width, height));
-			if (i != 0) 
-				fumetti[i].setBounds(this.getInsets().bottom, fumetti[i-1].getY()+25, width, height);
-			else
-				fumetti[i].setBounds(this.getInsets().bottom, textGenere.getY()+25, width, height);
-			
-			add(fumetti[i]);
-			
-			final int indice = i;
-			fumetti[indice].addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e)
-				{
-					
-					if (fumetti[indice].getForeground() == Color.RED)
-					{
-						fumetti[indice].setForeground(Color.WHITE);
-						filtriFumetto.remove(nameButtonFumetti[indice]);
-					}
-					else
-					{
-						fumetti[indice].setForeground(Color.RED);
-						filtriFumetto.add(nameButtonFumetti[indice]);
-					}
-				}
-			 });
-		}
-	}	
-	
-	public void removeManga()
-	{
-		remove(textStato);
-		remove(buttonStatoCompletoManga);
-		remove(buttonStatoIncompletoManga);
-		remove(textGenere);
-		remove(textManga);
-		
-		for (int i= 0; i < manga.length; i++)
-		{
-			remove(manga[i]);
-		}
-	}
-	
-	public void removeFumetti()
-	{
-		remove(textStato);
-		remove(buttonStatoCompletoFumetto);
-		remove(buttonStatoIncompletoFumetto);
-		remove(textGenere);
-		remove(textFumetti);
-		
-		for (int i=0; i < fumetti.length; i++)
-		{
-			remove(fumetti[i]);
 		}
 	}
 	
@@ -439,6 +243,5 @@ public class PannelloFiltraggio extends JPanel
 	protected void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
-//		g.drawImage(image, 0,0, this);
 	}
 }

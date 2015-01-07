@@ -142,16 +142,11 @@ public class PannelloDescrizioneFumetto extends JPanel
 		starRated.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ stringaValutazione.getY() + (int) stringaValutazione.getPreferredSize().getHeight(), (int)starRated.getPreferredSize().getWidth(), (int)starRated.getPreferredSize().getHeight());
 		add(starRated);
 		
-		
 		descrizione = new Text(fumetto.getDescrizione(), 14, Color.WHITE);
-		System.out.println((int)this.getPreferredSize().getWidth());
 		descrizione.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth() - (int)this.getPreferredSize().getHeight()/8, (int)this.getPreferredSize().getHeight() / 2));
 		descrizione.setBounds(10, 10 + forImage.getY() +(int)forImage.getPreferredSize().getHeight(), (int)descrizione.getPreferredSize().getWidth(), 200);
 		descrizione.setLineWrap(true);
-		descrizione.setWrapStyleWord(true);
-		
-//		for (String string: controllaLunghezzaDescrizione(descrizione.getText()))
-//			descrizione.add(string);
+		descrizione.setWrapStyleWord(true);		
 		add(descrizione);
 		
 		stringaVolumi = new Text("Volumi", 24, Color.DARK_GRAY);
@@ -337,64 +332,46 @@ public class PannelloDescrizioneFumetto extends JPanel
 					e1.printStackTrace();
 				}
 			}
-//			else if (source == bottoneIndietroVolumi)   //BOTTONE INDIETRO VOLUMI
-//			{
-//				System.out.println(indiceVolumi);
-//				if (indiceVolumi > 4)
-//				{
-//					indiceVolumi -= 4;
-//					for (int i = indiceVolumi; i < indiceVolumi + 4 ; i++)
-//						remove(bottoniVolumi.get(i));
-//					for (int i = indiceVolumi; i > indiceVolumi - 4 ; i--)
-//					{
-//						if (i == indiceVolumi)
-//							bottoniVolumi.get(i).setBounds(10 + (int)bottoniVolumi.get(i).getPreferredSize().getHeight()*2,20+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-//						
-//						else if (i == indiceVolumi - 4 )
-//						{
-//							bottoniVolumi.get(i).setBounds(10,35+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-//						}
-//						else
-//						{
-//							bottoniVolumi.get(i).setBounds(15+bottoniVolumi.get(i+1).getX()+(int)bottoniVolumi.get(i+1).getPreferredSize().getWidth(),35+(int)nome.getPreferredSize().getHeight()+(int)forImage.getPreferredSize().getHeight()+(int)descrizione.getPreferredSize().getHeight()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-//							
-//						}
-//						
-//						add(bottoniVolumi.get(i));
-//					}
-//				}
-//				
-//				if (indiceVolumi == 0)
-//				{
-//					System.out.println("aaaaaaaaaaaah");
-//					bottoneIndietroVolumi.setEnabled(false);
-//					bottoneAvantiVolumi.setEnabled(true);
-//				}
-//				repaint();
-//			}
-			else if (source == bottoneAvantiVolumi)  //BOTTONE AVANTI VOLUMI
+			else if (source == bottoneIndietroVolumi)   //BOTTONE INDIETRO VOLUMI
 			{
-				if (bottoniVolumi.size() - indiceVolumi < 4)
-				{
-					indiceVolumi += bottoniVolumi.size() - indiceVolumi;
-					aggiungiVolume();
-				}
+				bottoneAvantiVolumi.setEnabled(true);
+				if (indiceVolumi <= 0)
+					bottoneIndietroVolumi.setEnabled(false);
 				else
 				{
-					if (indiceVolumi <= bottoniVolumi.size())
+					indiceVolumi -= 4;
+					
+					if (indiceVolumi <= 4)
 					{
-						indiceVolumi += 4;
-						if (indiceVolumi == 4)
-						{
-							for (int i = 0; i < indiceVolumi ; i++)
+							indiceVolumi = 0;
+							for (int i = 4; i < 8 ; i++)
 							{
 								remove(bottoniVolumi.get(i));
 								remove(nomiVolumi.get(i));
 							}
-							
+							for (int i = 0; i < 4; i++)
+							{
+								if (i == 0)
+									bottoniVolumi.get(i).setBounds(10,10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
+								else
+									bottoniVolumi.get(i).setBounds(15+bottoniVolumi.get(i-1).getX()+(int)bottoniVolumi.get(i-1).getPreferredSize().getWidth(),10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
+								
+								nomiVolumi.get(i).setBounds(bottoniVolumi.get(i).getX(),10+bottoniVolumi.get(i).getY()+(int)bottoniVolumi.get(i).getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());							
+								add(bottoniVolumi.get(i));
+								add(nomiVolumi.get(i));
+							}
+							bottoneIndietroVolumi.setEnabled(false);
+						}
+						else
+						{
 							for (int i = indiceVolumi; i < indiceVolumi + 4 ; i++)
 							{
-								if (i == indiceVolumi)
+								remove(bottoniVolumi.get(i));
+								remove(nomiVolumi.get(i));
+							}
+							for (int i = indiceVolumi - 4; i < indiceVolumi ; i++)
+							{
+								if (i == indiceVolumi - 4)
 									bottoniVolumi.get(i).setBounds(10,10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
 								else
 									bottoniVolumi.get(i).setBounds(15+bottoniVolumi.get(i-1).getX()+(int)bottoniVolumi.get(i-1).getPreferredSize().getWidth(),10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
@@ -404,11 +381,39 @@ public class PannelloDescrizioneFumetto extends JPanel
 								add(nomiVolumi.get(i));
 							}
 						}
+					}
+			}
+			else if (source == bottoneAvantiVolumi)  //BOTTONE AVANTI VOLUMI
+			{
+				indiceVolumi += 4;
+				
+				bottoneIndietroVolumi.setEnabled(true);
+				if (bottoniVolumi.size() - indiceVolumi <= 4)
+				{
+					indiceVolumi += bottoniVolumi.size() - indiceVolumi;
+					aggiungiVolume();
+					bottoneAvantiVolumi.setEnabled(false);
+				}
+				else
+				{
+					for (int i = 0; i < indiceVolumi ; i++)
+					{
+						remove(bottoniVolumi.get(i));
+						remove(nomiVolumi.get(i));
+					}
+					for (int i = indiceVolumi; i < indiceVolumi + 4; i++)
+					{
+						if (i == indiceVolumi)
+							bottoniVolumi.get(i).setBounds(10,10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
 						else
-							aggiungiVolume();
+							bottoniVolumi.get(i).setBounds(15+bottoniVolumi.get(i-1).getX()+(int)bottoniVolumi.get(i-1).getPreferredSize().getWidth(),10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
+						
+						nomiVolumi.get(i).setBounds(bottoniVolumi.get(i).getX(),10+bottoniVolumi.get(i).getY()+(int)bottoniVolumi.get(i).getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());							
+						add(nomiVolumi.get(i));
+						add(bottoniVolumi.get(i));
 					}
 				}
-				if (indiceVolumi == bottoniVolumi.size())
+				if (indiceVolumi == bottoniVolumi.size() - 1)
 				{
 					bottoneAvantiVolumi.setEnabled(false);
 					bottoneIndietroVolumi.setEnabled(true);

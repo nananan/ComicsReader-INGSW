@@ -106,7 +106,7 @@ public class Lettore {
 	
 	public boolean segui(Lettore lettore) throws SQLException{
 		
-		if(follows.containsKey(lettore.nome))
+		if(!follows.containsKey(lettore.nome))
 		{
 			follows.put(lettore.nome, lettore);
 			tuplaLettore.aggiungiFollow(lettore.idFacebook);
@@ -179,9 +179,9 @@ public class Lettore {
 			Lettore eliana = lettori.get("100000001659558");
 			
 			System.out.println(manuel.getNome());
-//			System.out.println(manuel.segui(eliana));
+			System.out.println(manuel.segui(eliana));
 //			
-//			System.out.println(manuel.getFollows().size());
+			System.out.println(manuel.getFollows().size());
 			DataBase.disconnect();
 			
 			
