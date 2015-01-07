@@ -34,28 +34,32 @@ public class Libreria {
 //					
 //
 //				}
-//				System.out.println("***********************************************************");
-				Fumetto dn= fumetti.get("Fullmetal Alchemist");
-				dn.caricaVolumi();
-				Volume[] volumi = dn.getVolumi();
+//				System.outfumettt.println("***********************************************************");
+				Fumetto f = fumetti.get("666 Satan");
 				
-				for (Volume volume : volumi) {
-					System.out.println("***********************************************************");
-					System.out.println(volume.getNome());
-					System.out.println(volume.getNumero());
-					System.out.println(volume.getUrlCopertina());
-
-					System.out.println("***********************Capitoli****************************");
-					volume.caricaCapitoli();
-
-					Capitolo[] capitoli = volume.getCapitoli();
-					for(Capitolo capitolo : capitoli){
-						System.out.println(capitolo.getNumero()+" "+capitolo.getTitolo());
-
-					}
+				String[] generi = f.getGeneriFumetto();
+				for(String st : generi){
+					System.out.println(st);
 				}
-				System.out.println("***********************************************************");
-				
+//				Volume[] volumi = dn.getVolumi();
+//				
+//				for (Volume volume : volumi) {
+//					System.out.println("***********************************************************");
+//					System.out.println(volume.getNome());
+//					System.out.println(volume.getNumero());
+//					System.out.println(volume.getUrlCopertina());
+//
+//					System.out.println("***********************Capitoli****************************");
+//					volume.caricaCapitoli();
+//
+//					Capitolo[] capitoli = volume.getCapitoli();
+//					for(Capitolo capitolo : capitoli){
+//						System.out.println(capitolo.getNumero()+" "+capitolo.getTitolo());
+//
+//					}
+//				}
+//				System.out.println("***********************************************************");
+//				
 				
 				
 			} catch (MalformedURLException e) {

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.swing.ImageIcon;
 
 import technicalService.TabellaFumetto;
+import technicalService.TabellaGeneri;
 import technicalService.TabellaVolume;
 
 public class Fumetto {
@@ -18,7 +19,7 @@ public class Fumetto {
 	private String descrizione;
 	private boolean ecompleto;	
 	private boolean occidentale;
-	private Genere[] generi;
+	private String[] generi;
 	private ImageIcon copertina = null;
 	private String url;
 	private double valutazioneMedia;
@@ -26,7 +27,9 @@ public class Fumetto {
 	
 	private Volume[] volumi;
 	private int numeroVolumi;
+	
 	private TabellaVolume tuplaVolume;
+	static private TabellaGeneri tupleGenere;
 	
 	public Fumetto(String nome, String autore, String artista, String descrizione,
 			boolean ecompleto, boolean occidentale, String url, double valutazione,
@@ -45,6 +48,7 @@ public class Fumetto {
 
 		
 	}
+	
 	public Fumetto(TabellaFumetto tuplaFumetto) throws SQLException, MalformedURLException{
 		
 		nome = tuplaFumetto.getNome();
@@ -56,9 +60,9 @@ public class Fumetto {
 		url = tuplaFumetto.getUrlCopertina();
 		valutazioneMedia = tuplaFumetto.getValutazioneMedia();
 		numeroLetture = tuplaFumetto.getNumeroLetture(); 
-		//TODO inizializzare generi...
-		copertina = new ImageIcon(new URL(url).toString());
+		
 		generi = null;
+//		copertina = new ImageIcon(new URL(url).toString());
 		tuplaVolume = new TabellaVolume(nome);
 		numeroVolumi = 0;
 		volumi = null;
@@ -83,7 +87,22 @@ public class Fumetto {
 		}
 	
 	}
-
+	static public String[] getGeneri() throws SQLException{
+		if(tupleGenere == null) tupleGenere = new TabellaGeneri();
+		
+		return tupleGenere.getGeneri();
+	}
+	
+	public String[] getGeneriFumetto() throws SQLException{
+		
+		if(tupleGenere == null) tupleGenere = new TabellaGeneri();
+		
+		if(generi != null) return generi;
+		System.out.println(nome);
+		return generi = tupleGenere.getGeneri(nome);
+		
+	}
+	
 	public String getNome() {
 		return nome;
 	}
@@ -102,10 +121,6 @@ public class Fumetto {
 
 	public boolean isOccidentale() {
 		return occidentale;
-	}
-
-	public Genere[] getGeneri() {
-		return generi;
 	}
 
 	public ImageIcon getCopertina() {

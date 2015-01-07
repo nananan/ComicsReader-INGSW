@@ -6,12 +6,19 @@ import java.sql.SQLException;
 public class TabellaFumetto {
 	
 	private ResultSet cursoreFumetto;
-//	private String nomeFumettoCorrente;
-	final private String QUERY_FUMETTO = "SELECT * FROM fumetto";
+	private String nomeFumettoCorrente;
+	final private String QUERY_FUMETTO = "SELECT * FROM fumetto;";
 	
 	public TabellaFumetto() throws SQLException {
 		
 		cursoreFumetto = DataBase.getStatement().executeQuery(QUERY_FUMETTO);	
+	}
+	
+	public TabellaFumetto(String fumetto) throws SQLException{
+		
+		String query = "SELECT * FROM fumetto where nome =\""+fumetto+"\";";
+		cursoreFumetto = DataBase.getStatement().executeQuery(query);
+		cursoreFumetto.next();
 	}
 	
 	public TabellaFumetto(ResultSet cursorePreferiti) {
@@ -25,24 +32,9 @@ public class TabellaFumetto {
 	
 	public String getNome() throws SQLException {
 		
-//		return nomeFumettoCorrente = cursoreFumetto.getString(1);
-		return cursoreFumetto.getString(1);
+		return nomeFumettoCorrente = cursoreFumetto.getString(1);
 	}
-	
-//	TODO Migliorare getGeneri
-//	public String[] getGeneri() throws SQLException{
-//	
-//		final String QUERY_GENERI = "SELECT genere FROM genere_fumetto WHERE nome_fumetto =" +nomeFumettoCorrente+";";
-//		ResultSet risualtatoQuery = DataBase.getStatement().executeQuery(QUERY_GENERI);
-//		String[] generi = new String[10];
-//		
-//		for(int i= 0;risualtatoQuery.next();i++) {
-//			generi[i]=risualtatoQuery.getString(1);
-//		}
-//		return generi;
-//	}
-//	
-	
+
 	public String getAutore() throws SQLException{
 		
 		return cursoreFumetto.getString(2);
