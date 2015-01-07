@@ -35,7 +35,7 @@ public class Libreria {
 //
 //				}
 //				System.out.println("***********************************************************");
-				Fumetto dn= fumetti.get("666 Satan");
+				Fumetto dn= fumetti.get("Fullmetal Alchemist");
 				dn.caricaVolumi();
 				Volume[] volumi = dn.getVolumi();
 				
@@ -47,11 +47,10 @@ public class Libreria {
 
 					System.out.println("***********************Capitoli****************************");
 					volume.caricaCapitoli();
-					System.out.println(volume.getNumeroCapitoli());
 
 					Capitolo[] capitoli = volume.getCapitoli();
 					for(Capitolo capitolo : capitoli){
-						System.out.println(capitolo.getNumero()+" "+capitolo.getTitolo()+" "+capitolo.getNumeroPagine());
+						System.out.println(capitolo.getNumero()+" "+capitolo.getTitolo());
 
 					}
 				}

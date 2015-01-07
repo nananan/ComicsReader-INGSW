@@ -3,6 +3,7 @@ package domain;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import technicalService.DataBase;
 import technicalService.TabellaLettore;
 
 public class Lettore {
@@ -59,6 +60,7 @@ public class Lettore {
 		
 		follows = new HashMap<>();
 		
+	
 		TabellaLettore tuplaFollows = tuplaLettore.getFollows();
 		
 		while(tuplaFollows.nextLettore())
@@ -74,17 +76,26 @@ public class Lettore {
 		tuplaFollows.close();
 	}
 
-	public void caricaFollower(){
+	public void caricaFollower() throws SQLException{
+		
+		if(follower == null)
+			follower = new HashMap<>();
+		
+		if(follower.size() == tuplaLettore.getNumFollower()) return;
+		tuplaLettore.nextLettore();
+		TabellaLettore tuplaFollower = tuplaLettore.getFollower();
+		
+		while(tuplaFollower.nextLettore())
+		{
+			String idFacebook = tuplaFollower.getIdFacebook();
+			String nome = tuplaFollower.getNome();
+			String urlFoto = tuplaFollower.getUrlFoto();
+			int numFollow = tuplaFollower.getNumFollows();
+			int numFollower = tuplaFollower.getNumFollower();
+			follower.put(idFacebook,new Lettore(idFacebook,nome,urlFoto, numFollow, numFollower));
+		}
+	}
 
-	}
-	
-	public int getNumFollow() {
-		return numFollow;
-	}
-
-	public int getNumFollower() {
-		return numFollower;
-	}
 
 	public void caricaPreferiti(){
 		
@@ -93,9 +104,28 @@ public class Lettore {
 		
 	}
 	
+	public boolean segui(Lettore lettore) throws SQLException{
+		
+		if(follows.containsKey(lettore.nome))
+		{
+			follows.put(lettore.nome, lettore);
+			tuplaLettore.aggiungiFollow(lettore.idFacebook);
+			return true;
+		}
+		return false;
+	}
+	
 	public void caricaCronologia(){
 		//TODO aggiustare prima getCronologia e aggiungiCronologia in TabellaLettore
 	}
+	public int getNumFollow() {
+		return numFollow = follows.size();
+	}
+
+	public int getNumFollower() {
+		return numFollower = follower.size();
+	}
+
 	public String getIdFacebook() {
 		return idFacebook;
 	}
@@ -131,7 +161,37 @@ public class Lettore {
 		return cronologia;
 	}
 
-	
+	public static void main(String[] args) throws ClassNotFoundException
+	{
+		TabellaLettore tuplaLettore;
+		try
+		{
+			DataBase.connect();
+			tuplaLettore = new TabellaLettore();
+			HashMap<String, Lettore> lettori = new HashMap<>();
+			while(tuplaLettore.nextLettore())
+			{
+				Lettore lettore = new Lettore(tuplaLettore);
+				lettori.put(tuplaLettore.getIdFacebook(),lettore);
+			}
+			
+			Lettore manuel = lettori.get("1590013667");
+			Lettore eliana = lettori.get("100000001659558");
+			
+			System.out.println(manuel.getNome());
+//			System.out.println(manuel.segui(eliana));
+//			
+//			System.out.println(manuel.getFollows().size());
+			DataBase.disconnect();
+			
+			
+
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	

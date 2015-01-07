@@ -46,8 +46,8 @@ public class TabellaLettore {
 	}
 	
 	public TabellaFumetto getPreferiti() throws SQLException{
-		String query =" SELECT nome, autore, artista,trama,completa,occindentale,url_compertina_primo_volume,"
-				+ "valutazione_percentuale,numero_letture"
+		String query =" SELECT nome, autore, artista,trama,completa,occindentale,url_copertina_primo_volume,"
+				+ "valutazione_media,numero_letture"
 				+ "FROM fumetto as f , preferiti as p"
 				+ "WHERE p.utente =\""+getIdFacebook()+"\" and p.nome_fumetto = f.nome;";
 				
@@ -57,8 +57,8 @@ public class TabellaLettore {
 	
 	public TabellaFumetto getDaLeggere() throws SQLException{
 	
-		String query = "SELECT nome, autore, artista,trama,completa,occindentale,url_compertina_primo_volume,"
-				+ "valutazione_percentuale,numero_letture"
+		String query = "SELECT nome, autore, artista,trama,completa,occindentale,url_copertina_primo_volume,"
+				+ "valutazione_media,numero_letture"
 				+ "FROM fumetto as f, da_leggere as d"
 				+ "WHERE d.utente =\""+getIdFacebook()+"\" and d.nome_fumetto = f.nome;";
 		ResultSet cursoreDaLeggere = DataBase.getStatement().executeQuery(query);
@@ -67,8 +67,8 @@ public class TabellaLettore {
 	
 	public TabellaFumetto getCronologia() throws SQLException{
 		
-		String query = "SELECT nome, autore, artista,trama,completa,occindentale,url_compertina_primo_volume,"
-				+ "valutazione_percentuale,numero_letture"
+		String query = "SELECT nome, autore, artista,trama,completa,occindentale,url_copertina_primo_volume,"
+				+ "valutazione_media,numero_letture"
 				+ "FROM fumetto as f, letture_recenti as r"
 				+ "WHERE r.utente =\""+getIdFacebook()+"\" and r.nome_fumetto = f.nome"
 				+ "ORDER BY data_lettura DESC; ";
