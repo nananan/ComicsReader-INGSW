@@ -3,6 +3,8 @@ package domain;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
+
 import technicalService.DataBase;
 import technicalService.TabellaLettore;
 
@@ -29,7 +31,6 @@ public class Lettore {
 		this.numFollow = numFollow;
 		this.numFollower  = numFollower;
 		
-		tuplaLettore = null;
 		follower = null;
 		follows = null;
 		preferiti = null;
@@ -39,13 +40,14 @@ public class Lettore {
 	
 	public Lettore(TabellaLettore tuplaLettore) throws SQLException{
 		
-		this.tuplaLettore = tuplaLettore;
-		
 		idFacebook = tuplaLettore.getIdFacebook();
 		nome = tuplaLettore.getNome();
 		urlFoto = tuplaLettore.getUrlFoto();
 		numFollow = tuplaLettore.getNumFollows();
 		numFollower = tuplaLettore.getNumFollower();
+		
+		this.tuplaLettore = new TabellaLettore(idFacebook);
+		this.tuplaLettore.nextLettore();
 		
 		follower = null;
 		follows = null;
@@ -80,9 +82,11 @@ public class Lettore {
 		
 		if(follower == null)
 			follower = new HashMap<>();
-		
+				
+		tuplaLettore.aggiorna(idFacebook);
+
 		if(follower.size() == tuplaLettore.getNumFollower()) return;
-		tuplaLettore.nextLettore();
+		
 		TabellaLettore tuplaFollower = tuplaLettore.getFollower();
 		
 		while(tuplaFollower.nextLettore())
@@ -106,15 +110,28 @@ public class Lettore {
 	
 	public boolean segui(Lettore lettore) throws SQLException{
 		
-		if(!follows.containsKey(lettore.nome))
+		if(follows == null) caricaFollows();
+		
+		if(!follows.containsKey(lettore.idFacebook))
 		{
-			follows.put(lettore.nome, lettore);
+			follows.put(lettore.idFacebook, lettore);
 			tuplaLettore.aggiungiFollow(lettore.idFacebook);
 			return true;
 		}
 		return false;
 	}
-	
+	public boolean nonSeguire(Lettore lettore) throws SQLException{
+		
+		if(follows == null) caricaFollows();
+		
+		if(follows.containsKey(lettore.idFacebook))
+		{
+			follows.remove(lettore.idFacebook);
+			tuplaLettore.rimuoviFollow(lettore.idFacebook);
+			return true;
+		}
+		return false;
+	}
 	public void caricaCronologia(){
 		//TODO aggiustare prima getCronologia e aggiungiCronologia in TabellaLettore
 	}
@@ -145,11 +162,13 @@ public class Lettore {
 	public HashMap<String, Fumetto> getPreferiti() {
 		return preferiti;
 	}
-	public HashMap<String, Lettore> getFollower() {
+	public HashMap<String, Lettore> getFollower() throws SQLException {
+		caricaFollower();
 		return follower;
 	}
 
-	public HashMap<String, Lettore> getFollows() {
+	public HashMap<String, Lettore> getFollows() throws SQLException {
+		if(follows == null)caricaFollows();
 		return follows;
 	}
 
@@ -177,11 +196,27 @@ public class Lettore {
 			
 			Lettore manuel = lettori.get("1590013667");
 			Lettore eliana = lettori.get("100000001659558");
+			Lettore mario = lettori.get("100002870129213");
 			
-			System.out.println(manuel.getNome());
-			System.out.println(manuel.segui(eliana));
-//			
-			System.out.println(manuel.getFollows().size());
+			manuel.segui(eliana);
+			manuel.segui(mario);
+			System.out.println();
+			System.out.println("Manuel Follows "
+					+manuel.getFollows().size());
+			System.out.println("Eliana Follower "+ 
+					eliana.getFollower().size());
+			
+			mario.segui(eliana);
+			
+			System.out.println("Prima del caricamento ,Eliana Follower "+ 
+					eliana.numFollower);
+			eliana.caricaFollower();
+			System.out.println("Dopo del caricamento ,Eliana Follower "+ 
+					eliana.numFollower);
+			System.out.println(manuel.nonSeguire(eliana));
+			
+			System.out.println(eliana.numFollower);
+			
 			DataBase.disconnect();
 			
 			
