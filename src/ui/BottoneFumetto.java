@@ -36,6 +36,11 @@ public class BottoneFumetto extends JButton
 		return scaledImage;
 	}
 	
+	public Fumetto getFumetto()
+	{
+		return fumetto;
+	}
+	
 	@Override
 	protected void paintComponent(Graphics g) 
 	{

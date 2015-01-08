@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -49,17 +50,22 @@ public class PannelloProfilo extends JPanel
 	private JLabel forImage;
 	private boolean aggiungi = false;
 	private boolean aggiungiFollows = false;
-	public boolean aggiungiFollowers = false;
+	private boolean aggiungiFollowers = false;
 	
-	public PannelloProfilo(Lettore lettore, PannelloCentrale pannelloCentrale)
+	private MyListener listener;
+	private MyPanel panel;
+	
+	public PannelloProfilo(Lettore lettore, MyPanel panel)
 	{
 		super();
 		setBackground(Color.GRAY);
-		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
+//		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		
-		MyListener listener = new MyListener();
+		this.panel = panel;
+		
+		listener = new MyListener();
 		
 		try
 		{
@@ -204,6 +210,8 @@ public class PannelloProfilo extends JPanel
 			else
 				bottoniFumettiPreferiti.get(i).setBounds(15 + bottoniFumettiPreferiti.get(i-1).getX() + (int)bottoniFumettiPreferiti.get(i-1).getPreferredSize().getWidth(), 20 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniFumettiPreferiti.get(i).getPreferredSize().getWidth(), (int)bottoniFumettiPreferiti.get(i).getPreferredSize().getHeight());
 
+			bottoniFumettiPreferiti.get(i).addActionListener(listener);
+			
 			add(bottoniFumettiPreferiti.get(i));
 	    }
 		repaint();
@@ -250,6 +258,8 @@ public class PannelloProfilo extends JPanel
 				bottoniFollows.get(i).setBounds(15 + bottoniFollows.get(i-1).getX() + (int)bottoniFollows.get(i-1).getPreferredSize().getWidth(), 20 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniFollows.get(i).getPreferredSize().getWidth(), (int)bottoniFollows.get(i).getPreferredSize().getHeight());
 
 			add(bottoniFollows.get(i));
+			
+			add(bottoniFollows.get(i));
 	    }
 		repaint();
 	}
@@ -294,6 +304,8 @@ public class PannelloProfilo extends JPanel
 			else
 				bottoniFollowers.get(i).setBounds(15 + bottoniFollowers.get(i-1).getX() + (int)bottoniFollowers.get(i-1).getPreferredSize().getWidth(), 20 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniFollowers.get(i).getPreferredSize().getWidth(), (int)bottoniFollowers.get(i).getPreferredSize().getHeight());
 
+			add(bottoniFollowers.get(i));
+			
 			add(bottoniFollowers.get(i));
 	    }
 		repaint();
@@ -350,6 +362,25 @@ public class PannelloProfilo extends JPanel
 			else if (source == bottoneCronologia)   //BOTTONE CRONOLOGIA
 			{
 				
+			}
+			
+			for (BottoneFumetto bottoneFumetto : bottoniFumettiPreferiti)
+			{
+				if (source == bottoneFumetto)
+				{
+					try
+					{
+						panel.PremiPerFumetto(bottoneFumetto.getFumetto());
+					} catch (MalformedURLException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
 		}
 	}

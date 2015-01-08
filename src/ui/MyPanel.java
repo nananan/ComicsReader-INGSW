@@ -111,7 +111,8 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerFumetto(Fumetto fumetto) throws MalformedURLException, SQLException
 	{
-		remove(pannelloScrollDiscover);
+		if (pannelloScrollDiscover != null)
+			remove(pannelloScrollDiscover);
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
 		
@@ -171,7 +172,7 @@ public class MyPanel extends JPanel
 	        	remove(arrayPannelli.get(pairs.getKey()));
 	    }
 		if (pannelloProfilo == null)
-			pannelloProfilo = new PannelloProfilo(lettore, pannelloCentro);
+			pannelloProfilo = new PannelloProfilo(lettore, this);
 		this.add(pannelloProfilo,BorderLayout.CENTER);
 		this.validate();
 		repaint();
