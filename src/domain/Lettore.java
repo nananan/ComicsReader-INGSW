@@ -79,7 +79,7 @@ public class Lettore {
 	}
 
 	public void caricaFollower() throws SQLException{
-		
+		//TODO migliorare il caso in cui follower.size() > tuplaLettore.getNumFollower
 		if(follower == null)
 			follower = new HashMap<>();
 				
@@ -87,8 +87,11 @@ public class Lettore {
 
 		if(follower.size() == tuplaLettore.getNumFollower()) return;
 		
+	
 		TabellaLettore tuplaFollower = tuplaLettore.getFollower();
 		
+		if(follower.size() > tuplaLettore.getNumFollower()) follower = new HashMap();
+
 		while(tuplaFollower.nextLettore())
 		{
 			String idFacebook = tuplaFollower.getIdFacebook();
@@ -215,7 +218,7 @@ public class Lettore {
 					eliana.numFollower);
 			System.out.println(manuel.nonSeguire(eliana));
 			
-			System.out.println(eliana.numFollower);
+			System.out.println(eliana.getFollower().size());
 			
 			DataBase.disconnect();
 			
