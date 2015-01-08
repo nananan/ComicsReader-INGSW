@@ -28,6 +28,7 @@ public class Fumetto {
 	private Volume[] volumi;
 	private int numeroVolumi;
 	
+	private TabellaFumetto tuplaFumetto;
 	private TabellaVolume tuplaVolume;
 	static private TabellaGeneri tupleGenere;
 	
@@ -44,12 +45,12 @@ public class Fumetto {
 		this.url = url;
 		this.valutazioneMedia= valutazione;
 		this.numeroLetture = numeroLetture;
-		copertina = new ImageIcon(url);	
 
+		
 		
 	}
 	
-	public Fumetto(TabellaFumetto tuplaFumetto) throws SQLException, MalformedURLException{
+	public Fumetto(TabellaFumetto tuplaFumetto) throws SQLException{
 		
 		nome = tuplaFumetto.getNome();
 		autore = tuplaFumetto.getAutore();
@@ -61,16 +62,48 @@ public class Fumetto {
 		valutazioneMedia = tuplaFumetto.getValutazioneMedia();
 		numeroLetture = tuplaFumetto.getNumeroLetture(); 
 		
+		tuplaFumetto = new TabellaFumetto(nome);
+		
 		generi = null;
-//		copertina = new ImageIcon(new URL(url).toString());
-		tuplaVolume = new TabellaVolume(nome);
 		numeroVolumi = 0;
 		volumi = null;
 		
 	}
 	
+	public double getValutazioneMedia()
+	{
+		return valutazioneMedia;
+	}
+
+	public int getNumeroLetture()
+	{
+		return numeroLetture;
+	}
+
+	public int getNumeroVolumi()
+	{
+		return numeroVolumi;
+	}
+
+	public TabellaFumetto getTuplaFumetto()
+	{
+		return tuplaFumetto;
+	}
+
+	public TabellaVolume getTuplaVolume()
+	{
+		return tuplaVolume;
+	}
+
+	public static TabellaGeneri getTupleGenere()
+	{
+		return tupleGenere;
+	}
+
 	public void caricaVolumi() throws SQLException, MalformedURLException{
 		
+		tuplaVolume = new TabellaVolume(nome);
+
 		if(numeroVolumi == tuplaVolume.getNumeroVolumi()) return;
 		
 		numeroVolumi = tuplaVolume.getNumeroVolumi();

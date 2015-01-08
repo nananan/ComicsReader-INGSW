@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
 
 import technicalService.DataBase;
+import technicalService.TabellaFumetto;
 import technicalService.TabellaLettore;
 
 public class Lettore {
@@ -104,13 +105,73 @@ public class Lettore {
 	}
 
 
-	public void caricaPreferiti(){
+	public void caricaPreferiti() throws SQLException{
 		
+		if(preferiti != null) return ; 
+			
+		preferiti = new HashMap<>();   
+		
+		TabellaFumetto tuplaFumetto = tuplaLettore.getPreferiti();
+		
+		while(tuplaFumetto.nextFumetto())
+		{
+			Fumetto fumetto = new Fumetto(tuplaFumetto);
+			preferiti.put(fumetto.getNome(), fumetto);
+		}
 	}
-	public void caricaDaLeggere(){
+	public void caricaDaLeggere() throws SQLException{
 		
+		if(daLeggere != null) return;
+		
+		daLeggere = new HashMap<>();
+		
+		TabellaFumetto tuplaFumetto =tuplaLettore.getDaLeggere();
+		
+		while(tuplaFumetto.nextFumetto()){
+			Fumetto fumetto = new Fumetto(tuplaFumetto);
+			daLeggere.put(fumetto.getNome(), fumetto);
+		}
+	}
+	public boolean inserisciPreferiti(Fumetto fumetto) throws SQLException{
+		
+		if(preferiti == null) caricaPreferiti();
+		
+		if(preferiti.containsKey(fumetto.getNome())) return false;
+		preferiti.put(fumetto.getNome(),fumetto);
+		tuplaLettore.aggiungiPreferiti(fumetto.getNome());
+		return true;
 	}
 	
+	public boolean rimuoviPreferiti(Fumetto fumetto) throws SQLException{
+		
+		if(preferiti == null) caricaPreferiti();
+		
+		if(!preferiti.containsKey(fumetto.getNome()))return false;
+		
+		preferiti.remove(fumetto.getNome());
+		tuplaLettore.rimuoviPreferiti(fumetto.getNome());
+		return true;
+	}
+	public boolean inserisciDaLeggere(Fumetto fumetto) throws SQLException{
+		
+		if(daLeggere == null) caricaDaLeggere();;
+		
+		if(daLeggere.containsKey(fumetto.getNome())) return false;
+		daLeggere.put(fumetto.getNome(),fumetto);
+		tuplaLettore.aggiungiDaLeggere(fumetto.getNome());
+		return true;	
+	}
+	
+	public boolean rimuoviDaLeggere(Fumetto fumetto) throws SQLException{
+		
+		if(daLeggere == null) caricaDaLeggere();
+		
+		if(!daLeggere.containsKey(fumetto.getNome())) return false;
+		
+		daLeggere.remove(fumetto.getNome());
+		tuplaLettore.rimuoviDaLeggere(fumetto.getNome());
+		return true;
+	}
 	public boolean segui(Lettore lettore) throws SQLException{
 		
 		if(follows == null) caricaFollows();
@@ -123,6 +184,7 @@ public class Lettore {
 		}
 		return false;
 	}
+	
 	public boolean nonSeguire(Lettore lettore) throws SQLException{
 		
 		if(follows == null) caricaFollows();

@@ -66,7 +66,7 @@ public class TabellaLettore {
 	}
 	
 	public TabellaFumetto getCronologia() throws SQLException{
-		
+		//TODO rivedere
 		String query = "SELECT nome, autore, artista,trama,completa,occindentale,url_copertina_primo_volume,"
 				+ "valutazione_media,numero_letture"
 				+ "FROM fumetto as f, letture_recenti as r"
@@ -162,6 +162,7 @@ public class TabellaLettore {
 	}
 	
 	public void aggiorna(String idLettore) throws SQLException{
+		
 		String queryAggiorna = "SELECT * FROM utente WHERE  id_facebook=\""+idLettore
 				+"\";";
 		idFacebookCorrente=idLettore;
@@ -170,22 +171,25 @@ public class TabellaLettore {
 	}
 	
 	public void rimuoviFollow(String idFollow) throws SQLException{
+		
 		String rimuoviFollow ="DELETE FROM segue WHERE utente_follow=\""+idFollow
 				+"\" and utente_follower=\""+idFacebookCorrente+"\";";
 		DataBase.getStatement().executeUpdate(rimuoviFollow);	
 
 	}
 
-	public static void main(String[] args) {
+	public void rimuoviPreferiti(String nomeFumetto) throws SQLException{
+		
+		String rimuoviPreferito = "DELETE FROM preferiti WHERE utente=\""+idFacebookCorrente+"\" "
+				+ "and nome_fumetto\""+nomeFumetto+"\";";
+		DataBase.getStatement().executeUpdate(rimuoviPreferito);	
+	}
 	
-		String idFacebookCorrente="1590013667";
-	
-		String nomeFumetto = "100000001659558";
-	
-		String rimuoviFollow ="DELETE FROM segue WHERE utente_follow=\""+idFacebookCorrente
-			+"\" and utente_follower=\""+nomeFumetto+"\";";
-	
-		System.out.println(rimuoviFollow);
+	public void rimuoviDaLeggere(String nomeFumetto) throws SQLException{
+		
+		String rimuoviDaLeggere = "DELETE FROM daLeggere WHERE utente=\""+idFacebookCorrente+"\" "
+				+ "and nome_fumetto\""+nomeFumetto+"\";";
+		DataBase.getStatement().executeUpdate(rimuoviDaLeggere);
 	}
 
 
