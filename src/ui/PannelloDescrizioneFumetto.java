@@ -6,6 +6,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +50,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private JButton bottoneIndietro;
 	private JButton bottoneAvantiVolumi;
 	private JButton bottoneIndietroVolumi;
+	private MyButton bottonePreferiti;
 	private ImageIcon imagePrev = new ImageIcon("image/prev-icon.png");
 	private ImageIcon imageAvanti = new ImageIcon("image/next.png");
 	
@@ -71,7 +75,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
 		setBounds(10, 10, (int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight());
 		setLayout(null);
-		
+				
 		listener = new MyListener();
 		
 		nome = new Text(fumetto.getNome(), 45, Color.DARK_GRAY);
@@ -94,53 +98,92 @@ public class PannelloDescrizioneFumetto extends JPanel
 		add(forImage);
 		
 		Text stringaAutore = new Text("Autore", 18, Color.DARK_GRAY);
-		stringaAutore.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,3 + nome.getY() +(int)nome.getPreferredSize().getHeight(), (int)stringaAutore.getPreferredSize().getWidth(), (int)stringaAutore.getPreferredSize().getHeight());
+		stringaAutore.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,2 + nome.getY() +(int)nome.getPreferredSize().getHeight(), (int)stringaAutore.getPreferredSize().getWidth(), (int)stringaAutore.getPreferredSize().getHeight());
 		add(stringaAutore);
 		autore = new Text(fumetto.getAutore(), 16, Color.WHITE);
-		autore.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,2+stringaAutore.getY()+(int)stringaAutore.getPreferredSize().getHeight(), (int)autore.getPreferredSize().getWidth(), (int)autore.getPreferredSize().getHeight());
+		autore.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,1+stringaAutore.getY()+(int)stringaAutore.getPreferredSize().getHeight(), (int)autore.getPreferredSize().getWidth(), (int)autore.getPreferredSize().getHeight());
 		add(autore);
 	
 		Text stringaArtista = new Text("Artista", 18, Color.DARK_GRAY);
-		stringaArtista.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 3 + autore.getY() +(int)autore.getPreferredSize().getHeight(), (int)stringaArtista.getPreferredSize().getWidth(), (int)stringaArtista.getPreferredSize().getHeight());
+		stringaArtista.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2 + autore.getY() +(int)autore.getPreferredSize().getHeight(), (int)stringaArtista.getPreferredSize().getWidth(), (int)stringaArtista.getPreferredSize().getHeight());
 		add(stringaArtista);
 		artista = new Text(fumetto.getArtista(), 16, Color.WHITE);
-		artista.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,2 + stringaArtista.getY() +(int)stringaArtista.getPreferredSize().getHeight(), (int)artista.getPreferredSize().getWidth(), (int)artista.getPreferredSize().getHeight());
+		artista.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,1 + stringaArtista.getY() +(int)stringaArtista.getPreferredSize().getHeight(), (int)artista.getPreferredSize().getWidth(), (int)artista.getPreferredSize().getHeight());
 		add(artista);
 		
 		Text stringaStato = new Text("Stato", 18, Color.DARK_GRAY);
-		stringaStato.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,3+ artista.getY()+(int)artista.getPreferredSize().getHeight(), (int)stringaStato.getPreferredSize().getWidth(), (int)stringaStato.getPreferredSize().getHeight());
+		stringaStato.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,2+ artista.getY()+(int)artista.getPreferredSize().getHeight(), (int)stringaStato.getPreferredSize().getWidth(), (int)stringaStato.getPreferredSize().getHeight());
 		add(stringaStato);
 		if (fumetto.isEcompleto())
 			eCompleto = new Text("Completo", 16, Color.WHITE);
 		else
 			eCompleto = new Text("Non completo",  16, Color.WHITE);
-		eCompleto.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,2 + stringaStato.getY() +(int)stringaStato.getPreferredSize().getHeight(), (int)eCompleto.getPreferredSize().getWidth(), (int)eCompleto.getPreferredSize().getHeight());
+		eCompleto.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,1 + stringaStato.getY() +(int)stringaStato.getPreferredSize().getHeight(), (int)eCompleto.getPreferredSize().getWidth(), (int)eCompleto.getPreferredSize().getHeight());
 		add(eCompleto);
 		
 		Text stringaTipo = new Text("Tipo", 18, Color.DARK_GRAY);
-		stringaTipo.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,3 + eCompleto.getY() + (int)eCompleto.getPreferredSize().getHeight(), (int)stringaTipo.getPreferredSize().getWidth(), (int)stringaTipo.getPreferredSize().getHeight());
+		stringaTipo.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom,2 + eCompleto.getY() + (int)eCompleto.getPreferredSize().getHeight(), (int)stringaTipo.getPreferredSize().getWidth(), (int)stringaTipo.getPreferredSize().getHeight());
 		add(stringaTipo);
 		if (fumetto.isOccidentale())
 			eOccidentale = new Text("Occidentale", 16, Color.WHITE);
 		else
 			eOccidentale = new Text("Orientale", 16, Color.WHITE);
-		eOccidentale.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ stringaTipo.getY() + (int) stringaTipo.getPreferredSize().getHeight(), (int)eOccidentale.getPreferredSize().getWidth(), (int)eOccidentale.getPreferredSize().getHeight());
+		eOccidentale.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 1+ stringaTipo.getY() + (int) stringaTipo.getPreferredSize().getHeight(), (int)eOccidentale.getPreferredSize().getWidth(), (int)eOccidentale.getPreferredSize().getHeight());
 		add(eOccidentale);
 		
 		Text stringaGenere = new Text("Genere", 18, Color.DARK_GRAY);
-		stringaGenere.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 3+ eOccidentale.getY() + (int) eOccidentale.getPreferredSize().getHeight(), (int)stringaGenere.getPreferredSize().getWidth(), (int)stringaGenere.getPreferredSize().getHeight());
+		stringaGenere.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ eOccidentale.getY() + (int) eOccidentale.getPreferredSize().getHeight(), (int)stringaGenere.getPreferredSize().getWidth(), (int)stringaGenere.getPreferredSize().getHeight());
 		add(stringaGenere);
-		Text generi = new Text("generi...", 16, Color.WHITE);
-		generi.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ stringaGenere.getY() + (int) stringaGenere.getPreferredSize().getHeight(), (int)generi.getPreferredSize().getWidth(), (int)generi.getPreferredSize().getHeight());
+		
+		String genere = new String();
+		
+		try
+		{
+			String generiFumetto[] = fumetto.getGeneriFumetto();
+			for (int i = 0; i < generiFumetto.length; i++)
+			{
+				if (i < generiFumetto.length - 1)
+					genere += generiFumetto[i] +", ";
+				else
+					genere += generiFumetto[i];
+			}
+			
+		} catch (SQLException e2)
+		{
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		Text generi = new Text(genere, 16, Color.WHITE);
+		generi.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 1+ stringaGenere.getY() + (int) stringaGenere.getPreferredSize().getHeight(), (int)generi.getPreferredSize().getWidth(), (int)generi.getPreferredSize().getHeight());
 		add(generi);
 
 		Text stringaValutazione = new Text("Valutazione", 18, Color.DARK_GRAY);
-		stringaValutazione.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 3+ generi.getY() + (int) generi.getPreferredSize().getHeight(), (int)stringaValutazione.getPreferredSize().getWidth(), (int)stringaValutazione.getPreferredSize().getHeight());
+		stringaValutazione.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ generi.getY() + (int) generi.getPreferredSize().getHeight(), (int)stringaValutazione.getPreferredSize().getWidth(), (int)stringaValutazione.getPreferredSize().getHeight());
 		add(stringaValutazione);
 		starRated = new StarRater();
 		starRated.setPreferredSize(new Dimension(300, 10));
-		starRated.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ stringaValutazione.getY() + (int) stringaValutazione.getPreferredSize().getHeight(), (int)starRated.getPreferredSize().getWidth(), (int)starRated.getPreferredSize().getHeight());
+		starRated.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 1+ stringaValutazione.getY() + (int) stringaValutazione.getPreferredSize().getHeight(), (int)starRated.getPreferredSize().getWidth(), (int)starRated.getPreferredSize().getHeight());
 		add(starRated);
+		
+		bottonePreferiti = new MyButton("Preferiti", 16, Color.DARK_GRAY);
+		bottonePreferiti.setForeground(Color.BLACK);
+		bottonePreferiti.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottonePreferiti.getPreferredSize().getWidth(), (int)bottonePreferiti.getPreferredSize().getHeight());
+		
+		bottonePreferiti.addMouseMotionListener(new MouseMotionAdapter() {
+		      public void mouseMoved(MouseEvent event) {
+		    	  bottonePreferiti.setForeground(Color.RED);
+		      }
+		});
+		
+		bottonePreferiti.addMouseListener(new MouseAdapter() {
+		      public void mouseExited(MouseEvent event) {
+		    	  bottonePreferiti.setForeground(Color.BLACK);
+		      }
+		});
+		bottonePreferiti.addActionListener(listener);
+		add(bottonePreferiti);
+		
 		
 		descrizione = new Text(fumetto.getDescrizione(), 14, Color.WHITE);
 		descrizione.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth() - (int)this.getPreferredSize().getHeight()/8, (int)this.getPreferredSize().getHeight() / 2));
@@ -172,61 +215,61 @@ public class PannelloDescrizioneFumetto extends JPanel
 		
 		this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(), (int)this.getPreferredSize().getHeight()+descrizione.getY()+(int)descrizione.getPreferredSize().getHeight()));
 		
-		try {
-			fumetto.caricaVolumi();
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+//		try {
+//			fumetto.caricaVolumi();
+//		} catch (MalformedURLException e1) {
+//			e1.printStackTrace();
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		}
 		
-		for (int j = 0; j < fumetto.getVolumi().length; j++) 
-		{
-			Text nomeVolume = new Text(fumetto.getVolumi()[j].getNumero()+" - "+fumetto.getVolumi()[j].getNome(), 12, Color.WHITE);
-			nomiVolumi.add(nomeVolume);
-			
-			try {
-				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(fumetto.getVolumi()[j].getUrlCopertina(),200,300),fumetto);
-				bottoneFumetto.setBorder(BorderFactory.createLineBorder(Color.black,3));
-				bottoniVolumi.add(bottoneFumetto);
-				
-				bottoniVolumi.get(j).setPreferredSize(new Dimension(200,300));
-				
-				if (j == 0)
-					bottoniVolumi.get(j).setBounds(10, 20 + stringaVolumi.getY() +(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
-				else
-					bottoniVolumi.get(j).setBounds(15+bottoniVolumi.get(j-1).getX()+(int)bottoniVolumi.get(j-1).getPreferredSize().getWidth(),20 + stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			nomiVolumi.get(j).setBounds(bottoniVolumi.get(j).getX(), 10 + bottoniVolumi.get(j).getY() + (int)bottoniVolumi.get(j).getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
-
-			if (j < 4)
-			{
-				indiceVolumi = j;
-				add(bottoniVolumi.get(j));
-				add(nomiVolumi.get(j));
-			}
-		}
+//		for (int j = 0; j < fumetto.getVolumi().length; j++) 
+//		{
+//			Text nomeVolume = new Text(fumetto.getVolumi()[j].getNumero()+" - "+fumetto.getVolumi()[j].getNome(), 12, Color.WHITE);
+//			nomiVolumi.add(nomeVolume);
+//			
+//			try {
+//				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(fumetto.getVolumi()[j].getUrlCopertina(),200,300),fumetto);
+//				bottoneFumetto.setBorder(BorderFactory.createLineBorder(Color.black,3));
+//				bottoniVolumi.add(bottoneFumetto);
+//				
+//				bottoniVolumi.get(j).setPreferredSize(new Dimension(200,300));
+//				
+//				if (j == 0)
+//					bottoniVolumi.get(j).setBounds(10, 20 + stringaVolumi.getY() +(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
+//				else
+//					bottoniVolumi.get(j).setBounds(15+bottoniVolumi.get(j-1).getX()+(int)bottoniVolumi.get(j-1).getPreferredSize().getWidth(),20 + stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
+//				
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			nomiVolumi.get(j).setBounds(bottoniVolumi.get(j).getX(), 10 + bottoniVolumi.get(j).getY() + (int)bottoniVolumi.get(j).getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
+//
+//			if (j < 4)
+//			{
+//				indiceVolumi = j;
+//				add(bottoniVolumi.get(j));
+//				add(nomiVolumi.get(j));
+//			}
+//		}
 		
-		bottoneAvantiVolumi.addActionListener(listener);
-		bottoneIndietroVolumi.addActionListener(listener);
-		
+//		bottoneAvantiVolumi.addActionListener(listener);
+//		bottoneIndietroVolumi.addActionListener(listener);
+//		
 		bottoneIndietro = new JButton();
 		setBottoneIndietro(bottoneIndietro);
 		bottoneIndietro.setBounds(nome.getX()+((int)this.getPreferredSize().getWidth()-(int)bottoneIndietro.getPreferredSize().getWidth()-20), nome.getY()*2, 30, 30);
 		add(bottoneIndietro);
 		
 		bottoneIndietro.addActionListener(listener);
-		
-		stringaCapitoli = new Text("Capitoli", 24, Color.DARK_GRAY);
-		stringaCapitoli.setBounds(10, 15 + nomiVolumi.get(0).getY() + (int)nomiVolumi.get(0).getPreferredSize().getHeight(), (int) stringaCapitoli.getPreferredSize().getWidth(), (int) stringaCapitoli.getPreferredSize().getHeight() );
-		
-		for (BottoneFumetto bottoneFumetto : bottoniVolumi) {
-			bottoneFumetto.addActionListener(listener);
-		}
+//		
+//		stringaCapitoli = new Text("Capitoli", 24, Color.DARK_GRAY);
+//		stringaCapitoli.setBounds(10, 15 + nomiVolumi.get(0).getY() + (int)nomiVolumi.get(0).getPreferredSize().getHeight(), (int) stringaCapitoli.getPreferredSize().getWidth(), (int) stringaCapitoli.getPreferredSize().getHeight() );
+//		
+//		for (BottoneFumetto bottoneFumetto : bottoniVolumi) {
+//			bottoneFumetto.addActionListener(listener);
+//		}
 		
 	}
 	
@@ -444,6 +487,17 @@ public class PannelloDescrizioneFumetto extends JPanel
 				if (source == bottoniCapitoli.get(i))
 				{
 					panel.PremiPerCapitolo();
+				}
+			}
+			
+			if (source == bottonePreferiti)
+			{
+				try
+				{
+					panel.getLettore().inserisciPreferiti(fumetto);
+				} catch (SQLException e1)
+				{
+					e1.printStackTrace();
 				}
 			}
 			

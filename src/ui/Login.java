@@ -40,7 +40,6 @@ public class Login extends JPanel
 		int altezzaButton = altezza/9;
 		
 		panel = new PannelloLogin(larghezza,altezza);
-		System.out.println(altezza);
 		this.add(panel, BorderLayout.CENTER);
 		insertName.setPreferredSize(new Dimension(larghezza,altezzaText));
 		insertName.setBounds(panel.getInsets().bottom*2, altezzaText,(int) insertName.getPreferredSize().getWidth(),(int) insertName.getPreferredSize().getHeight());

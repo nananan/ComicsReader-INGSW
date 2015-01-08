@@ -95,7 +95,6 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals(logOut.getActionCommand()))
 		{
-			System.out.println("bye");
 			System.exit(0);
 		}
 		else if (e.getActionCommand().equals(privateSession.getActionCommand()))

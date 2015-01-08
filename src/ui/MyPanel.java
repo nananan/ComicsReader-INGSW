@@ -29,12 +29,14 @@ public class MyPanel extends JPanel
 	PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, this);
 	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro, this, pannelloFiltraggio);
 	PannelloDiscover pannelloDiscover = new PannelloDiscover();
-	PannelloScrollPane pannelloScrollDiscover = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
+	PannelloScrollPane pannelloScrollDiscover;
 	PannelloProfilo pannelloProfilo;
 	
 	private PannelloScrollPane pannelloScrollCapitoli;
 	private HashMap<String,PannelloScrollPane> arrayPannelli = new HashMap<>();
 	private PannelloScrollPane pannelloScrollFiltraggio;
+	
+	private Lettore lettore;
 	
 	public MyPanel(Lettore lettore) throws IOException 
 	{
@@ -42,6 +44,8 @@ public class MyPanel extends JPanel
 		this.setLayout(new BorderLayout());
 		pannelloSopra = new PannelloSopra(pannelloCentro, this, lettore, pannelloDestro);
 		pannelloCentro.setDimensioniPannello(pannelloDestro, pannelloSinistro);
+		
+		this.lettore = lettore;
 		
 		this.add(pannelloDestro,BorderLayout.EAST);
 		this.add(pannelloSinistro,BorderLayout.WEST);
@@ -51,12 +55,8 @@ public class MyPanel extends JPanel
 		
 		pannelloSotto.setVisible(false);
 		
-		pannelloDiscover.setPannelloCentrale(pannelloCentro, this);
-	    pannelloScrollDiscover.getVerticalScrollBar().setUnitIncrement(15);
-	    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		pannelloProfilo = new PannelloProfilo(lettore, pannelloCentro);
 	}
-
+	
 	public void Premi()
 	{
 		this.remove(pannelloSinistro);
@@ -79,7 +79,22 @@ public class MyPanel extends JPanel
 	public void PremiPerDiscover() throws SQLException
 	{
 		remove(pannelloCentro);
-		
+		if (pannelloProfilo != null)
+			remove(pannelloProfilo);
+		if (pannelloScrollDiscover == null)
+		{
+			try
+			{
+				pannelloDiscover.setPannelloCentrale(pannelloCentro, this);
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			pannelloScrollDiscover = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
+			pannelloScrollDiscover.getVerticalScrollBar().setUnitIncrement(15);
+		    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		}
+			
 		Iterator it = arrayPannelli.entrySet().iterator();
 	    while (it.hasNext())
 	    {
@@ -97,6 +112,8 @@ public class MyPanel extends JPanel
 	public void PremiPerFumetto(Fumetto fumetto) throws MalformedURLException, SQLException
 	{
 		remove(pannelloScrollDiscover);
+		if (pannelloProfilo != null)
+			remove(pannelloProfilo);
 		
 		if (arrayPannelli.isEmpty())
 		{
@@ -143,6 +160,18 @@ public class MyPanel extends JPanel
 	public void PremiPerProfiloUtente()
 	{
 		remove(pannelloCentro);
+		if (pannelloScrollDiscover != null)
+			remove(pannelloScrollDiscover);
+		
+		Iterator it = arrayPannelli.entrySet().iterator();
+	    while (it.hasNext())
+	    {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        if (it != null)
+	        	remove(arrayPannelli.get(pairs.getKey()));
+	    }
+		if (pannelloProfilo == null)
+			pannelloProfilo = new PannelloProfilo(lettore, pannelloCentro);
 		this.add(pannelloProfilo,BorderLayout.CENTER);
 		this.validate();
 		repaint();
@@ -152,7 +181,16 @@ public class MyPanel extends JPanel
 	protected void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
-//		pannelloCentro.getGraphics().drawImage(image, 0,0, pannelloCentro);		
+	}
+
+	public Lettore getLettore()
+	{
+		return lettore;
+	}
+	
+	public PannelloProfilo getPannelloProfiloUtente()
+	{
+		return pannelloProfilo;
 	}
 
 }
