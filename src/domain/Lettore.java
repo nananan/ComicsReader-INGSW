@@ -3,8 +3,6 @@ package domain;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
-
 import technicalService.DataBase;
 import technicalService.TabellaFumetto;
 import technicalService.TabellaLettore;
@@ -91,7 +89,7 @@ public class Lettore {
 	
 		TabellaLettore tuplaFollower = tuplaLettore.getFollower();
 		
-		if(follower.size() > tuplaLettore.getNumFollower()) follower = new HashMap();
+		if(follower.size() > tuplaLettore.getNumFollower()) follower = new HashMap<>();
 
 		while(tuplaFollower.nextLettore())
 		{
@@ -273,15 +271,16 @@ public class Lettore {
 			
 			mario.segui(eliana);
 			
-			System.out.println("Prima del caricamento ,Eliana Follower "+ 
-					eliana.numFollower);
-			eliana.caricaFollower();
-			System.out.println("Dopo del caricamento ,Eliana Follower "+ 
-					eliana.numFollower);
-			System.out.println(manuel.nonSeguire(eliana));
+		
+			Fumetto death = new Fumetto(new TabellaFumetto("Death Note"));
+			manuel.inserisciDaLeggere(death);
 			
-			System.out.println(eliana.getFollower().size());
+			System.out.println(manuel.getDaLeggere().size());
 			
+			manuel.rimuoviDaLeggere(death);
+			
+			System.out.println(manuel.getDaLeggere().size());
+
 			DataBase.disconnect();
 			
 			

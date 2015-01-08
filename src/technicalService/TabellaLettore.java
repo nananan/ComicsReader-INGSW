@@ -46,9 +46,9 @@ public class TabellaLettore {
 	}
 	
 	public TabellaFumetto getPreferiti() throws SQLException{
-		String query =" SELECT nome, autore, artista,trama,completa,occindentale,url_copertina_primo_volume,"
-				+ "valutazione_media,numero_letture"
-				+ "FROM fumetto as f , preferiti as p"
+		String query =" SELECT nome, autore, artista,trama,completa,occidentale,url_copertina_primo_volume,"
+				+ "valutazione_media,numero_letture "
+				+ "FROM fumetto as f , preferiti as p "
 				+ "WHERE p.utente =\""+idFacebookCorrente+"\" and p.nome_fumetto = f.nome;";
 				
 		ResultSet cursorePreferiti = DataBase.getStatement().executeQuery(query);
@@ -57,9 +57,9 @@ public class TabellaLettore {
 	
 	public TabellaFumetto getDaLeggere() throws SQLException{
 	
-		String query = "SELECT nome, autore, artista,trama,completa,occindentale,url_copertina_primo_volume,"
-				+ "valutazione_media,numero_letture"
-				+ "FROM fumetto as f, da_leggere as d"
+		String query = "SELECT nome, autore, artista,trama,completa,occidentale,url_copertina_primo_volume,"
+				+ "valutazione_media,numero_letture  "
+				+ "FROM fumetto as f, da_leggere as d "
 				+ "WHERE d.utente =\""+idFacebookCorrente+"\" and d.nome_fumetto = f.nome;";
 		ResultSet cursoreDaLeggere = DataBase.getStatement().executeQuery(query);
 		return new TabellaFumetto(cursoreDaLeggere );
@@ -67,9 +67,9 @@ public class TabellaLettore {
 	
 	public TabellaFumetto getCronologia() throws SQLException{
 		//TODO rivedere
-		String query = "SELECT nome, autore, artista,trama,completa,occindentale,url_copertina_primo_volume,"
-				+ "valutazione_media,numero_letture"
-				+ "FROM fumetto as f, letture_recenti as r"
+		String query = "SELECT nome, autore, artista,trama,completa,occidentale,url_copertina_primo_volume,"
+				+ "valutazione_media,numero_letture "
+				+ "FROM fumetto as f, letture_recenti as r "
 				+ "WHERE r.utente =\""+idFacebookCorrente+"\" and r.nome_fumetto = f.nome"
 				+ "ORDER BY data_lettura DESC; ";
 		ResultSet cursoreDaLeggere = DataBase.getStatement().executeQuery(query);
@@ -181,16 +181,23 @@ public class TabellaLettore {
 	public void rimuoviPreferiti(String nomeFumetto) throws SQLException{
 		
 		String rimuoviPreferito = "DELETE FROM preferiti WHERE utente=\""+idFacebookCorrente+"\" "
-				+ "and nome_fumetto\""+nomeFumetto+"\";";
+				+ "and nome_fumetto=\""+nomeFumetto+"\";";
 		DataBase.getStatement().executeUpdate(rimuoviPreferito);	
 	}
 	
 	public void rimuoviDaLeggere(String nomeFumetto) throws SQLException{
 		
-		String rimuoviDaLeggere = "DELETE FROM daLeggere WHERE utente=\""+idFacebookCorrente+"\" "
-				+ "and nome_fumetto\""+nomeFumetto+"\";";
+		String rimuoviDaLeggere = "DELETE FROM da_leggere WHERE utente=\""+idFacebookCorrente+"\" "
+				+ "and nome_fumetto=\""+nomeFumetto+"\";";
 		DataBase.getStatement().executeUpdate(rimuoviDaLeggere);
 	}
-
+	public static void main(String[] args) {
+		String idFacebookCorrente = "1590013667";
+		String nomeFumetto = "Death Note";
+		String rimuoviPreferito = "DELETE FROM preferiti WHERE utente=\""+idFacebookCorrente+"\" "
+				+ "and nome_fumetto=\""+nomeFumetto+"\";";
+		
+		System.out.println(rimuoviPreferito);
+	}
 
 }
