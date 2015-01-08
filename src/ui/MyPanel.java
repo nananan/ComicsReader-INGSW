@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import domain.Fumetto;
+import domain.Lettore;
 
 public class MyPanel extends JPanel
 {		
@@ -35,11 +36,11 @@ public class MyPanel extends JPanel
 	private HashMap<String,PannelloScrollPane> arrayPannelli = new HashMap<>();
 	private PannelloScrollPane pannelloScrollFiltraggio;
 	
-	public MyPanel(String name) throws IOException 
+	public MyPanel(Lettore lettore) throws IOException 
 	{
 		super();
 		this.setLayout(new BorderLayout());
-		pannelloSopra = new PannelloSopra(pannelloCentro, this, name, pannelloDestro);
+		pannelloSopra = new PannelloSopra(pannelloCentro, this, lettore, pannelloDestro);
 		pannelloCentro.setDimensioniPannello(pannelloDestro, pannelloSinistro);
 		
 		this.add(pannelloDestro,BorderLayout.EAST);
@@ -53,7 +54,7 @@ public class MyPanel extends JPanel
 		pannelloDiscover.setPannelloCentrale(pannelloCentro, this);
 	    pannelloScrollDiscover.getVerticalScrollBar().setUnitIncrement(15);
 	    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		pannelloProfilo = new PannelloProfilo(name, pannelloCentro);
+		pannelloProfilo = new PannelloProfilo(lettore, pannelloCentro);
 	}
 
 	public void Premi()

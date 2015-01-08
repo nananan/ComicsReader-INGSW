@@ -10,6 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import domain.AccessoLettore;
+import domain.Lettore;
+
 
 public class Login extends JPanel
 {
@@ -21,6 +24,9 @@ public class Login extends JPanel
 	Text insertPassword = new Text("Password");
 	MyButton buttonOk = new MyButton("Ok");
 	MyButton buttonAnnulla = new MyButton("Annulla");
+	
+	private AccessoLettore accessoLettore;
+	private Lettore lettore; 
 	
 	boolean pressedOk = false;
 	
@@ -65,8 +71,12 @@ public class Login extends JPanel
 			{
 				String text = textAreaName.getText();
 				
-				if (textAreaPassword.getText().isEmpty())
-					System.out.println("inserisci la password");
+				accessoLettore = new AccessoLettore(text);
+				
+				lettore = accessoLettore.getLettore();
+				
+//				if (textAreaPassword.getText().isEmpty())
+//					System.out.println("inserisci la password");
 				
 				System.out.println(text);
 				pressedOk = true;
@@ -85,30 +95,31 @@ public class Login extends JPanel
 	{
 		if (pressedOk)
 		{
-			if (textAreaPassword.getText().isEmpty() || textAreaName.getText().isEmpty())
-			{	
-				pressedOk = false;
-				if (textAreaPassword.getText().isEmpty() && textAreaName.getText().isEmpty())
-				{
-					textAreaPassword.setBackground(Color.RED);
-					textAreaName.setBackground(Color.RED);
-				}
-				else if (textAreaName.getText().isEmpty())
-					textAreaName.setBackground(Color.RED);
-				else if (textAreaPassword.getText().isEmpty())
-					textAreaPassword.setBackground(Color.RED);
-				return false;
-			}
-			textAreaName.setBackground(Color.WHITE);
-			textAreaPassword.setBackground(Color.WHITE);
+			System.out.println(lettore.getNome());
+//			if (textAreaPassword.getText().isEmpty() || textAreaName.getText().isEmpty())
+//			{	
+//				pressedOk = false;
+//				if (textAreaPassword.getText().isEmpty() && textAreaName.getText().isEmpty())
+//				{
+//					textAreaPassword.setBackground(Color.RED);
+//					textAreaName.setBackground(Color.RED);
+//				}
+//				else if (textAreaName.getText().isEmpty())
+//					textAreaName.setBackground(Color.RED);
+//				else if (textAreaPassword.getText().isEmpty())
+//					textAreaPassword.setBackground(Color.RED);
+//				return false;
+//			}
+//			textAreaName.setBackground(Color.WHITE);
+//			textAreaPassword.setBackground(Color.WHITE);
 			return true;
 		}
 		return false;
 	}
 	
-	public String getTextName()
+	public Lettore getLettore()
 	{
-		return textAreaName.getText();
+		return lettore;
 	}
 	
 	@Override

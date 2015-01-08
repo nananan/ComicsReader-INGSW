@@ -15,6 +15,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import domain.Lettore;
+
 public class PannelloSopra extends JMenuBar implements ActionListener, ItemListener
 {
 	private JMenu buttonOptions;
@@ -25,8 +27,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 	MyPanel panel;
 	boolean put = false;
 	
-	
-	public PannelloSopra(JPanel pannelloCentro, final MyPanel panel, String name, PannelloDestro pannelloDestro) 
+	public PannelloSopra(JPanel pannelloCentro, final MyPanel panel, Lettore lettore, PannelloDestro pannelloDestro) 
 	{
 		this.panel = panel;
 		setBackground(new Color(91,84,84));
@@ -34,7 +35,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		
-		buttonOptions = new JMenu(name);
+		buttonOptions = new JMenu(lettore.getNome());
 		buttonOptions.setFont(new Font("Caladea", Font.BOLD, 13));
 		buttonOptions.setForeground(Color.WHITE);
 		buttonOptions.setPreferredSize(new Dimension((int)pannelloDestro.getPreferredSize().getWidth()-pannelloDestro.getInsets().bottom,20));
@@ -45,7 +46,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		
 		buttonOptions.setBounds(X - pannelloCentro.getInsets().bottom, Y, (int)pannelloDestro.getPreferredSize().getWidth()-pannelloDestro.getInsets().bottom,20);
 		
-		profilo = new JMenuItem(name+"ciao");
+		profilo = new JMenuItem(lettore.getNome());
 		
 		impostaButtonJMenu(profilo, pannelloCentro);
 		impostaButtonJMenu(logOut, pannelloCentro);

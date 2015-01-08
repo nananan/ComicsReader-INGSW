@@ -7,16 +7,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import domain.Lettore;
+
 
 public class MyFrame extends JFrame
 {
 	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
-	public MyFrame(String name) throws IOException
+	public MyFrame(Lettore lettore) throws IOException
 	{
 		super();
-		JPanel p = new MyPanel(name);
+		JPanel p = new MyPanel(lettore);
 		this.setTitle("MyFrame");
 //		this.setUndecorated(true);
 		this.setVisible(true);

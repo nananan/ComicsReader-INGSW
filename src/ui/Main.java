@@ -15,15 +15,16 @@ public class Main {
 		try {
 			JFrame f = new FrameLogin();
 			DataBase.connect();
-//		while (!((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
-//		{
-////			System.out.println("non devo fare niente");
-//		}
-//		f.setVisible(false);
-			f = new MyFrame(((FrameLogin) f).getPanel().getTextName());
+			while (!((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
+			{
+				System.out.println("non devo fare niente");
+			}
+			f.setVisible(false);
+			f = new MyFrame(((FrameLogin) f).getPanel().getLettore());
 			f.repaint();
 			DataBase.disconnect();
-		} catch (ClassNotFoundException e) {
+		} 
+		catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
