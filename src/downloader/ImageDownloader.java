@@ -1,60 +1,49 @@
 package downloader;
 
 
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.peer.ContainerPeer;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.locks.Condition;
+import java.util.concurrent.BrokenBarrierException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import com.sun.xml.internal.ws.api.server.Container;
 
 public class ImageDownloader extends Thread{
 	
 	private DownloaderManager downloaderManager;
-	private int indice;
-	private boolean controllo;
+	private String urlImmagine;
+	private int indiceImmagine;
 	
-	public ImageDownloader(DownloaderManager manager, int i) {
+	public ImageDownloader(DownloaderManager manager) {
 		downloaderManager = manager;
-		indice = i;
-		controllo=false;
 	}
-	public void setIndice(int n){
-		indice = n;
-	}
-	
+
 	@Override
 	public void run(){
-		
-		while(true){
-			
 			try {
-				System.out.println("Indice "+this.indice);
-				downloaderManager.scarica(indice,controllo);
-				controllo= true;
-				indice+=4;
+				scarica();
+				downloaderManager.await();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (BrokenBarrierException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		}
 	
 	}
-	public boolean isControllo() {
-		return controllo;
+	public void scarica() throws MalformedURLException, IOException{
+		Image immagine = ImageIO.read(new URL(urlImmagine));
+		downloaderManager.inserisciImmagine(immagine,indiceImmagine);
 	}
-	public void setControllo(boolean controllo) {
-		this.controllo = controllo;
+	
+	public void setUrl(String string, int indiceUrl) {
+		urlImmagine = string;
+		indiceImmagine = indiceUrl;
 	}
 
 }
