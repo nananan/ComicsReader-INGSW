@@ -209,7 +209,14 @@ public class Lettore {
 		}
 		return numFollow = follows.size();
 	}
-
+	public int getNumeroFollowAltroLettore(){
+		return numFollow;
+	}
+	
+	public int getNumeroFollowerAltroLettore(){
+		return numFollower;
+	}
+	
 	public int getNumFollower() {
 		try
 		{
@@ -322,7 +329,6 @@ public class Lettore {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	
 }

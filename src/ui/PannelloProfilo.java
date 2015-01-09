@@ -1,7 +1,7 @@
 package ui;
 
 import java.awt.Color;
-import java.awt.Container;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -37,12 +37,20 @@ public class PannelloProfilo extends JPanel
 	MyButton bottonePreferiti;
 	MyButton bottoneDaLeggere;
 	MyButton bottoneCronologia;
+	private BottoneUtente bottoneSegui;
 	private JSeparator jseparator;
 	
 	private ArrayList<BottoneFumetto> bottoniFumettiPreferiti;
-	private ArrayList<BottoneFumetto> bottoniFollows;
-	private ArrayList<BottoneFumetto> bottoniFollowers;
-	
+	private ArrayList<BottoneUtente> bottoniFollows;
+	private ArrayList<BottoneUtente> bottoniFollowers;
+	private ArrayList<BottoneFumetto> bottoniDaLeggere;
+	private ArrayList<Text> nomiFollower;
+	private ArrayList<Text> numeroFollowsDelFollower;
+	private ArrayList<Text> numeroFollowerDelFollower;
+	private ArrayList<Text> nomiFollows;
+	private ArrayList<Text> numeroFollowsDelFollows;
+	private ArrayList<Text> numeroFollowerDelFollows;
+
 	private Lettore lettore;
 	private ImageIcon imageFumetto;
 	private Image scaledImage;
@@ -51,6 +59,7 @@ public class PannelloProfilo extends JPanel
 	private boolean aggiungi = false;
 	private boolean aggiungiFollows = false;
 	private boolean aggiungiFollowers = false;
+	private boolean aggiungiDaLeggere = false;
 	
 	private MyListener listener;
 	private MyPanel panel;
@@ -132,12 +141,21 @@ public class PannelloProfilo extends JPanel
 		jseparator = (new JSeparator(JSeparator.HORIZONTAL));
 		jseparator.setBackground(Color.BLACK);
 		jseparator.setForeground(Color.BLACK);
-		jseparator.setBounds(0, bottoneFollows.getY()+(int)bottoneFollows.getPreferredSize().getHeight(), (int)getPreferredSize().getWidth(), 12);
+		jseparator.setBounds(0, bottoneFollows.getY()+(int)bottoneFollows.getPreferredSize().getHeight(), (int)jseparator.getPreferredSize().getWidth(), 12);
 		add(jseparator);
 		
 		bottoniFumettiPreferiti = new ArrayList<>();
 		bottoniFollows = new ArrayList<>();
 		bottoniFollowers = new ArrayList<>();
+		bottoniDaLeggere = new ArrayList<>();
+		
+		nomiFollower = new ArrayList<>();
+		nomiFollows = new ArrayList<>();
+		
+		numeroFollowerDelFollower = new ArrayList<>();
+		numeroFollowsDelFollower = new ArrayList<>();
+		numeroFollowsDelFollows = new ArrayList<>();
+		numeroFollowerDelFollows = new ArrayList<>();
 		
 	}
 	
@@ -172,13 +190,13 @@ public class PannelloProfilo extends JPanel
 	
 	public void prendiPreferiti()
 	{
-		for (BottoneFumetto bottoneFumetto : bottoniFollows)
+		for (BottoneUtente bottoneFumetto : bottoniFollows)
 		{
 			if (bottoneFumetto != null)
 				remove(bottoneFumetto);
 		}
 		
-		for (BottoneFumetto bottoneFumetto : bottoniFollowers)
+		for (BottoneUtente bottoneFumetto : bottoniFollowers)
 		{
 			if (bottoneFumetto != null)
 				remove(bottoneFumetto);
@@ -194,7 +212,7 @@ public class PannelloProfilo extends JPanel
 		        try
 		        {
 		        	bottoniFumettiPreferiti.add(new BottoneFumetto(getURL(lettore.getPreferiti().get(pairs.getKey()).getUrl(),200,300), lettore.getPreferiti().get(pairs.getKey())));
-				} catch (IOException e1)
+		        } catch (IOException e1)
 				{
 					e1.printStackTrace();
 				}
@@ -219,10 +237,10 @@ public class PannelloProfilo extends JPanel
 	
 	public void prendiFollows() throws SQLException
 	{
-		for (BottoneFumetto bottoneFumetto : bottoniFollowers)
+		for (BottoneUtente bottone : bottoniFollowers)
 		{
-			if (bottoneFumetto != null)
-				remove(bottoneFumetto);
+			if (bottone != null)
+				remove(bottone);
 		}
 		
 		for (BottoneFumetto bottoneFumetto : bottoniFumettiPreferiti)
@@ -240,8 +258,11 @@ public class PannelloProfilo extends JPanel
 		        
 		        try
 		        {
-		        	bottoniFollows.add(new BottoneFumetto(getURL(lettore.getFollows().get(pairs.getKey()).getUrlFoto(),150,150), lettore.getPreferiti().get(pairs.getKey())));
-				} catch (IOException e1)
+		        	bottoniFollows.add(new BottoneUtente(getURL(lettore.getFollows().get(pairs.getKey()).getUrlFoto(),150,150), lettore.getFollows().get(pairs.getKey())));
+		        	nomiFollows.add(new Text(lettore.getFollows().get(pairs.getKey()).getNome(), 22, Color.WHITE));
+		        	numeroFollowsDelFollows.add(new Text(new Integer(lettore.getFollows().get(pairs.getKey()).getNumeroFollowAltroLettore()).toString()+" Follows", 18, Color.WHITE));
+		        	numeroFollowerDelFollows.add(new Text(new Integer(lettore.getFollows().get(pairs.getKey()).getNumeroFollowerAltroLettore()).toString()+" Follower", 18, Color.WHITE));
+		        } catch (IOException e1)
 				{
 					e1.printStackTrace();
 				}
@@ -255,21 +276,28 @@ public class PannelloProfilo extends JPanel
 			if (i == 0)
 				bottoniFollows.get(i).setBounds(20, 20+ jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniFollows.get(i).getPreferredSize().getWidth(), (int)bottoniFollows.get(i).getPreferredSize().getHeight());
 			else
-				bottoniFollows.get(i).setBounds(15 + bottoniFollows.get(i-1).getX() + (int)bottoniFollows.get(i-1).getPreferredSize().getWidth(), 20 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniFollows.get(i).getPreferredSize().getWidth(), (int)bottoniFollows.get(i).getPreferredSize().getHeight());
+				bottoniFollows.get(i).setBounds(bottoniFollows.get(i-1).getX(), 20 + bottoniFollows.get(i-1).getY() + (int)bottoniFollows.get(i-1).getPreferredSize().getHeight(), (int)bottoniFollows.get(i).getPreferredSize().getWidth(), (int)bottoniFollows.get(i).getPreferredSize().getHeight());
 
-			add(bottoniFollows.get(i));
+			nomiFollows.get(i).setBounds(20 + bottoniFollows.get(i).getX() + (int)bottoniFollows.get(i).getPreferredSize().getWidth(), bottoniFollows.get(i).getY() + 10, (int)nomiFollows.get(i).getPreferredSize().getWidth(), (int)nomiFollows.get(i).getPreferredSize().getHeight() );
+			numeroFollowsDelFollows.get(i).setBounds(20 + bottoniFollows.get(i).getX() + (int)bottoniFollows.get(i).getPreferredSize().getWidth(), 5 + nomiFollows.get(i).getY()+(int)nomiFollows.get(i).getPreferredSize().getHeight(), (int)numeroFollowsDelFollows.get(i).getPreferredSize().getWidth(), (int)numeroFollowsDelFollows.get(i).getPreferredSize().getHeight() );
+			numeroFollowerDelFollows.get(i).setBounds(20 + bottoniFollows.get(i).getX() + (int)bottoniFollows.get(i).getPreferredSize().getWidth(), 5 + numeroFollowsDelFollows.get(i).getY()+(int)numeroFollowsDelFollows.get(i).getPreferredSize().getHeight(), (int)numeroFollowerDelFollows.get(i).getPreferredSize().getWidth(), (int)numeroFollowerDelFollows.get(i).getPreferredSize().getHeight() );
 			
 			add(bottoniFollows.get(i));
+			add(nomiFollows.get(i));
+			add(numeroFollowsDelFollows.get(i));
+			add(numeroFollowerDelFollows.get(i));
+			caricaBottonePerSeguire(bottoniFollows.get(i).getY(), bottoniFollows.get(i).getLettore());
 	    }
+	    
 		repaint();
 	}
 	
 	public void prendiFollowers() throws SQLException
 	{
-		for (BottoneFumetto bottoneFumetto : bottoniFollows)
+		for (BottoneUtente bottone : bottoniFollows)
 		{
-			if (bottoneFumetto != null)
-				remove(bottoneFumetto);
+			if (bottone != null)
+				remove(bottone);
 		}
 		
 		for (BottoneFumetto bottoneFumetto : bottoniFumettiPreferiti)
@@ -287,8 +315,11 @@ public class PannelloProfilo extends JPanel
 		        
 		        try
 		        {
-		        	bottoniFollowers.add(new BottoneFumetto(getURL(lettore.getFollower().get(pairs.getKey()).getUrlFoto(),150,150), lettore.getPreferiti().get(pairs.getKey())));
-				} catch (IOException e1)
+		        	bottoniFollowers.add(new BottoneUtente(getURL(lettore.getFollower().get(pairs.getKey()).getUrlFoto(),150,150), lettore.getFollower().get(pairs.getKey())));
+		        	nomiFollower.add(new Text(lettore.getFollower().get(pairs.getKey()).getNome(), 22, Color.WHITE));
+		        	numeroFollowsDelFollower.add(new Text(new Integer(lettore.getFollower().get(pairs.getKey()).getNumeroFollowAltroLettore()).toString()+" Follows", 18, Color.WHITE));
+		        	numeroFollowerDelFollower.add(new Text(new Integer(lettore.getFollower().get(pairs.getKey()).getNumeroFollowerAltroLettore()).toString()+" Follower", 18, Color.WHITE));
+		        } catch (IOException e1)
 				{
 					e1.printStackTrace();
 				}
@@ -302,13 +333,80 @@ public class PannelloProfilo extends JPanel
 			if (i == 0)
 				bottoniFollowers.get(i).setBounds(20, 20+ jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniFollowers.get(i).getPreferredSize().getWidth(), (int)bottoniFollowers.get(i).getPreferredSize().getHeight());
 			else
-				bottoniFollowers.get(i).setBounds(15 + bottoniFollowers.get(i-1).getX() + (int)bottoniFollowers.get(i-1).getPreferredSize().getWidth(), 20 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniFollowers.get(i).getPreferredSize().getWidth(), (int)bottoniFollowers.get(i).getPreferredSize().getHeight());
-
-			add(bottoniFollowers.get(i));
+				bottoniFollowers.get(i).setBounds(bottoniFollowers.get(i-1).getX(), 20 + bottoniFollowers.get(i-1).getY() + (int)bottoniFollowers.get(i-1).getPreferredSize().getHeight(), (int)bottoniFollowers.get(i).getPreferredSize().getWidth(), (int)bottoniFollowers.get(i).getPreferredSize().getHeight());
 			
+			nomiFollower.get(i).setBounds(20 + bottoniFollowers.get(i).getX() + (int)bottoniFollowers.get(i).getPreferredSize().getWidth(), bottoniFollowers.get(i).getY() + 10, (int)nomiFollower.get(i).getPreferredSize().getWidth(), (int)nomiFollower.get(i).getPreferredSize().getHeight() );
+			numeroFollowsDelFollower.get(i).setBounds(20 + bottoniFollowers.get(i).getX() + (int)bottoniFollowers.get(i).getPreferredSize().getWidth(), 5 + nomiFollower.get(i).getY()+(int)nomiFollower.get(i).getPreferredSize().getHeight(), (int)numeroFollowsDelFollower.get(i).getPreferredSize().getWidth(), (int)numeroFollowsDelFollower.get(i).getPreferredSize().getHeight() );
+			numeroFollowerDelFollower.get(i).setBounds(20 + bottoniFollowers.get(i).getX() + (int)bottoniFollowers.get(i).getPreferredSize().getWidth(), 5 + numeroFollowsDelFollower.get(i).getY()+(int)numeroFollowsDelFollower.get(i).getPreferredSize().getHeight(), (int)numeroFollowerDelFollower.get(i).getPreferredSize().getWidth(), (int)numeroFollowerDelFollower.get(i).getPreferredSize().getHeight() );
 			add(bottoniFollowers.get(i));
+			add(nomiFollower.get(i));
+			add(numeroFollowsDelFollower.get(i));
+			add(numeroFollowerDelFollower.get(i));
+
+	    }
+	    
+		repaint();
+	}
+	
+	public void prendiDaLeggere()
+{
+		for (BottoneUtente bottone : bottoniFollows)
+		{
+			if (bottone != null)
+				remove(bottone);
+		}
+		
+		for (BottoneUtente bottone : bottoniFollowers)
+		{
+			if (bottone != null)
+				remove(bottone);
+		}
+		
+		for (BottoneFumetto bottoneFumetto : bottoniFumettiPreferiti)
+		{
+			if (bottoneFumetto != null)
+				remove(bottoneFumetto);
+		}
+		
+		if (bottoniDaLeggere.size() == 0)
+		{
+			Iterator it = lettore.getPreferiti().entrySet().iterator();
+		    while (it.hasNext())
+		    {
+		        Map.Entry pairs = (Map.Entry)it.next();
+		        
+		        try
+		        {
+		        	bottoniDaLeggere.add(new BottoneFumetto(getURL(lettore.getDaLeggere().get(pairs.getKey()).getUrl(),200,300), lettore.getDaLeggere().get(pairs.getKey())));
+				} catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+		    }
+		}
+		    
+	    for (int i = 0; i < bottoniDaLeggere.size(); i++)
+	    {
+			bottoniDaLeggere.get(i).setPreferredSize(new Dimension(200,300));
+			bottoniDaLeggere.get(i).setBorder(BorderFactory.createLineBorder(Color.black,3));
+			if (i == 0)
+				bottoniDaLeggere.get(i).setBounds(20, 20+ jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniDaLeggere.get(i).getPreferredSize().getWidth(), (int)bottoniDaLeggere.get(i).getPreferredSize().getHeight());
+			else
+				bottoniDaLeggere.get(i).setBounds(15 + bottoniDaLeggere.get(i-1).getX() + (int)bottoniDaLeggere.get(i-1).getPreferredSize().getWidth(), 20 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniDaLeggere.get(i).getPreferredSize().getWidth(), (int)bottoniDaLeggere.get(i).getPreferredSize().getHeight());
+			
+			bottoniDaLeggere.get(i).addActionListener(listener);
+			
+			add(bottoniDaLeggere.get(i));
 	    }
 		repaint();
+	}
+	
+	public void caricaBottonePerSeguire(int Y, Lettore lettore)
+	{		
+		bottoneSegui = new BottoneUtente("Following        ", 20, Color.WHITE, lettore);
+		
+		bottoneSegui.setBounds(bottoneCronologia.getX(), Y+20, (int)bottoneSegui.getPreferredSize().getWidth(), (int)bottoneSegui.getPreferredSize().getHeight());
+	
 	}
 	
 	private class MyListener implements ActionListener
@@ -357,7 +455,12 @@ public class PannelloProfilo extends JPanel
 			}
 			else if (source == bottoneDaLeggere)   //BOTTONE DA LEGGERE
 			{
-				
+				aggiungiDaLeggere = true;
+				bottonePreferiti.setForeground(Color.WHITE);
+				bottoneFollows.setForeground(Color.WHITE);
+				bottoneFollower.setForeground(Color.WHITE);
+				bottoneDaLeggere.setForeground(Color.DARK_GRAY);
+				prendiDaLeggere();
 			}
 			else if (source == bottoneCronologia)   //BOTTONE CRONOLOGIA
 			{
@@ -389,14 +492,17 @@ public class PannelloProfilo extends JPanel
 	protected void paintComponent(Graphics g) 
 	{
 		if (aggiungi)
-			for (BottoneFumetto bottoneFumetto : bottoniFumettiPreferiti)
-				g.drawImage(bottoneFumetto.getImageScaled(), 0,0, this);
+			for (BottoneFumetto bottone : bottoniFumettiPreferiti)
+				g.drawImage(bottone.getImageScaled(), 0,0, this);
 		if (aggiungiFollows)
-			for (BottoneFumetto bottoneFumetto : bottoniFollows)
-				g.drawImage(bottoneFumetto.getImageScaled(), 0,0, this);
+			for (BottoneUtente bottone : bottoniFollows)
+				g.drawImage(bottone.getImageScaled(), 0,0, this);
 		if (aggiungiFollowers)
-			for (BottoneFumetto bottoneFumetto : bottoniFollowers)
-				g.drawImage(bottoneFumetto.getImageScaled(), 0,0, this);
+			for (BottoneUtente bottone : bottoniFollowers)
+				g.drawImage(bottone.getImageScaled(), 0,0, this);
+		if (aggiungiDaLeggere)
+			for (BottoneFumetto bottone : bottoniDaLeggere)
+				g.drawImage(bottone.getImageScaled(), 0,0, this);
 		super.paintComponent(g);
 	}
 	
