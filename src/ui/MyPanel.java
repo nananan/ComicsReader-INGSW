@@ -56,6 +56,7 @@ public class MyPanel extends JPanel
 	public void PremiPerFiltraggio()
 	{
 		this.remove(pannelloSinistro);
+		pannelloSopra.setBooleanaPerBottoneFiltro(false);
 		pannelloScrollFiltraggio = new PannelloScrollPane(pannelloFiltraggio, null);
 		pannelloScrollFiltraggio.getVerticalScrollBar().setUnitIncrement(15);
 		pannelloScrollFiltraggio.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -66,6 +67,7 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerPannelloSinistro()
 	{
+		pannelloSopra.setBooleanaPerBottoneFiltro(true);
 		remove(pannelloScrollFiltraggio);
 		this.add(pannelloSinistro,BorderLayout.WEST);
 		this.validate();

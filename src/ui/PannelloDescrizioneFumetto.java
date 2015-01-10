@@ -192,9 +192,11 @@ public class PannelloDescrizioneFumetto extends JPanel
 		
 		descrizione = new Text(fumetto.getDescrizione(), 14, Color.WHITE);
 		descrizione.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth() - (int)this.getPreferredSize().getHeight()/8, (int)this.getPreferredSize().getHeight() / 2));
-		descrizione.setBounds(10, 10 + forImage.getY() +(int)forImage.getPreferredSize().getHeight(), (int)descrizione.getPreferredSize().getWidth(), 200);
 		descrizione.setLineWrap(true);
-		descrizione.setWrapStyleWord(true);		
+		descrizione.setWrapStyleWord(true);
+		descrizione.setBounds(10, 10 + forImage.getY() +(int)forImage.getPreferredSize().getHeight(), (int)descrizione.getPreferredSize().getWidth(), descrizione.getLineCount()*20);
+		descrizione.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth() - (int)this.getPreferredSize().getHeight()/8, descrizione.getLineCount()*20));
+		
 		add(descrizione);
 		
 		stringaVolumi = new Text("Volumi", 24, Color.DARK_GRAY);

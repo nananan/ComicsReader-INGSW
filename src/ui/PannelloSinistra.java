@@ -20,14 +20,10 @@ public class PannelloSinistra extends JPanel
 {
 	MyPanel panel;
 	
-	MyButton buttonDiscover = new MyButton("Discover");
+	MyButton buttonDiscover = new MyButton("Scopri");
 	MyButton buttonTopRead = new MyButton("Top Read");
 	MyButton buttonTopRated = new MyButton("Top Rated Comics");
 	MyButton buttonUtentsRated = new MyButton("Utents Rated");
-	MyButton buttonFiltra = new MyButton("Filtra");
-	
-	MyButton buttonManga = new MyButton("Manga");
-	MyButton buttonFumetti = new MyButton("Fumetti");
 	
 	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 6;
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -45,27 +41,19 @@ public class PannelloSinistra extends JPanel
 		
 		pannelloCentrale = pannelloCentro;
 		
-		buttonDiscover.setDimension(this, pannelloCentro, altezza/4);
+		buttonDiscover.setBounds(5, 10, (int)buttonDiscover.getPreferredSize().getWidth(), (int)buttonDiscover.getPreferredSize().getHeight());
 		add(buttonDiscover);
 		
-		buttonTopRead.setDimension(this, pannelloCentro, buttonDiscover.getY()+25);
+		buttonTopRead.setBounds(buttonDiscover.getX(), 3+buttonDiscover.getY()+(int)buttonDiscover.getPreferredSize().getHeight(), (int)buttonTopRead.getPreferredSize().getWidth(), (int)buttonTopRead.getPreferredSize().getHeight());
 		add(buttonTopRead);
 		  
-		buttonTopRated.setDimension(this, pannelloCentro, buttonTopRead.getY()+25);
+		buttonTopRated.setBounds(buttonDiscover.getX(), 3+buttonTopRead.getY()+(int)buttonTopRead.getPreferredSize().getHeight(), (int)buttonTopRated.getPreferredSize().getWidth(), (int)buttonTopRated.getPreferredSize().getHeight());
 		add(buttonTopRated);
 
-		buttonUtentsRated.setDimension(this, pannelloCentro, buttonTopRated.getY()+25);
+		buttonUtentsRated.setBounds(buttonDiscover.getX(), 3+buttonTopRated.getY()+(int)buttonTopRated.getPreferredSize().getHeight(), (int)buttonUtentsRated.getPreferredSize().getWidth(), (int)buttonUtentsRated.getPreferredSize().getHeight());
 		add(buttonUtentsRated);
 		
-//		buttonFiltra.setDimension(this, pannelloCentro, buttonChronology.getY()+25);
-//		add(buttonFiltra);
-		
-		buttonManga.setDimension(this, pannelloCentro, buttonFiltra.getY()+30);
-		buttonFumetti.setDimension(this, pannelloCentro, buttonManga.getY()+25);
-
 		MyListener listener = new MyListener();
-		
-		buttonFiltra.addActionListener(listener);
 		
 		buttonDiscover.addActionListener(listener);
 	}
@@ -74,7 +62,6 @@ public class PannelloSinistra extends JPanel
 	protected void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
-//		g.drawImage(image, 0,0, this);
 	}
 	
 	private class MyListener implements ActionListener 
@@ -104,12 +91,7 @@ public class PannelloSinistra extends JPanel
 					e1.printStackTrace();
 				}
 			}
-			else if (source == buttonFiltra)
-			{
-				panel.PremiPerFiltraggio();
-			}
 		}
-
 	}
 	
 }

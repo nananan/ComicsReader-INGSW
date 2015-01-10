@@ -79,7 +79,7 @@ public class PannelloDiscover extends JPanel
 						bottoniFumetti.get(j).setBounds(10,10+(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight()+bottoniFumetti.get(j-1).getY(), 200,300);
 						i += bottoniFumetti.get(j).getPreferredSize().getHeight()+10;
 					
-						break;
+//						break;
 					}
 					else
 						bottoniFumetti.get(j).setBounds(10+(int)bottoniFumetti.get(j-1).getPreferredSize().getWidth()+bottoniFumetti.get(j-1).getX(),10+i, 200,300);
