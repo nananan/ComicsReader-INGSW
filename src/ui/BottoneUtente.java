@@ -31,7 +31,6 @@ public class BottoneUtente extends JButton
 		super();
 		this.scaledImage = image;
 		this.lettore = utente;
-		
 	}	
 	
 	public BottoneUtente(String text, int larghezza, Color colore, Lettore lettore) 

@@ -54,6 +54,11 @@ public class PannelloCentrale extends JPanel
 		
 	}
 	
+	public int getLarghezza()
+	{
+		return larghezza;
+	}
+	
 	public File getFile()
 	{
 		System.out.println(file.getPath());

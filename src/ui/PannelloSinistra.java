@@ -24,9 +24,6 @@ public class PannelloSinistra extends JPanel
 	MyButton buttonTopRead = new MyButton("Top Read");
 	MyButton buttonTopRated = new MyButton("Top Rated Comics");
 	MyButton buttonUtentsRated = new MyButton("Utents Rated");
-	MyButton buttonFavorites = new MyButton("Favorites Comics");
-	MyButton buttonToRead = new MyButton("To Read");
-	MyButton buttonChronology = new MyButton("Chronology");	
 	MyButton buttonFiltra = new MyButton("Filtra");
 	
 	MyButton buttonManga = new MyButton("Manga");
@@ -59,18 +56,9 @@ public class PannelloSinistra extends JPanel
 
 		buttonUtentsRated.setDimension(this, pannelloCentro, buttonTopRated.getY()+25);
 		add(buttonUtentsRated);
-
-		buttonFavorites.setDimension(this, pannelloCentro, buttonUtentsRated.getY()+25);
-		add(buttonFavorites);
 		
-		buttonToRead.setDimension(this, pannelloCentro, buttonFavorites.getY()+25);
-		add(buttonToRead);
-		
-		buttonChronology.setDimension(this, pannelloCentro, buttonToRead.getY()+25);
-		add(buttonChronology);
-		
-		buttonFiltra.setDimension(this, pannelloCentro, buttonChronology.getY()+25);
-		add(buttonFiltra);
+//		buttonFiltra.setDimension(this, pannelloCentro, buttonChronology.getY()+25);
+//		add(buttonFiltra);
 		
 		buttonManga.setDimension(this, pannelloCentro, buttonFiltra.getY()+30);
 		buttonFumetti.setDimension(this, pannelloCentro, buttonManga.getY()+25);
@@ -118,7 +106,7 @@ public class PannelloSinistra extends JPanel
 			}
 			else if (source == buttonFiltra)
 			{
-				panel.Premi();
+				panel.PremiPerFiltraggio();
 			}
 		}
 

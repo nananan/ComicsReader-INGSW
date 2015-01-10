@@ -42,8 +42,6 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		int X = (int)getPreferredSize().getWidth() - (int)buttonOptions.getPreferredSize().getWidth();
 		int Y = ((int)getPreferredSize().getHeight()/2) - ((int)buttonOptions.getPreferredSize().getHeight()/2);
 		
-//		buttonOptions.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		buttonOptions.setBounds(X - pannelloCentro.getInsets().bottom, Y, (int)pannelloDestro.getPreferredSize().getWidth()-pannelloDestro.getInsets().bottom,20);
 		
 		profilo = new JMenuItem(lettore.getNome());

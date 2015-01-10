@@ -34,7 +34,6 @@ public class PannelloDescrizioneFumetto extends JPanel
 {
 	private int indiceVolumi = 0;
 	private File file;
-	private PannelloCentrale pannelloCentrale;
 	private Image scaledImage;
 	private Text nome;
 	private JLabel forImage;
@@ -51,6 +50,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private JButton bottoneAvantiVolumi;
 	private JButton bottoneIndietroVolumi;
 	private MyButton bottonePreferiti;
+	private MyButton bottoneDaLeggere;
 	private ImageIcon imagePrev = new ImageIcon("image/prev-icon.png");
 	private ImageIcon imageAvanti = new ImageIcon("image/next.png");
 	
@@ -184,6 +184,11 @@ public class PannelloDescrizioneFumetto extends JPanel
 		bottonePreferiti.addActionListener(listener);
 		add(bottonePreferiti);
 		
+		bottoneDaLeggere = new MyButton("Da Leggere", 16, Color.DARK_GRAY);
+		bottoneDaLeggere.setForeground(Color.BLACK);
+		bottoneDaLeggere.setBounds(20+bottonePreferiti.getX()+(int)bottonePreferiti.getPreferredSize().getWidth(), 2+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottonePreferiti.getPreferredSize().getWidth(), (int)bottonePreferiti.getPreferredSize().getHeight());
+		bottoneDaLeggere.addActionListener(listener);
+		add(bottoneDaLeggere);
 		
 		descrizione = new Text(fumetto.getDescrizione(), 14, Color.WHITE);
 		descrizione.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth() - (int)this.getPreferredSize().getHeight()/8, (int)this.getPreferredSize().getHeight() / 2));
@@ -495,6 +500,16 @@ public class PannelloDescrizioneFumetto extends JPanel
 				try
 				{
 					panel.getLettore().inserisciPreferiti(fumetto);
+				} catch (SQLException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+			else if (source == bottoneDaLeggere)
+			{
+				try
+				{
+					panel.getLettore().inserisciDaLeggere(fumetto);
 				} catch (SQLException e1)
 				{
 					e1.printStackTrace();

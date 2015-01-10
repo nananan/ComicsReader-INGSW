@@ -1,10 +1,7 @@
 package ui;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Scrollbar;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -15,7 +12,6 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 import domain.Fumetto;
 import domain.Lettore;
@@ -24,7 +20,7 @@ public class MyPanel extends JPanel
 {		
 	PannelloCentrale pannelloCentro = new PannelloCentrale();
 	PannelloSotto pannelloSotto = new PannelloSotto();
-	PannelloSopra pannelloSopra = null;
+	PannelloSopra pannelloSopra;
 	PannelloDestro pannelloDestro = new PannelloDestro();
 	PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, this);
 	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro, this, pannelloFiltraggio);
@@ -57,7 +53,7 @@ public class MyPanel extends JPanel
 		
 	}
 	
-	public void Premi()
+	public void PremiPerFiltraggio()
 	{
 		this.remove(pannelloSinistro);
 		pannelloScrollFiltraggio = new PannelloScrollPane(pannelloFiltraggio, null);
@@ -172,7 +168,7 @@ public class MyPanel extends JPanel
 	        	remove(arrayPannelli.get(pairs.getKey()));
 	    }
 		if (pannelloProfilo == null)
-			pannelloProfilo = new PannelloProfilo(lettore, this);
+			pannelloProfilo = new PannelloProfilo(lettore, this, pannelloCentro.getLarghezza());
 		this.add(pannelloProfilo,BorderLayout.CENTER);
 		this.validate();
 		repaint();
