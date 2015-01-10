@@ -1,12 +1,16 @@
 package downloader;
 
 public class ScaricatoreImmagini extends Thread {
-	private static final DownloaderManager downloaderManager = DownloaderManager.getDownloaderManager();
+	private Downloader downloader;
+	
+	ScaricatoreImmagini(Downloader donnloader) {
+		this.downloader = donnloader;
+	}
 	
 	@Override
 	public void run() {
-		while(!downloaderManager.downloadConcluso()){
-			downloaderManager.scaricaProssimeImmagini();
+		while(!downloader.downloadConcluso()){
+			downloader.scaricaProssimeImmagini();
 		}
 	}
 }

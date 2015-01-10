@@ -1,10 +1,10 @@
 package domain;
 
+import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 
-import javax.swing.ImageIcon;
 
 import technicalService.TabellaCapitolo;
 
@@ -14,7 +14,7 @@ public class Capitolo {
 	private String titolo;
 	private String urlCapitolo;
 	
-	private ImageIcon[] pagine;
+	private Image[] pagine;
 	private int numeroPagine;
 	
 	public Capitolo( TabellaCapitolo tuplaCapitolo) throws SQLException {
@@ -27,22 +27,15 @@ public class Capitolo {
 		
 	}
 	
-	public void caricaPagina() throws MalformedURLException{
+	public void setPagine(){
 		
-		if(pagine != null) return;
-		
-		pagine = new ImageIcon[numeroPagine];
-		
-		for(int pagina = 0; pagina < numeroPagine;pagina++){
-			pagine[pagina] = new ImageIcon(new URL(urlCapitolo+(pagina +1)).toString());
-		}
-		
+		pagine = new Image[numeroPagine];
 	}
 	public String getUrlCapitolo() {
 		return urlCapitolo;
 	}
 
-	public ImageIcon[] getPagine() {
+	public Image[] getPagine() {
 		return pagine;
 	}
 
@@ -56,5 +49,6 @@ public class Capitolo {
 	public String getTitolo() {
 		return titolo;
 	}
+
 }
 

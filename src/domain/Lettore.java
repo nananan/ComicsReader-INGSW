@@ -199,33 +199,10 @@ public class Lettore {
 		//TODO aggiustare prima getCronologia e aggiungiCronologia in TabellaLettore
 	}
 	public int getNumFollow() {
-		try
-		{
-			caricaFollows();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return numFollow = follows.size();
 	}
-	public int getNumeroFollowAltroLettore(){
-		return numFollow;
-	}
-	
-	public int getNumeroFollowerAltroLettore(){
-		return numFollower;
-	}
-	
+
 	public int getNumFollower() {
-		try
-		{
-			caricaFollower();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return numFollower = follower.size();
 	}
 
@@ -246,13 +223,6 @@ public class Lettore {
 	}
 
 	public HashMap<String, Fumetto> getPreferiti() {
-		try
-		{
-			caricaPreferiti();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
 		return preferiti;
 	}
 	public HashMap<String, Lettore> getFollower() throws SQLException {
@@ -261,19 +231,11 @@ public class Lettore {
 	}
 
 	public HashMap<String, Lettore> getFollows() throws SQLException {
-		if(follows == null)
-			caricaFollows();
+		if(follows == null)caricaFollows();
 		return follows;
 	}
 
 	public HashMap<String, Fumetto> getDaLeggere() {
-		try
-		{
-			caricaDaLeggere();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
 		return daLeggere;
 	}
 
@@ -330,5 +292,14 @@ public class Lettore {
 		}
 	}
 
+	public int getNumeroFollowAltroLettore()
+	{
+		return numFollow;
+	}
+	public int getNumeroFollowerAltroLettore()
+	{
+		return numFollower;
+	}
+	
 	
 }
