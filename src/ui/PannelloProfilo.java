@@ -139,7 +139,7 @@ public class PannelloProfilo extends JPanel
 		add(bottoneCronologia);
 		bottoneCronologia.addActionListener(listener);
 		
-		jseparator = (new JSeparator(JSeparator.HORIZONTAL));
+		jseparator = new JSeparator(JSeparator.HORIZONTAL);
 		jseparator.setBackground(Color.BLACK);
 		jseparator.setForeground(Color.BLACK);
 		jseparator.setBounds(0, bottoneFollows.getY()+(int)bottoneFollows.getPreferredSize().getHeight(), (int)jseparator.getPreferredSize().getWidth(), 12);
