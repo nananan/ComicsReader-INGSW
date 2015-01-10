@@ -47,7 +47,7 @@ public class VisualizzatoreCapitoli {
 		return istanza;
 	}
 	
-	public void visuallizzaCapitolo(Capitolo[] capitoli,int numeroCapitoloDaLeggere, int primaPaginaDaVisualizzare){
+	public void visualizzaCapitolo(Capitolo[] capitoli,int numeroCapitoloDaLeggere, int primaPaginaDaVisualizzare){
 		
 	
 		capitoliDaLeggere = capitoli;

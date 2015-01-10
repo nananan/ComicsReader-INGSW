@@ -1,6 +1,5 @@
 package ui;
 import java.awt.BorderLayout;
-
 import java.awt.Graphics;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +14,7 @@ import javax.swing.JScrollPane;
 
 import domain.Fumetto;
 import domain.Lettore;
+import domain.Volume;
 
 public class MyPanel extends JPanel
 {		
@@ -139,7 +139,7 @@ public class MyPanel extends JPanel
 		repaint();
 	}	
 	
-	public void PremiPerCapitolo() 
+	public void PremiPerCapitolo(Volume volume, int numeroCapitolo) 
 	{
 		Iterator it = arrayPannelli.entrySet().iterator();
 	    while (it.hasNext())
@@ -149,10 +149,10 @@ public class MyPanel extends JPanel
 	        	remove(arrayPannelli.get(pairs.getKey()));
 	    }
 	    
-		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloPaginaCapitolo(), null);
+		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloVisualizzatore(), null);
+		((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()).avviaVisualizzazione(volume,numeroCapitolo,1);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
 		this.validate();
-//		pannelloScrollCapitoli.setVisible(true);
 		repaint();
 	}
 
@@ -175,6 +175,8 @@ public class MyPanel extends JPanel
 		this.validate();
 		repaint();
 	}
+	
+	
 	
 	@Override
 	protected void paintComponent(Graphics g) 

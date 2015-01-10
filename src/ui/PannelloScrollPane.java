@@ -18,8 +18,6 @@ import technicalService.DataBase;
 
 public class PannelloScrollPane extends JScrollPane
 {
-	private BufferedImage imageSfondo;
-	private Image scaledImage;
 	private JPanel panel;
 	
 	public PannelloScrollPane(JPanel panel, File file) 
@@ -28,17 +26,6 @@ public class PannelloScrollPane extends JScrollPane
 		this.panel = panel;
 		setOpaque(false);
 		setBorder(BorderFactory.createLineBorder(Color.black,3));
-		
-//		try {
-//			imageSfondo = ImageIO.read(file);
-//			System.out.println((int)getPreferredSize().getWidth()+","+ (int)getPreferredSize().getHeight());
-//			scaledImage = imageSfondo.getScaledInstance((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight(), imageSfondo.SCALE_AREA_AVERAGING);
-//		} 
-//		catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		
-				
 	}
 	
 	public JPanel getPanel()
@@ -50,7 +37,6 @@ public class PannelloScrollPane extends JScrollPane
 	public void paintComponents(Graphics g)
 	{
 		super.paintComponents(g);
-//		g.drawImage(scaledImage, 0, 0, this);
 	}
 	
 }

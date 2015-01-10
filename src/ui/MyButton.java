@@ -36,10 +36,10 @@ public class MyButton extends JButton
 		super();
 		setText(text);
 		setBackground(colore);
-		setBorderPainted(false);
-		setFocusPainted(false);
+//		setBorderPainted(false);
+//		setFocusPainted(false);
 		setForeground(Color.WHITE);
-		setContentAreaFilled(false);
+//		setContentAreaFilled(false);
 		setFont(new Font("Caladea", Font.BOLD, larghezza));
 	}
 	
