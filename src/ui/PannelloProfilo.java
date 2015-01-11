@@ -457,7 +457,7 @@ public class PannelloProfilo extends JPanel
 				{
 					try
 					{
-						panel.PremiPerFumetto(bottoneFumetto.getFumetto());
+						panel.PremiPerFumetto(bottoneFumetto.getFumetto(), bottoneFumetto.getImageScaled());
 					} catch (MalformedURLException e1)
 					{
 						// TODO Auto-generated catch block

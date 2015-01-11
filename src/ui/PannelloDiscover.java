@@ -1,6 +1,5 @@
 package ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,7 +21,6 @@ import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JPanel;
 
-import technicalService.DataBase;
 import technicalService.TabellaFumetto;
 import domain.Fumetto;
 
@@ -91,11 +89,12 @@ public class PannelloDiscover extends JPanel
 					setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight()+i+(int)bottoniFumetti.get(j).getPreferredSize().getHeight()));
 				}
 
+				final int indicePerFumetto = j;
 				bottoniFumetti.get(j).addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e)
 					{
 						try {
-							panel.PremiPerFumetto(f.getValue());
+							panel.PremiPerFumetto(f.getValue(), bottoniFumetti.get(indicePerFumetto).getImageScaled());
 						} catch (MalformedURLException | SQLException e1) {
 							e1.printStackTrace();
 						}

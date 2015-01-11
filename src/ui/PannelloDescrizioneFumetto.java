@@ -65,10 +65,10 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private Text stringaVolumi;
 	private Text stringaCapitoli;
 	
-	Fumetto fumetto;
-	MyListener listener;
+	private Fumetto fumetto;
+	private MyListener listener;
 	
-	public PannelloDescrizioneFumetto(Fumetto fumetto, PannelloCentrale pannelloCentrale, final MyPanel panel) 
+	public PannelloDescrizioneFumetto(Fumetto fumetto, Image immagineCopertinaFumetto, int panelWidth, int panelHeight,final MyPanel panel) 
 	{
 		super();
 		
@@ -76,7 +76,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		this.fumetto = fumetto;
 		
 		setBackground(Color.GRAY);		
-		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
+		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		setBounds(10, 10, (int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight());
 		setLayout(null);
 				
@@ -86,12 +86,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		nome.setBounds(10,10, (int)nome.getPreferredSize().getWidth(), (int)nome.getPreferredSize().getHeight());
 		add(nome);
 		
-		try {
-			scaledImage = getURL(fumetto.getUrl(),200,300);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		scaledImage = immagineCopertinaFumetto;
 		
 		imageFumetto = new ImageIcon(scaledImage);
 		forImage = new JLabel();
@@ -281,8 +276,8 @@ public class PannelloDescrizioneFumetto extends JPanel
 		stringaCapitoli = new Text("Capitoli", 24, Color.DARK_GRAY);
 		stringaCapitoli.setBounds(10, 15 + nomiVolumi.get(0).getY() + (int)nomiVolumi.get(0).getPreferredSize().getHeight(), (int) stringaCapitoli.getPreferredSize().getWidth(), (int) stringaCapitoli.getPreferredSize().getHeight() );
 		
-		for (BottoneFumetto bottoneFumetto : bottoniVolumi) {
-			bottoneFumetto.addActionListener(listener);
+		for (BottoneFumetto bottoneVolumi : bottoniVolumi) {
+			bottoneVolumi.addActionListener(listener);
 		}
 	}
 	
@@ -354,7 +349,11 @@ public class PannelloDescrizioneFumetto extends JPanel
 		int altezza = 0;
 		for (int j = 0; j < volume.getCapitoli().length; j++) 
 		{			
-			BottoneCapitolo nomeCapitolo = new BottoneCapitolo("Capitolo "+volume.getCapitoli()[j].getNumero()+ ": "+volume.getCapitoli()[j].getTitolo(), 18, Color.WHITE, volume, volume.getCapitoli()[j].getNumero(), panel);
+			BottoneCapitolo nomeCapitolo = new BottoneCapitolo(
+					"Capitolo "+volume.getCapitoli()[j].getNumero()+ ": "+volume.getCapitoli()[j].getTitolo(), 
+					18, Color.WHITE, volume, bottoniVolumi.get(j).getImageScaled(),
+					volume.getCapitoli()[j].getNumero(), panel);
+			
 			bottoniCapitoli.add(nomeCapitolo);
 			
 			if (j == 0)
@@ -492,14 +491,6 @@ public class PannelloDescrizioneFumetto extends JPanel
 					getCapitoliVolume(fumetto.getVolumi()[i]);
 				}
 			}
-//			for (int i = 0; i < bottoniCapitoli.size(); i++)   //BOTTONE VOLUMI  ********
-//			{
-//				if (source == bottoniCapitoli.get(i))
-//				{
-//					System.out.println("premo il bottone del capitolo");
-//					panel.PremiPerCapitolo(bottoniCapitoli.get(i).getVolume(), bottoniCapitoli.get(i).getNumeroCapitolo());
-//				}
-//			}
 			if (source == bottonePreferiti)
 			{
 				try

@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -25,19 +26,20 @@ public class PannelloVisualizzatore extends JPanel
 	private Image immagineCorrente;
 	private int panelWidth;
 	private int npx;
+	private int panelHeight;
 	
-	public PannelloVisualizzatore(int panelWidth) 
+	public PannelloVisualizzatore(int panelWidth, int panelHeight) 
 	{
 		super();
-		setBackground(Color.GREEN);
+		setBackground(Color.GRAY);
 		setBorder(BorderFactory.createLineBorder(Color.black,3));
 		setLayout(null);
 		this.panelWidth = panelWidth;
+		this.panelHeight = panelHeight;
 	}
 	
 	public void avviaVisualizzazione(Volume volume,int numeroCapitoloDaLeggere, int primaPaginaDaVisualizzare)
 	{
-		System.out.println("creo il visualizzatore");
 		visualizzatoreCapitoli.visualizzaCapitolo(volume.getCapitoli(), numeroCapitoloDaLeggere, primaPaginaDaVisualizzare);
 		immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
 
@@ -48,6 +50,42 @@ public class PannelloVisualizzatore extends JPanel
 		else {
 			//TODO aggiungere la size più grande
 			System.out.println("errore è più grande");
+		}
+		
+		controllaAltezzaPagina();
+	}
+	
+	public void vaiAPaginaSuccessiva()
+	{
+		if (visualizzatoreCapitoli.paginaSuccesiva())
+		immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
+		
+		controllaAltezzaPagina();
+		
+		repaint();
+	}
+	
+	public void vaiAPaginaPrecedente()
+	{
+		if (visualizzatoreCapitoli.paginaPrecedente())
+			immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
+		
+		controllaAltezzaPagina();
+		
+		repaint();
+	}
+	
+	public VisualizzatoreCapitoli getVisualizzatoreCapitoli()
+	{
+		return visualizzatoreCapitoli;
+	}
+	
+	private void controllaAltezzaPagina()
+	{
+		if (immagineCorrente.getHeight(this) > this.panelHeight)
+		{
+			this.panelHeight = immagineCorrente.getHeight(this);
+			this.setPreferredSize(new Dimension(this.panelWidth, this.panelHeight));
 		}
 	}
 	

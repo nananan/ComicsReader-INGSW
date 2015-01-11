@@ -1,6 +1,8 @@
 package ui;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -19,7 +21,6 @@ import domain.Volume;
 public class MyPanel extends JPanel
 {		
 	PannelloCentrale pannelloCentro = new PannelloCentrale();
-	PannelloSotto pannelloSotto = new PannelloSotto();
 	PannelloSopra pannelloSopra;
 	PannelloDestro pannelloDestro = new PannelloDestro();
 	PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, this);
@@ -45,11 +46,8 @@ public class MyPanel extends JPanel
 		
 		this.add(pannelloDestro,BorderLayout.EAST);
 		this.add(pannelloSinistro,BorderLayout.WEST);
-		this.add(pannelloSotto, BorderLayout.SOUTH);
 		this.add(pannelloSopra, BorderLayout.NORTH);
 		this.add(pannelloCentro, BorderLayout.CENTER);
-		
-		pannelloSotto.setVisible(false);
 		
 	}
 	
@@ -107,7 +105,7 @@ public class MyPanel extends JPanel
 		repaint();
 	}
 	
-	public void PremiPerFumetto(Fumetto fumetto) throws MalformedURLException, SQLException
+	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto) throws MalformedURLException, SQLException
 	{
 		if (pannelloScrollDiscover != null)
 			remove(pannelloScrollDiscover);
@@ -116,7 +114,10 @@ public class MyPanel extends JPanel
 		
 		if (arrayPannelli.isEmpty())
 		{
-			arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null));
+			arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
+					new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
+							pannelloCentro.getWidth(), pannelloCentro.getHeight(), this), null));
+			
 			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
 			arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
@@ -127,7 +128,10 @@ public class MyPanel extends JPanel
 				this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
 			else
 			{
-				arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(new PannelloDescrizioneFumetto(fumetto, pannelloCentro, this), null));
+				arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
+						new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
+								pannelloCentro.getWidth(), pannelloCentro.getHeight(), this), null));
+				
 				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
 				arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 				this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
@@ -139,7 +143,7 @@ public class MyPanel extends JPanel
 		repaint();
 	}	
 	
-	public void PremiPerCapitolo(Volume volume, int numeroCapitolo) 
+	public void PremiPerCapitolo(Volume volume, int numeroCapitolo, Image immagineCopertinaVolume) 
 	{
 		Iterator it = arrayPannelli.entrySet().iterator();
 	    while (it.hasNext())
@@ -149,9 +153,23 @@ public class MyPanel extends JPanel
 	        	remove(arrayPannelli.get(pairs.getKey()));
 	    }
 	    
-		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloVisualizzatore(pannelloCentro.getWidth()), null);
+		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloVisualizzatore(pannelloCentro.getWidth(), 
+														pannelloCentro.getHeight()), null);
+		
 		((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()).avviaVisualizzazione(volume,numeroCapitolo,1);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
+	    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	    PannelloSotto pannelloSotto = new PannelloSotto(((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()));
+	    this.add(pannelloSotto, BorderLayout.SOUTH);
+	    
+	    BottoneFumetto bottoneImmagineCopertinaVolume = new BottoneFumetto(immagineCopertinaVolume, null);	    
+	    bottoneImmagineCopertinaVolume.setPreferredSize(new Dimension(200, 300));
+	    bottoneImmagineCopertinaVolume.setBounds(pannelloSotto.getWidth()-bottoneImmagineCopertinaVolume.getHeight(),
+	    		10, bottoneImmagineCopertinaVolume.getWidth(), 
+	    		bottoneImmagineCopertinaVolume.getHeight());
+	    
+	    pannelloSotto.add(bottoneImmagineCopertinaVolume);
+	    
 		this.validate();
 		repaint();
 	}

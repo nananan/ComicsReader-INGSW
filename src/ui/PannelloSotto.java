@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.imageio.ImageIO;
@@ -13,23 +15,25 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import domain.VisualizzatoreCapitoli;
+
 
 public class PannelloSotto extends JPanel
 {
-	ImageIcon image = new ImageIcon("image/play.png");
-	ImageIcon imageNext = new ImageIcon("image/next.png");
-	ImageIcon imagePrev = new ImageIcon("image/prev-icon.png");
-	ImageIcon imageNext2 = new ImageIcon("image/next2.png");
-	ImageIcon imagePrev2 = new ImageIcon("image/prev2.png");
-	Image scaledImage = null;
+	private ImageIcon image = new ImageIcon("image/play.png");
+	private ImageIcon imageNext = new ImageIcon("image/next.png");
+	private ImageIcon imagePrev = new ImageIcon("image/prev-icon.png");
+	private Image scaledImage = null;
 	
-	JButton play = new JButton();
-	JButton next = new JButton();
-	JButton next2 = new JButton();
-	JButton prev = new JButton();
-	JButton prev2 = new JButton();
+	private JButton play = new JButton();
+	private JButton next = new JButton();
+	private JButton prev = new JButton();
 	
-	public PannelloSotto() 
+	private PannelloVisualizzatore pannelloVisualizzatore;
+	
+	private MyListener listener;
+	
+	public PannelloSotto(PannelloVisualizzatore pannelloVisualizzatore) 
 	{
 //		int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 //		int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -41,6 +45,9 @@ public class PannelloSotto extends JPanel
 		
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
+		
+		this.pannelloVisualizzatore = pannelloVisualizzatore;
+		listener = new MyListener();
 		
 		//PLAY
 		Image imageScaled = image.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
@@ -64,17 +71,6 @@ public class PannelloSotto extends JPanel
 		next.setBackground(getBackground());
 		next.setBounds((int)getPreferredSize().getWidth()/2 + image.getImage().getWidth(null)*2, (int)getPreferredSize().getHeight()/4, imageNext.getIconWidth(), imageNext.getIconHeight());
 		
-		//NEXTNEXT
-		imageScaled = imageNext2.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
-		imageNext2.setImage(imageScaled);
-		
-		next2.setIcon(imageNext2);
-		next2.setPressedIcon(imageNext2);
-		next2.setBorderPainted(false);
-		next2.setFocusPainted(false);
-		next2.setBackground(getBackground());
-		next2.setBounds((int)getPreferredSize().getWidth()/2 + imageNext.getImage().getWidth(null)*4, (int)getPreferredSize().getHeight()/4, imageNext2.getIconWidth(), imageNext2.getIconHeight());
-		
 		//PREV
 		imageScaled = imagePrev.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
 		imagePrev.setImage(imageScaled);
@@ -85,23 +81,13 @@ public class PannelloSotto extends JPanel
 		prev.setFocusPainted(false);
 		prev.setBackground(getBackground());
 		prev.setBounds((int)getPreferredSize().getWidth()/2 - image.getImage().getWidth(null)*2, (int)getPreferredSize().getHeight()/4, imagePrev.getIconWidth(), imagePrev.getIconHeight());
-		
-		//PREVPREV
-		imageScaled = imagePrev2.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
-		imagePrev2.setImage(imageScaled);
-		
-		prev2.setIcon(imagePrev2);
-		prev2.setPressedIcon(imagePrev2);
-		prev2.setBorderPainted(false);
-		prev2.setFocusPainted(false);
-		prev2.setBackground(getBackground());
-		prev2.setBounds((int)getPreferredSize().getWidth()/2 - imagePrev.getImage().getWidth(null)*4, (int)getPreferredSize().getHeight()/4, imagePrev2.getIconWidth(), imagePrev2.getIconHeight());
+
+		next.addActionListener(listener);
+		prev.addActionListener(listener);
 		
 		add(play);
 		add(next);
-		add(next2);
 		add(prev);
-		add(prev2);
 	}
 	
 	@Override
@@ -110,4 +96,18 @@ public class PannelloSotto extends JPanel
 		super.paintComponent(g);
 //		g.drawImage(image, 0,0, this);
 	}
+	
+	private class MyListener implements ActionListener 
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			Object source = e.getSource();
+			if (source == next) 
+				pannelloVisualizzatore.vaiAPaginaSuccessiva();
+			else if (source == prev) 
+				pannelloVisualizzatore.vaiAPaginaPrecedente();
+		}
+	}
+	
 }
