@@ -164,11 +164,8 @@ public class MyPanel extends JPanel
 	    
 	    BottoneFumetto bottoneImmagineCopertinaVolume = new BottoneFumetto(immagineCopertinaVolume, null);	    
 	    bottoneImmagineCopertinaVolume.setPreferredSize(new Dimension(200, 300));
-	    bottoneImmagineCopertinaVolume.setBounds(pannelloSotto.getWidth()-bottoneImmagineCopertinaVolume.getHeight(),
-	    		10, bottoneImmagineCopertinaVolume.getWidth(), 
-	    		bottoneImmagineCopertinaVolume.getHeight());
 	    
-	    pannelloSotto.add(bottoneImmagineCopertinaVolume);
+	    pannelloSinistro.aggiungiBottoneVolume(bottoneImmagineCopertinaVolume);
 	    
 		this.validate();
 		repaint();

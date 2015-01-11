@@ -58,7 +58,7 @@ public class PannelloVisualizzatore extends JPanel
 	public void vaiAPaginaSuccessiva()
 	{
 		if (visualizzatoreCapitoli.paginaSuccesiva())
-		immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
+			immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
 		
 		controllaAltezzaPagina();
 		

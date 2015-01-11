@@ -35,7 +35,7 @@ public class PannelloSinistra extends JPanel
 		super();
 		this.panel = panel;
 		setBackground(new Color(91,84,84));
-		setPreferredSize(new Dimension(larghezza, 0));
+		setPreferredSize(new Dimension(larghezza, pannelloCentro.getHeight()));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		
@@ -56,6 +56,16 @@ public class PannelloSinistra extends JPanel
 		MyListener listener = new MyListener();
 		
 		buttonDiscover.addActionListener(listener);
+	}
+	
+	public void aggiungiBottoneVolume(BottoneFumetto bottoneVolume)
+	{
+		bottoneVolume.setBounds(10,
+	    		buttonUtentsRated.getY()+buttonUtentsRated.getHeight()+20, 
+	    		bottoneVolume.getWidth(), bottoneVolume.getHeight());
+		
+		this.add(bottoneVolume);
+		repaint();
 	}
 	
 	@Override
