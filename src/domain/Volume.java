@@ -22,13 +22,13 @@ public class Volume {
 	private Capitolo[] capitoli;
 	private int numeroCapitoli;
 	
-	public Volume(TabellaVolume tuplaVolume) throws SQLException, MalformedURLException {
+	public Volume(TabellaVolume tuplaVolume) throws SQLException {
 		
 		nome = tuplaVolume.getNome();
 		numero = tuplaVolume.getNumero();
 		urlCopertina = tuplaVolume.getUrlCopertina();
 		nomeFumetto = tuplaVolume.getNomeFumetto();
-		copertina = new ImageIcon(new URL(urlCopertina).toString());
+//		copertina = new ImageIcon(new URL(urlCopertina).toString());
 	
 		tuplaCapitolo = new TabellaCapitolo(nomeFumetto,numero);
 		numeroCapitoli = 0;

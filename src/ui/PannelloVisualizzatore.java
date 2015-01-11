@@ -40,7 +40,7 @@ public class PannelloVisualizzatore extends JPanel
 	
 	public void avviaVisualizzazione(Volume volume,int numeroCapitoloDaLeggere, int primaPaginaDaVisualizzare)
 	{
-		visualizzatoreCapitoli.visualizzaCapitolo(volume.getCapitoli(), numeroCapitoloDaLeggere, primaPaginaDaVisualizzare);
+		visualizzatoreCapitoli.visualizzaCapitoli(volume.getCapitoli(), numeroCapitoloDaLeggere, primaPaginaDaVisualizzare);
 		immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
 
 		int w = immagineCorrente.getWidth(this);

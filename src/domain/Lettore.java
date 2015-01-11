@@ -199,26 +199,10 @@ public class Lettore {
 		//TODO aggiustare prima getCronologia e aggiungiCronologia in TabellaLettore
 	}
 	public int getNumFollow() {
-		try
-		{
-			caricaFollows();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return numFollow = follows.size();
 	}
 
 	public int getNumFollower() {
-		try
-		{
-			caricaFollower();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return numFollower = follower.size();
 	}
 
@@ -308,14 +292,16 @@ public class Lettore {
 		}
 	}
 
-	public int getNumeroFollowAltroLettore()
-	{
-		return numFollow;
-	}
 	public int getNumeroFollowerAltroLettore()
 	{
 		return numFollower;
 	}
+
+	public int getNumeroFollowAltroLettore()
+	{
+		return numFollow;
+	}
+	
 	
 	
 }

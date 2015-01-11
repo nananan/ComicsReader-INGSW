@@ -11,16 +11,16 @@ public class Libreria {
 	
 	public static void main(String[] args) {
 		 
-		try {
-			try{
-				HashMap<String,Fumetto> fumetti = new HashMap<>();
-				DataBase.connect();
-				TabellaFumetto tupleFumetto = new TabellaFumetto();
-				while(tupleFumetto.nextFumetto()){
-					Fumetto fumetto = new Fumetto(tupleFumetto);
-					fumetti.put(fumetto.getNome(), fumetto);
-				}
-				tupleFumetto.close();
+//		try {
+//			try{
+//				HashMap<String,Fumetto> fumetti = new HashMap<>();
+//				DataBase.connect();
+//				TabellaFumetto tupleFumetto = new TabellaFumetto();
+//				while(tupleFumetto.nextFumetto()){
+//					Fumetto fumetto = new Fumetto(tupleFumetto);
+//					fumetti.put(fumetto.getNome(), fumetto);
+//				}
+//				tupleFumetto.close();
 //				
 //				for(Entry<String,Fumetto> f : fumetti.entrySet()){
 //					System.out.println("***********************************************************");
@@ -35,12 +35,12 @@ public class Libreria {
 //
 //				}
 //				System.outfumettt.println("***********************************************************");
-				Fumetto f = fumetti.get("666 Satan");
-				
-				String[] generi = f.getGeneriFumetto();
-				for(String st : generi){
-					System.out.println(st);
-				}
+//				Fumetto f = fumetti.get("666 Satan");
+//				
+//				String[] generi = f.getGeneriFumetto();
+//				for(String st : generi){
+//					System.out.println(st);
+//				}
 //				Volume[] volumi = dn.getVolumi();
 //				
 //				for (Volume volume : volumi) {
@@ -60,19 +60,19 @@ public class Libreria {
 //				}
 //				System.out.println("***********************************************************");
 //				
-				
-				
-			}finally{
-				DataBase.disconnect();
-				
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//			
+//				
+//			}finally{
+//				DataBase.disconnect();
+//				
+//			}
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	
-}
+}}
