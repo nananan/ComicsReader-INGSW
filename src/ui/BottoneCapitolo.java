@@ -20,15 +20,25 @@ public class BottoneCapitolo extends MyButton
 		this.volume = volume;
 		this.numeroCapitolo = numeroCapitolo;
 		
-		this.addActionListener(new ActionListener()
+		this.addMouseListener(new MouseAdapter()
 		{
 			
 			@Override
-			public void actionPerformed(ActionEvent e)
+			public void mouseReleased(MouseEvent e)
 			{
+				// TODO Auto-generated method stub
+				super.mouseReleased(e);
+				
 				System.out.println("premo bottone");
 				panel.PremiPerCapitolo(volume, numeroCapitolo);
 			}
+//			@Override
+//			public void mouseEntered(MouseEvent e)
+//			{
+//				super.mouseEntered(e);
+//				System.out.println(e.getX());
+//				System.out.println(e.getY());
+//			}
 		});
 		
 	}

@@ -1,7 +1,9 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -25,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import domain.Fumetto;
 import domain.VisualizzatoreCapitoli;
@@ -41,7 +44,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private ImageIcon imageFumetto;
 	private Text autore;
 	private Text artista;
-	private Text descrizione;
+	private JTextArea descrizione;
 	private Text eCompleto;
 	private Text eOccidentale;	
 
@@ -191,10 +194,12 @@ public class PannelloDescrizioneFumetto extends JPanel
 		bottoneDaLeggere.addActionListener(listener);
 		add(bottoneDaLeggere);
 		
-		descrizione = new Text(fumetto.getDescrizione(), 14, Color.WHITE);
+		descrizione = new JTextArea(fumetto.getDescrizione());
+		descrizione.setFont(new Font("Caladea", Font.BOLD, 14));
+		descrizione.setOpaque(false);
 		descrizione.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth() - (int)this.getPreferredSize().getHeight()/8, (int)this.getPreferredSize().getHeight() / 2));
-		descrizione.setLineWrap(true);
-		descrizione.setWrapStyleWord(true);
+//		descrizione.setLineWrap(true);
+//		descrizione.setWrapStyleWord(true);
 		descrizione.setBounds(10, 10 + forImage.getY() +(int)forImage.getPreferredSize().getHeight(), (int)descrizione.getPreferredSize().getWidth(), descrizione.getLineCount()*20);
 		descrizione.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth() - (int)this.getPreferredSize().getHeight()/8, descrizione.getLineCount()*20));
 		
@@ -252,7 +257,8 @@ public class PannelloDescrizioneFumetto extends JPanel
 				e.printStackTrace();
 			}
 			
-			nomiVolumi.get(j).setBounds(bottoniVolumi.get(j).getX(), 10 + bottoniVolumi.get(j).getY() + (int)bottoniVolumi.get(j).getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
+			nomiVolumi.get(j).setBounds(bottoniVolumi.get(j).getX(), 10 + bottoniVolumi.get(j).getY() + (int)bottoniVolumi.get(j).getPreferredSize().getHeight(), (int)nomiVolumi.get(j).getPreferredSize().getWidth(), (int)nomiVolumi.get(j).getPreferredSize().getHeight());
+//			nomiVolumi.get(j).setBorder(BorderFactory.createLineBorder(Color.black,3));
 
 			if (j < 4)
 			{
@@ -355,7 +361,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 				bottoniCapitoli.get(j).setBounds(10, 10+stringaCapitoli.getY()+(int)stringaCapitoli.getPreferredSize().getHeight(), (int)bottoniCapitoli.get(j).getPreferredSize().getWidth(), (int)bottoniCapitoli.get(j).getPreferredSize().getHeight());
 			else
 				bottoniCapitoli.get(j).setBounds(10, 10+bottoniCapitoli.get(j-1).getY()+(int)bottoniCapitoli.get(j-1).getPreferredSize().getHeight(), (int)bottoniCapitoli.get(j).getPreferredSize().getWidth(), (int)bottoniCapitoli.get(j).getPreferredSize().getHeight());
-				
+			
 			add(bottoniCapitoli.get(j));
 
 			altezza += bottoniCapitoli.get(j).getPreferredSize().getWidth();

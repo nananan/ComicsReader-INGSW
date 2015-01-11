@@ -23,13 +23,16 @@ public class PannelloVisualizzatore extends JPanel
 {
 	private final VisualizzatoreCapitoli visualizzatoreCapitoli = VisualizzatoreCapitoli.getVisualizzatoreCapitoli();
 	private Image immagineCorrente;
+	private int panelWidth;
+	private int npx;
 	
-	public PannelloVisualizzatore() 
+	public PannelloVisualizzatore(int panelWidth) 
 	{
 		super();
 		setBackground(Color.GREEN);
 		setBorder(BorderFactory.createLineBorder(Color.black,3));
 		setLayout(null);
+		this.panelWidth = panelWidth;
 	}
 	
 	public void avviaVisualizzazione(Volume volume,int numeroCapitoloDaLeggere, int primaPaginaDaVisualizzare)
@@ -37,12 +40,23 @@ public class PannelloVisualizzatore extends JPanel
 		System.out.println("creo il visualizzatore");
 		visualizzatoreCapitoli.visualizzaCapitolo(volume.getCapitoli(), numeroCapitoloDaLeggere, primaPaginaDaVisualizzare);
 		immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
+
+		int w = immagineCorrente.getWidth(this);
+		if(w < this.panelWidth) {
+			npx = (Math.abs(this.panelWidth - w)/2);
+		}
+		else {
+			//TODO aggiungere la size più grande
+			System.out.println("errore è più grande");
+		}
 	}
 	
 	@Override
 	protected void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
-		g.drawImage(immagineCorrente, 0, 0, this);
+//		immagineCorrente = immagineCorrente.getScaledInstance(200, 300, Image.SCALE_SMOOTH);
+		
+		g.drawImage(immagineCorrente, this.npx, 0, this);
 	}
 }

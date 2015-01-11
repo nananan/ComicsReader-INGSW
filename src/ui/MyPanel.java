@@ -149,7 +149,7 @@ public class MyPanel extends JPanel
 	        	remove(arrayPannelli.get(pairs.getKey()));
 	    }
 	    
-		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloVisualizzatore(), null);
+		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloVisualizzatore(pannelloCentro.getWidth()), null);
 		((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()).avviaVisualizzazione(volume,numeroCapitolo,1);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
 		this.validate();
