@@ -24,6 +24,7 @@ public class Capitolo {
 		urlCapitolo = tuplaCapitolo.getUrlPrimaPagina();
 		
 		numeroPagine = tuplaCapitolo.getNumeroPagine();
+		pagine = new Image[numeroPagine];
 		
 	}
 	

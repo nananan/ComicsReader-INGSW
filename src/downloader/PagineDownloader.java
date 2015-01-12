@@ -1,6 +1,9 @@
 package downloader;
 
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.locks.Condition;
@@ -95,11 +98,13 @@ public class PagineDownloader {
 	}
 	
 	public void restartDownload(){
+		lock.lock();
 		stato = DOWNLOADING;
 		if(downloaderInPausa >0){
 			condizioneDiPausa.signalAll();
 			downloaderInPausa = 0;		
 		}
+		lock.unlock();
 	}
 	
 	public void stopDownload(){
@@ -164,7 +169,7 @@ public class PagineDownloader {
 	}
 	
 	void inserisciPagine(Image immagine,int indice) {
-		
+		System.out.println(pagine);
 		pagine[indice] = immagine;
 	}
 	
@@ -209,9 +214,16 @@ public class PagineDownloader {
 		
 
 		downloader.iniziaDownload();
-		downloader.avviaDowloaderSuccessivi();
 		
 		
+		downloader.stopDownload();
+		
+       downloader.restartDownload();
+		
+		while(!downloader.dowloadECompleto()){
+			for(Image i : pagine)
+				System.out.println(i);
+		}
 		
 	}
 

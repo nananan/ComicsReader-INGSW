@@ -66,6 +66,7 @@ public class VisualizzatoreCapitoli {
 		try {
 			paginaDownloaders[indiceCapitoloCorrente] = new PagineDownloader(capitoloCorrente.getUrlCapitolo(),
 					pagineCapitoloCorrente, capitoloCorrente.getNumeroPagine(), numeroPaginaCorrente);
+			paginaDownloaders[indiceCapitoloCorrente].iniziaDownload();
 		} catch (ImmagineNonPresenteException e) {
 			
 			e.printStackTrace();
@@ -172,13 +173,16 @@ public class VisualizzatoreCapitoli {
 		Volume[] volumi = fumetto.getVolumi();
 		volumi[0].caricaCapitoli();
 		Capitolo[] capitoli = volumi[0].getCapitoli();
-		
+		double startTime = System.currentTimeMillis();		
+
 		VisualizzatoreCapitoli visualizzatoreCapitoli = VisualizzatoreCapitoli.getVisualizzatoreCapitoli();
 		visualizzatoreCapitoli.visualizzaCapitoli(capitoli, 1, 1);
-		System.out.println(visualizzatoreCapitoli.visualizzaPaginaCorrente());
-		System.out.println(visualizzatoreCapitoli.paginaPrecedente());
-		System.out.println(visualizzatoreCapitoli.visualizzaPaginaCorrente());
+		double endTime = System.currentTimeMillis();		
 
+		System.out.println(visualizzatoreCapitoli.visualizzaPaginaCorrente());
+		System.out.println((endTime - startTime)/1000);
+		visualizzatoreCapitoli.capitoloSuccessivo();
+		
 		DataBase.disconnect();
 
 		
