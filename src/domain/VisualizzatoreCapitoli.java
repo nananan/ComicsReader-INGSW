@@ -30,7 +30,6 @@ public class VisualizzatoreCapitoli {
 	private int numeroPaginaCorrente;
 	private int indiceCapitoloCorrente;
 	
-	
 	private VisualizzatoreCapitoli(){
 //		try {		
 			istanza = null;
