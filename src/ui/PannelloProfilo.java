@@ -39,10 +39,8 @@ public class PannelloProfilo extends JPanel
 	MyButton bottoneCronologia;
 	private JSeparator jseparator;
 	
-	private ArrayList<BottoneFumetto> bottoniFumettiPreferiti;
-	private ArrayList<BottoneUtente> bottoniFollows;
-	private ArrayList<BottoneUtente> bottoniFollowers;
-	private ArrayList<BottoneFumetto> bottoniDaLeggere;
+	private ArrayList<BottoneFumettoProfilo> bottoniFumettiPreferiti;
+	private ArrayList<BottoneFumettoProfilo> bottoniDaLeggere;
 
 	private ArrayList<Lettore> followDelLettoreCorrente;
 	private ArrayList<BottoneFollow> listaBottoniFollowCorrente;
@@ -146,8 +144,6 @@ public class PannelloProfilo extends JPanel
 		add(jseparator);
 		
 		bottoniFumettiPreferiti = new ArrayList<>();
-		bottoniFollows = new ArrayList<>();
-		bottoniFollowers = new ArrayList<>();
 		bottoniDaLeggere = new ArrayList<>();
 		
 		followDelLettoreCorrente = new ArrayList<>();
@@ -189,6 +185,12 @@ public class PannelloProfilo extends JPanel
 	
 	public void prendiPreferiti()
 	{
+		for (BottoneFumettoProfilo bottoneFumettoDaLeggere : bottoniDaLeggere)
+		{
+			if (bottoneFumettoDaLeggere != null)
+				remove(bottoneFumettoDaLeggere);
+		}
+		
 		for (int i = 0; i < listaBottoniFollowCorrente.size(); i++)
 		{
 			if (listaBottoniFollowCorrente.get(i) != null)
@@ -210,7 +212,7 @@ public class PannelloProfilo extends JPanel
 		        
 		        try
 		        {
-		        	bottoniFumettiPreferiti.add(new BottoneFumetto(getURL(lettore.getPreferiti().get(pairs.getKey()).getUrl(),200,300), lettore.getPreferiti().get(pairs.getKey())));
+		        	bottoniFumettiPreferiti.add(new BottoneFumettoProfilo(getURL(lettore.getPreferiti().get(pairs.getKey()).getUrl(),200,300), lettore.getPreferiti().get(pairs.getKey()), 0, 2, lettore));
 		        } catch (IOException e1)
 				{
 					e1.printStackTrace();
@@ -220,8 +222,6 @@ public class PannelloProfilo extends JPanel
 		    
 	    for (int i = 0; i < bottoniFumettiPreferiti.size(); i++)
 	    {
-			bottoniFumettiPreferiti.get(i).setPreferredSize(new Dimension(200,300));
-			bottoniFumettiPreferiti.get(i).setBorder(BorderFactory.createLineBorder(Color.black,3));
 			if (i == 0)
 				bottoniFumettiPreferiti.get(i).setBounds(20, 20+ jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniFumettiPreferiti.get(i).getPreferredSize().getWidth(), (int)bottoniFumettiPreferiti.get(i).getPreferredSize().getHeight());
 			else
@@ -236,10 +236,16 @@ public class PannelloProfilo extends JPanel
 	
 	public void prendiFollows() throws SQLException, IOException
 	{
-		for (BottoneFumetto bottoneFumetto : bottoniFumettiPreferiti)
+		for (BottoneFumettoProfilo bottoneFumetto : bottoniFumettiPreferiti)
 		{
 			if (bottoneFumetto != null)
 				remove(bottoneFumetto);
+		}
+		
+		for (BottoneFumettoProfilo bottoneFumettoDaLeggere : bottoniDaLeggere)
+		{
+			if (bottoneFumettoDaLeggere != null)
+				remove(bottoneFumettoDaLeggere);
 		}
 		
 		for (int i = 0; i < listaBottoniFollowerCorrente.size(); i++)
@@ -282,10 +288,16 @@ public class PannelloProfilo extends JPanel
 	
 	public void prendiFollowers() throws SQLException, IOException
 	{
-		for (BottoneFumetto bottoneFumetto : bottoniFumettiPreferiti)
+		for (BottoneFumettoProfilo bottoneFumetto : bottoniFumettiPreferiti)
 		{
 			if (bottoneFumetto != null)
 				remove(bottoneFumetto);
+		}
+		
+		for (BottoneFumettoProfilo bottoneFumettoDaLeggere : bottoniDaLeggere)
+		{
+			if (bottoneFumettoDaLeggere != null)
+				remove(bottoneFumettoDaLeggere);
 		}
 		
 		for (int i = 0; i < listaBottoniFollowCorrente.size(); i++)
@@ -328,7 +340,7 @@ public class PannelloProfilo extends JPanel
 	
 	public void prendiDaLeggere()
 	{
-		for (BottoneFumetto bottoneFumetto : bottoniFumettiPreferiti)
+		for (BottoneFumettoProfilo bottoneFumetto : bottoniFumettiPreferiti)
 		{
 			if (bottoneFumetto != null)
 				remove(bottoneFumetto);
@@ -355,7 +367,7 @@ public class PannelloProfilo extends JPanel
 		        
 		        try
 		        {
-		        	bottoniDaLeggere.add(new BottoneFumetto(getURL(lettore.getDaLeggere().get(pairs.getKey()).getUrl(),200,300), lettore.getDaLeggere().get(pairs.getKey())));
+		        	bottoniDaLeggere.add(new BottoneFumettoProfilo(getURL(lettore.getDaLeggere().get(pairs.getKey()).getUrl(),200,300), lettore.getDaLeggere().get(pairs.getKey()), 2, 0, lettore));
 				} catch (IOException e1)
 				{
 					e1.printStackTrace();
@@ -365,8 +377,6 @@ public class PannelloProfilo extends JPanel
 		    
 	    for (int i = 0; i < bottoniDaLeggere.size(); i++)
 	    {
-			bottoniDaLeggere.get(i).setPreferredSize(new Dimension(200,300));
-			bottoniDaLeggere.get(i).setBorder(BorderFactory.createLineBorder(Color.black,3));
 			if (i == 0)
 				bottoniDaLeggere.get(i).setBounds(20, 20+ jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniDaLeggere.get(i).getPreferredSize().getWidth(), (int)bottoniDaLeggere.get(i).getPreferredSize().getHeight());
 			else
@@ -451,7 +461,7 @@ public class PannelloProfilo extends JPanel
 				
 			}
 			
-			for (BottoneFumetto bottoneFumetto : bottoniFumettiPreferiti)
+			for (BottoneFumettoProfilo bottoneFumetto : bottoniFumettiPreferiti)
 			{
 				if (source == bottoneFumetto)
 				{
@@ -476,7 +486,7 @@ public class PannelloProfilo extends JPanel
 	protected void paintComponent(Graphics g) 
 	{
 		if (aggiungi)
-			for (BottoneFumetto bottone : bottoniFumettiPreferiti)
+			for (BottoneFumettoProfilo bottone : bottoniFumettiPreferiti)
 				g.drawImage(bottone.getImageScaled(), 0,0, this);
 		if (aggiungiFollows)
 			for (BottoneFollow bottone : listaBottoniFollowCorrente)
@@ -485,7 +495,7 @@ public class PannelloProfilo extends JPanel
 			for (BottoneFollow bottone : listaBottoniFollowerCorrente)
 				g.drawImage(bottone.getImage(), 0, 0, this);
 		if (aggiungiDaLeggere)
-			for (BottoneFumetto bottone : bottoniDaLeggere)
+			for (BottoneFumettoProfilo bottone : bottoniDaLeggere)
 				g.drawImage(bottone.getImageScaled(), 0,0, this);
 		super.paintComponent(g);
 	}

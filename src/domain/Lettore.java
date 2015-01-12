@@ -199,10 +199,26 @@ public class Lettore {
 		//TODO aggiustare prima getCronologia e aggiungiCronologia in TabellaLettore
 	}
 	public int getNumFollow() {
+		try
+		{
+			caricaFollows();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return numFollow = follows.size();
 	}
 
 	public int getNumFollower() {
+		try
+		{
+			caricaFollower();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return numFollower = follower.size();
 	}
 
@@ -223,6 +239,14 @@ public class Lettore {
 	}
 
 	public HashMap<String, Fumetto> getPreferiti() {
+		try
+		{
+			caricaPreferiti();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return preferiti;
 	}
 	public HashMap<String, Lettore> getFollower() throws SQLException {
@@ -236,6 +260,14 @@ public class Lettore {
 	}
 
 	public HashMap<String, Fumetto> getDaLeggere() {
+		try
+		{
+			caricaDaLeggere();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return daLeggere;
 	}
 

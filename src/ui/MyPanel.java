@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -34,6 +36,7 @@ public class MyPanel extends JPanel
 	private PannelloScrollPane pannelloScrollFiltraggio;
 	
 	private Lettore lettore;
+	private PannelloSotto pannelloSotto;
 	
 	public MyPanel(Lettore lettore) throws IOException 
 	{
@@ -74,6 +77,7 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerDiscover() throws SQLException
 	{
+		System.out.println("premo per discover");
 		remove(pannelloCentro);
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
@@ -101,7 +105,6 @@ public class MyPanel extends JPanel
 		
 		this.add(pannelloScrollDiscover, BorderLayout.CENTER);
 		this.validate();
-//		pannelloScrollDiscover.setVisible(true);
 		repaint();
 	}
 	
@@ -111,6 +114,12 @@ public class MyPanel extends JPanel
 			remove(pannelloScrollDiscover);
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
+		if (pannelloScrollCapitoli != null)
+		{
+			remove(pannelloScrollCapitoli);
+			remove(pannelloSotto);
+			pannelloSinistro.rimuoviBottoniDelVolume();
+		}
 		
 		if (arrayPannelli.isEmpty())
 		{
@@ -138,12 +147,12 @@ public class MyPanel extends JPanel
 			}
 		}
 		
-		this.validate();
 //		pannelloScrollDescrizione.setVisible(true);
+		this.validate();
 		repaint();
 	}	
 	
-	public void PremiPerCapitolo(Volume volume, int numeroCapitolo, Image immagineCopertinaVolume) 
+	public void PremiPerCapitolo(Volume volume, Fumetto fumetto, int numeroCapitolo, Image immagineCopertinaFumetto) 
 	{
 		Iterator it = arrayPannelli.entrySet().iterator();
 	    while (it.hasNext())
@@ -159,13 +168,10 @@ public class MyPanel extends JPanel
 		((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()).avviaVisualizzazione(volume,numeroCapitolo,1);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
 	    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	    PannelloSotto pannelloSotto = new PannelloSotto(((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()));
+	    pannelloSotto = new PannelloSotto(((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()));
 	    this.add(pannelloSotto, BorderLayout.SOUTH);
 	    
-	    BottoneFumetto bottoneImmagineCopertinaVolume = new BottoneFumetto(immagineCopertinaVolume, null);	    
-	    bottoneImmagineCopertinaVolume.setPreferredSize(new Dimension(200, 300));
-	    
-	    pannelloSinistro.aggiungiBottoneVolume(bottoneImmagineCopertinaVolume);
+	    pannelloSinistro.aggiungiBottoneVolume(immagineCopertinaFumetto, fumetto);
 	    
 		this.validate();
 		repaint();
@@ -173,9 +179,17 @@ public class MyPanel extends JPanel
 
 	public void PremiPerProfiloUtente()
 	{
-		remove(pannelloCentro);
+		if (pannelloCentro != null)
+			remove(pannelloCentro);
 		if (pannelloScrollDiscover != null)
 			remove(pannelloScrollDiscover);
+		
+		if (pannelloScrollCapitoli != null)
+		{
+			remove(pannelloScrollCapitoli);
+			remove(pannelloSotto);
+			pannelloSinistro.rimuoviBottoniDelVolume();
+		}
 		
 		Iterator it = arrayPannelli.entrySet().iterator();
 	    while (it.hasNext())
@@ -185,9 +199,14 @@ public class MyPanel extends JPanel
 	        	remove(arrayPannelli.get(pairs.getKey()));
 	    }
 		if (pannelloProfilo == null)
+		{
 			pannelloProfilo = new PannelloProfilo(lettore, this, pannelloCentro.getLarghezza());
-		this.add(pannelloProfilo,BorderLayout.CENTER);
-		this.validate();
+			this.add(pannelloProfilo,BorderLayout.CENTER);
+			this.validate();
+		}
+		else
+			this.add(pannelloProfilo,BorderLayout.CENTER);
+			
 		repaint();
 	}
 	

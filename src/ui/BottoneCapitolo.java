@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import domain.Fumetto;
 import domain.Volume;
 
 public class BottoneCapitolo extends MyButton
@@ -15,7 +16,8 @@ public class BottoneCapitolo extends MyButton
 	private int numeroCapitolo;
 	
 	public BottoneCapitolo(String nome, int larghezza, Color color, final Volume volume,
-			final Image immagineCopertinaVolume, final int numeroCapitolo, final MyPanel panel)
+			final Image immagineCopertinaFumetto, final int numeroCapitolo, final MyPanel panel,
+			final Fumetto fumetto)
 	{
 		super(nome, larghezza, color);
 		
@@ -27,11 +29,10 @@ public class BottoneCapitolo extends MyButton
 			@Override
 			public void mouseReleased(MouseEvent e)
 			{
-				// TODO Auto-generated method stub
 				super.mouseReleased(e);
 				
 				System.out.println("premo bottone");
-				panel.PremiPerCapitolo(volume, numeroCapitolo, immagineCopertinaVolume);
+				panel.PremiPerCapitolo(volume, fumetto, numeroCapitolo, immagineCopertinaFumetto);
 			}
 //			@Override
 //			public void mouseEntered(MouseEvent e)
