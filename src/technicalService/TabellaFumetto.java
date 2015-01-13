@@ -37,7 +37,6 @@ public class TabellaFumetto {
 				+ "and genere =\""+filtro+"\" );";
 		
 			cursoreFumetto = DataBase.getStatement().executeQuery(query);
-			
 	}
 	
 	public TabellaFumetto(String tipoDaCercare, String testoDaCercare) throws SQLException

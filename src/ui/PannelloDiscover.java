@@ -55,13 +55,14 @@ public class PannelloDiscover extends JPanel
 
 		try {
 			TabellaFumetto tupleFumetto = new TabellaFumetto();
-			aggiungiStringaFumettoNonTrovato(tupleFumetto);
+
 			while(tupleFumetto.nextFumetto())
 			{
 				Fumetto fumetto = new Fumetto(tupleFumetto);
 				fumetti.put(fumetto.getNome(), fumetto);
 			}
-			
+			if (fumetti.size() == 0)
+				aggiungiStringaFumettoNonTrovato(tupleFumetto);
 			tupleFumetto.close();
 
 			aggiungiFumettoAlPannello(fumetti);
@@ -88,14 +89,16 @@ public class PannelloDiscover extends JPanel
 		{
 			try {
 				TabellaFumetto tupleFumetto = new TabellaFumetto(filtri, filtri.get(i));
-				aggiungiStringaFumettoNonTrovato(tupleFumetto);
+				
 				while(tupleFumetto.nextFumetto())
 				{
 					Fumetto fumetto = new Fumetto(tupleFumetto);
+					System.out.println(fumetto.getNome());
 					if (!fumettiFiltrati.containsKey(fumetto.getNome()))
 							fumettiFiltrati.put(fumetto.getNome(), fumetto);
 				}
-				
+				if (fumettiFiltrati.size() == 0)
+					aggiungiStringaFumettoNonTrovato(tupleFumetto);
 				tupleFumetto.close();
 				
 				aggiungiFumettoAlPannello(fumettiFiltrati);
@@ -134,14 +137,14 @@ public class PannelloDiscover extends JPanel
 		
 		try {
 			TabellaFumetto tupleFumetto = new TabellaFumetto(tipoDaCercare, nomeDaCercare);
-			aggiungiStringaFumettoNonTrovato(tupleFumetto);
 			while(tupleFumetto.nextFumetto())
 			{
 				Fumetto fumetto = new Fumetto(tupleFumetto);
 				if (!fumettiCercati.containsKey(fumetto.getNome()))
 						fumettiCercati.put(fumetto.getNome(), fumetto);
 			}
-			
+			if (fumettiCercati.size() == 0)
+				aggiungiStringaFumettoNonTrovato(tupleFumetto);
 			tupleFumetto.close();
 			
 			aggiungiFumettoAlPannello(fumettiCercati);
@@ -153,20 +156,10 @@ public class PannelloDiscover extends JPanel
 	
 	private void aggiungiStringaFumettoNonTrovato(TabellaFumetto tupleFumetto)
 	{
-		try
-		{
-			if (!tupleFumetto.nextFumetto())
-			{
-				Text fumettiNonTrovati = new Text("Fumetti non trovati", 20, Color.WHITE);
-				fumettiNonTrovati.setBounds(20, 20, (int)fumettiNonTrovati.getPreferredSize().getWidth(),
-						(int)fumettiNonTrovati.getPreferredSize().getHeight());
-				add(fumettiNonTrovati);
-			}
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Text fumettiNonTrovati = new Text("Fumetti non trovati", 20, Color.WHITE);
+		fumettiNonTrovati.setBounds(20, 20, (int)fumettiNonTrovati.getPreferredSize().getWidth(),
+				(int)fumettiNonTrovati.getPreferredSize().getHeight());
+		add(fumettiNonTrovati);
 	}
 	
 	private void aggiungiFumettoAlPannello(HashMap<String,Fumetto> fumettiDaAggiungere)
