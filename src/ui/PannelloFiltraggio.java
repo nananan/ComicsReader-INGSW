@@ -130,6 +130,11 @@ public class PannelloFiltraggio extends JPanel
 		
 	}
 	
+	public ArrayList<String> getArrayDiFiltri()
+	{
+		return filtri;
+	}
+	
 	private class MyListener implements ActionListener 
 	{
 		@Override

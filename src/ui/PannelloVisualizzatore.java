@@ -32,7 +32,6 @@ public class PannelloVisualizzatore extends JPanel
 	{
 		super();
 		setBackground(Color.GRAY);
-		setBorder(BorderFactory.createLineBorder(Color.black,3));
 		setLayout(null);
 		this.panelWidth = panelWidth;
 		this.panelHeight = panelHeight;

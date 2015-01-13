@@ -2,6 +2,7 @@ package technicalService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class TabellaFumetto {
 	
@@ -17,6 +18,16 @@ public class TabellaFumetto {
 	public TabellaFumetto(String fumetto) throws SQLException{
 		
 		String query = "SELECT * FROM fumetto where nome =\""+fumetto+"\";";
+		cursoreFumetto = DataBase.getStatement().executeQuery(query);
+		cursoreFumetto.next();
+	}
+	
+	public TabellaFumetto(ArrayList<String> arrayDiFiltri) throws SQLException{
+		
+		String query = "SELECT nome_fumetto FROM genere_fumetto where nome_fumetto IN "
+				+ "(select nome from fumetto where occidentale =\""+arrayDiFiltri.get(0)+"\""
+						+ "and completa =\""+arrayDiFiltri.get(1)+"\")"
+								+ "and genere = 'avventura';";
 		cursoreFumetto = DataBase.getStatement().executeQuery(query);
 		cursoreFumetto.next();
 	}

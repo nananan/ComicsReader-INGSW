@@ -31,6 +31,8 @@ public class PannelloDiscover extends JPanel
 	Image imageSfondo = null;
 	Image scaledImage = null;
 	
+	private MyPanel panel;
+	
 	HashMap<String,Fumetto> fumetti = new HashMap<>();
 	
 	ArrayList<BottoneFumetto> bottoniFumetti = new ArrayList<>();
@@ -48,9 +50,9 @@ public class PannelloDiscover extends JPanel
 		setBounds(0, 0, (int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight());
 		setLayout(null);
 		
+		this.panel = panel;
+		
 		try {
-//			DataBase.connect();
-			
 			TabellaFumetto tupleFumetto = new TabellaFumetto();
 			while(tupleFumetto.nextFumetto())
 			{
@@ -60,14 +62,28 @@ public class PannelloDiscover extends JPanel
 			
 			tupleFumetto.close();
 
-			int j=0, i=0;
-			for(final Entry<String,Fumetto> f : fumetti.entrySet())
+			aggiungiFumettoAlPannello();
+			
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	private void aggiungiFumettoAlPannello()
+	{
+		int j=0, i=0;
+		for(final Entry<String,Fumetto> f : fumetti.entrySet())
+		{
+			BottoneFumetto bottoneFumetto;
+			try
 			{
-				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(f.getValue().getUrl()), f.getValue());
-
+				bottoneFumetto = new BottoneFumetto(getURL(f.getValue().getUrl()), f.getValue());
+				
 				bottoniFumetti.add(bottoneFumetto);
 				bottoniFumetti.get(j).setPreferredSize(new Dimension(200,300));
-								
+				
 				if (j == 0)
 					bottoniFumetti.get(j).setBounds(10,10, 200,300);
 				else
@@ -76,7 +92,7 @@ public class PannelloDiscover extends JPanel
 					{
 						bottoniFumetti.get(j).setBounds(10,10+(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight()+bottoniFumetti.get(j-1).getY(), 200,300);
 						i += bottoniFumetti.get(j).getPreferredSize().getHeight()+10;
-					
+						
 						break;
 					}
 					else
@@ -88,7 +104,7 @@ public class PannelloDiscover extends JPanel
 				{
 					setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight()+i+(int)bottoniFumetti.get(j).getPreferredSize().getHeight()));
 				}
-
+				
 				final int indicePerFumetto = j;
 				bottoniFumetti.get(j).addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e)
@@ -100,23 +116,16 @@ public class PannelloDiscover extends JPanel
 						}
 					}
 				});
-	
+				
 				j++;
+			} catch (IOException e2)
+			{
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
 			}
-			
-		}  catch (SQLException e) {
-			e.printStackTrace();
-		}
-//		finally{
-//			try {
-//				DataBase.disconnect();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-			
-//		}
+		}		
 	}
-	
+
 	public Image getURL(String stringa) throws IOException
 	{
 		URL url = new URL(stringa);

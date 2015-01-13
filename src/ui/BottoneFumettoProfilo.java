@@ -4,8 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.net.MalformedURLException;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
@@ -15,7 +19,7 @@ import javax.swing.JButton;
 import domain.Fumetto;
 import domain.Lettore;
 
-public class BottoneFumettoProfilo extends JButton
+public class BottoneFumettoProfilo extends JButton implements ActionListener
 {
 	private Image scaledImage;
 	private Fumetto fumetto;
@@ -26,6 +30,8 @@ public class BottoneFumettoProfilo extends JButton
 	private Image imageScaled;
 	private ImageIcon imageMenu;
 	
+	private MyPanel panel;
+	
 	private static final int PIACE = 0;
 	private static final int NON_PIACE = 1;
 	private static final int INDEFINITO_PREFERITI = 2;
@@ -34,13 +40,14 @@ public class BottoneFumettoProfilo extends JButton
 	private static final int AGGIUNGERE_DA_LEGGERE = 1;
 	private static final int INDEFINITO_DA_LEGGERE = 2;
 	
-	public BottoneFumettoProfilo(Image image, final Fumetto fumetto, int stato, final int statoDaLeggere, final Lettore lettore) 
+	public BottoneFumettoProfilo(MyPanel panel, Image image, final Fumetto fumetto, int stato, final int statoDaLeggere, final Lettore lettore) 
 	{
 		super();
 		this.scaledImage = image;
 		this.fumetto = fumetto;
 		this.statoBottonePreferito = stato;
 		this.statoBottoneDaLeggere = statoDaLeggere;
+		this.panel = panel;
 		
 		this.setPreferredSize(new Dimension(200, 300));
 		this.setBorder(BorderFactory.createLineBorder(Color.black,3));
@@ -57,6 +64,8 @@ public class BottoneFumettoProfilo extends JButton
 			bottoneStatoPreferiti = new JButton(imageMenu);
 			
 			bottoneStatoPreferiti.setIcon(imageMenu);
+			bottoneStatoPreferiti.setBorderPainted(false);
+			bottoneStatoPreferiti.setFocusPainted(false);
 			
 			bottoneStatoPreferiti.setPreferredSize(new Dimension(40,40));
 			bottoneStatoPreferiti.setBounds(this.getX()+(int)this.getPreferredSize().getWidth()-
@@ -119,6 +128,8 @@ public class BottoneFumettoProfilo extends JButton
 			bottoneStatoDaLeggere = new JButton(imageMenu);
 			
 			bottoneStatoDaLeggere.setIcon(imageMenu);
+			bottoneStatoDaLeggere.setBorderPainted(false);
+			bottoneStatoDaLeggere.setFocusPainted(false);
 			
 			bottoneStatoDaLeggere.setPreferredSize(new Dimension(40,40));
 			bottoneStatoDaLeggere.setBounds(this.getX()+(int)this.getPreferredSize().getWidth()-
@@ -168,8 +179,10 @@ public class BottoneFumettoProfilo extends JButton
 			});
 			
 			add(bottoneStatoDaLeggere);
-		}
 			
+		}
+		
+		addActionListener(this);
 			
 	}	
 	
@@ -204,5 +217,21 @@ public class BottoneFumettoProfilo extends JButton
 		super.paintComponent(g);
 		g.drawImage(scaledImage, 0, 0, this);
 	}
-	
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		try
+		{
+			panel.PremiPerFumetto(fumetto, scaledImage);
+		} catch (MalformedURLException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 }

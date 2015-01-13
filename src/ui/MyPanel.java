@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -15,6 +16,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import domain.Fumetto;
 import domain.Lettore;
@@ -69,15 +72,19 @@ public class MyPanel extends JPanel
 	public void PremiPerPannelloSinistro()
 	{
 		pannelloSopra.setBooleanaPerBottoneFiltro(true);
+		
+		ArrayList<String> filtri = pannelloFiltraggio.getArrayDiFiltri();
 		remove(pannelloScrollFiltraggio);
 		this.add(pannelloSinistro,BorderLayout.WEST);
+
+		
+		
 		this.validate();
 		repaint();
 	}
 	
 	public void PremiPerDiscover() throws SQLException
 	{
-		System.out.println("premo per discover");
 		remove(pannelloCentro);
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
@@ -164,7 +171,7 @@ public class MyPanel extends JPanel
 	    
 		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloVisualizzatore(pannelloCentro.getWidth(), 
 														pannelloCentro.getHeight()), null);
-		
+		pannelloScrollCapitoli.getVerticalScrollBar().setUnitIncrement(15);
 		((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()).avviaVisualizzazione(volume,numeroCapitolo,1);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
 	    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

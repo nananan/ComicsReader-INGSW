@@ -66,8 +66,8 @@ public class PannelloProfilo extends JPanel
 	{
 		super();
 		setBackground(Color.GRAY);
+		setBorder(BorderFactory.createLineBorder(Color.black,3));
 		setPreferredSize(new Dimension(larghezza, (int)this.getPreferredSize().getHeight()));
-		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		
 		this.panel = panel;
@@ -212,7 +212,7 @@ public class PannelloProfilo extends JPanel
 		        
 		        try
 		        {
-		        	bottoniFumettiPreferiti.add(new BottoneFumettoProfilo(getURL(lettore.getPreferiti().get(pairs.getKey()).getUrl(),200,300), lettore.getPreferiti().get(pairs.getKey()), 0, 2, lettore));
+		        	bottoniFumettiPreferiti.add(new BottoneFumettoProfilo(panel, getURL(lettore.getPreferiti().get(pairs.getKey()).getUrl(),200,300), lettore.getPreferiti().get(pairs.getKey()), 0, 2, lettore));
 		        } catch (IOException e1)
 				{
 					e1.printStackTrace();
@@ -367,7 +367,7 @@ public class PannelloProfilo extends JPanel
 		        
 		        try
 		        {
-		        	bottoniDaLeggere.add(new BottoneFumettoProfilo(getURL(lettore.getDaLeggere().get(pairs.getKey()).getUrl(),200,300), lettore.getDaLeggere().get(pairs.getKey()), 2, 0, lettore));
+		        	bottoniDaLeggere.add(new BottoneFumettoProfilo(panel, getURL(lettore.getDaLeggere().get(pairs.getKey()).getUrl(),200,300), lettore.getDaLeggere().get(pairs.getKey()), 2, 0, lettore));
 				} catch (IOException e1)
 				{
 					e1.printStackTrace();

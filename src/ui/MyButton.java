@@ -35,8 +35,7 @@ public class MyButton extends JButton
 	{
 		super(text);
 		setBackground(colore);
-		setBackground(colore);
-//		setBorderPainted(false);
+		setBorderPainted(false);
 		setFocusPainted(false);
 		setForeground(Color.WHITE);
 		setContentAreaFilled(false);
