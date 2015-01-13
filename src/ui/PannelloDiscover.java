@@ -39,7 +39,7 @@ public class PannelloDiscover extends JPanel
 	HashMap<String,Fumetto> fumettiFiltrati = new HashMap<>();
 	HashMap<String,Fumetto> fumettiCercati = new HashMap<>();
 	
-	ArrayList<BottoneFumetto> bottoniFumetti = new ArrayList<>();
+	ArrayList<BottoneFumetto> bottoniFumetti;
 	
 	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel)
 	{
@@ -49,9 +49,10 @@ public class PannelloDiscover extends JPanel
 		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
 		setBounds(0, 0, (int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight());
 		setLayout(null);
-		
 		this.panel = panel;
 		
+		bottoniFumetti = new ArrayList<>();
+
 		try {
 			TabellaFumetto tupleFumetto = new TabellaFumetto();
 			aggiungiStringaFumettoNonTrovato(tupleFumetto);
@@ -80,6 +81,8 @@ public class PannelloDiscover extends JPanel
 		setLayout(null);
 		
 		this.panel = panel;
+		
+		bottoniFumetti = new ArrayList<>();
 		
 		for (int i = 2; i < filtri.size(); i++)
 		{
@@ -112,6 +115,10 @@ public class PannelloDiscover extends JPanel
 		setBounds(0, 0, (int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight());
 		setLayout(null);
 		
+		this.panel = panel;
+		
+		bottoniFumetti = new ArrayList<>();
+		
 		try
 		{
 			DataBase.connect();
@@ -124,8 +131,6 @@ public class PannelloDiscover extends JPanel
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		this.panel = panel;
 		
 		try {
 			TabellaFumetto tupleFumetto = new TabellaFumetto(tipoDaCercare, nomeDaCercare);

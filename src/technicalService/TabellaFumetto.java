@@ -40,7 +40,7 @@ public class TabellaFumetto {
 			
 	}
 	
-	public TabellaFumetto(String tipoDaCercare, String testoDaCercare)
+	public TabellaFumetto(String tipoDaCercare, String testoDaCercare) throws SQLException
 	{
 		if (tipoDaCercare.equals("Fumetto"))
 			tipoDaCercare = "Nome";
@@ -48,14 +48,8 @@ public class TabellaFumetto {
 		String query = "Select * from fumetto where " 
 						+ tipoDaCercare + "= \"" + testoDaCercare + "\";";
 		
-			try
-			{
-				cursoreFumetto = DataBase.getStatement().executeQuery(query);
-			} catch (SQLException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		cursoreFumetto = DataBase.getStatement().executeQuery(query);
+
 	}
 	
 	public TabellaFumetto(ResultSet cursorePreferiti) {

@@ -121,23 +121,22 @@ public class MyPanel extends JPanel
 		remove(pannelloCentro);
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
+		Iterator it = arrayPannelli.entrySet().iterator();
+		while (it.hasNext())
+		{
+			Map.Entry pairs = (Map.Entry)it.next();
+			if (it != null)
+				remove(arrayPannelli.get(pairs.getKey()));
+		}
+
 		if (pannelloScrollDiscover == null)
 		{
-
 			pannelloDiscover = new PannelloDiscover(pannelloCentro, this);
 
 			pannelloScrollDiscover = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
 			pannelloScrollDiscover.getVerticalScrollBar().setUnitIncrement(15);
 		    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		}
-			
-		Iterator it = arrayPannelli.entrySet().iterator();
-	    while (it.hasNext())
-	    {
-	        Map.Entry pairs = (Map.Entry)it.next();
-	        if (it != null)
-	        	remove(arrayPannelli.get(pairs.getKey()));
-	    }
 		
 		this.add(pannelloScrollDiscover, BorderLayout.CENTER);
 		this.validate();
