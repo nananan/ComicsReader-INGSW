@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -127,6 +128,17 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		bottoneCerca.setBackground(this.getBackground());
 		bottoneCerca.setBounds(5+textFiltraggio.getX()+(int)textFiltraggio.getPreferredSize().getWidth(), this.getInsets().bottom*5, (int)bottoneCerca.getPreferredSize().getWidth(), (int)bottoneCerca.getPreferredSize().getHeight());
 		add(bottoneCerca);
+		
+		bottoneCerca.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				super.mouseReleased(e);
+				panel.PremiPerAvereRisultatiDellaRicerca(boxFiltri.getSelectedItem().toString(), 
+						textFiltraggio.getText());
+			}
+		});
 		
 	}
 	

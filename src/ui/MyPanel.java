@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import technicalService.DataBase;
+
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import domain.Fumetto;
@@ -30,7 +32,7 @@ public class MyPanel extends JPanel
 	PannelloDestro pannelloDestro = new PannelloDestro();
 	PannelloFiltraggio pannelloFiltraggio = new PannelloFiltraggio(pannelloCentro, this);
 	PannelloSinistra pannelloSinistro = new PannelloSinistra(pannelloCentro, this, pannelloFiltraggio);
-	PannelloDiscover pannelloDiscover = new PannelloDiscover();
+	PannelloDiscover pannelloDiscover;
 	PannelloScrollPane pannelloScrollDiscover;
 	PannelloProfilo pannelloProfilo;
 	
@@ -71,13 +73,44 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerPannelloSinistro()
 	{
+		if (pannelloCentro != null)
+			remove(pannelloCentro);
+		
+		try
+		{
+			DataBase.connect();
+		} catch (ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		pannelloSopra.setBooleanaPerBottoneFiltro(true);
 		
 		ArrayList<String> filtri = pannelloFiltraggio.getArrayDiFiltri();
 		remove(pannelloScrollFiltraggio);
 		this.add(pannelloSinistro,BorderLayout.WEST);
 
+		pannelloDiscover = new PannelloDiscover(pannelloCentro, this, filtri);
 		
+		this.add(pannelloDiscover, BorderLayout.CENTER);
+		
+		this.validate();
+		repaint();
+	}
+	
+	public void PremiPerAvereRisultatiDellaRicerca(String tipoDaCercare, String nomeDaCercare)
+	{
+		if (pannelloCentro != null)
+			remove(pannelloCentro);
+		
+		pannelloDiscover = new PannelloDiscover(pannelloCentro, this, tipoDaCercare, nomeDaCercare);
+		
+		this.add(pannelloDiscover, BorderLayout.CENTER);
 		
 		this.validate();
 		repaint();
@@ -90,13 +123,9 @@ public class MyPanel extends JPanel
 			remove(pannelloProfilo);
 		if (pannelloScrollDiscover == null)
 		{
-			try
-			{
-				pannelloDiscover.setPannelloCentrale(pannelloCentro, this);
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+
+			pannelloDiscover = new PannelloDiscover(pannelloCentro, this);
+
 			pannelloScrollDiscover = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
 			pannelloScrollDiscover.getVerticalScrollBar().setUnitIncrement(15);
 		    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

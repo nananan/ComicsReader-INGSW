@@ -22,14 +22,40 @@ public class TabellaFumetto {
 		cursoreFumetto.next();
 	}
 	
-	public TabellaFumetto(ArrayList<String> arrayDiFiltri) throws SQLException{
+	public TabellaFumetto(ArrayList<String> arrayDiFiltri, String filtro) throws SQLException{
 		
-		String query = "SELECT nome_fumetto FROM genere_fumetto where nome_fumetto IN "
-				+ "(select nome from fumetto where occidentale =\""+arrayDiFiltri.get(0)+"\""
-						+ "and completa =\""+arrayDiFiltri.get(1)+"\")"
-								+ "and genere = 'avventura';";
-		cursoreFumetto = DataBase.getStatement().executeQuery(query);
-		cursoreFumetto.next();
+		int èOccidentale = 1, èCompleto = 0;
+		if (arrayDiFiltri.get(0).equals("Orientale"))
+			èOccidentale = 0;
+		if (arrayDiFiltri.get(1).equals("Completo"))
+			èCompleto = 1;
+		
+			String query = "Select * from fumetto where nome = "
+				+ "(SELECT nome_fumetto FROM genere_fumetto where nome_fumetto IN "
+				+ "(select nome from fumetto where occidentale =\""+èOccidentale+"\""
+				+ "and completa =\""+èCompleto+"\")"
+				+ "and genere =\""+filtro+"\" );";
+		
+			cursoreFumetto = DataBase.getStatement().executeQuery(query);
+			
+	}
+	
+	public TabellaFumetto(String tipoDaCercare, String testoDaCercare)
+	{
+		if (tipoDaCercare.equals("Fumetto"))
+			tipoDaCercare = "Nome";
+		
+		String query = "Select * from fumetto where " 
+						+ tipoDaCercare + "= \"" + testoDaCercare + "\";";
+		
+			try
+			{
+				cursoreFumetto = DataBase.getStatement().executeQuery(query);
+			} catch (SQLException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 	public TabellaFumetto(ResultSet cursorePreferiti) {
