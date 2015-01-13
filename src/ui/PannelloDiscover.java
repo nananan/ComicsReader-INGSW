@@ -72,7 +72,8 @@ public class PannelloDiscover extends JPanel
 		}
 	}
 	
-	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel, ArrayList<String> filtri)
+	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel, 
+			ArrayList<String> filtri, String tipoFumetto, String statoFumetto)
 	{
 		super();	
 		this.pannelloCentrale = pannelloCentrale;
@@ -85,10 +86,33 @@ public class PannelloDiscover extends JPanel
 		
 		bottoniFumetti = new ArrayList<>();
 		
-		for (int i = 2; i < filtri.size(); i++)
+		if (filtri.size() == 0)
 		{
 			try {
-				TabellaFumetto tupleFumetto = new TabellaFumetto(filtri, filtri.get(i));
+				TabellaFumetto tupleFumetto = new TabellaFumetto("", tipoFumetto, statoFumetto);
+				
+				while(tupleFumetto.nextFumetto())
+				{
+					Fumetto fumetto = new Fumetto(tupleFumetto);
+					System.out.println(fumetto.getNome());
+					if (!fumettiFiltrati.containsKey(fumetto.getNome()))
+							fumettiFiltrati.put(fumetto.getNome(), fumetto);
+				}
+				if (fumettiFiltrati.size() == 0)
+					aggiungiStringaFumettoNonTrovato(tupleFumetto);
+				tupleFumetto.close();
+				
+				aggiungiFumettoAlPannello(fumettiFiltrati);
+				
+			}  catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		for (int i = 0; i < filtri.size(); i++)
+		{
+			try {
+				TabellaFumetto tupleFumetto = new TabellaFumetto(filtri.get(i), tipoFumetto, statoFumetto);
 				
 				while(tupleFumetto.nextFumetto())
 				{

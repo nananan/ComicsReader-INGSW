@@ -95,7 +95,8 @@ public class MyPanel extends JPanel
 		remove(pannelloScrollFiltraggio);
 		this.add(pannelloSinistro,BorderLayout.WEST);
 
-		pannelloDiscover = new PannelloDiscover(pannelloCentro, this, filtri);
+		pannelloDiscover = new PannelloDiscover(pannelloCentro, this, filtri, 
+						pannelloFiltraggio.getTipoFumetto(), pannelloFiltraggio.getStatoFumetto());
 		
 		this.add(pannelloDiscover, BorderLayout.CENTER);
 		

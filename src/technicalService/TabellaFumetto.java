@@ -22,23 +22,48 @@ public class TabellaFumetto {
 		cursoreFumetto.next();
 	}
 	
-	public TabellaFumetto(ArrayList<String> arrayDiFiltri, String filtro) throws SQLException{
+	public TabellaFumetto(String filtro, String tipoFumetto, String statoFumetto) throws SQLException{
 		
-		int èOccidentale = 1, èCompleto = 0;
-		if (arrayDiFiltri.get(0).equals("Orientale"))
+		int èOccidentale = 1, èCompleto = 1;
+		if (tipoFumetto.equals("Orientale"))
 			èOccidentale = 0;
-		if (arrayDiFiltri.get(1).equals("Completo"))
-			èCompleto = 1;
+		if (statoFumetto.equals("Incompleto"))
+			èCompleto = 0;
 		
+		if (tipoFumetto.equals(""))
+		{
+			String query = "Select * from fumetto where nome = "
+					+ "(SELECT nome_fumetto FROM genere_fumetto where nome_fumetto IN "
+					+ "(select nome from fumetto where completa =\""+èCompleto+"\""
+					+ "and genere =\""+filtro+"\" ));";
+			
+				System.out.println(query);
+				
+				cursoreFumetto = DataBase.getStatement().executeQuery(query);
+		}
+		else if (statoFumetto.equals(""))
+		{
+			String query = "Select * from fumetto where nome = "
+					+ "(SELECT nome_fumetto FROM genere_fumetto where nome_fumetto IN "
+					+ "(select nome from fumetto where occidentale =\""+èOccidentale+"\""
+					+ "and genere =\""+filtro+"\" ));";
+			
+				System.out.println(query);
+				
+				cursoreFumetto = DataBase.getStatement().executeQuery(query);
+		}
+		else
+		{
 			String query = "Select * from fumetto where nome = "
 				+ "(SELECT nome_fumetto FROM genere_fumetto where nome_fumetto IN "
 				+ "(select nome from fumetto where occidentale =\""+èOccidentale+"\""
-				+ "and completa =\""+èCompleto+"\")"
-				+ "and genere =\""+filtro+"\" );";
+				+ "and completa =\""+èCompleto+"\""
+				+ "and genere =\""+filtro+"\" ));";
 		
 			System.out.println(query);
 			
 			cursoreFumetto = DataBase.getStatement().executeQuery(query);
+		}
 	}
 	
 	public TabellaFumetto(String tipoDaCercare, String testoDaCercare) throws SQLException
