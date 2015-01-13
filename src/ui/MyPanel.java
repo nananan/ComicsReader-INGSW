@@ -160,7 +160,7 @@ public class MyPanel extends JPanel
 		{
 			arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
 					new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
-							pannelloCentro.getWidth(), pannelloCentro.getHeight(), this), null));
+							pannelloCentro.getWidth(), pannelloCentro.getHeight(), this, lettore), null));
 			
 			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
 			arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -174,7 +174,7 @@ public class MyPanel extends JPanel
 			{
 				arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
 						new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
-								pannelloCentro.getWidth(), pannelloCentro.getHeight(), this), null));
+								pannelloCentro.getWidth(), pannelloCentro.getHeight(), this, lettore), null));
 				
 				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
 				arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

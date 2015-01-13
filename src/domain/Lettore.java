@@ -195,9 +195,30 @@ public class Lettore {
 		}
 		return false;
 	}
-	public void caricaCronologia(){
-		//TODO aggiustare prima getCronologia e aggiungiCronologia in TabellaLettore
+	public void caricaCronologia() throws SQLException{
+
+		if(cronologia != null) return;
+		
+		cronologia = new HashMap<>();
+		
+		TabellaFumetto tuplaFumetto = tuplaLettore.getCronologia();
+		
+		while(tuplaFumetto.nextFumetto()){
+			Fumetto fumetto = new Fumetto(tuplaFumetto);
+			cronologia.put(fumetto.getNome(), fumetto);
+		}
 	}
+	
+	public boolean aggiungiAllaCronologia(Fumetto fumetto) throws SQLException{
+		
+		if(cronologia == null) caricaCronologia();
+		
+		if(cronologia.containsKey(fumetto.getNome())) return false;
+		cronologia.put(fumetto.getNome(),fumetto);
+		tuplaLettore.aggiungiCronologia(fumetto.getNome());
+		return true;	
+	}
+	
 	public int getNumFollow() {
 		try
 		{

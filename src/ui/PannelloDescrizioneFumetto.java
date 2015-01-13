@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import domain.Fumetto;
+import domain.Lettore;
 import domain.VisualizzatoreCapitoli;
 import domain.Volume;
 import downloader.ImmagineNonPresenteException;
@@ -70,14 +71,16 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private MyListener listener;
 	
 	private Image immagineCopertinaFumetto;
+	private Lettore lettore;
 	
-	public PannelloDescrizioneFumetto(Fumetto fumetto, Image immagineCopertinaFumetto, int panelWidth, int panelHeight,final MyPanel panel) 
+	public PannelloDescrizioneFumetto(Fumetto fumetto, Image immagineCopertinaFumetto, int panelWidth, int panelHeight,final MyPanel panel, Lettore lettore) 
 	{
 		super();
 		
 		this.panel = panel;
 		this.fumetto = fumetto;
 		this.immagineCopertinaFumetto = immagineCopertinaFumetto;
+		this.lettore = lettore;
 		
 		setBackground(Color.GRAY);		
 		setPreferredSize(new Dimension(panelWidth, panelHeight));
@@ -355,7 +358,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 			BottoneCapitolo nomeCapitolo = new BottoneCapitolo(
 					"Capitolo "+volume.getCapitoli()[j].getNumero()+ ": "+volume.getCapitoli()[j].getTitolo(), 
 					18, Color.WHITE, volume, immagineCopertinaFumetto,
-					volume.getCapitoli()[j].getNumero(), panel, fumetto);
+					volume.getCapitoli()[j].getNumero(), panel, fumetto, lettore);
 			
 			bottoniCapitoli.add(nomeCapitolo);
 			

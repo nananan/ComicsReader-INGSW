@@ -36,6 +36,8 @@ public class TabellaFumetto {
 				+ "and completa =\""+èCompleto+"\")"
 				+ "and genere =\""+filtro+"\" );";
 		
+			System.out.println(query);
+			
 			cursoreFumetto = DataBase.getStatement().executeQuery(query);
 	}
 	

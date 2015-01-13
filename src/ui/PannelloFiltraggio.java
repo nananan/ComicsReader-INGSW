@@ -160,6 +160,7 @@ public class PannelloFiltraggio extends JPanel
 				if (buttonFumetti.getForeground() == Color.WHITE)
 				{
 					filtri.add(0,buttonFumetti.getText());
+					
 					buttonFumetti.setForeground(Color.RED);
 					buttonManga.setForeground(Color.WHITE);
 				}

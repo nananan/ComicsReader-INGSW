@@ -2,6 +2,10 @@ package technicalService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class TabellaLettore {
 	
@@ -71,7 +75,8 @@ public class TabellaLettore {
 				+ "valutazione_media,numero_letture "
 				+ "FROM fumetto as f, letture_recenti as r "
 				+ "WHERE r.utente =\""+idFacebookCorrente+"\" and r.nome_fumetto = f.nome"
-				+ "ORDER BY data_lettura DESC; ";
+				+ " ORDER BY data_lettura; ";
+		System.out.println(query);
 		ResultSet cursoreDaLeggere = DataBase.getStatement().executeQuery(query);
 		return new TabellaFumetto(cursoreDaLeggere );
 	}
@@ -106,11 +111,17 @@ public class TabellaLettore {
 		DataBase.getStatement().executeUpdate(query);	
 	}
 	
-	public void aggiungiCronologia(String nomeFumetto) {
-		//TODO inserire la data della lettura;
-//		String query = "INSERT INTO letture_recenti(utente,nome_fumetto,data_lettura) values(\""+getIdFacebook()
-//				+"\",\""+nomeFumetto+"\",'"+Data"');";
-//		DataBase.getStatement().executeUpdate(query);	
+	public void aggiungiCronologia(String nomeFumetto) throws SQLException {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		
+		int month = cal.get(Calendar.MONTH)+1;
+		String dataLettura = cal.get(Calendar.YEAR)+"-"+month+"-"+cal.get(Calendar.DAY_OF_MONTH)
+				+" "+cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE)+":"+cal.get(Calendar.SECOND);
+		
+		String query = "INSERT INTO letture_recenti(utente,nome_fumetto,data_lettura) values(\""+getIdFacebook()
+				+"\",\""+nomeFumetto+"\",'"+dataLettura+"');";
+		DataBase.getStatement().executeUpdate(query);	
 	}
 	
 	public void aggiungiValutazione(String nomeFumetto, int valutazione)throws ValoreNonCorrettoException, SQLException {
