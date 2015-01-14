@@ -1,6 +1,8 @@
 package technicalService;
 import java.sql.*;
 
+import domain.Fumetto;
+
 public class DataBase {
 	
 	final private static String USER = "manueliana";
@@ -38,15 +40,15 @@ public class DataBase {
 	}
 	public static void main(String[] args) {
 		try {
-			
+			long start = System.currentTimeMillis();
+
 			DataBase.connect();
-			TabellaFumetto f = new TabellaFumetto();
-			f.nextFumetto();
-			System.out.println(f.getECompleto());
-			f.nextFumetto();
-			System.out.println(f.getECompleto());
-
-
+			TabellaFumetto f = TabellaFumetto.generaProssimeTupleFumetto();
+	
+			while(f.nextFumetto())
+				new Fumetto(f);
+			long end= System.currentTimeMillis();
+			System.out.println((end - start)/ 1000);
 			DataBase.disconnect();
 			
 		} catch (ClassNotFoundException e) {

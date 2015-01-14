@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import technicalService.DataBase;
 import technicalService.TabellaFumetto;
 import domain.Fumetto;
+import domain.Libreria;
 
 public class PannelloDiscover extends JPanel
 {
@@ -34,6 +35,7 @@ public class PannelloDiscover extends JPanel
 	Image scaledImage = null;
 	
 	private MyPanel panel;
+	private static Libreria libreria = Libreria.getLibreria();
 	
 	HashMap<String,Fumetto> fumetti = new HashMap<>();
 	HashMap<String,Fumetto> fumettiFiltrati = new HashMap<>();
@@ -53,85 +55,71 @@ public class PannelloDiscover extends JPanel
 		
 		bottoniFumetti = new ArrayList<>();
 
-		try {
-			TabellaFumetto tupleFumetto = new TabellaFumetto();
+		libreria.fumettiCorrenti();
 
-			while(tupleFumetto.nextFumetto())
-			{
-				Fumetto fumetto = new Fumetto(tupleFumetto);
-				fumetti.put(fumetto.getNome(), fumetto);
-			}
-			if (fumetti.size() == 0)
-				aggiungiStringaFumettoNonTrovato(tupleFumetto);
-			tupleFumetto.close();
-
-			aggiungiFumettoAlPannello(fumetti);
-			
-		}  catch (SQLException e) {
-			e.printStackTrace();
-		}
+		aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
 	}
 	
-	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel, 
-			ArrayList<String> filtri, String tipoFumetto, String statoFumetto)
-	{
-		super();	
-		this.pannelloCentrale = pannelloCentrale;
-		setBackground(Color.GRAY);
-		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
-		setBounds(0, 0, (int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight());
-		setLayout(null);
-		
-		this.panel = panel;
-		
-		bottoniFumetti = new ArrayList<>();
-		
-		if (filtri.size() == 0)
-		{
-			try {
-				TabellaFumetto tupleFumetto = new TabellaFumetto("", tipoFumetto, statoFumetto);
-				
-				while(tupleFumetto.nextFumetto())
-				{
-					Fumetto fumetto = new Fumetto(tupleFumetto);
-					System.out.println(fumetto.getNome());
-					if (!fumettiFiltrati.containsKey(fumetto.getNome()))
-							fumettiFiltrati.put(fumetto.getNome(), fumetto);
-				}
-				if (fumettiFiltrati.size() == 0)
-					aggiungiStringaFumettoNonTrovato(tupleFumetto);
-				tupleFumetto.close();
-				
-				aggiungiFumettoAlPannello(fumettiFiltrati);
-				
-			}  catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		for (int i = 0; i < filtri.size(); i++)
-		{
-			try {
-				TabellaFumetto tupleFumetto = new TabellaFumetto(filtri.get(i), tipoFumetto, statoFumetto);
-				
-				while(tupleFumetto.nextFumetto())
-				{
-					Fumetto fumetto = new Fumetto(tupleFumetto);
-					System.out.println(fumetto.getNome());
-					if (!fumettiFiltrati.containsKey(fumetto.getNome()))
-							fumettiFiltrati.put(fumetto.getNome(), fumetto);
-				}
-				if (fumettiFiltrati.size() == 0)
-					aggiungiStringaFumettoNonTrovato(tupleFumetto);
-				tupleFumetto.close();
-				
-				aggiungiFumettoAlPannello(fumettiFiltrati);
-				
-			}  catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel, 
+//			ArrayList<String> filtri, String tipoFumetto, String statoFumetto)
+//	{
+//		super();	
+//		this.pannelloCentrale = pannelloCentrale;
+//		setBackground(Color.GRAY);
+//		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
+//		setBounds(0, 0, (int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight());
+//		setLayout(null);
+//		
+//		this.panel = panel;
+//		
+//		bottoniFumetti = new ArrayList<>();
+//		
+//		if (filtri.size() == 0)
+//		{
+//			try {
+//				TabellaFumetto tupleFumetto = new TabellaFumetto("", tipoFumetto, statoFumetto);
+//				
+//				while(tupleFumetto.nextFumetto())
+//				{
+//					Fumetto fumetto = new Fumetto(tupleFumetto);
+//					System.out.println(fumetto.getNome());
+//					if (!fumettiFiltrati.containsKey(fumetto.getNome()))
+//							fumettiFiltrati.put(fumetto.getNome(), fumetto);
+//				}
+//				if (fumettiFiltrati.size() == 0)
+//					aggiungiStringaFumettoNonTrovato(tupleFumetto);
+//				tupleFumetto.close();
+//				
+//				aggiungiFumettoAlPannello(fumettiFiltrati);
+//				
+//			}  catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		for (int i = 0; i < filtri.size(); i++)
+//		{
+//			try {
+//				TabellaFumetto tupleFumetto = new TabellaFumetto(filtri.get(i), tipoFumetto, statoFumetto);
+//				
+//				while(tupleFumetto.nextFumetto())
+//				{
+//					Fumetto fumetto = new Fumetto(tupleFumetto);
+//					System.out.println(fumetto.getNome());
+//					if (!fumettiFiltrati.containsKey(fumetto.getNome()))
+//							fumettiFiltrati.put(fumetto.getNome(), fumetto);
+//				}
+//				if (fumettiFiltrati.size() == 0)
+//					aggiungiStringaFumettoNonTrovato(tupleFumetto);
+//				tupleFumetto.close();
+//				
+//				aggiungiFumettoAlPannello(fumettiFiltrati);
+//				
+//			}  catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 	
 	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel, String tipoDaCercare, String nomeDaCercare)
 	{
@@ -149,36 +137,25 @@ public class PannelloDiscover extends JPanel
 		try
 		{
 			DataBase.connect();
-		} catch (ClassNotFoundException e1)
+		} catch (ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1)
+			e.printStackTrace();
+		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		try {
-			TabellaFumetto tupleFumetto = new TabellaFumetto(tipoDaCercare, nomeDaCercare);
-			while(tupleFumetto.nextFumetto())
-			{
-				Fumetto fumetto = new Fumetto(tupleFumetto);
-				if (!fumettiCercati.containsKey(fumetto.getNome()))
-						fumettiCercati.put(fumetto.getNome(), fumetto);
-			}
-			if (fumettiCercati.size() == 0)
-				aggiungiStringaFumettoNonTrovato(tupleFumetto);
-			tupleFumetto.close();
-			
-			aggiungiFumettoAlPannello(fumettiCercati);
-			
-		}  catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		if (tipoDaCercare.equals("Autore"))
+			aggiungiFumettoAlPannello(libreria.caricaFumettiPerAutore(nomeDaCercare));
+		else if (tipoDaCercare.equals("Artista"))
+			aggiungiFumettoAlPannello(libreria.caricaFumettiPerArtista(nomeDaCercare));
+//		else if (tipoDaCercare.equals("Fumetto"))
+//			aggiungiFumettoAlPannello(libreria.caricaFumettiPerNome(nomeDaCercare));
 	}
 	
-	private void aggiungiStringaFumettoNonTrovato(TabellaFumetto tupleFumetto)
+	private void aggiungiStringaFumettoNonTrovato()
 	{
 		Text fumettiNonTrovati = new Text("Fumetti non trovati", 20, Color.WHITE);
 		fumettiNonTrovati.setBounds(20, 20, (int)fumettiNonTrovati.getPreferredSize().getWidth(),
@@ -186,17 +163,22 @@ public class PannelloDiscover extends JPanel
 		add(fumettiNonTrovati);
 	}
 	
-	private void aggiungiFumettoAlPannello(HashMap<String,Fumetto> fumettiDaAggiungere)
+	private void aggiungiFumettoAlPannello(final Fumetto[] fumettiDaAggiungere)
 	{
 		int j=0, i=0;
-		System.out.println(fumettiDaAggiungere.size());
-		for(final Entry<String,Fumetto> f : fumettiDaAggiungere.entrySet())
+		
+		if (fumettiDaAggiungere[0] == null)
 		{
-			BottoneFumetto bottoneFumetto;
-			try
+			aggiungiStringaFumettoNonTrovato();
+			return;
+		}
+		
+		for(int z = 0; z < fumettiDaAggiungere.length; z++)
+		{
+			if (fumettiDaAggiungere[z] != null)
 			{
-				System.out.println(f.getValue().getUrl());
-				bottoneFumetto = new BottoneFumetto(getURL(f.getValue().getUrl()), f.getValue());
+				BottoneFumetto bottoneFumetto = new BottoneFumetto(
+						fumettiDaAggiungere[z].getCopertina(), fumettiDaAggiungere[z]);
 				
 				bottoniFumetti.add(bottoneFumetto);
 				bottoniFumetti.get(j).setPreferredSize(new Dimension(200,300));
@@ -209,8 +191,6 @@ public class PannelloDiscover extends JPanel
 					{
 						bottoniFumetti.get(j).setBounds(10,10+(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight()+bottoniFumetti.get(j-1).getY(), 200,300);
 						i += bottoniFumetti.get(j).getPreferredSize().getHeight()+10;
-						
-						break;
 					}
 					else
 						bottoniFumetti.get(j).setBounds(10+(int)bottoniFumetti.get(j-1).getPreferredSize().getWidth()+bottoniFumetti.get(j-1).getX(),10+i, 200,300);
@@ -223,11 +203,13 @@ public class PannelloDiscover extends JPanel
 				}
 				
 				final int indicePerFumetto = j;
+				final int indice = z;
 				bottoniFumetti.get(j).addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e)
 					{
 						try {
-							panel.PremiPerFumetto(f.getValue(), bottoniFumetti.get(indicePerFumetto).getImageScaled());
+							panel.PremiPerFumetto(fumettiDaAggiungere[indice], 
+									bottoniFumetti.get(indicePerFumetto).getImageScaled());
 						} catch (MalformedURLException | SQLException e1) {
 							e1.printStackTrace();
 						}
@@ -235,41 +217,8 @@ public class PannelloDiscover extends JPanel
 				});
 				
 				j++;
-			} catch (IOException e2)
-			{
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
 			}
 		}		
-	}
-
-	public Image getURL(String stringa) throws IOException
-	{
-		URL url = new URL(stringa);
-		BufferedImage bufferedImage = ImageIO.read(url);
-		
-		String stringhe [] = new String[14];
-				stringhe = url.toString().split("/");
-		
-		File dir = (new File("Comics Reader"));
-		
-		if (dir.exists())
-			file = new File(dir.getName()+"/"+stringhe[stringhe.length-1]);
-		else
-		{
-			dir.mkdir();
-			file = new File(dir.getName()+"/"+stringhe[stringhe.length-1]);
-		}
-		
-		ImageOutputStream imageOutputStream = new FileImageOutputStream(file); 
-		ImageIO.write(bufferedImage, "jpg", imageOutputStream);
-		
-		bufferedImage = ImageIO.read(url);
-		Image scaledImageFumetto = bufferedImage.getScaledInstance(200,300, bufferedImage.SCALE_AREA_AVERAGING);
-		
-		file.deleteOnExit();
-		
-		return scaledImageFumetto;
 	}
 	
 	@Override

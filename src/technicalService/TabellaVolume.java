@@ -11,34 +11,70 @@ public class TabellaVolume {
 	private String nomeFumettoCorrente;
 	
 	public TabellaVolume(String nomeFumetto) throws SQLException {
-		QUERY_VOLUMI = "SELECT * FROM volume WHERE nome_fumetto='"+nomeFumetto+"';";
+		QUERY_VOLUMI = "SELECT nome_fumetto,numero,nome,url_copertina  FROM volume WHERE nome_fumetto='"+nomeFumetto+"';";
 		cursoreVolume = DataBase.getStatement().executeQuery(QUERY_VOLUMI);
 		this.nomeFumettoCorrente = nomeFumetto;
 		
 	}
-	public boolean nextVolume() throws SQLException {
+	
+	public boolean nextVolume() {
 		
-		return cursoreVolume.next();
+		try
+		{
+			return cursoreVolume.next();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
-	public String getNomeFumetto() throws SQLException {
+	public String getNomeFumetto(){
 		
-		return nomeFumettoCorrente = cursoreVolume.getString(1);
+		try
+		{
+			return nomeFumettoCorrente = cursoreVolume.getString("nome_fumetto");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
-	public int getNumero() throws SQLException {
+	public int getNumero(){
 	
-		return cursoreVolume.getInt(2);
+		try
+		{
+			return cursoreVolume.getInt("numero");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
-	public String getNome() throws SQLException {
+	public String getNome() {
 		
-		return cursoreVolume.getString(3);
+		try
+		{
+			return cursoreVolume.getString("nome");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
-	public String getUrlCopertina() throws SQLException {
+	public String getUrlCopertina() {
 		
-		return cursoreVolume.getString(4);
+		try
+		{
+			return cursoreVolume.getString("url_copertina");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public void close() throws SQLException {

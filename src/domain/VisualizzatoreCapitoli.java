@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import technicalService.DataBase;
 import technicalService.TabellaFumetto;
+import technicalService.TabellaFumetto;
 import downloader.ImmagineNonPresenteException;
 import downloader.PagineDownloader;
 import downloader.ScaricamentoImmagineIncompletoException;
@@ -167,9 +168,9 @@ public class VisualizzatoreCapitoli {
 	public static void main(String[] args) throws SQLException, MalformedURLException, ClassNotFoundException {
 		
 		DataBase.connect();
-		TabellaFumetto tuplaF = new TabellaFumetto("666 Satan");
+		TabellaFumetto tuplaF = TabellaFumetto.generaTuplaFumetto("666 Satan");
 		Fumetto fumetto = new Fumetto(tuplaF);
-		fumetto.caricaVolumi();
+		fumetto.apriFumetto();
 		Volume[] volumi = fumetto.getVolumi();
 		volumi[0].caricaCapitoli();
 		Capitolo[] capitoli = volumi[0].getCapitoli();

@@ -2,10 +2,8 @@ package technicalService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
-import java.util.Date;
 
 public class TabellaLettore {
 	
@@ -50,23 +48,18 @@ public class TabellaLettore {
 	}
 	
 	public TabellaFumetto getPreferiti() throws SQLException{
-		String query =" SELECT nome, autore, artista,trama,completa,occidentale,url_copertina_primo_volume,"
-				+ "valutazione_media,numero_letture "
-				+ "FROM fumetto as f , preferiti as p "
-				+ "WHERE p.utente =\""+idFacebookCorrente+"\" and p.nome_fumetto = f.nome;";
-				
-		ResultSet cursorePreferiti = DataBase.getStatement().executeQuery(query);
-		return new TabellaFumetto(cursorePreferiti);
+		String query =" SELECT nome"
+				+ "FROM preferiti as p "
+				+ "WHERE p.utente =\""+idFacebookCorrente+"\";";
+		return new TabellaFumetto(query);
 	}
 	
-	public TabellaFumetto getDaLeggere() throws SQLException{
+	public TabellaFumetto getDaLeggere(){
 	
-		String query = "SELECT nome, autore, artista,trama,completa,occidentale,url_copertina_primo_volume,"
-				+ "valutazione_media,numero_letture  "
-				+ "FROM fumetto as f, da_leggere as d "
-				+ "WHERE d.utente =\""+idFacebookCorrente+"\" and d.nome_fumetto = f.nome;";
-		ResultSet cursoreDaLeggere = DataBase.getStatement().executeQuery(query);
-		return new TabellaFumetto(cursoreDaLeggere );
+		String query = "SELECT nome "
+				+ "FROM da_leggere as d "
+				+ "WHERE d.utente =\""+idFacebookCorrente+"\";";
+		return new TabellaFumetto(query);
 	}
 	
 	public TabellaFumetto getCronologia() throws SQLException{
@@ -76,9 +69,7 @@ public class TabellaLettore {
 				+ "FROM fumetto as f, letture_recenti as r "
 				+ "WHERE r.utente =\""+idFacebookCorrente+"\" and r.nome_fumetto = f.nome"
 				+ " ORDER BY data_lettura; ";
-		System.out.println(query);
-		ResultSet cursoreDaLeggere = DataBase.getStatement().executeQuery(query);
-		return new TabellaFumetto(cursoreDaLeggere );
+		return new TabellaFumetto(query);
 	}
 	
 	public int getValutazione(String nomeFumetto) throws SQLException{
@@ -111,17 +102,23 @@ public class TabellaLettore {
 		DataBase.getStatement().executeUpdate(query);	
 	}
 	
-	public void aggiungiCronologia(String nomeFumetto) throws SQLException {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	public void aggiungiCronologia(String nomeFumetto) {
 		Calendar cal = Calendar.getInstance();
 		
 		int month = cal.get(Calendar.MONTH)+1;
 		String dataLettura = cal.get(Calendar.YEAR)+"-"+month+"-"+cal.get(Calendar.DAY_OF_MONTH)
 				+" "+cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE)+":"+cal.get(Calendar.SECOND);
 		
-		String query = "INSERT INTO letture_recenti(utente,nome_fumetto,data_lettura) values(\""+getIdFacebook()
+		String query = "INSERT INTO letture_recenti(utente,nome_fumetto,data_lettura) values(\""+idFacebookCorrente
 				+"\",\""+nomeFumetto+"\",'"+dataLettura+"');";
-		DataBase.getStatement().executeUpdate(query);	
+		try
+		{
+			DataBase.getStatement().executeUpdate(query);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 	
 	public void aggiungiValutazione(String nomeFumetto, int valutazione)throws ValoreNonCorrettoException, SQLException {
@@ -135,7 +132,7 @@ public class TabellaLettore {
 	}
 	
 	public void aggiungiSegnalibro(String nomeFumetto,int numeroVolume, int numeroCapitolo, int numeroPagina) throws SQLException{
-		String query = "call agginugiSegnalibro(\""+getIdFacebook()+"\",\""+nomeFumetto+"\","
+		String query = "call agginugiSegnalibro(\""+idFacebookCorrente+"\",\""+nomeFumetto+"\","
 				+numeroVolume+","+numeroCapitolo+","+numeroPagina+");";
 		DataBase.getStatement().execute(query);
 	}	

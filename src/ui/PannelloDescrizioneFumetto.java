@@ -38,7 +38,7 @@ import downloader.ImmagineNonPresenteException;
 @SuppressWarnings("serial")
 public class PannelloDescrizioneFumetto extends JPanel
 {
-	private int indiceVolumi = 4;
+	private int indiceVolumi = 0;
 	private File file;
 	private Image scaledImage;
 	private Text nome;
@@ -72,6 +72,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 	
 	private Image immagineCopertinaFumetto;
 	private Lettore lettore;
+	private Volume volumi[];
 	
 	public PannelloDescrizioneFumetto(Fumetto fumetto, Image immagineCopertinaFumetto, int panelWidth, int panelHeight,final MyPanel panel, Lettore lettore) 
 	{
@@ -141,6 +142,19 @@ public class PannelloDescrizioneFumetto extends JPanel
 		stringaGenere.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ eOccidentale.getY() + (int) eOccidentale.getPreferredSize().getHeight(), (int)stringaGenere.getPreferredSize().getWidth(), (int)stringaGenere.getPreferredSize().getHeight());
 		add(stringaGenere);
 		
+		try
+		{
+			fumetto.apriFumetto();
+		} catch (MalformedURLException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		String genere = new String("");
 		
 		try
@@ -196,6 +210,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		bottoneDaLeggere.addActionListener(listener);
 		add(bottoneDaLeggere);
 		
+		
 		descrizione = new JTextArea(fumetto.getDescrizione());
 		descrizione.setFont(new Font("Caladea", Font.BOLD, 14));
 		descrizione.setOpaque(false);
@@ -229,45 +244,10 @@ public class PannelloDescrizioneFumetto extends JPanel
 		add(bottoneIndietroVolumi);
 		
 		this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(), (int)this.getPreferredSize().getHeight()+descrizione.getY()+(int)descrizione.getPreferredSize().getHeight()));
-		
-		try {
-			fumetto.caricaVolumi();
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		for (int j = 0; j < fumetto.getVolumi().length; j++) 
-		{
-			Text nomeVolume = new Text(fumetto.getVolumi()[j].getNumero()+" - "+fumetto.getVolumi()[j].getNome(), 12, Color.WHITE);
-			nomiVolumi.add(nomeVolume);
-			
-			try {
-				BottoneFumetto bottoneFumetto = new BottoneFumetto(getURL(fumetto.getVolumi()[j].getUrlCopertina(),200,300),fumetto);
-				bottoneFumetto.setBorder(BorderFactory.createLineBorder(Color.black,3));
-				bottoniVolumi.add(bottoneFumetto);
-				
-				bottoniVolumi.get(j).setPreferredSize(new Dimension(200,300));
-				
-				if (j == 0)
-					bottoniVolumi.get(j).setBounds(10, 20 + stringaVolumi.getY() +(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
-				else
-					bottoniVolumi.get(j).setBounds(15+bottoniVolumi.get(j-1).getX()+(int)bottoniVolumi.get(j-1).getPreferredSize().getWidth(),20 + stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			nomiVolumi.get(j).setBounds(bottoniVolumi.get(j).getX(), 10 + bottoniVolumi.get(j).getY() + (int)bottoniVolumi.get(j).getPreferredSize().getHeight(), (int)nomiVolumi.get(j).getPreferredSize().getWidth(), (int)nomiVolumi.get(j).getPreferredSize().getHeight());
 
-			if (j < 4)
-			{
-//				indiceVolumi = j;
-				add(bottoniVolumi.get(j));
-				add(nomiVolumi.get(j));
-			}
-		}
+		volumi = fumetto.getVolumi();
+		System.out.println(volumi.length);
+		disegnaCopertineVolumi(0, 4, 0);
 		
 		bottoneAvantiVolumi.addActionListener(listener);
 		bottoneIndietroVolumi.addActionListener(listener);
@@ -303,35 +283,6 @@ public class PannelloDescrizioneFumetto extends JPanel
 		bottone.setFocusPainted(false);
 		bottone.setContentAreaFilled(false);
 		bottone.setBackground(this.getBackground());
-	}
-	
-	public Image getURL(String stringa, int w, int h) throws IOException
-	{
-		URL url = new URL(stringa);
-		BufferedImage bufferedImage = ImageIO.read(url);
-		
-		String stringhe [] = new String[14];
-		stringhe = url.toString().split("/");
-		
-		File dir = (new File("Comics Reader"));
-		
-		if (dir.exists())
-			file = new File(dir.getName()+"/"+stringhe[stringhe.length-1]);
-		else
-		{
-			dir.mkdir();
-			file = new File(dir.getName()+"/"+stringhe[stringhe.length-1]);
-		}
-		
-		ImageOutputStream imageOutputStream = new FileImageOutputStream(file); 
-		ImageIO.write(bufferedImage, "jpg", imageOutputStream);
-		
-		bufferedImage = ImageIO.read(url);
-		Image scaledImageFumetto = bufferedImage.getScaledInstance(w, h, bufferedImage.SCALE_AREA_AVERAGING);
-		
-		file.deleteOnExit();
-		
-		return scaledImageFumetto;
 	}
 	
 	@Override
@@ -377,6 +328,58 @@ public class PannelloDescrizioneFumetto extends JPanel
 		}
 	}
 	
+	public void disegnaCopertineVolumi(int indiceIniziale, int indiceFinale, int tipo)
+	{
+		fumetto.caricaProssimeCopertine();
+		System.out.println("PRIMA FOR"+ indiceIniziale+" "+indiceFinale);
+		
+		if (indiceFinale > volumi.length)
+		{
+			indiceFinale = volumi.length;
+			indiceVolumi = volumi.length;
+		}
+		
+		for (int j = indiceIniziale; j < indiceFinale; j++) 
+		{
+			Text nomeVolume = new Text(fumetto.getVolumi()[j].getNumero()+" - "+fumetto.getVolumi()[j].getNome(), 12, Color.WHITE);
+			nomiVolumi.add(nomeVolume);
+			
+			BottoneFumetto bottoneVolume = new BottoneFumetto(volumi[j].getCopertina(),fumetto);
+			bottoneVolume.setBorder(BorderFactory.createLineBorder(Color.black,3));
+			bottoniVolumi.add(bottoneVolume);
+			
+			bottoniVolumi.get(j).setPreferredSize(new Dimension(200,300));
+			
+			if (j == indiceIniziale)
+				bottoniVolumi.get(j).setBounds(10, 20 + stringaVolumi.getY() +(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
+			else
+				bottoniVolumi.get(j).setBounds(15+bottoniVolumi.get(j-1).getX()+(int)bottoniVolumi.get(j-1).getPreferredSize().getWidth(),20 + stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
+		
+			nomiVolumi.get(j).setBounds(bottoniVolumi.get(j).getX(), 10 + bottoniVolumi.get(j).getY() + (int)bottoniVolumi.get(j).getPreferredSize().getHeight(), (int)nomiVolumi.get(j).getPreferredSize().getWidth(), (int)nomiVolumi.get(j).getPreferredSize().getHeight());
+			
+
+			add(bottoniVolumi.get(j));
+			add(nomiVolumi.get(j));
+		}
+		System.out.println("DOPO FOR"+indiceIniziale+" "+indiceFinale);
+
+		if (tipo == 0)
+		{
+			if (indiceVolumi < volumi.length - 4)
+				indiceVolumi += 4;
+		}
+		else
+		{
+			if (indiceVolumi > 0)
+				indiceVolumi -= 4;
+		}
+				
+		if (indiceVolumi >= volumi.length)
+			bottoneAvantiVolumi.setEnabled(false);
+		else if (indiceVolumi <= 0)
+			bottoneIndietroVolumi.setEnabled(false);
+	}
+	
 	private class MyListener implements ActionListener 
 	{
 		@Override
@@ -394,122 +397,37 @@ public class PannelloDescrizioneFumetto extends JPanel
 			else if (source == bottoneIndietroVolumi)   //BOTTONE INDIETRO VOLUMI
 			{
 				bottoneAvantiVolumi.setEnabled(true);
-				if (indiceVolumi <= 0)
-					bottoneIndietroVolumi.setEnabled(false);
-				else
+				
+				if (indiceVolumi >= 4)
 				{
-					indiceVolumi -= 4;
-					System.out.println(indiceVolumi);
-					
-					if (indiceVolumi <= 4)
+					for (int i = indiceVolumi-4; i < indiceVolumi; i++)
 					{
-						for (int i = 4; i < 8 ; i++)
-						{
-							remove(bottoniVolumi.get(i));
-							remove(nomiVolumi.get(i));
-						}
-						for (int i = 0; i < 4; i++)
-						{
-							if (i == 0)
-								bottoniVolumi.get(i).setBounds(10,10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-							else
-								bottoniVolumi.get(i).setBounds(15+bottoniVolumi.get(i-1).getX()+(int)bottoniVolumi.get(i-1).getPreferredSize().getWidth(),10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-							
-							nomiVolumi.get(i).setBounds(bottoniVolumi.get(i).getX(),10+bottoniVolumi.get(i).getY()+(int)bottoniVolumi.get(i).getPreferredSize().getHeight(), (int)nomiVolumi.get(i).getPreferredSize().getWidth(), (int)nomiVolumi.get(i).getPreferredSize().getHeight());							
-							add(bottoniVolumi.get(i));
-							add(nomiVolumi.get(i));
-						}
-						bottoneIndietroVolumi.setEnabled(false);
-					}
-					else if (indiceVolumi > 4)
-					{
-						if (indiceVolumi == bottoniVolumi.size())
-						{
-							indiceVolumi = bottoniVolumi.size() - 4;
-							for (int i = indiceVolumi; i < bottoniVolumi.size() ; i++)
-							{
-								remove(bottoniVolumi.get(i));
-								remove(nomiVolumi.get(i));
-							}
-						}
-						else
-						{
-							for (int i = indiceVolumi; i < indiceVolumi + 4 ; i++)
-							{
-								remove(bottoniVolumi.get(i));
-								remove(nomiVolumi.get(i));
-							}
-						}
-						for (int i = indiceVolumi - 4; i < indiceVolumi ; i++)
-						{
-							if (i == indiceVolumi - 4)
-								bottoniVolumi.get(i).setBounds(10,10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-							else
-								bottoniVolumi.get(i).setBounds(15+bottoniVolumi.get(i-1).getX()+(int)bottoniVolumi.get(i-1).getPreferredSize().getWidth(),10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-							
-							nomiVolumi.get(i).setBounds(bottoniVolumi.get(i).getX(),10+bottoniVolumi.get(i).getY()+(int)bottoniVolumi.get(i).getPreferredSize().getHeight(), (int)nomiVolumi.get(i).getPreferredSize().getWidth(), (int)nomiVolumi.get(i).getPreferredSize().getHeight());							
-							add(bottoniVolumi.get(i));
-							add(nomiVolumi.get(i));
-						}
+						remove(bottoniVolumi.get(i));
+						remove(nomiVolumi.get(i));
 					}
 				}
+//				indiceVolumi -= 4;
+				disegnaCopertineVolumi(indiceVolumi-4, indiceVolumi, 1);
+				repaint();
+				
 			}
 			else if (source == bottoneAvantiVolumi)  //BOTTONE AVANTI VOLUMI
 			{
-				
 				bottoneIndietroVolumi.setEnabled(true);
-				if (bottoniVolumi.size() - indiceVolumi <= 4)
+				
+				if (indiceVolumi >= 4)
 				{
-					indiceVolumi += bottoniVolumi.size() - indiceVolumi;
-					aggiungiVolume();
-					bottoneAvantiVolumi.setEnabled(false);
-				}
-				else if (indiceVolumi == 0)
-				{
-					indiceVolumi = 4;
-					for (int i = 0; i < 4 ; i++)
+					for (int i = indiceVolumi - 4; i < indiceVolumi; i++)
 					{
 						remove(bottoniVolumi.get(i));
 						remove(nomiVolumi.get(i));
 					}
-					for (int i = indiceVolumi; i < 8; i++)
-					{
-						if (i == indiceVolumi)
-							bottoniVolumi.get(i).setBounds(10,10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-						else
-							bottoniVolumi.get(i).setBounds(15+bottoniVolumi.get(i-1).getX()+(int)bottoniVolumi.get(i-1).getPreferredSize().getWidth(),10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-						
-						nomiVolumi.get(i).setBounds(bottoniVolumi.get(i).getX(),10+bottoniVolumi.get(i).getY()+(int)bottoniVolumi.get(i).getPreferredSize().getHeight(), (int)nomiVolumi.get(i).getPreferredSize().getWidth(), (int)nomiVolumi.get(i).getPreferredSize().getHeight());							
-						add(nomiVolumi.get(i));
-						add(bottoniVolumi.get(i));
-					}
-					indiceVolumi += 4;
 				}
-				else
-				{
-					for (int i = 0; i < indiceVolumi ; i++)
-					{
-						remove(bottoniVolumi.get(i));
-						remove(nomiVolumi.get(i));
-					}
-					for (int i = indiceVolumi; i < indiceVolumi + 4; i++)
-					{
-						if (i == indiceVolumi)
-							bottoniVolumi.get(i).setBounds(10,10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-						else
-							bottoniVolumi.get(i).setBounds(15+bottoniVolumi.get(i-1).getX()+(int)bottoniVolumi.get(i-1).getPreferredSize().getWidth(),10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-						
-						nomiVolumi.get(i).setBounds(bottoniVolumi.get(i).getX(),10+bottoniVolumi.get(i).getY()+(int)bottoniVolumi.get(i).getPreferredSize().getHeight(), (int)nomiVolumi.get(i).getPreferredSize().getWidth(), (int)nomiVolumi.get(i).getPreferredSize().getHeight());							
-						add(nomiVolumi.get(i));
-						add(bottoniVolumi.get(i));
-					}
-				}
-				if (indiceVolumi == bottoniVolumi.size() - 1)
-				{
-					bottoneAvantiVolumi.setEnabled(false);
-					bottoneIndietroVolumi.setEnabled(true);
-				}
-				indiceVolumi += 4;
+				
+				
+				disegnaCopertineVolumi(indiceVolumi, indiceVolumi+4, 0);
+				repaint();
+				
 			}
 			
 			for (int i = 0; i < bottoniVolumi.size(); i++)   //BOTTONE VOLUMI  ********

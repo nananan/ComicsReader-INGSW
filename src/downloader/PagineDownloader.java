@@ -169,7 +169,6 @@ public class PagineDownloader {
 	}
 	
 	void inserisciPagine(Image immagine,int indice) {
-		System.out.println(pagine);
 		pagine[indice] = immagine;
 	}
 	

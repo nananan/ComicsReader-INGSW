@@ -1,11 +1,10 @@
 package domain;
 
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.awt.Image;
+
 import java.sql.SQLException;
 
-import javax.swing.ImageIcon;
 
 import technicalService.TabellaCapitolo;
 import technicalService.TabellaVolume;
@@ -14,7 +13,7 @@ public class Volume {
 	
 	private String nome;
 	private int numero;
-	private ImageIcon copertina;
+	private Image copertina;
 	private String urlCopertina;
 	private String nomeFumetto;
 	
@@ -27,9 +26,7 @@ public class Volume {
 		nome = tuplaVolume.getNome();
 		numero = tuplaVolume.getNumero();
 		urlCopertina = tuplaVolume.getUrlCopertina();
-		nomeFumetto = tuplaVolume.getNomeFumetto();
-//		copertina = new ImageIcon(new URL(urlCopertina).toString());
-	
+		nomeFumetto = tuplaVolume.getNomeFumetto();	
 		tuplaCapitolo = new TabellaCapitolo(nomeFumetto,numero);
 		numeroCapitoli = 0;
 		capitoli = null;
@@ -55,7 +52,9 @@ public class Volume {
 		
 		
 	}
-	
+	public void setCopertina(Image copertina){
+		this.copertina = copertina;
+	}
 	public String getNomeFumetto() {
 		return nomeFumetto;
 	}
@@ -81,7 +80,7 @@ public class Volume {
 		return numero;
 	}
 
-	public ImageIcon getCopertina() {
+	public Image getCopertina() {
 		return copertina;
 	}
 

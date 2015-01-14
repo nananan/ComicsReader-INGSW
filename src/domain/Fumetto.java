@@ -1,15 +1,21 @@
 package domain;
 
 
+import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import com.sun.org.apache.bcel.internal.generic.IUSHR;
+
+import downloader.CopertinaVolumeDownloaderManager;
 import technicalService.TabellaFumetto;
 import technicalService.TabellaGeneri;
 import technicalService.TabellaVolume;
+import technicalService.TabellaFumetto;
 
 public class Fumetto {
 	
@@ -20,17 +26,19 @@ public class Fumetto {
 	private boolean ecompleto;	
 	private boolean occidentale;
 	private String[] generi;
-	private ImageIcon copertina = null;
+	private Image copertina = null;
 	private String url;
 	private double valutazioneMedia;
 	private int numeroLetture;
-	
+	private Image[] copertineVolumi ;
+
 	private Volume[] volumi;
 	private int numeroVolumi;
-	
-	private TabellaFumetto tuplaFumetto;
+	private int ultimeCopertineInserite;
 	private TabellaVolume tuplaVolume;
 	static private TabellaGeneri tupleGenere;
+	
+	private CopertinaVolumeDownloaderManager dowloaderManager = CopertinaVolumeDownloaderManager.getCopertinaDowloader();
 	
 	public Fumetto(String nome, String autore, String artista, String descrizione,
 			boolean ecompleto, boolean occidentale, String url, double valutazione,
@@ -44,26 +52,20 @@ public class Fumetto {
 		this.occidentale = occidentale;
 		this.url = url;
 		this.valutazioneMedia= valutazione;
-		this.numeroLetture = numeroLetture;
-
-		
-		
+		this.numeroLetture = numeroLetture;	
 	}
 	
-	public Fumetto(TabellaFumetto tuplaFumetto) throws SQLException{
+	public Fumetto(TabellaFumetto tuplaFumetto){
 		
 		nome = tuplaFumetto.getNome();
 		autore = tuplaFumetto.getAutore();
 		artista = tuplaFumetto.getArtista();
-		descrizione = tuplaFumetto.getDescrizione();
 		ecompleto = tuplaFumetto.getECompleto();
 		occidentale = tuplaFumetto.getEOccidentale();
 		url = tuplaFumetto.getUrlCopertina();
 		valutazioneMedia = tuplaFumetto.getValutazioneMedia();
 		numeroLetture = tuplaFumetto.getNumeroLetture(); 
-		
-		tuplaFumetto = new TabellaFumetto(nome);
-		
+				
 		generi = null;
 		numeroVolumi = 0;
 		volumi = null;
@@ -85,11 +87,6 @@ public class Fumetto {
 		return numeroVolumi;
 	}
 
-	public TabellaFumetto getTuplaFumetto()
-	{
-		return tuplaFumetto;
-	}
-
 	public TabellaVolume getTuplaVolume()
 	{
 		return tuplaVolume;
@@ -99,41 +96,50 @@ public class Fumetto {
 	{
 		return tupleGenere;
 	}
-
-	public void caricaVolumi() throws SQLException, MalformedURLException{
+	
+	public void apriFumetto() throws SQLException, MalformedURLException{
 		
+		if(numeroVolumi != 0) return;
+		
+		descrizione = TabellaFumetto.generaTuplaFumetto(nome).getTrama();
+		tupleGenere = new TabellaGeneri();
+		generi = tupleGenere.getGeneri(nome);
 		tuplaVolume = new TabellaVolume(nome);
-
-		if(numeroVolumi == tuplaVolume.getNumeroVolumi()) return;
-		
-		numeroVolumi = tuplaVolume.getNumeroVolumi();
-		
-		if(volumi != null)
-			tuplaVolume.aggiorna();
-		
+		numeroVolumi =  tuplaVolume.getNumeroVolumi();
+	
 		volumi = new Volume[numeroVolumi];
 		
-		while(tuplaVolume.nextVolume())
+		String[] urls = new String[numeroVolumi];
+		copertineVolumi = new Image[numeroVolumi];
+		
+		for(int i=0;tuplaVolume.nextVolume();i++)
 		{
+			urls[i] = tuplaVolume.getUrlCopertina();
 			Volume volume = new Volume (tuplaVolume);
 			volumi[volume.getNumero()-1]= volume;
 		}
-	
+		dowloaderManager.scarica(urls, copertineVolumi,numeroVolumi);
+		for(int i =0; i < 4; i++, ultimeCopertineInserite++){
+			volumi[i].setCopertina(copertineVolumi[i]);
+		}
 	}
+	
+	public void caricaProssimeCopertine(){
+		dowloaderManager.continuaDownload();
+		for(int i =0; i < dowloaderManager.getNumeroDownloaders();i++,ultimeCopertineInserite++)
+			volumi[ultimeCopertineInserite].setCopertina(copertineVolumi[ultimeCopertineInserite]); 
+	}
+	
 	static public String[] getGeneri() throws SQLException{
-		if(tupleGenere == null) tupleGenere = new TabellaGeneri();
+		if(tupleGenere == null) 
+			tupleGenere = new TabellaGeneri();
 		
 		return tupleGenere.getGeneri();
 	}
 	
 	public String[] getGeneriFumetto() throws SQLException{
 		
-		if(tupleGenere == null) tupleGenere = new TabellaGeneri();
-		
-		if(generi != null) return generi;
-		System.out.println(nome);
-		return generi = tupleGenere.getGeneri(nome);
-		
+		return generi;
 	}
 	
 	public String getNome() {
@@ -156,7 +162,7 @@ public class Fumetto {
 		return occidentale;
 	}
 
-	public ImageIcon getCopertina() {
+	public Image getCopertina() {
 		return copertina;
 	}
 
@@ -178,5 +184,10 @@ public class Fumetto {
 
 	public String getArtista() {
 		return artista;
+	}
+
+	public void setImage(Image image)
+	{
+		copertina = image;
 	}
 }

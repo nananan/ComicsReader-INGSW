@@ -2,26 +2,225 @@ package technicalService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-public class TabellaFumetto {
-	
+public class TabellaFumetto
+{
 	private ResultSet cursoreFumetto;
-	private String nomeFumettoCorrente;
-	final private String QUERY_FUMETTO = "SELECT * FROM fumetto;";
 	
-	public TabellaFumetto() throws SQLException {
+	private final static int MAX_NUMERO_TUPLE = 8;
+	
+	static private String queryFumetti = "SELECT nome,url_copertina_primo_volume,autore,artista, "
+			+ "completa,occidentale,valutazione_media, numero_Letture FROM fumetto LIMIT ";
+	
+	static private String queryTrama = "SELECT trama FROM fumetto WHERE nome = \""; 
+	
+	static private String queryFumetto = "SELECT * FROM fumetto where nome =\"";
+
+	private static String queryNumeroFumetti = "SELECT count(*) FROM fumetto;";
+
+	static private String queryFumettiFiltri = "SELECT nome,url_copertina_primo_volume,autore,artista, "
+			+ "completa,occidentale,valutazione_media, numero_Letture FROM fumetto as f, genere_fumetto as g "
+			+ "WHERE ";
+	private static int numeroTupleGenerate;
+	
+	static public TabellaFumetto generaProssimeTupleFumetto(){
 		
-		cursoreFumetto = DataBase.getStatement().executeQuery(QUERY_FUMETTO);	
+		TabellaFumetto tupla = new TabellaFumetto(queryFumetti + numeroTupleGenerate + "," + MAX_NUMERO_TUPLE+";");
+		numeroTupleGenerate +=MAX_NUMERO_TUPLE;
+		return tupla; 
+	
+	}
+
+	static public TabellaFumetto generaProssimeTupleFumetto(int indice){
+	
+		TabellaFumetto tupla = new TabellaFumetto(queryFumetti + indice + "," + MAX_NUMERO_TUPLE+";");
+		return tupla; 	
+	}
+
+	static public TabellaFumetto generaTuplaFumetto(String nome){
+	
+		return new TabellaFumetto(queryFumetto +nome+"\";");
+	}
+
+	public String getDescrizione(String nomeFumetto){ 
+	
+		TabellaFumetto tupla = new TabellaFumetto(queryTrama+nomeFumetto+"\";");
+		return tupla.getTrama();
 	}
 	
-	public TabellaFumetto(String fumetto) throws SQLException{
+	public static int getNumeroFumetti()
+	{
+		try
+		{
+			ResultSet numeroFumetti  =DataBase.getStatement().executeQuery(queryNumeroFumetti);
+			numeroFumetti.next();
+			return numeroFumetti.getInt(1);
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
 		
-		String query = "SELECT * FROM fumetto where nome =\""+fumetto+"\";";
-		cursoreFumetto = DataBase.getStatement().executeQuery(query);
-		cursoreFumetto.next();
 	}
 	
+	public static TabellaFumetto generaFumettiPerFiltri(String[] strings,
+			int statoFumetto, int provenienzaFumetto)
+	{
+		String query = queryFumettiFiltri;
+		return null;
+	}
+	public TabellaFumetto(String query)
+	{
+		try
+		{
+			cursoreFumetto = DataBase.getStatement().executeQuery(query);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean nextFumetto() {
+		
+		try
+		{
+			return cursoreFumetto.next();
+		} catch (SQLException e)
+		{			
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public String getNome() {
+		
+		try
+		{
+			return  cursoreFumetto.getString("nome");
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public String getAutore(){
+		
+		try
+		{
+			return cursoreFumetto.getString("autore");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public String getArtista() {
+		try
+		{
+			return cursoreFumetto.getString("artista");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();			
+			return null;
+
+		}
+	
+	}
+		
+	public boolean getECompleto(){
+		
+		try
+		{
+			return cursoreFumetto.getBoolean("completa");
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+
+		}
+	}
+	
+	public boolean getEOccidentale() {
+		
+		try
+		{
+			return cursoreFumetto.getBoolean("occidentale");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+
+		}
+	}
+	public String getUrlCopertina(){
+		
+		try
+		{
+			return cursoreFumetto.getString("url_copertina_primo_volume");
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public double getValutazioneMedia(){
+		
+		try
+		{
+			return cursoreFumetto.getDouble("valutazione_media");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return 0.0;
+
+		}
+		
+	}
+	
+	public int getNumeroLetture(){
+		
+		try
+		{
+			return cursoreFumetto.getInt("numero_letture");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public void close() throws SQLException{
+		cursoreFumetto.close();
+	}
+
+	public String getTrama()
+	{
+		try
+		{	nextFumetto();
+			return cursoreFumetto.getString("trama");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public boolean previousFumetto()
+	{
+		try
+		{
+			return cursoreFumetto.previous();
+		} catch (SQLException e)
+		{	
+			e.printStackTrace();
+			return false;
+		}
+	}
 	public TabellaFumetto(String filtro, String tipoFumetto, String statoFumetto) throws SQLException{
 		
 		int èOccidentale = 1, èCompleto = 1;
@@ -66,71 +265,28 @@ public class TabellaFumetto {
 		}
 	}
 	
-	public TabellaFumetto(String tipoDaCercare, String testoDaCercare) throws SQLException
+	public static TabellaFumetto generaFumettiPerArtista(String artista)
 	{
-		if (tipoDaCercare.equals("Fumetto"))
-			tipoDaCercare = "Nome";
+		String query = "Select nome,url_copertina_primo_volume,autore,artista, "
+			+ "completa,occidentale,valutazione_media, numero_Letture from fumetto where artista = \"" + artista + "\";";
 		
-		String query = "Select * from fumetto where " 
-						+ tipoDaCercare + "= \"" + testoDaCercare + "\";";
-		
-		cursoreFumetto = DataBase.getStatement().executeQuery(query);
-
-	}
-	
-	public TabellaFumetto(ResultSet cursorePreferiti) {
-		cursoreFumetto = cursorePreferiti;
+		return new TabellaFumetto(query);
 	}
 
-	public boolean nextFumetto() throws SQLException {
+	public static TabellaFumetto generaFumettiPerAutore(String autore)
+	{
+		String query = "Select nome,url_copertina_primo_volume,autore,artista, "
+			+ "completa,occidentale,valutazione_media, numero_Letture from fumetto where autore = \"" + autore + "\";";
 		
-		return cursoreFumetto.next();
+		return new TabellaFumetto(query);
 	}
 	
-	public String getNome() throws SQLException {
+	public TabellaFumetto generaFumettiPerNomeFumetto(String nomeFumetto)
+	{
+		String query = "Select nome,url_copertina_primo_volume,autore,artista, "
+			+ "completa,occidentale,valutazione_media, numero_Letture from fumetto where nome = \"" + nomeFumetto + "\";";
 		
-		return nomeFumettoCorrente = cursoreFumetto.getString(1);
+		return new TabellaFumetto(query);
 	}
-
-	public String getAutore() throws SQLException{
-		
-		return cursoreFumetto.getString(2);
-	}
-	public String getArtista() throws SQLException {
-		return cursoreFumetto.getString(3);
-	}
-	public String getDescrizione() throws SQLException{
-		
-		return cursoreFumetto.getString(4);
-	}
-	
-	public boolean getECompleto() throws SQLException{
-		
-		return cursoreFumetto.getBoolean(5);
-	}
-	
-	public boolean getEOccidentale() throws SQLException {
-		
-		return cursoreFumetto.getBoolean(6);
-	}
-	public String getUrlCopertina() throws SQLException{
-		
-		return cursoreFumetto.getString(7);
-	}
-	
-	public double getValutazioneMedia() throws SQLException{
-		
-		return cursoreFumetto.getDouble(8);
-	}
-	
-	public int getNumeroLetture() throws SQLException{
-		
-		return cursoreFumetto.getInt(9);
-	}
-	
-	public void close() throws SQLException{
-		cursoreFumetto.close();
-	}
-
 	
 }

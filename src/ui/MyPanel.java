@@ -94,10 +94,10 @@ public class MyPanel extends JPanel
 		ArrayList<String> filtri = pannelloFiltraggio.getArrayDiFiltri();
 		remove(pannelloScrollFiltraggio);
 		this.add(pannelloSinistro,BorderLayout.WEST);
-
-		pannelloDiscover = new PannelloDiscover(pannelloCentro, this, filtri, 
-						pannelloFiltraggio.getTipoFumetto(), pannelloFiltraggio.getStatoFumetto());
-		
+//
+//		pannelloDiscover = new PannelloDiscover(pannelloCentro, this, filtri, 
+//						pannelloFiltraggio.getTipoFumetto(), pannelloFiltraggio.getStatoFumetto());
+//		
 		this.add(pannelloDiscover, BorderLayout.CENTER);
 		
 		this.validate();

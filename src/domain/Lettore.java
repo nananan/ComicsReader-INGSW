@@ -6,6 +6,7 @@ import java.util.HashMap;
 import technicalService.DataBase;
 import technicalService.TabellaFumetto;
 import technicalService.TabellaLettore;
+import technicalService.TabellaFumetto;
 
 public class Lettore {
 	
@@ -195,30 +196,18 @@ public class Lettore {
 		}
 		return false;
 	}
-	public void caricaCronologia() throws SQLException{
+	public void caricaCronologia(){
 
-		if(cronologia != null) return;
+		if(daLeggere != null) return;
 		
-		cronologia = new HashMap<>();
+		daLeggere = new HashMap<>();
 		
-		TabellaFumetto tuplaFumetto = tuplaLettore.getCronologia();
+		TabellaFumetto tuplaFumetto =tuplaLettore.getDaLeggere();
 		
 		while(tuplaFumetto.nextFumetto()){
 			Fumetto fumetto = new Fumetto(tuplaFumetto);
-			cronologia.put(fumetto.getNome(), fumetto);
-		}
-	}
-	
-	public boolean aggiungiAllaCronologia(Fumetto fumetto) throws SQLException{
-		
-		if(cronologia == null) caricaCronologia();
-		
-		if(cronologia.containsKey(fumetto.getNome())) return false;
-		cronologia.put(fumetto.getNome(),fumetto);
-		tuplaLettore.aggiungiCronologia(fumetto.getNome());
-		return true;	
-	}
-	
+			daLeggere.put(fumetto.getNome(), fumetto);
+		}	}
 	public int getNumFollow() {
 		try
 		{
@@ -260,14 +249,6 @@ public class Lettore {
 	}
 
 	public HashMap<String, Fumetto> getPreferiti() {
-		try
-		{
-			caricaPreferiti();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return preferiti;
 	}
 	public HashMap<String, Lettore> getFollower() throws SQLException {
@@ -281,14 +262,6 @@ public class Lettore {
 	}
 
 	public HashMap<String, Fumetto> getDaLeggere() {
-		try
-		{
-			caricaDaLeggere();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return daLeggere;
 	}
 
@@ -325,7 +298,7 @@ public class Lettore {
 			mario.segui(eliana);
 			
 		
-			Fumetto death = new Fumetto(new TabellaFumetto("Death Note"));
+			Fumetto death = new Fumetto(TabellaFumetto.generaTuplaFumetto("Death Note"));
 			manuel.inserisciDaLeggere(death);
 			
 			System.out.println(manuel.getDaLeggere().size());
@@ -353,6 +326,16 @@ public class Lettore {
 	public int getNumeroFollowAltroLettore()
 	{
 		return numFollow;
+	}
+
+	public boolean aggiungiAllaCronologia(Fumetto fumetto)
+	{
+		if(cronologia == null) caricaCronologia();
+		
+		if(cronologia.containsKey(fumetto.getNome())) return false;
+		cronologia.put(fumetto.getNome(),fumetto);
+		tuplaLettore.aggiungiCronologia(fumetto.getNome());
+		return true;	
 	}
 	
 	
