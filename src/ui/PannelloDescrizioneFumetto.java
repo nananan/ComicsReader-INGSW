@@ -210,7 +210,6 @@ public class PannelloDescrizioneFumetto extends JPanel
 		bottoneDaLeggere.addActionListener(listener);
 		add(bottoneDaLeggere);
 		
-		
 		descrizione = new JTextArea(fumetto.getDescrizione());
 		descrizione.setFont(new Font("Caladea", Font.BOLD, 14));
 		descrizione.setOpaque(false);
@@ -331,14 +330,12 @@ public class PannelloDescrizioneFumetto extends JPanel
 	public void disegnaCopertineVolumi(int indiceIniziale, int indiceFinale, int tipo)
 	{
 		fumetto.caricaProssimeCopertine();
-		System.out.println("PRIMA FOR"+ indiceIniziale+" "+indiceFinale);
 		
-		if (indiceFinale > volumi.length)
+		if (indiceFinale >= volumi.length)
 		{
 			indiceFinale = volumi.length;
 			indiceVolumi = volumi.length;
 		}
-		
 		for (int j = indiceIniziale; j < indiceFinale; j++) 
 		{
 			Text nomeVolume = new Text(fumetto.getVolumi()[j].getNumero()+" - "+fumetto.getVolumi()[j].getNome(), 12, Color.WHITE);
@@ -361,23 +358,15 @@ public class PannelloDescrizioneFumetto extends JPanel
 			add(bottoniVolumi.get(j));
 			add(nomiVolumi.get(j));
 		}
-		System.out.println("DOPO FOR"+indiceIniziale+" "+indiceFinale);
 
 		if (tipo == 0)
 		{
 			if (indiceVolumi < volumi.length - 4)
 				indiceVolumi += 4;
 		}
-		else
-		{
-			if (indiceVolumi > 0)
-				indiceVolumi -= 4;
-		}
 				
 		if (indiceVolumi >= volumi.length)
 			bottoneAvantiVolumi.setEnabled(false);
-		else if (indiceVolumi <= 0)
-			bottoneIndietroVolumi.setEnabled(false);
 	}
 	
 	private class MyListener implements ActionListener 
@@ -398,7 +387,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 			{
 				bottoneAvantiVolumi.setEnabled(true);
 				
-				if (indiceVolumi >= 4)
+				if (indiceVolumi > 0)
 				{
 					for (int i = indiceVolumi-4; i < indiceVolumi; i++)
 					{
@@ -406,7 +395,18 @@ public class PannelloDescrizioneFumetto extends JPanel
 						remove(nomiVolumi.get(i));
 					}
 				}
-//				indiceVolumi -= 4;
+				indiceVolumi -= 4;
+				if (indiceVolumi <= 4)
+				{
+					bottoneIndietroVolumi.setEnabled(false);
+					indiceVolumi = 4;
+				}
+				if (indiceVolumi >= volumi.length)
+				{
+					indiceVolumi -= volumi.length;
+					System.out.println("::::"+indiceVolumi);
+				}
+					
 				disegnaCopertineVolumi(indiceVolumi-4, indiceVolumi, 1);
 				repaint();
 				

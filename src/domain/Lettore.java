@@ -249,6 +249,14 @@ public class Lettore {
 	}
 
 	public HashMap<String, Fumetto> getPreferiti() {
+		try
+		{
+			caricaPreferiti();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return preferiti;
 	}
 	public HashMap<String, Lettore> getFollower() throws SQLException {
@@ -262,10 +270,19 @@ public class Lettore {
 	}
 
 	public HashMap<String, Fumetto> getDaLeggere() {
+		try
+		{
+			caricaDaLeggere();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return daLeggere;
 	}
 
 	public HashMap<String, Fumetto> getCronologia() {
+		caricaCronologia();
 		return cronologia;
 	}
 
