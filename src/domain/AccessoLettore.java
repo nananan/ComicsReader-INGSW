@@ -1,36 +1,23 @@
 package domain;
 
-import java.sql.SQLException;
 
-import sun.applet.Main;
-import sun.security.action.GetLongAction;
 import technicalService.DataBase;
-import technicalService.TabellaLettore;
+import technicalService.TuplaLettore;
 
 public class AccessoLettore
 {
 	private Lettore lettore;
-	private TabellaLettore tuplaLettore;
+	private TuplaLettore tuplaLettore;
 	private String idLettore;
 	
 	public AccessoLettore(String idLettore)
 	{
 		this.idLettore = idLettore;
-		try
-		{	DataBase.connect();
-			tuplaLettore = new TabellaLettore(idLettore);
-			tuplaLettore.nextLettore();
-			lettore = new Lettore(tuplaLettore);
+		DataBase.connetti();
+		tuplaLettore = new TuplaLettore(idLettore);
+		tuplaLettore.prossima();
+		lettore = new Lettore(tuplaLettore);
 			
-			
-		} catch (SQLException e)
-		{
-			System.err.println("UTENTE NON PRESENTE");
-		} catch (ClassNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 	public static void main(String[] args)
@@ -47,7 +34,7 @@ public class AccessoLettore
 	{
 		return lettore;
 	}
-	public TabellaLettore getTuplaLettore()
+	public TuplaLettore getTuplaLettore()
 	{
 		return tuplaLettore;
 	}

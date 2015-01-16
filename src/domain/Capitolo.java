@@ -1,12 +1,10 @@
 package domain;
 
 import java.awt.Image;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.SQLException;
 
 
-import technicalService.TabellaCapitolo;
+import technicalService.TuplaCapitolo;
 
 public class Capitolo {
 	
@@ -17,7 +15,7 @@ public class Capitolo {
 	private Image[] pagine;
 	private int numeroPagine;
 	
-	public Capitolo( TabellaCapitolo tuplaCapitolo) throws SQLException {
+	public Capitolo( TuplaCapitolo tuplaCapitolo) {
 		
 		numero = tuplaCapitolo.getNumero();
 		titolo = tuplaCapitolo.getTitolo();

@@ -113,18 +113,9 @@ public class PannelloSinistra extends JPanel
 			public void mouseReleased(MouseEvent e)
 			{
 				super.mouseReleased(e);
-				try
-				{
+			
 					panel.PremiPerFumetto(fumetto, immaginePerFumetto);
-				} catch (MalformedURLException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SQLException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+		
 			}
 		});
 		
@@ -134,18 +125,9 @@ public class PannelloSinistra extends JPanel
 			public void mouseReleased(MouseEvent e)
 			{
 				super.mouseReleased(e);
-				try
-				{
+			
 					panel.PremiPerFumetto(fumetto, immaginePerFumetto);
-				} catch (MalformedURLException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SQLException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			
 			}
 		});
 		
@@ -175,26 +157,12 @@ public class PannelloSinistra extends JPanel
 		public void actionPerformed(ActionEvent e) 
 		{
 			Object source = e.getSource();
-			
-			try {
-				DataBase.connect();
-			} catch (ClassNotFoundException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			} catch (SQLException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-			
+			DataBase.connetti();
 			
 			if (source == buttonDiscover)
 			{
-				try {
+				
 					panel.PremiPerDiscover();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
 			}
 		}
 	}

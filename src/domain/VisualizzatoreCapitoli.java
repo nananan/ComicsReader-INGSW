@@ -5,13 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
-import java.util.HashMap;
-
 import javax.imageio.ImageIO;
-
 import technicalService.DataBase;
-import technicalService.TabellaFumetto;
-import technicalService.TabellaFumetto;
+import technicalService.TuplaFumetto;
 import downloader.ImmagineNonPresenteException;
 import downloader.PagineDownloader;
 import downloader.ScaricamentoImmagineIncompletoException;
@@ -32,19 +28,19 @@ public class VisualizzatoreCapitoli {
 	private int indiceCapitoloCorrente;
 	
 	private VisualizzatoreCapitoli(){
-//		try {		
+		try {		
 			istanza = null;
-//			gifCaricamento = ImageIO.read(new File(PATH_GIF));
+			gifCaricamento = ImageIO.read(new File(PATH_GIF));
 			capitoliDaLeggere = null;
 			capitoloCorrente = null;
 			pagineCapitoloCorrente = null;
 			paginaDownloaders = null;
 			numeroPaginaCorrente = 0; 
 			indiceCapitoloCorrente = 0;
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static VisualizzatoreCapitoli getVisualizzatoreCapitoli(){
@@ -63,7 +59,7 @@ public class VisualizzatoreCapitoli {
 		capitoloCorrente.setPagine();
 		pagineCapitoloCorrente = capitoloCorrente.getPagine();
 		
-		numeroPaginaCorrente = primaPaginaDaVisualizzare;
+		numeroPaginaCorrente = primaPaginaDaVisualizzare-1;
 		try {
 			paginaDownloaders[indiceCapitoloCorrente] = new PagineDownloader(capitoloCorrente.getUrlCapitolo(),
 					pagineCapitoloCorrente, capitoloCorrente.getNumeroPagine(), numeroPaginaCorrente);
@@ -75,8 +71,9 @@ public class VisualizzatoreCapitoli {
 	}
 	
 	public Image visualizzaPaginaCorrente(){
-		
 			try {
+				System.out.println(numeroPaginaCorrente);
+
 				Image pagina = paginaDownloaders[indiceCapitoloCorrente].getImmagineScaricata(numeroPaginaCorrente);
 				return pagina;
 			} catch (ScaricamentoImmagineIncompletoException e) {
@@ -86,12 +83,12 @@ public class VisualizzatoreCapitoli {
 	}
 	
 	public boolean haPaginaSuccessiva(){
-		if(numeroPaginaCorrente  == capitoloCorrente.getNumeroPagine()) return false;
+		if(numeroPaginaCorrente+1  == capitoloCorrente.getNumeroPagine()) return false;
 		return true;
 	}
 	
 	public boolean haPaginaPrecedente(){
-		if(numeroPaginaCorrente == 1) return false;
+		if(numeroPaginaCorrente == 0) return false;
 		return true;
 	}
 	
@@ -106,7 +103,6 @@ public class VisualizzatoreCapitoli {
 	}
 	
 	public boolean paginaPrecedente(){
-		System.out.println(numeroPaginaCorrente);
 		boolean boolRitorno;
 		if(boolRitorno = haPaginaPrecedente()){
 			numeroPaginaCorrente--;
@@ -132,7 +128,7 @@ public class VisualizzatoreCapitoli {
 			indiceCapitoloCorrente++;
 			capitoloCorrente = capitoliDaLeggere[indiceCapitoloCorrente];
 			pagineCapitoloCorrente = capitoloCorrente.getPagine();
-			numeroPaginaCorrente = 1;
+			numeroPaginaCorrente = 0;
 			cambiaPaginaDownloader(indiceCapitoloCorrente - 1);
 		}
 		return boolRitorno;
@@ -144,20 +140,25 @@ public class VisualizzatoreCapitoli {
 			indiceCapitoloCorrente--;
 			capitoloCorrente = capitoliDaLeggere[indiceCapitoloCorrente];
 			pagineCapitoloCorrente = capitoloCorrente.getPagine();
-			numeroPaginaCorrente = 1;
+			numeroPaginaCorrente = 0;
 			cambiaPaginaDownloader(indiceCapitoloCorrente + 1);
 		}
 		return boolRitorno;		
 	}
 	
 	private void cambiaPaginaDownloader(int indicePrecedente){
+		System.out.println("DENTRO CAMBIA PAG :"+indicePrecedente);
 		if(!paginaDownloaders[indicePrecedente].dowloadECompleto())
 			paginaDownloaders[indicePrecedente].stopDownload();
 		if(paginaDownloaders[indiceCapitoloCorrente]== null)
 			try {
+				System.out.println("DENTRO CAMBIA PAG :"+numeroPaginaCorrente);
+				double start = System.currentTimeMillis();
 				paginaDownloaders[indiceCapitoloCorrente]= new PagineDownloader(capitoloCorrente.getUrlCapitolo(),
 						pagineCapitoloCorrente, capitoloCorrente.getNumeroPagine(), numeroPaginaCorrente);
 				paginaDownloaders[indiceCapitoloCorrente].iniziaDownload();
+				double end = System.currentTimeMillis();
+				System.out.println("DENTRO CAMBIA PAG :"+(end -start)/1000 +" sec");
 			} catch (ImmagineNonPresenteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -167,13 +168,15 @@ public class VisualizzatoreCapitoli {
 	}
 	public static void main(String[] args) throws SQLException, MalformedURLException, ClassNotFoundException {
 		
-		DataBase.connect();
-		TabellaFumetto tuplaF = TabellaFumetto.generaTuplaFumetto("666 Satan");
+		DataBase genereBase = DataBase.getIstanza();
+		TuplaFumetto tuplaF = genereBase.creaTuplaFumetto("666 Satan");
+		tuplaF.prossima();
 		Fumetto fumetto = new Fumetto(tuplaF);
 		fumetto.apriFumetto();
 		Volume[] volumi = fumetto.getVolumi();
 		volumi[0].caricaCapitoli();
 		Capitolo[] capitoli = volumi[0].getCapitoli();
+		System.out.println(capitoli.length);
 		double startTime = System.currentTimeMillis();		
 
 		VisualizzatoreCapitoli visualizzatoreCapitoli = VisualizzatoreCapitoli.getVisualizzatoreCapitoli();
@@ -184,7 +187,7 @@ public class VisualizzatoreCapitoli {
 		System.out.println((endTime - startTime)/1000);
 		visualizzatoreCapitoli.capitoloSuccessivo();
 		
-		DataBase.disconnect();
+		DataBase.disconnetti();
 
 		
 	}	

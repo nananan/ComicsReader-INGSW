@@ -110,25 +110,14 @@ public class BottoneFollow extends JPanel
 		this.stato = stato;
 		if (stato == FOLLOWING)
 		{
-			try
-			{
+		
 				lettoreCorrente.segui(lettore);
-			} catch (SQLException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		else if (stato == FOLLOW)
 		{
-			try
-			{
+			
 				lettoreCorrente.nonSeguire(lettore);
-			} catch (SQLException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	
 		}
 		creaStato(stato);
 	}

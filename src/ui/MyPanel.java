@@ -53,14 +53,8 @@ public class MyPanel extends JPanel
 		this.add(pannelloDestro,BorderLayout.EAST);
 		this.add(pannelloSinistro,BorderLayout.WEST);
 		this.add(pannelloSopra, BorderLayout.NORTH);
-		try
-		{
 			PremiPerDiscover();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 		this.add(pannelloCentrale, BorderLayout.CENTER);
 		
 	}
@@ -80,19 +74,9 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerPannelloSinistro()
 	{
-		try
-		{
-			DataBase.connect();
-		} catch (ClassNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
+			DataBase.connetti();
+	
 		pannelloSopra.setBooleanaPerBottoneFiltro(true);
 		
 		ArrayList<String> filtri = pannelloFiltraggio.getArrayDiFiltri();
@@ -118,7 +102,7 @@ public class MyPanel extends JPanel
 		repaint();
 	}
 	
-	public void PremiPerDiscover() throws SQLException
+	public void PremiPerDiscover()
 	{
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
@@ -144,7 +128,7 @@ public class MyPanel extends JPanel
 		repaint();
 	}
 	
-	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto) throws MalformedURLException, SQLException
+	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto) 
 	{
 		if (pannelloCentrale != null)
 			remove(pannelloCentrale);

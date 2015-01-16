@@ -2,12 +2,10 @@ package domain;
 
 
 import java.awt.Image;
-
 import java.sql.SQLException;
-
-
-import technicalService.TabellaCapitolo;
-import technicalService.TabellaVolume;
+import technicalService.DataBase;
+import technicalService.TuplaCapitolo;
+import technicalService.TuplaVolume;
 
 public class Volume {
 	
@@ -17,34 +15,32 @@ public class Volume {
 	private String urlCopertina;
 	private String nomeFumetto;
 	
-	private TabellaCapitolo tuplaCapitolo;
 	private Capitolo[] capitoli;
 	private int numeroCapitoli;
+	private DataBase gestoreDB =DataBase.getIstanza();
 	
-	public Volume(TabellaVolume tuplaVolume) throws SQLException {
+	public Volume(TuplaVolume tuplaVolume) {
 		
 		nome = tuplaVolume.getNome();
 		numero = tuplaVolume.getNumero();
 		urlCopertina = tuplaVolume.getUrlCopertina();
 		nomeFumetto = tuplaVolume.getNomeFumetto();	
-		tuplaCapitolo = new TabellaCapitolo(nomeFumetto,numero);
 		numeroCapitoli = 0;
 		capitoli = null;
 	}
 	
-	public void caricaCapitoli() throws SQLException{
+	public void caricaCapitoli() {
 		
-		if(numeroCapitoli == tuplaCapitolo.getNumeroCapitoli()) return;
+		if(numeroCapitoli !=0) return;
 		
-		int nPrimoC=tuplaCapitolo.primoCapitoloVolume();
+		numeroCapitoli = gestoreDB.getNumeroCapitoli(nomeFumetto,numero);
 		
-		numeroCapitoli= tuplaCapitolo.getNumeroCapitoli();
-
-		if(capitoli==null)
-			tuplaCapitolo.aggiorna();
+		TuplaCapitolo tuplaCapitolo = gestoreDB.creaTuplaCapitolo(nomeFumetto,numero);
+		int nPrimoC=gestoreDB.primoCapitoloVolume(nomeFumetto,numero);
 		
 		capitoli = new Capitolo[numeroCapitoli];
-		while(tuplaCapitolo.nextCapitolo())
+		System.out.println(numeroCapitoli);
+		while(tuplaCapitolo.prossima())
 		{		
 			Capitolo capitolo = new Capitolo(tuplaCapitolo);
 			capitoli[capitolo.getNumero()-nPrimoC] = capitolo;
@@ -57,10 +53,6 @@ public class Volume {
 	}
 	public String getNomeFumetto() {
 		return nomeFumetto;
-	}
-	
-	public TabellaCapitolo getTuplaCapitolo() {
-		return tuplaCapitolo;
 	}
 	
 	public int getNumeroCapitoli() {

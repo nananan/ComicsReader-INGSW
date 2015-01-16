@@ -77,18 +77,7 @@ public class PannelloProfilo extends JPanel
 		
 		listener = new MyListener();
 		
-		try
-		{
-			DataBase.connect();
-		} catch (ClassNotFoundException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+			DataBase.connetti();
 		
 		this.lettore = lettore;
 		
@@ -538,36 +527,16 @@ public class PannelloProfilo extends JPanel
 			{
 				if (source == bottoneFumetto)
 				{
-					try
-					{
-						panel.PremiPerFumetto(bottoneFumetto.getFumetto(), bottoneFumetto.getImageScaled());
-					} catch (MalformedURLException e1)
-					{
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SQLException e1)
-					{
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					panel.PremiPerFumetto(bottoneFumetto.getFumetto(), bottoneFumetto.getImageScaled());
+	
 				}
 			}
 			for (BottoneFumetto bottoneFumetto : bottoniCronologia)
 			{
 				if (source == bottoneFumetto)
 				{
-					try
-					{
 						panel.PremiPerFumetto(bottoneFumetto.getFumetto(), bottoneFumetto.getImageScaled());
-					} catch (MalformedURLException e1)
-					{
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SQLException e1)
-					{
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+			
 				}
 			}
 		}

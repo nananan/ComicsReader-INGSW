@@ -9,8 +9,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import domain.Fumetto;
 import technicalService.DataBase;
-import technicalService.TabellaFumetto;
-import technicalService.TabellaFumetto;
+import technicalService.TuplaFumetto;
+import technicalService.TuplaFumetto;
 
 public class CopertinaVolumeDownloaderManager
 {

@@ -29,7 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import technicalService.DataBase;
-import technicalService.TabellaFumetto;
+import technicalService.TuplaFumetto;
 import domain.Fumetto;
 import domain.Libreria;
 
@@ -40,7 +40,7 @@ public class PannelloCentrale extends JPanel
 	Image scaledImage = null;
 	
 	private MyPanel panel;
-	private static Libreria libreria = Libreria.getLibreria();
+	private static Libreria libreria = Libreria.getIstanza();
 	
 	HashMap<String,Fumetto> fumetti = new HashMap<>();
 	HashMap<String,Fumetto> fumettiFiltrati = new HashMap<>();
@@ -72,19 +72,8 @@ public class PannelloCentrale extends JPanel
 		listener = new MyListener();
 		
 		bottoniFumetti = new ArrayList<>();
-
-		try
-		{
-			DataBase.connect();
-		} catch (ClassNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			DataBase.connetti();
+		
 		
 		libreria.fumettiCorrenti();
 
@@ -269,12 +258,10 @@ public class PannelloCentrale extends JPanel
 				bottoniFumetti.get(j).addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e)
 					{
-						try {
+					
 							panel.PremiPerFumetto(fumettiDaAggiungere[indice], 
 									bottoniFumetti.get(indicePerFumetto).getImageScaled());
-						} catch (MalformedURLException | SQLException e1) {
-							e1.printStackTrace();
-						}
+				
 					}
 				});
 				
@@ -291,18 +278,9 @@ public class PannelloCentrale extends JPanel
 			Object source = e.getSource();
 			if (source == bottoneAvantiFumetti)
 			{
-				try
-				{
-					DataBase.connect();
-				} catch (ClassNotFoundException e2)
-				{
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				} catch (SQLException e2)
-				{
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
+			
+					DataBase.connetti();
+			
 	
 				for (int i = indiceFumetti-8; i < indiceFumetti; i++)
 				{
@@ -310,14 +288,9 @@ public class PannelloCentrale extends JPanel
 					remove(bottoniFumetti.get(i));
 				}
 				
-				try
-				{
+			
 					libreria.fumettiSuccessivi();
-				} catch (SQLException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			
 				System.out.println("INDICE: "+indiceFumetti);
 				aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
 				repaint();

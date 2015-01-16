@@ -12,9 +12,9 @@ public class Main {
 	public static void main(String[] args) throws IOException 
 	{
 		
-		try {
+		
 			JFrame f = new FrameLogin();
-			DataBase.connect();
+			DataBase.connetti();
 			while (!((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
 			{
 				System.out.println("non devo fare niente");
@@ -22,13 +22,8 @@ public class Main {
 			f.setVisible(false);
 			f = new MyFrame(((FrameLogin) f).getPanel().getLettore());
 			f.repaint();
-			DataBase.disconnect();
-		} 
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			DataBase.disconnetti();
+	
 		
 		
 	}

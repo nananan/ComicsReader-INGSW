@@ -88,28 +88,17 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 					{
 						statoBottonePreferito = NON_PIACE;
 						aggiungiBottone("image/notFavorite.png", bottoneStatoPreferiti);
-						try
-						{
+					
 							lettore.rimuoviPreferiti(fumetto);
-						} catch (SQLException e1)
-						{
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						
+			
 					}
 					else
 					{
 						statoBottonePreferito = PIACE;
 						aggiungiBottone("image/favorite.png", bottoneStatoPreferiti);
-						try
-						{
+				
 							lettore.inserisciPreferiti(fumetto);
-						} catch (SQLException e1)
-						{
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+					
 					}
 				}
 			});
@@ -152,28 +141,18 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 					{
 						statoBottoneDaLeggere = AGGIUNGERE_DA_LEGGERE;
 						aggiungiBottone("image/toRead.png", bottoneStatoDaLeggere);
-						try
-						{
+					
 							lettore.rimuoviDaLeggere(fumetto);
-						} catch (SQLException e1)
-						{
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+			
 						
 					}
 					else
 					{
 						statoBottoneDaLeggere = AGGIUNTO_DA_LEGGERE;
 						aggiungiBottone("image/notToRead.png", bottoneStatoDaLeggere);
-						try
-						{
+						
 							lettore.inserisciDaLeggere(fumetto);
-						} catch (SQLException e1)
-						{
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						
 					}
 				}
 			});
@@ -221,17 +200,8 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		try
-		{
+	
 			panel.PremiPerFumetto(fumetto, scaledImage);
-		} catch (MalformedURLException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
 	}
 }

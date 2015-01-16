@@ -10,8 +10,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import domain.Fumetto;
 import technicalService.DataBase;
-import technicalService.TabellaFumetto;
-import technicalService.TabellaFumetto;
+import technicalService.TuplaFumetto;
+import technicalService.TuplaFumetto;
 
 public class CopertinaDowloaderManager
 {
@@ -87,21 +87,21 @@ public class CopertinaDowloaderManager
 	
 	public static void main(String[] args) throws SQLException, ClassNotFoundException
 	{
-		DataBase.connect();
-		String[] urls = new String[8];
-		Image[] copertine = new Image[8];
-		double st = System.currentTimeMillis();
-		TabellaFumetto tupla = TabellaFumetto.generaProssimeTupleFumetto(0);
-		for(int i = 0;tupla.nextFumetto();i++){
-			urls[i] = tupla.getUrlCopertina();
-			Fumetto fumetto = new Fumetto(tupla);
-		}
-		CopertinaDowloaderManager manager = CopertinaDowloaderManager.getCopertinaDowloader();
-		manager.scarica(urls, copertine);
-		double end = System.currentTimeMillis();
-		for(Image ima:copertine)
-			System.out.println(ima);
-		System.out.println((end-st)/1000);
+//		DataBase.connetti();
+//		String[] urls = new String[8];
+//		Image[] copertine = new Image[8];
+//		double st = System.currentTimeMillis();
+//		TuplaFumetto tupla = d.creaTupleFumetto(0);
+//		for(int i = 0;tupla.nextFumetto();i++){
+//			urls[i] = tupla.getUrlCopertina();
+//			Fumetto fumetto = new Fumetto(tupla);
+//		}
+//		CopertinaDowloaderManager manager = CopertinaDowloaderManager.getCopertinaDowloader();
+//		manager.scarica(urls, copertine);
+//		double end = System.currentTimeMillis();
+//		for(Image ima:copertine)
+//			System.out.println(ima);
+//		System.out.println((end-st)/1000);
 //		st = System.currentTimeMillis();
 //		tupla = TabellaFumetto.generaProssimeTupleFumetto(8);
 //		for(int i = 0;tupla.nextFumetto();i++){

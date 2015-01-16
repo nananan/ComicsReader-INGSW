@@ -36,14 +36,9 @@ public class BottoneCapitolo extends MyButton
 				panel.PremiPerCapitolo(volume, fumetto, numeroCapitolo, immagineCopertinaFumetto);
 			
 //					lettore.caricaCronologia();
-				try
-				{
-					lettore.aggiungiAllaCronologia(fumetto);
-				} catch (SQLException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			
+					lettore.inserisciCronologia(fumetto);
+				
 			}
 //			@Override
 //			public void mouseEntered(MouseEvent e)

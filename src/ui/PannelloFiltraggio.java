@@ -91,15 +91,9 @@ public class PannelloFiltraggio extends JPanel
 		textGenere.setBounds(10,10 + buttonStatoIncompleto.getY()+(int)buttonStatoIncompleto.getPreferredSize().getHeight(), (int)textGenere.getPreferredSize().getWidth(), (int)textGenere.getPreferredSize().getHeight());
 		add(textGenere);
 		
-		try
-		{
-			nomiGeneriFiltri = Fumetto.getGeneri();
+	
+			nomiGeneriFiltri = Fumetto.getTuttiGeneri();
 			bottoniGeneriFiltri = new MyButton[nomiGeneriFiltri.length];
-			
-		} catch (SQLException e1)
-		{
-			e1.printStackTrace();
-		}
 		
 		for (int i = 0; i < nomiGeneriFiltri.length; i++)
 		{

@@ -1,6 +1,5 @@
 package ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,11 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -143,36 +138,16 @@ public class PannelloDescrizioneFumetto extends JPanel
 		stringaGenere.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ eOccidentale.getY() + (int) eOccidentale.getPreferredSize().getHeight(), (int)stringaGenere.getPreferredSize().getWidth(), (int)stringaGenere.getPreferredSize().getHeight());
 		add(stringaGenere);
 		
-		try
-		{
-			DataBase.connect();
-		} catch (ClassNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try
-		{
-			fumetto.apriFumetto();
-		} catch (MalformedURLException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	
+			DataBase.connetti();
+
 		
+			fumetto.apriFumetto();
+	
 		String genere = new String("");
 		
-		try
-		{
-			String generiFumetto[] = fumetto.getGeneriFumetto();
+	
+			String generiFumetto[] = fumetto.getGeneri();
 			for (int i = 0; i < generiFumetto.length; i++)
 			{
 				if (i < generiFumetto.length - 1)
@@ -180,12 +155,6 @@ public class PannelloDescrizioneFumetto extends JPanel
 				else
 					genere += generiFumetto[i];
 			}
-			
-		} catch (SQLException e2)
-		{
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
 		
 		Text generi = new Text(genere, 16, Color.WHITE);
 		generi.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 1+ stringaGenere.getY() + (int) stringaGenere.getPreferredSize().getHeight(), (int)generi.getPreferredSize().getWidth(), (int)generi.getPreferredSize().getHeight());
@@ -309,11 +278,8 @@ public class PannelloDescrizioneFumetto extends JPanel
 	
 	private void getCapitoliVolume(Volume volume)
 	{
-		try {
+		
 			volume.caricaCapitoli();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
 		int altezza = 0;
 		for (int j = 0; j < volume.getCapitoli().length; j++) 
@@ -390,11 +356,8 @@ public class PannelloDescrizioneFumetto extends JPanel
 			Object source = e.getSource();
 			if (source == bottoneIndietro)  //BOTTONE INDIETRO
 			{
-				try {
 					panel.PremiPerDiscover();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+			
 			}
 			else if (source == bottoneIndietroVolumi)   //BOTTONE INDIETRO VOLUMI
 			{
@@ -463,47 +426,19 @@ public class PannelloDescrizioneFumetto extends JPanel
 			}
 			if (source == bottonePreferiti)
 			{
-				try
-				{
 					panel.getLettore().inserisciPreferiti(fumetto);
-				} catch (SQLException e1)
-				{
-					e1.printStackTrace();
-				}
+				
 			}
 			else if (source == bottoneDaLeggere)
 			{
-				try
-				{
+			
 					panel.getLettore().inserisciDaLeggere(fumetto);
-				} catch (SQLException e1)
-				{
-					e1.printStackTrace();
-				}
+			
 			}
 			
 			repaint();
 		}
 		
-		private void aggiungiVolume()
-		{
-			for (int i = 0; i < indiceVolumi ; i++)
-			{
-				remove(bottoniVolumi.get(i));
-				remove(nomiVolumi.get(i));
-			}
-			for (int i = indiceVolumi - 4; i < indiceVolumi ; i++)
-			{
-				if (i == indiceVolumi - 4)
-					bottoniVolumi.get(i).setBounds(10,10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-				else
-					bottoniVolumi.get(i).setBounds(15+bottoniVolumi.get(i-1).getX()+(int)bottoniVolumi.get(i-1).getPreferredSize().getWidth(),10+stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(i).getPreferredSize().getWidth(), (int)bottoniVolumi.get(i).getPreferredSize().getHeight());
-				
-				nomiVolumi.get(i).setBounds(bottoniVolumi.get(i).getX(),10+bottoniVolumi.get(i).getY()+(int)bottoniVolumi.get(i).getPreferredSize().getHeight(), (int)nomiVolumi.get(i).getPreferredSize().getWidth(), (int)nomiVolumi.get(i).getPreferredSize().getHeight());							
-				add(nomiVolumi.get(i));
-				add(bottoniVolumi.get(i));
-			}
-		}
 	}
 	
 }
