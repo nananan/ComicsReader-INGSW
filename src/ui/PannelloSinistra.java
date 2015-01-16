@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.xml.crypto.Data;
 
 import domain.Fumetto;
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 
 
 public class PannelloSinistra extends JPanel
@@ -157,7 +157,7 @@ public class PannelloSinistra extends JPanel
 		public void actionPerformed(ActionEvent e) 
 		{
 			Object source = e.getSource();
-			DataBase.connetti();
+			GestoreDataBase.connetti();
 			
 			if (source == buttonDiscover)
 			{

@@ -3,7 +3,7 @@ package domain;
 
 import java.awt.Image;
 import java.sql.SQLException;
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 import technicalService.TuplaCapitolo;
 import technicalService.TuplaVolume;
 
@@ -17,7 +17,7 @@ public class Volume {
 	
 	private Capitolo[] capitoli;
 	private int numeroCapitoli;
-	private DataBase gestoreDB =DataBase.getIstanza();
+	private GestoreDataBase gestoreDB =GestoreDataBase.getIstanza();
 	
 	public Volume(TuplaVolume tuplaVolume) {
 		

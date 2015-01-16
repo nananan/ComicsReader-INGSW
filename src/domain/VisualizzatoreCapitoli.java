@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import javax.imageio.ImageIO;
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 import technicalService.TuplaFumetto;
 import downloader.ImmagineNonPresenteException;
 import downloader.PagineDownloader;
@@ -168,7 +168,7 @@ public class VisualizzatoreCapitoli {
 	}
 	public static void main(String[] args) throws SQLException, MalformedURLException, ClassNotFoundException {
 		
-		DataBase genereBase = DataBase.getIstanza();
+		GestoreDataBase genereBase = GestoreDataBase.getIstanza();
 		TuplaFumetto tuplaF = genereBase.creaTuplaFumetto("666 Satan");
 		tuplaF.prossima();
 		Fumetto fumetto = new Fumetto(tuplaF);
@@ -187,7 +187,7 @@ public class VisualizzatoreCapitoli {
 		System.out.println((endTime - startTime)/1000);
 		visualizzatoreCapitoli.capitoloSuccessivo();
 		
-		DataBase.disconnetti();
+		GestoreDataBase.disconnetti();
 
 		
 	}	

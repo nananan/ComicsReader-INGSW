@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
@@ -74,8 +74,7 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerPannelloSinistro()
 	{
-		
-			DataBase.connetti();
+		GestoreDataBase.connetti();
 	
 		pannelloSopra.setBooleanaPerBottoneFiltro(true);
 		
@@ -94,6 +93,9 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerAvereRisultatiDellaRicerca(String tipoDaCercare, String nomeDaCercare)
 	{
+		if (pannelloCentrale != null)
+			remove(pannelloCentrale);
+		
 		pannelloCentrale = new PannelloCentrale(this, tipoDaCercare, nomeDaCercare);
 		
 		this.add(pannelloCentrale, BorderLayout.CENTER);
@@ -114,14 +116,15 @@ public class MyPanel extends JPanel
 				remove(arrayPannelli.get(pairs.getKey()));
 		}
 
-		if (pannelloCentrale == null)
+		if (pannelloCentrale != null)
 		{
+			remove (pannelloCentrale);
+		}
 			pannelloCentrale = new PannelloCentrale(this, (int)pannelloDestro.getPreferredSize().getWidth());
 
 //			pannelloScrollDiscover = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
 //			pannelloScrollDiscover.getVerticalScrollBar().setUnitIncrement(15);
 //		    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		}
 		
 		this.add(pannelloCentrale, BorderLayout.CENTER);
 		this.validate();

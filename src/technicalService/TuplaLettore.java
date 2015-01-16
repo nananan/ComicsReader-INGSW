@@ -3,7 +3,7 @@ package technicalService;
 import java.sql.SQLException;
 
 public class TuplaLettore extends Tupla{
-	
+	private String utenteCorrente;
 	public TuplaLettore(String query) {
 		super(query);
 	}
@@ -12,7 +12,7 @@ public class TuplaLettore extends Tupla{
 		
 		String query = "SELECT id_facebook, nome, url_foto,numFollows, numFollower "
 				+ "FROM utente ,segue "
-				+ "WHERE utente_follower=\""+getIdFacebook()+"\" and utente_follow = id_facebook;";		
+				+ "WHERE utente_follower=\""+utenteCorrente+"\" and utente_follow = id_facebook;";		
 		
 		return new TuplaLettore(query);
 	}
@@ -21,7 +21,7 @@ public class TuplaLettore extends Tupla{
 		
 		String query = "SELECT id_facebook, nome, url_foto,numFollows, numFollower "
 				+ "FROM utente ,segue "
-				+ "WHERE utente_follow=\""+getIdFacebook()+"\" and utente_follower = id_facebook;";
+				+ "WHERE utente_follow=\""+utenteCorrente+"\" and utente_follower = id_facebook;";
 				
 		return new TuplaLettore(query);
 	}
@@ -30,7 +30,7 @@ public class TuplaLettore extends Tupla{
 		String query =" SELECT f.nome, f.autore, f.artista,f.completa,f.occidentale,f.url_copertina_primo_volume,"
 				+ "f.valutazione_media,f.numero_letture "
 				+ "FROM fumetto as f , preferiti as p "
-				+ "WHERE p.utente =\""+getIdFacebook()+"\" and p.nome_fumetto = f.nome;";
+				+ "WHERE p.utente =\""+utenteCorrente+"\" and p.nome_fumetto = f.nome;";
 				
 		return new TuplaFumetto(query);
 	}
@@ -40,7 +40,7 @@ public class TuplaLettore extends Tupla{
 		String query = "SELECT f.nome, f.autore, f.artista,f.completa,f.occidentale,f.url_copertina_primo_volume,"
 				+ "f.valutazione_media,f.numero_letture  "
 				+ "FROM fumetto as f, da_leggere as d "
-				+ "WHERE d.utente =\""+getIdFacebook()+"\" and d.nome_fumetto = f.nome;";
+				+ "WHERE d.utente =\""+utenteCorrente+"\" and d.nome_fumetto = f.nome;";
 		return new TuplaFumetto(query );
 	}
 	
@@ -48,7 +48,7 @@ public class TuplaLettore extends Tupla{
 		String query = "SELECT f.nome, f.autore, f.artista,f.completa,f.occidentale,f.url_copertina_primo_volume,"
 				+ "f.valutazione_media,f.numero_letture "
 				+ "FROM fumetto as f, letture_recenti as r "
-				+ "WHERE r.utente =\""+getIdFacebook()+"\" and r.nome_fumetto = f.nome"
+				+ "WHERE r.utente =\""+utenteCorrente+"\" and r.nome_fumetto = f.nome"
 				+ "ORDER BY data_lettura DESC; ";
 		return new TuplaFumetto(query );
 	}
@@ -56,7 +56,7 @@ public class TuplaLettore extends Tupla{
 	public String getIdFacebook() {
 		
 		try {
-			return cursore.getString("id_facebook");
+			return utenteCorrente=cursore.getString("id_facebook");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

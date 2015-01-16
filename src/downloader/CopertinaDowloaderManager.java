@@ -9,7 +9,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import domain.Fumetto;
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 import technicalService.TuplaFumetto;
 import technicalService.TuplaFumetto;
 

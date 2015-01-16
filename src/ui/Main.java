@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import javax.swing.JFrame;
 
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 
 
 public class Main {
@@ -14,7 +14,7 @@ public class Main {
 		
 		
 			JFrame f = new FrameLogin();
-			DataBase.connetti();
+			GestoreDataBase.connetti();
 			while (!((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
 			{
 				System.out.println("non devo fare niente");
@@ -22,7 +22,7 @@ public class Main {
 			f.setVisible(false);
 			f = new MyFrame(((FrameLogin) f).getPanel().getLettore());
 			f.repaint();
-			DataBase.disconnetti();
+			GestoreDataBase.disconnetti();
 	
 		
 		

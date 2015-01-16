@@ -74,7 +74,7 @@ public class TuplaCapitolo extends Tupla{
 		try {
 			String queryNumeroCapitoli = "SELECT count(*) FROM capitolo WHERE nome_fumetto='"+fumetto+
 					"' and numero_volume="+volume+";";
-			ResultSet r = DataBase.getStatement().executeQuery(queryNumeroCapitoli);	
+			ResultSet r = GestoreDataBase.getStatement().executeQuery(queryNumeroCapitoli);	
 			r.next();
 			int numero = r.getInt(1);
 			r.close();

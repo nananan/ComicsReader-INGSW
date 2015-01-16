@@ -14,7 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 
 public class PannelloScrollPane extends JScrollPane
 {

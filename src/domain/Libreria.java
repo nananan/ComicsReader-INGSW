@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import downloader.CopertinaDowloaderManager;
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 import technicalService.TuplaFumetto;
 
 
@@ -20,7 +20,7 @@ public class Libreria
 	private CopertinaDowloaderManager downloaderManager;
 	private TuplaFumetto tuplaFumetto;
 	
-	private DataBase gestoreDB = DataBase.getIstanza();
+	private GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
 	private Fumetto[] fumettiCorrenti;
 	private int indiceUltimoFumetto;
 		
@@ -37,10 +37,17 @@ public class Libreria
 	}
 	
 	public	Fumetto getFumetto(String nomeFumetto){
-		Fumetto fumetto = fumetti.get(nomeFumetto);
-		if(fumetto == null)
-			fumetto= new Fumetto(gestoreDB.creaTuplaFumetto(nomeFumetto));
-		return fumetto;
+		TuplaFumetto tupla = gestoreDB.creaTuplaFumetto(nomeFumetto);
+		if(tupla.prossima()){
+			Fumetto fumetto = fumetti.get(tupla.getNome());
+			
+			if(fumetto == null)
+			{
+				fumetto = new Fumetto(tupla);
+			}
+			return fumetto;
+		}
+		return null;
 	}
 	
 	public void caricaFumetti(){
@@ -49,7 +56,7 @@ public class Libreria
 		String[] urls = new String[MAX_NUMERO_FUMETTI];
 		Image[] copertina = new Image[MAX_NUMERO_FUMETTI];
 		int cont;
-		for(cont =0; tuplaFumetto.prossima(); cont++){
+		for(cont =0; tuplaFumetto.prossima(); cont++, indiceUltimoFumetto++){
 			fumettiCorrenti[cont] = new Fumetto(tuplaFumetto);
 			urls[cont] = tuplaFumetto.getUrlCopertina();
 		}
@@ -65,7 +72,7 @@ public class Libreria
 		String[] urls = new String[MAX_NUMERO_FUMETTI];
 		Image[] copertina = new Image[MAX_NUMERO_FUMETTI];
 		int cont;
-		for(cont =0; tuplaFumetto.prossima(); cont++){
+		for(cont =0; tuplaFumetto.prossima(); cont++, indiceUltimoFumetto++){
 			fumettiCorrenti[cont] = new Fumetto(tuplaFumetto);
 			urls[cont] = tuplaFumetto.getUrlCopertina();
 		}
@@ -79,17 +86,19 @@ public class Libreria
 	public boolean giaCaricati(){
 		
 		tuplaFumetto = gestoreDB.creaTuplaFumetto(indiceUltimoFumetto);
+		System.out.println(indiceUltimoFumetto);
 		tuplaFumetto.prossima();
 		String nome=tuplaFumetto.getNome();
 		tuplaFumetto.precedente();
+		System.out.println(nome);
 		return fumetti.containsKey(nome);	
 	}
 	
 	public boolean fumettiSuccessivi(){
 		if(giaCaricati()){
-			for(int i = 0; tuplaFumetto.prossima();i++,indiceUltimoFumetto++)
+			for(int i = 0; tuplaFumetto.prossima();i++,indiceUltimoFumetto++){
 				fumettiCorrenti[i] = fumetti.get(tuplaFumetto.getNome());
-		}
+		}}
 		else{
 			caricaFumetti();	
 		}
@@ -107,8 +116,10 @@ public class Libreria
 	public boolean fumettiPrecedenti(){
 		if(indiceUltimoFumetto==0)return false;
 		if(giaCaricati()){
-			for(int i = 0; tuplaFumetto.prossima();i++,indiceUltimoFumetto--)
+			for(int i = 0; tuplaFumetto.prossima();i++,indiceUltimoFumetto--){
 				fumettiCorrenti[i] = fumetti.get(tuplaFumetto.getNome());
+				System.out.println("Libreria.fumettiPrecedenti"+indiceUltimoFumetto);
+			}
 		}
 		return true;
 	}
@@ -120,8 +131,10 @@ public class Libreria
 		return null;
 	}
 	
-	public Fumetto caricaFumettiPerNome(String nomeFumetto){
-		return getFumetto(nomeFumetto);
+	public Fumetto[] caricaFumettiPerNome(String nomeFumetto){
+		Fumetto[] fumetti =new Fumetto[1];
+		fumetti[0] = getFumetto(nomeFumetto);
+		return fumetti;
 	}
 	
 	public Fumetto[] caricaFumettiPerAutore(String autore){

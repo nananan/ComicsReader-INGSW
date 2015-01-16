@@ -3,7 +3,7 @@ package domain;
 
 import java.util.HashMap;
 
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 import technicalService.TuplaFumetto;
 import technicalService.TuplaLettore;
 
@@ -22,7 +22,7 @@ public class Lettore {
 	private HashMap<String, Fumetto> cronologia;
 	
 	private TuplaLettore tuplaLettore;
-	private DataBase gestoreDB = DataBase.getIstanza();
+	private GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
 	
 	public Lettore(String idFacebook,String nome, String url, int numFollow, int numFollower){
 				
@@ -46,7 +46,8 @@ public class Lettore {
 		urlFoto = tuplaLettore.getUrlFoto();
 		numFollow = tuplaLettore.getNumFollows();
 		numFollower = tuplaLettore.getNumFollower();
-		tuplaLettore = gestoreDB.creaTuplaLettore(nome);
+		this.tuplaLettore = gestoreDB.creaTuplaLettore(nome);
+		this.tuplaLettore.prossima();
 		
 		follower = null;
 		follows = null;
@@ -200,7 +201,7 @@ public class Lettore {
 		
 		cronologia = new HashMap<>();
 		
-		TuplaFumetto tuplaFumetto =tuplaLettore.getCronologia();
+		TuplaFumetto tuplaFumetto = tuplaLettore.getCronologia();
 		
 		while(tuplaFumetto.prossima()){
 			Fumetto fumetto = new Fumetto(tuplaFumetto);
@@ -209,11 +210,11 @@ public class Lettore {
 	}
 	public boolean inserisciCronologia(Fumetto fumetto)
 	{
-		if(cronologia == null) caricaCronologia();
-		
-		if(cronologia.containsKey(fumetto.getNome())) return false;
-		cronologia.put(fumetto.getNome(),fumetto);
-		gestoreDB.aggiungiCronologia(nome,fumetto.getNome());
+//		if(cronologia == null) caricaCronologia();
+//		
+//		if(cronologia.containsKey(fumetto.getNome())) return false;
+//		cronologia.put(fumetto.getNome(),fumetto);
+//		gestoreDB.aggiungiCronologia(nome,fumetto.getNome());
 		return true;	
 	}
 	public int getNumFollow() {

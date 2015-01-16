@@ -24,7 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 import domain.Fumetto;
 import domain.Lettore;
 import domain.VisualizzatoreCapitoli;
@@ -139,7 +139,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		add(stringaGenere);
 		
 	
-			DataBase.connetti();
+			GestoreDataBase.connetti();
 
 		
 			fumetto.apriFumetto();
@@ -202,50 +202,61 @@ public class PannelloDescrizioneFumetto extends JPanel
 		descrizione.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth() - (int)this.getPreferredSize().getHeight()/8, descrizione.getLineCount()*20));
 		
 		add(descrizione);
-		
+
 		stringaVolumi = new Text("Volumi", 24, Color.DARK_GRAY);
 		stringaVolumi.setBounds(10,10 + descrizione.getY()+(int)descrizione.getPreferredSize().getHeight(), (int)stringaVolumi.getPreferredSize().getWidth(), (int)stringaVolumi.getPreferredSize().getHeight());
 		add(stringaVolumi);
 		
-		bottoneAvantiVolumi = new JButton();
-		Image imageScaled = imageAvanti.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
-		imageAvanti.setImage(imageScaled);
-		
-		bottoneAvantiVolumi.setIcon(imageAvanti);
-		bottoneAvantiVolumi.setPressedIcon(imageAvanti);
-		bottoneAvantiVolumi.setBorderPainted(false);
-		bottoneAvantiVolumi.setFocusPainted(false);
-		bottoneAvantiVolumi.setBackground(this.getBackground());
-		bottoneAvantiVolumi.setBounds(stringaVolumi.getX()+((int)this.getPreferredSize().getWidth()- (int)bottoneAvantiVolumi.getPreferredSize().getWidth()-10), stringaVolumi.getY(), 30, 30);
-		add(bottoneAvantiVolumi);
-		
-		bottoneIndietroVolumi = new JButton();
-		setBottoneIndietro(bottoneIndietroVolumi);
-		bottoneIndietroVolumi.setBounds(stringaVolumi.getX()+((int)this.getPreferredSize().getWidth()-(int)bottoneIndietroVolumi.getPreferredSize().getWidth() - (int)bottoneAvantiVolumi.getPreferredSize().getWidth()-10), stringaVolumi.getY(), 30, 30);
-		add(bottoneIndietroVolumi);
-		
 		this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(), (int)this.getPreferredSize().getHeight()+descrizione.getY()+(int)descrizione.getPreferredSize().getHeight()));
-
-		volumi = fumetto.getVolumi();
-		System.out.println(volumi.length);
-		disegnaCopertineVolumi(0, 4, 0);
-		
-		bottoneAvantiVolumi.addActionListener(listener);
-		bottoneIndietroVolumi.addActionListener(listener);
+	
+		if (fumetto.getNumeroVolumi() != 0)
+		{
+			
+			bottoneAvantiVolumi = new JButton();
+			Image imageScaled = imageAvanti.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+			imageAvanti.setImage(imageScaled);
+			
+			bottoneAvantiVolumi.setIcon(imageAvanti);
+			bottoneAvantiVolumi.setPressedIcon(imageAvanti);
+			bottoneAvantiVolumi.setBorderPainted(false);
+			bottoneAvantiVolumi.setFocusPainted(false);
+			bottoneAvantiVolumi.setBackground(this.getBackground());
+			bottoneAvantiVolumi.setBounds(stringaVolumi.getX()+((int)this.getPreferredSize().getWidth()- (int)bottoneAvantiVolumi.getPreferredSize().getWidth()-10), stringaVolumi.getY(), 30, 30);
+			add(bottoneAvantiVolumi);
+			
+			bottoneIndietroVolumi = new JButton();
+			setBottoneIndietro(bottoneIndietroVolumi);
+			bottoneIndietroVolumi.setBounds(stringaVolumi.getX()+((int)this.getPreferredSize().getWidth()-(int)bottoneIndietroVolumi.getPreferredSize().getWidth() - (int)bottoneAvantiVolumi.getPreferredSize().getWidth()-10), stringaVolumi.getY(), 30, 30);
+			add(bottoneIndietroVolumi);
+			
+			volumi = fumetto.getVolumi();
+			disegnaCopertineVolumi(0, 4, 0);
+			bottoneAvantiVolumi.addActionListener(listener);
+			bottoneIndietroVolumi.addActionListener(listener);
+			
+			stringaCapitoli = new Text("Capitoli", 24, Color.DARK_GRAY);
+			stringaCapitoli.setBounds(10, 15 + nomiVolumi.get(0).getY() + (int)nomiVolumi.get(0).getPreferredSize().getHeight(), (int) stringaCapitoli.getPreferredSize().getWidth(), (int) stringaCapitoli.getPreferredSize().getHeight() );
+			
+			for (BottoneFumetto bottoneVolumi : bottoniVolumi) {
+				bottoneVolumi.addActionListener(listener);
+			}
+		}
+		else
+		{
+			Text volumiNonPresenti = new Text("Non sono presenti Volumi", 18, Color.WHITE);
+			volumiNonPresenti.setBounds(10, 10+stringaVolumi.getY()+
+					(int)stringaVolumi.getPreferredSize().getHeight(), 
+					(int)volumiNonPresenti.getPreferredSize().getWidth(), 
+					(int)volumiNonPresenti.getPreferredSize().getHeight());
+			
+			add(volumiNonPresenti);
+		}
 		
 		bottoneIndietro = new JButton();
 		setBottoneIndietro(bottoneIndietro);
 		bottoneIndietro.setBounds(nome.getX()+((int)this.getPreferredSize().getWidth()-(int)bottoneIndietro.getPreferredSize().getWidth()-20), nome.getY()*2, 30, 30);
 		add(bottoneIndietro);
-		
 		bottoneIndietro.addActionListener(listener);
-		
-		stringaCapitoli = new Text("Capitoli", 24, Color.DARK_GRAY);
-		stringaCapitoli.setBounds(10, 15 + nomiVolumi.get(0).getY() + (int)nomiVolumi.get(0).getPreferredSize().getHeight(), (int) stringaCapitoli.getPreferredSize().getWidth(), (int) stringaCapitoli.getPreferredSize().getHeight() );
-		
-		for (BottoneFumetto bottoneVolumi : bottoniVolumi) {
-			bottoneVolumi.addActionListener(listener);
-		}
 	}
 	
 	public Fumetto getFumetto()

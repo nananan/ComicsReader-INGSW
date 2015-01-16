@@ -1,7 +1,7 @@
 package domain;
 
 
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 import technicalService.TuplaLettore;
 
 public class AccessoLettore
@@ -9,12 +9,13 @@ public class AccessoLettore
 	private Lettore lettore;
 	private TuplaLettore tuplaLettore;
 	private String idLettore;
+	private GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
 	
 	public AccessoLettore(String idLettore)
 	{
 		this.idLettore = idLettore;
-		DataBase.connetti();
-		tuplaLettore = new TuplaLettore(idLettore);
+		GestoreDataBase.connetti();
+		tuplaLettore = gestoreDB.creaTuplaLettore(idLettore);
 		tuplaLettore.prossima();
 		lettore = new Lettore(tuplaLettore);
 			

@@ -26,7 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 import domain.Lettore;
 
 public class PannelloProfilo extends JPanel
@@ -77,7 +77,7 @@ public class PannelloProfilo extends JPanel
 		
 		listener = new MyListener();
 		
-			DataBase.connetti();
+			GestoreDataBase.connetti();
 		
 		this.lettore = lettore;
 		

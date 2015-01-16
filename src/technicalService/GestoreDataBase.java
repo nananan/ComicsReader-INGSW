@@ -2,7 +2,7 @@ package technicalService;
 import java.sql.*;
 import java.util.Calendar;
 
-public class DataBase {
+public class GestoreDataBase {
 	
 	private static final String USER = "manueliana";
 	private static final String PASS = "ciaosonoricca";
@@ -10,14 +10,14 @@ public class DataBase {
     private static final String DRIVER = "org.mariadb.jdbc.Driver"; 
     private static Connection connection;
     private static Statement statement;
-    private static DataBase istanza;
+    private static GestoreDataBase istanza;
     
-    public static DataBase getIstanza(){
+    public static GestoreDataBase getIstanza(){
     	if(istanza == null)
-    		istanza = new DataBase();
+    		istanza = new GestoreDataBase();
     	return istanza;
     }
-    private DataBase(){
+    private GestoreDataBase(){
     	connetti();
     }
     
@@ -238,7 +238,7 @@ public class DataBase {
 				+ "FROM valuta"
 				+ "WHERE utente =\""+lettore+"\" and d.nome_fumetto =\""+nomeFumetto+"\";";
 		try {
-			ResultSet v =DataBase.getStatement().executeQuery(query);
+			ResultSet v =GestoreDataBase.getStatement().executeQuery(query);
 			v.next();
 			return v.getInt("valutazione");
 		} catch (SQLException e) {
@@ -252,7 +252,7 @@ public class DataBase {
 		String query = "INSERT INTO preferiti(utente,nome_fumetto) values(\""+lettore
 				+"\",\""+nomeFumetto+"\");";
 		try {
-			DataBase.getStatement().executeUpdate(query);
+			GestoreDataBase.getStatement().executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
@@ -263,7 +263,7 @@ public class DataBase {
 		String query = "INSERT INTO segue(utente_follower,utente_follow)values (\""+lettore
 				+"\",\""+follow+"\");";
 		try {
-			DataBase.getStatement().executeUpdate(query);
+			GestoreDataBase.getStatement().executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
@@ -274,7 +274,7 @@ public class DataBase {
 		String query = "INSERT INTO da_leggere(utente,nome_fumetto) values(\""+lettore
 				+"\",\""+nomeFumetto+"\");";
 		try {
-			DataBase.getStatement().executeUpdate(query);
+			GestoreDataBase.getStatement().executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
@@ -290,7 +290,7 @@ public class DataBase {
 		String query = "INSERT INTO letture_recenti(utente,nome_fumetto,data_lettura) values(\""+lettore
 				+"\",\""+nomeFumetto+"\",'"+dataLettura+"');";
 			try {
-				DataBase.getStatement().executeUpdate(query);
+				GestoreDataBase.getStatement().executeUpdate(query);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -302,7 +302,7 @@ public class DataBase {
 		String query = "call aggiungiValutazione(\""+lettore+"\",\""+nomeFumetto+"\","
 				+valutazione+");";
 		try {
-			DataBase.getStatement().execute(query);
+			GestoreDataBase.getStatement().execute(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -319,7 +319,7 @@ public class DataBase {
 		String rimuoviFollow ="DELETE FROM segue WHERE utente_follow=\""+idFollow
 				+"\" and utente_follower=\""+lettore+"\";";
 		try {
-			DataBase.getStatement().executeUpdate(rimuoviFollow);
+			GestoreDataBase.getStatement().executeUpdate(rimuoviFollow);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
@@ -330,7 +330,7 @@ public class DataBase {
 		String rimuoviPreferito = "DELETE FROM preferiti WHERE utente=\""+lettore+"\" "
 				+ "and nome_fumetto=\""+nomeFumetto+"\";";
 		try {
-			DataBase.getStatement().executeUpdate(rimuoviPreferito);
+			GestoreDataBase.getStatement().executeUpdate(rimuoviPreferito);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
@@ -341,7 +341,7 @@ public class DataBase {
 		try{
 			String rimuoviDaLeggere = "DELETE FROM da_leggere WHERE utente=\""+lettore+"\" "
 				+ "and nome_fumetto=\""+nomeFumetto+"\";";
-			DataBase.getStatement().executeUpdate(rimuoviDaLeggere);
+			GestoreDataBase.getStatement().executeUpdate(rimuoviDaLeggere);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

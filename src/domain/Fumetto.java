@@ -5,7 +5,7 @@ import java.awt.Image;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import downloader.CopertinaVolumeDownloaderManager;
-import technicalService.DataBase;
+import technicalService.GestoreDataBase;
 import technicalService.TuplaFumetto;
 import technicalService.TuplaVolume;
 
@@ -27,7 +27,7 @@ public class Fumetto {
 	private Volume[] volumi;
 	private int numeroVolumi;
 	private int ultimeCopertineInserite;
-	private static DataBase gestoreDB = DataBase.getIstanza();
+	private static GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
 		
 	private CopertinaVolumeDownloaderManager dowloaderManager = CopertinaVolumeDownloaderManager.getCopertinaDowloader();
 	

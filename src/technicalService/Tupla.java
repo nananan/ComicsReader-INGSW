@@ -9,7 +9,7 @@ public abstract class Tupla {
 	
 	public Tupla(String query){
 		try {
-			cursore = DataBase.getStatement().executeQuery(query);
+			cursore = GestoreDataBase.getStatement().executeQuery(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
