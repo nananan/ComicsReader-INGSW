@@ -32,18 +32,16 @@ public class PannelloSinistra extends JPanel
 	MyButton buttonTopRated = new MyButton("Top Rated Comics");
 	MyButton buttonUtentsRated = new MyButton("Utents Rated");
 	
-	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 6;
+	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 7;
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() ;
 	
-	PannelloCentrale pannelloCentrale = null;
-
 	private MyButton tornaIndietro;
 
 	private JButton bottoneIndietro;
 
 	private JLabel copertinaFumetto;
 	
-	public PannelloSinistra(final PannelloCentrale pannelloCentro, final MyPanel panel, final JPanel pannelloFiltraggio) 
+	public PannelloSinistra(final MyPanel panel) 
 	{
 		super();
 		this.panel = panel;
@@ -52,8 +50,6 @@ public class PannelloSinistra extends JPanel
 		setPreferredSize(new Dimension(larghezza, altezza));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
-		
-		this.pannelloCentrale = pannelloCentro;
 		
 		buttonDiscover.setBounds(5, 10, (int)buttonDiscover.getPreferredSize().getWidth(), (int)buttonDiscover.getPreferredSize().getHeight());
 		add(buttonDiscover);
@@ -104,7 +100,7 @@ public class PannelloSinistra extends JPanel
 				(int)bottoneIndietro.getPreferredSize().getWidth(), 
 				(int)bottoneIndietro.getPreferredSize().getHeight());
 		
-		tornaIndietro = new MyButton("Torna al Fumetto", 16, new Color(91,84,84));
+		tornaIndietro = new MyButton("Torna al Fumetto", 14, new Color(91,84,84));
 		tornaIndietro.setBounds(bottoneIndietro.getX()+(int)bottoneIndietro.getPreferredSize().getWidth()-10,
 				copertinaFumetto.getY()+(int)copertinaFumetto.getPreferredSize().getHeight()+3, 
 				(int)tornaIndietro.getPreferredSize().getWidth(), 

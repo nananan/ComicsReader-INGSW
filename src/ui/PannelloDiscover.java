@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -19,6 +20,9 @@ import java.util.Map.Entry;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -29,7 +33,6 @@ import domain.Libreria;
 
 public class PannelloDiscover extends JPanel
 {
-	private PannelloCentrale pannelloCentrale;
 	File file;
 	Image imageSfondo = null;
 	Image scaledImage = null;
@@ -43,13 +46,20 @@ public class PannelloDiscover extends JPanel
 	
 	ArrayList<BottoneFumetto> bottoniFumetti;
 	
-	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel)
+	private ImageIcon imagePrev;
+	private ImageIcon imageAvanti;
+	private JButton bottoneAvantiFumetti;
+	private JButton bottoneIndietroFumetti;
+	
+	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	private Text textDiscover;
+	
+	public PannelloDiscover(final MyPanel panel, int larghezzaPannello)
 	{
 		super();	
-		this.pannelloCentrale = pannelloCentrale;
 		setBackground(Color.GRAY);
-		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
-		setBounds(0, 0, (int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight());
+		setPreferredSize(new Dimension(larghezza, altezza-larghezzaPannello));
 		setLayout(null);
 		this.panel = panel;
 		
@@ -57,7 +67,43 @@ public class PannelloDiscover extends JPanel
 
 		libreria.fumettiCorrenti();
 
+		textDiscover = new Text("Scopri", 32, Color.WHITE);
+		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
+				(int)textDiscover.getPreferredSize().getHeight());
+		add(textDiscover);
+		
 		aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
+		
+		imagePrev = new ImageIcon("image/prev-icon.png");
+		imageAvanti = new ImageIcon("image/next.png");
+		
+		bottoneAvantiFumetti = new JButton();
+		Image imageScaled = imageAvanti.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		imageAvanti.setImage(imageScaled);
+		
+		bottoneAvantiFumetti.setIcon(imageAvanti);
+		bottoneAvantiFumetti.setPressedIcon(imageAvanti);
+		bottoneAvantiFumetti.setBorderPainted(false);
+		bottoneAvantiFumetti.setFocusPainted(false);
+		bottoneAvantiFumetti.setBackground(this.getBackground());
+		bottoneAvantiFumetti.setBounds((int)this.getPreferredSize().getWidth()-larghezzaPannello*2 -
+				(int)bottoneAvantiFumetti.getPreferredSize().getWidth()/2-5, 
+				(int) this.getPreferredSize().getHeight()/2, 30, 30);
+		add(bottoneAvantiFumetti);
+		
+		imageScaled = imagePrev.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		imagePrev.setImage(imageScaled);
+		
+		bottoneIndietroFumetti = new JButton();
+		bottoneIndietroFumetti.setIcon(imagePrev);
+		bottoneIndietroFumetti.setPressedIcon(imagePrev);
+		bottoneIndietroFumetti.setBorderPainted(false);
+		bottoneIndietroFumetti.setFocusPainted(false);
+		bottoneIndietroFumetti.setBackground(this.getBackground());
+		bottoneIndietroFumetti.setBounds(15, (int)this.getPreferredSize().getHeight()/2, 30, 30);
+		
+		add(bottoneIndietroFumetti);
+		
 	}
 	
 //	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel, 
@@ -121,13 +167,11 @@ public class PannelloDiscover extends JPanel
 //		}
 //	}
 	
-	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel, String tipoDaCercare, String nomeDaCercare)
+	public PannelloDiscover(final MyPanel panel, String tipoDaCercare, String nomeDaCercare)
 	{
 		super();	
-		this.pannelloCentrale = pannelloCentrale;
 		setBackground(Color.GRAY);
-		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
-		setBounds(0, 0, (int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight());
+		setPreferredSize(new Dimension(larghezza, altezza));
 		setLayout(null);
 		
 		this.panel = panel;
@@ -157,7 +201,7 @@ public class PannelloDiscover extends JPanel
 	
 	private void aggiungiStringaFumettoNonTrovato()
 	{
-		Text fumettiNonTrovati = new Text("Fumetti non trovati", 20, Color.WHITE);
+		Text fumettiNonTrovati = new Text("Fumetti non trovati", 18, Color.WHITE);
 		fumettiNonTrovati.setBounds(20, 20, (int)fumettiNonTrovati.getPreferredSize().getWidth(),
 				(int)fumettiNonTrovati.getPreferredSize().getHeight());
 		add(fumettiNonTrovati);
@@ -184,16 +228,21 @@ public class PannelloDiscover extends JPanel
 				bottoniFumetti.get(j).setPreferredSize(new Dimension(200,300));
 				
 				if (j == 0)
-					bottoniFumetti.get(j).setBounds(10,10, 200,300);
+					bottoniFumetti.get(j).setBounds(64,10 + textDiscover.getX() +
+							(int)textDiscover.getPreferredSize().getHeight(), 200,300);
 				else
 				{
 					if (j % 4 == 0)
 					{
-						bottoniFumetti.get(j).setBounds(10,10+(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight()+bottoniFumetti.get(j-1).getY(), 200,300);
+						bottoniFumetti.get(j).setBounds(64,10 + 
+								(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight()+
+								bottoniFumetti.get(j-1).getY(), 200,300);
+						
 						i += bottoniFumetti.get(j).getPreferredSize().getHeight()+10;
 					}
 					else
-						bottoniFumetti.get(j).setBounds(10+(int)bottoniFumetti.get(j-1).getPreferredSize().getWidth()+bottoniFumetti.get(j-1).getX(),10+i, 200,300);
+						bottoniFumetti.get(j).setBounds(10 + (int)bottoniFumetti.get(j-1).getPreferredSize().getWidth()+bottoniFumetti.get(j-1).getX(),10+textDiscover.getX() +
+								(int)textDiscover.getPreferredSize().getHeight()+i, 200,300);
 				}
 				add(bottoneFumetto);
 				
@@ -229,6 +278,5 @@ public class PannelloDiscover extends JPanel
 			g.drawImage(bottoneFumetto.getImageScaled(), 0,0, this);
 		}
 		super.paintComponent(g);
-//		g.drawImage(scaledImage, 0,0, this);
 	}
 }

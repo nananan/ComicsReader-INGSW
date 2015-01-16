@@ -347,11 +347,11 @@ public class Lettore {
 
 	public boolean aggiungiAllaCronologia(Fumetto fumetto)
 	{
-		if(cronologia == null) caricaCronologia();
-		
-		if(cronologia.containsKey(fumetto.getNome())) return false;
-		cronologia.put(fumetto.getNome(),fumetto);
-		tuplaLettore.aggiungiCronologia(fumetto.getNome());
+//		if(cronologia == null) caricaCronologia();
+//		
+//		if(cronologia.containsKey(fumetto.getNome())) return false;
+//		cronologia.put(fumetto.getNome(),fumetto);
+//		tuplaLettore.aggiungiCronologia(fumetto.getNome());
 		return true;	
 	}
 	

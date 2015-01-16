@@ -46,7 +46,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 
 	private JComboBox boxFiltri;
 	
-	public PannelloSopra(JPanel pannelloCentro, final MyPanel panel, Lettore lettore, PannelloDestro pannelloDestro) 
+	public PannelloSopra(final MyPanel panel, Lettore lettore, int larghezzaPerJMenu) 
 	{
 		this.panel = panel;
 		setBackground(new Color(91,84,84));
@@ -57,18 +57,19 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		buttonOptions = new JMenu(lettore.getNome());
 		buttonOptions.setFont(new Font("Caladea", Font.BOLD, 13));
 		buttonOptions.setForeground(Color.WHITE);
-		buttonOptions.setPreferredSize(new Dimension((int)pannelloDestro.getPreferredSize().getWidth()-pannelloDestro.getInsets().bottom,20));
+		buttonOptions.setPreferredSize(new Dimension(larghezzaPerJMenu,20));
 		int X = (int)getPreferredSize().getWidth() - (int)buttonOptions.getPreferredSize().getWidth();
 		int Y = ((int)getPreferredSize().getHeight()/2) - ((int)buttonOptions.getPreferredSize().getHeight()/2);
 		
-		buttonOptions.setBounds(X - pannelloCentro.getInsets().bottom, Y, (int)pannelloDestro.getPreferredSize().getWidth()-pannelloDestro.getInsets().bottom,20);
+		buttonOptions.setBounds(X , Y, 
+				(int)buttonOptions.getPreferredSize().getWidth(),20);
 		
 		profilo = new JMenuItem(lettore.getNome());
 		
-		impostaButtonJMenu(profilo, pannelloCentro);
-		impostaButtonJMenu(logOut, pannelloCentro);
-		impostaButtonJMenu(privateSession, pannelloCentro);
-		impostaButtonJMenu(offlineSession, pannelloCentro);
+		impostaButtonJMenu(profilo);
+		impostaButtonJMenu(logOut);
+		impostaButtonJMenu(privateSession);
+		impostaButtonJMenu(offlineSession);
 		
 		buttonOptions.setLayout(null);
 		add(buttonOptions);
@@ -147,7 +148,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		buttonFiltra.setEnabled(booleana);
 	}
 	
-	private void impostaButtonJMenu(JMenuItem button, JPanel pannelloCentro)
+	private void impostaButtonJMenu(JMenuItem button)
 	{
 		button.setBackground(new Color(91,84,84));
 		button.setBorderPainted(false);
@@ -155,7 +156,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		button.setForeground(Color.WHITE);
 		button.setFont(new Font("Caladea", Font.BOLD, 13));
 		button.setContentAreaFilled(false);
-		button.setPreferredSize(new Dimension((int) buttonOptions.getPreferredSize().getWidth()- pannelloCentro.getInsets().bottom*2, 20));
+		button.setPreferredSize(new Dimension((int) buttonOptions.getPreferredSize().getWidth(), 20));
 	}
 	
 	@Override

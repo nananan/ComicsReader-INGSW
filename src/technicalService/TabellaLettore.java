@@ -48,7 +48,7 @@ public class TabellaLettore {
 	}
 	
 	public TabellaFumetto getPreferiti() throws SQLException{
-		String query =" SELECT nome"
+		String query =" SELECT nome_fumetto "
 				+ "FROM preferiti as p "
 				+ "WHERE p.utente =\""+idFacebookCorrente+"\";";
 		return new TabellaFumetto(query);

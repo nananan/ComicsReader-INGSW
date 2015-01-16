@@ -29,6 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import technicalService.DataBase;
 import domain.Fumetto;
 import domain.Lettore;
 import domain.VisualizzatoreCapitoli;
@@ -142,6 +143,18 @@ public class PannelloDescrizioneFumetto extends JPanel
 		stringaGenere.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ eOccidentale.getY() + (int) eOccidentale.getPreferredSize().getHeight(), (int)stringaGenere.getPreferredSize().getWidth(), (int)stringaGenere.getPreferredSize().getHeight());
 		add(stringaGenere);
 		
+		try
+		{
+			DataBase.connect();
+		} catch (ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		try
 		{
 			fumetto.apriFumetto();

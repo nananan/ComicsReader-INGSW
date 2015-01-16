@@ -34,21 +34,21 @@ public class PannelloFiltraggio extends JPanel
 	private String tipoFumetto;
 	private String statoFumetto;
 	
-	private int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 6;
+	private int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 7;
 	private Text tipo;
 	private MyButton buttonStatoCompleto;
 	private MyButton buttonStatoIncompleto;
 	
 	private MyListener listener;
 	
-	public PannelloFiltraggio(final JPanel pannelloCentro, final MyPanel panel) 
+	public PannelloFiltraggio(final MyPanel panel, int altezzaPannello) 
 	{
 		super();
 		
 		this.panel = panel;
 		
 		setBackground(new Color(91,84,84));
-		setPreferredSize(new Dimension(larghezza, (int)pannelloCentro.getPreferredSize().getHeight()));
+		setPreferredSize(new Dimension(larghezza, altezzaPannello));
 		setLayout(null);
 		
 		tipoFumetto = new String("");
@@ -121,7 +121,11 @@ public class PannelloFiltraggio extends JPanel
 		
 		//BUTTON FINE, TORNA AL MENU PRINCIPALE
 		fine = new MyButton("Fine");
-		fine.setBounds((int)this.getPreferredSize().getWidth()-(int)fine.getPreferredSize().getWidth() - 10, 10 + bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getY() + (int)bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getPreferredSize().getHeight() , (int)fine.getPreferredSize().getWidth()-pannelloCentro.getInsets().bottom,20);
+		fine.setBounds((int)this.getPreferredSize().getWidth()-(int)fine.getPreferredSize().getWidth() - 10, 
+				10 + bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getY() + 
+				(int)bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getPreferredSize().getHeight() , 
+				(int)fine.getPreferredSize().getWidth(),20);
+		
 		fine.addActionListener(listener);
 		add(fine);
 		

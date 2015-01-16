@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -12,6 +13,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -27,6 +29,7 @@ public class BottoneFumetto extends JButton
 	{
 		super();
 		image = image.getScaledInstance(200, 300, Image.SCALE_SMOOTH);
+		this.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		this.scaledImage = image;
 		this.fumetto = fumetto;
 	}	
