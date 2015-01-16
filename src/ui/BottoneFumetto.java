@@ -34,6 +34,15 @@ public class BottoneFumetto extends JButton
 		this.fumetto = fumetto;
 	}	
 	
+	public BottoneFumetto(Image image, final Fumetto fumetto, int larghezza, int altezza) 
+	{
+		super();
+		image = image.getScaledInstance(larghezza, altezza, Image.SCALE_SMOOTH);
+		this.setBorder(BorderFactory.createLineBorder(Color.black,2));
+		this.scaledImage = image;
+		this.fumetto = fumetto;
+	}	
+	
 	public Image getImageScaled()
 	{
 		return scaledImage;

@@ -33,11 +33,17 @@ public class BottoneCapitolo extends MyButton
 			{
 				super.mouseReleased(e);
 				
-				System.out.println("premo bottone");
 				panel.PremiPerCapitolo(volume, fumetto, numeroCapitolo, immagineCopertinaFumetto);
 			
 //					lettore.caricaCronologia();
-				lettore.aggiungiAllaCronologia(fumetto);
+				try
+				{
+					lettore.aggiungiAllaCronologia(fumetto);
+				} catch (SQLException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 //			@Override
 //			public void mouseEntered(MouseEvent e)

@@ -41,6 +41,7 @@ public class PannelloProfilo extends JPanel
 	
 	private ArrayList<BottoneFumettoProfilo> bottoniFumettiPreferiti;
 	private ArrayList<BottoneFumettoProfilo> bottoniDaLeggere;
+	private ArrayList<BottoneFumetto> bottoniCronologia;
 
 	private ArrayList<Lettore> followDelLettoreCorrente;
 	private ArrayList<BottoneFollow> listaBottoniFollowCorrente;
@@ -61,6 +62,7 @@ public class PannelloProfilo extends JPanel
 	private MyPanel panel;
 	
 	private int larghezza;
+	public boolean aggiungiCronologia;
 	
 	public PannelloProfilo(Lettore lettore, MyPanel panel, int larghezza)
 	{
@@ -145,6 +147,7 @@ public class PannelloProfilo extends JPanel
 		
 		bottoniFumettiPreferiti = new ArrayList<>();
 		bottoniDaLeggere = new ArrayList<>();
+		bottoniCronologia = new ArrayList<>();
 		
 		followDelLettoreCorrente = new ArrayList<>();
 		listaBottoniFollowCorrente = new ArrayList<>();
@@ -389,6 +392,63 @@ public class PannelloProfilo extends JPanel
 		repaint();
 	}
 	
+	public void prendiCronologia() throws SQLException
+	{
+		for (BottoneFumettoProfilo bottoneFumetto : bottoniFumettiPreferiti)
+		{
+			if (bottoneFumetto != null)
+				remove(bottoneFumetto);
+		}
+		
+		for (int i = 0; i < listaBottoniFollowCorrente.size(); i++)
+		{
+			if (listaBottoniFollowCorrente.get(i) != null)
+				remove(listaBottoniFollowCorrente.get(i));
+		}
+		
+		for (int i = 0; i < listaBottoniFollowerCorrente.size(); i++)
+		{
+			if (listaBottoniFollowerCorrente.get(i) != null)
+				remove(listaBottoniFollowerCorrente.get(i));
+		}
+		
+		if (bottoniCronologia.size() == 0)
+		{
+			Iterator it = lettore.getCronologia().entrySet().iterator();
+		    while (it.hasNext())
+		    {
+		        Map.Entry pairs = (Map.Entry)it.next();
+		        
+	        	try
+				{
+					bottoniCronologia.add(new BottoneFumetto(getURL(lettore.getCronologia().get(pairs.getKey()).getUrl(),120, 150), lettore.getCronologia().get(pairs.getKey()), 120, 150));
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		}
+		    
+	    for (int i = 0; i < bottoniCronologia.size(); i++)
+	    {
+	    	bottoniCronologia.get(i).setPreferredSize(new Dimension(120,150));
+	    	
+	    	if (i == 0)
+			{
+				bottoniCronologia.get(i).setBounds(20, 20+jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniCronologia.get(i).getPreferredSize().getWidth(), (int)bottoniCronologia.get(i).getPreferredSize().getHeight());
+				
+			}
+			else
+				bottoniCronologia.get(i).setBounds(20, 20 + bottoniCronologia.get(i-1).getY() + (int)bottoniCronologia.get(i-1).getPreferredSize().getHeight(), (int)bottoniCronologia.get(i).getPreferredSize().getWidth(), (int)bottoniCronologia.get(i).getPreferredSize().getHeight());
+			
+			bottoniCronologia.get(i).addActionListener(listener);
+			
+			add(bottoniCronologia.get(i));
+	    }
+		repaint();
+	}
+	
 	private class MyListener implements ActionListener
 	{
 		@Override
@@ -458,10 +518,41 @@ public class PannelloProfilo extends JPanel
 			}
 			else if (source == bottoneCronologia)   //BOTTONE CRONOLOGIA
 			{
-				
+				aggiungiCronologia = true;
+				bottonePreferiti.setForeground(Color.WHITE);
+				bottoneFollows.setForeground(Color.WHITE);
+				bottoneFollower.setForeground(Color.WHITE);
+				bottoneDaLeggere.setForeground(Color.WHITE);
+				bottoneCronologia.setForeground(Color.DARK_GRAY);
+				try
+				{
+					prendiCronologia();
+				} catch (SQLException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 			for (BottoneFumettoProfilo bottoneFumetto : bottoniFumettiPreferiti)
+			{
+				if (source == bottoneFumetto)
+				{
+					try
+					{
+						panel.PremiPerFumetto(bottoneFumetto.getFumetto(), bottoneFumetto.getImageScaled());
+					} catch (MalformedURLException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+			for (BottoneFumetto bottoneFumetto : bottoniCronologia)
 			{
 				if (source == bottoneFumetto)
 				{
@@ -496,6 +587,9 @@ public class PannelloProfilo extends JPanel
 				g.drawImage(bottone.getImage(), 0, 0, this);
 		if (aggiungiDaLeggere)
 			for (BottoneFumettoProfilo bottone : bottoniDaLeggere)
+				g.drawImage(bottone.getImageScaled(), 0,0, this);
+		if (aggiungiCronologia)
+			for (BottoneFumetto bottone : bottoniCronologia)
 				g.drawImage(bottone.getImageScaled(), 0,0, this);
 		super.paintComponent(g);
 	}

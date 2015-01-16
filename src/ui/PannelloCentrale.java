@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -31,7 +33,7 @@ import technicalService.TabellaFumetto;
 import domain.Fumetto;
 import domain.Libreria;
 
-public class PannelloDiscover extends JPanel
+public class PannelloCentrale extends JPanel
 {
 	File file;
 	Image imageSfondo = null;
@@ -46,6 +48,8 @@ public class PannelloDiscover extends JPanel
 	
 	ArrayList<BottoneFumetto> bottoniFumetti;
 	
+	private int indiceFumetti = 0;
+	
 	private ImageIcon imagePrev;
 	private ImageIcon imageAvanti;
 	private JButton bottoneAvantiFumetti;
@@ -55,7 +59,9 @@ public class PannelloDiscover extends JPanel
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	private Text textDiscover;
 	
-	public PannelloDiscover(final MyPanel panel, int larghezzaPannello)
+	private MyListener listener;
+	
+	public PannelloCentrale(final MyPanel panel, int larghezzaPannello)
 	{
 		super();	
 		setBackground(Color.GRAY);
@@ -63,8 +69,23 @@ public class PannelloDiscover extends JPanel
 		setLayout(null);
 		this.panel = panel;
 		
+		listener = new MyListener();
+		
 		bottoniFumetti = new ArrayList<>();
 
+		try
+		{
+			DataBase.connect();
+		} catch (ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		libreria.fumettiCorrenti();
 
 		textDiscover = new Text("Scopri", 32, Color.WHITE);
@@ -90,6 +111,8 @@ public class PannelloDiscover extends JPanel
 				(int)bottoneAvantiFumetti.getPreferredSize().getWidth()/2-5, 
 				(int) this.getPreferredSize().getHeight()/2, 30, 30);
 		add(bottoneAvantiFumetti);
+		
+		bottoneAvantiFumetti.addActionListener(listener);
 		
 		imageScaled = imagePrev.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		imagePrev.setImage(imageScaled);
@@ -167,7 +190,7 @@ public class PannelloDiscover extends JPanel
 //		}
 //	}
 	
-	public PannelloDiscover(final MyPanel panel, String tipoDaCercare, String nomeDaCercare)
+	public PannelloCentrale(final MyPanel panel, String tipoDaCercare, String nomeDaCercare)
 	{
 		super();	
 		setBackground(Color.GRAY);
@@ -177,19 +200,6 @@ public class PannelloDiscover extends JPanel
 		this.panel = panel;
 		
 		bottoniFumetti = new ArrayList<>();
-		
-		try
-		{
-			DataBase.connect();
-		} catch (ClassNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		if (tipoDaCercare.equals("Autore"))
 			aggiungiFumettoAlPannello(libreria.caricaFumettiPerAutore(nomeDaCercare));
@@ -211,6 +221,7 @@ public class PannelloDiscover extends JPanel
 	{
 		int j=0, i=0;
 		
+		bottoniFumetti.clear();
 		if (fumettiDaAggiungere[0] == null)
 		{
 			aggiungiStringaFumettoNonTrovato();
@@ -219,8 +230,10 @@ public class PannelloDiscover extends JPanel
 		
 		for(int z = 0; z < fumettiDaAggiungere.length; z++)
 		{
+			indiceFumetti++;
 			if (fumettiDaAggiungere[z] != null)
 			{
+				System.out.println(fumettiDaAggiungere[z].getNome());
 				BottoneFumetto bottoneFumetto = new BottoneFumetto(
 						fumettiDaAggiungere[z].getCopertina(), fumettiDaAggiungere[z]);
 				
@@ -268,6 +281,48 @@ public class PannelloDiscover extends JPanel
 				j++;
 			}
 		}		
+	}
+	
+	private class MyListener implements ActionListener 
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			Object source = e.getSource();
+			if (source == bottoneAvantiFumetti)
+			{
+				try
+				{
+					DataBase.connect();
+				} catch (ClassNotFoundException e2)
+				{
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				} catch (SQLException e2)
+				{
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+	
+				for (int i = indiceFumetti-8; i < indiceFumetti; i++)
+				{
+//					System.out.println(bottoniFumetti.get(i));
+					remove(bottoniFumetti.get(i));
+				}
+				
+				try
+				{
+					libreria.fumettiSuccessivi();
+				} catch (SQLException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println("INDICE: "+indiceFumetti);
+				aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
+				repaint();
+			}
+		}
 	}
 	
 	@Override

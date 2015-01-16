@@ -196,17 +196,17 @@ public class Lettore {
 		}
 		return false;
 	}
-	public void caricaCronologia(){
+	public void caricaCronologia() throws SQLException{
 
-		if(daLeggere != null) return;
+		if(cronologia != null) return;
 		
-		daLeggere = new HashMap<>();
+		cronologia = new HashMap<>();
 		
-		TabellaFumetto tuplaFumetto =tuplaLettore.getDaLeggere();
+		TabellaFumetto tuplaFumetto =tuplaLettore.getCronologia();
 		
 		while(tuplaFumetto.nextFumetto()){
 			Fumetto fumetto = new Fumetto(tuplaFumetto);
-			daLeggere.put(fumetto.getNome(), fumetto);
+			cronologia.put(fumetto.getNome(), fumetto);
 		}	}
 	public int getNumFollow() {
 		try
@@ -281,7 +281,7 @@ public class Lettore {
 		return daLeggere;
 	}
 
-	public HashMap<String, Fumetto> getCronologia() {
+	public HashMap<String, Fumetto> getCronologia() throws SQLException {
 		caricaCronologia();
 		return cronologia;
 	}
@@ -345,13 +345,13 @@ public class Lettore {
 		return numFollow;
 	}
 
-	public boolean aggiungiAllaCronologia(Fumetto fumetto)
+	public boolean aggiungiAllaCronologia(Fumetto fumetto) throws SQLException
 	{
-//		if(cronologia == null) caricaCronologia();
-//		
-//		if(cronologia.containsKey(fumetto.getNome())) return false;
-//		cronologia.put(fumetto.getNome(),fumetto);
-//		tuplaLettore.aggiungiCronologia(fumetto.getNome());
+		if(cronologia == null) caricaCronologia();
+		
+		if(cronologia.containsKey(fumetto.getNome())) return false;
+		cronologia.put(fumetto.getNome(),fumetto);
+		tuplaLettore.aggiungiCronologia(fumetto.getNome());
 		return true;	
 	}
 	
