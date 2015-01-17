@@ -139,10 +139,9 @@ public class PannelloDescrizioneFumetto extends JPanel
 		add(stringaGenere);
 		
 	
-			GestoreDataBase.connetti();
+		GestoreDataBase.connetti();
 
-		
-			fumetto.apriFumetto();
+		fumetto.apriFumetto();
 	
 		String genere = new String("");
 		
@@ -289,8 +288,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 	
 	private void getCapitoliVolume(Volume volume)
 	{
-		
-			volume.caricaCapitoli();
+		volume.caricaCapitoli();
 		
 		int altezza = 0;
 		for (int j = 0; j < volume.getCapitoli().length; j++) 

@@ -24,6 +24,8 @@ public class Fumetto {
 	private int numeroLetture;
 	private Image[] copertineVolumi ;
 
+	private String dataLettura;
+	
 	private Volume[] volumi;
 	private int numeroVolumi;
 	private int ultimeCopertineInserite;
@@ -62,6 +64,24 @@ public class Fumetto {
 		volumi = null;
 	}
 	
+	public Fumetto(TuplaFumetto tuplaFumetto, String data){
+		
+		nome = tuplaFumetto.getNome();
+		autore = tuplaFumetto.getAutore();
+		artista = tuplaFumetto.getArtista();
+		ecompleto = tuplaFumetto.getECompleto();
+		occidentale = tuplaFumetto.getEOccidentale();
+		url = tuplaFumetto.getUrlCopertina();
+		valutazioneMedia = tuplaFumetto.getValutazioneMedia();
+		numeroLetture = tuplaFumetto.getNumeroLetture(); 
+				
+		dataLettura = data;
+		
+		generi = null;
+		numeroVolumi = 0;
+		volumi = null;
+	}
+	
 	public double getValutazioneMedia()
 	{
 		return valutazioneMedia;
@@ -75,6 +95,11 @@ public class Fumetto {
 	public int getNumeroVolumi()
 	{
 		return numeroVolumi;
+	}
+	
+	public String getData()
+	{
+		return dataLettura;
 	}
 
 	public void apriFumetto(){

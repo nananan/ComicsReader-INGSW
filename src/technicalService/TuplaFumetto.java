@@ -88,6 +88,17 @@ public class TuplaFumetto extends Tupla{
 		}
 	}
 	
+	public String getData()
+	{
+		try
+		{
+			return cursore.getString("data_lettura");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public String getTrama()
 	{

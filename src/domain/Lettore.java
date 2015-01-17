@@ -129,6 +129,20 @@ public class Lettore {
 			daLeggere.put(fumetto.getNome(), fumetto);
 		}
 	}
+	public void caricaCronologia(){
+	
+		if(cronologia != null) return;
+		
+		cronologia = new HashMap<>();
+	
+		TuplaFumetto tuplaFumetto = tuplaLettore.getCronologia();
+		
+		while(tuplaFumetto.prossima()){
+			Fumetto fumetto = new Fumetto(tuplaFumetto, tuplaFumetto.getData());
+			cronologia.put(fumetto.getNome(), fumetto);
+		}	
+	}
+
 	public boolean inserisciPreferiti(Fumetto fumetto){
 		
 		if(preferiti == null) caricaPreferiti();
@@ -194,19 +208,6 @@ public class Lettore {
 			return true;
 		}
 		return false;
-	}
-	public void caricaCronologia(){
-
-		if(cronologia != null) return;
-		
-		cronologia = new HashMap<>();
-		
-		TuplaFumetto tuplaFumetto = tuplaLettore.getCronologia();
-		
-		while(tuplaFumetto.prossima()){
-			Fumetto fumetto = new Fumetto(tuplaFumetto);
-			cronologia.put(fumetto.getNome(), fumetto);
-		}	
 	}
 	public boolean inserisciCronologia(Fumetto fumetto)
 	{

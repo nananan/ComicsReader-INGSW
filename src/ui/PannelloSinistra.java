@@ -114,7 +114,7 @@ public class PannelloSinistra extends JPanel
 			{
 				super.mouseReleased(e);
 			
-					panel.PremiPerFumetto(fumetto, immaginePerFumetto);
+					panel.PremiPerFumetto(fumetto, immaginePerFumetto, "Descrizione");
 		
 			}
 		});
@@ -126,7 +126,7 @@ public class PannelloSinistra extends JPanel
 			{
 				super.mouseReleased(e);
 			
-					panel.PremiPerFumetto(fumetto, immaginePerFumetto);
+					panel.PremiPerFumetto(fumetto, immaginePerFumetto, "Descrizione");
 			
 			}
 		});

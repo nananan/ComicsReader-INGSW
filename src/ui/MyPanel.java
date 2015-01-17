@@ -37,6 +37,7 @@ public class MyPanel extends JPanel
 	
 	private PannelloScrollPane pannelloScrollCapitoli;
 	private HashMap<String,PannelloScrollPane> arrayPannelli = new HashMap<>();
+	private HashMap<String,PannelloCentrale> mapPannelliCentrali = new HashMap<>();
 	private PannelloScrollPane pannelloScrollFiltraggio;
 	
 	private Lettore lettore;
@@ -53,9 +54,9 @@ public class MyPanel extends JPanel
 		this.add(pannelloDestro,BorderLayout.EAST);
 		this.add(pannelloSinistro,BorderLayout.WEST);
 		this.add(pannelloSopra, BorderLayout.NORTH);
-			PremiPerDiscover();
+		PremiPerDiscover();
 	
-		this.add(pannelloCentrale, BorderLayout.CENTER);
+		this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);
 		
 	}
 	
@@ -93,14 +94,32 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerAvereRisultatiDellaRicerca(String tipoDaCercare, String nomeDaCercare)
 	{
-		if (pannelloCentrale != null)
-			remove(pannelloCentrale);
+		if (pannelloProfilo != null)
+			remove(pannelloProfilo);
+		Iterator it = arrayPannelli.entrySet().iterator();
+		while (it.hasNext())
+		{
+			Map.Entry pairs = (Map.Entry)it.next();
+			if (it != null)
+				remove(arrayPannelli.get(pairs.getKey()));
+		}
+
+		if (mapPannelliCentrali.get("Discover") != null)
+			remove(mapPannelliCentrali.get("Discover"));
 		
-		pannelloCentrale = new PannelloCentrale(this, tipoDaCercare, nomeDaCercare);
-		
-		this.add(pannelloCentrale, BorderLayout.CENTER);
-		
-		this.validate();
+		if (!mapPannelliCentrali.containsKey("Ricerca"))
+		{
+			mapPannelliCentrali.put("Ricerca", new PannelloCentrale(this, 
+					(int)pannelloDestro.getPreferredSize().getWidth()));
+			mapPannelliCentrali.get("Ricerca").setRicerca(tipoDaCercare, nomeDaCercare);
+			this.add(mapPannelliCentrali.get("Ricerca"), BorderLayout.CENTER);
+			this.validate();
+		}
+		else
+		{
+			mapPannelliCentrali.get("Ricerca").setRicerca(tipoDaCercare, nomeDaCercare);
+			this.add(mapPannelliCentrali.get("Ricerca"), BorderLayout.CENTER);
+		}
 		repaint();
 	}
 	
@@ -116,25 +135,32 @@ public class MyPanel extends JPanel
 				remove(arrayPannelli.get(pairs.getKey()));
 		}
 
-		if (pannelloCentrale != null)
+		if (mapPannelliCentrali.get("Ricerca") != null)
+			remove(mapPannelliCentrali.get("Ricerca"));
+		if (!mapPannelliCentrali.containsKey("Discover"))
 		{
-			remove (pannelloCentrale);
+			mapPannelliCentrali.put("Discover", new PannelloCentrale(this, 
+					(int)pannelloDestro.getPreferredSize().getWidth()));
+			mapPannelliCentrali.get("Discover").setDiscover();
+			this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);
+			this.validate();
 		}
-			pannelloCentrale = new PannelloCentrale(this, (int)pannelloDestro.getPreferredSize().getWidth());
-
+		else
+		{
+			mapPannelliCentrali.get("Discover").setDiscover();
+			this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);
+		}	
+			
 //			pannelloScrollDiscover = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
 //			pannelloScrollDiscover.getVerticalScrollBar().setUnitIncrement(15);
 //		    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		this.add(pannelloCentrale, BorderLayout.CENTER);
-		this.validate();
 		repaint();
 	}
 	
-	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto) 
+	
+	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto, String pannelloInCuiEro) 
 	{
-		if (pannelloCentrale != null)
-			remove(pannelloCentrale);
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
 		if (pannelloScrollCapitoli != null)
@@ -143,12 +169,18 @@ public class MyPanel extends JPanel
 			remove(pannelloSotto);
 			pannelloSinistro.rimuoviBottoniDelVolume();
 		}
+		if (mapPannelliCentrali.get("Ricerca") != null)
+			remove(mapPannelliCentrali.get("Ricerca"));
+		if (mapPannelliCentrali.get("Discover") != null)
+			remove(mapPannelliCentrali.get("Discover"));
 		
 		if (arrayPannelli.isEmpty())
 		{
 			arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
 					new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
-							pannelloCentrale.getWidth(), pannelloCentrale.getHeight(), this, lettore), null));
+							mapPannelliCentrali.get(pannelloInCuiEro).getWidth(),
+							mapPannelliCentrali.get(pannelloInCuiEro).getHeight(), 
+							this, lettore), null));
 			
 			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
 			arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -162,7 +194,9 @@ public class MyPanel extends JPanel
 			{
 				arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
 						new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
-								pannelloCentrale.getWidth(), pannelloCentrale.getHeight(), this, lettore), null));
+								mapPannelliCentrali.get(pannelloInCuiEro).getWidth(),
+								mapPannelliCentrali.get(pannelloInCuiEro).getHeight(), 
+								this, lettore), null));
 				
 				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
 				arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

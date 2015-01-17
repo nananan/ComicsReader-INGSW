@@ -41,7 +41,7 @@ public class PannelloProfilo extends JPanel
 	
 	private ArrayList<BottoneFumettoProfilo> bottoniFumettiPreferiti;
 	private ArrayList<BottoneFumettoProfilo> bottoniDaLeggere;
-	private ArrayList<BottoneFumetto> bottoniCronologia;
+	private ArrayList<BottoneCronologia> bottoniCronologia;
 
 	private ArrayList<Lettore> followDelLettoreCorrente;
 	private ArrayList<BottoneFollow> listaBottoniFollowCorrente;
@@ -142,7 +142,6 @@ public class PannelloProfilo extends JPanel
 		listaBottoniFollowCorrente = new ArrayList<>();
 		followerDelLettoreCorrente = new ArrayList<>();
 		listaBottoniFollowerCorrente = new ArrayList<>();
-		
 		
 	}
 	
@@ -381,7 +380,7 @@ public class PannelloProfilo extends JPanel
 		repaint();
 	}
 	
-	public void prendiCronologia() throws SQLException
+	public void prendiCronologia()
 	{
 		for (BottoneFumettoProfilo bottoneFumetto : bottoniFumettiPreferiti)
 		{
@@ -410,7 +409,10 @@ public class PannelloProfilo extends JPanel
 		        
 	        	try
 				{
-					bottoniCronologia.add(new BottoneFumetto(getURL(lettore.getCronologia().get(pairs.getKey()).getUrl(),120, 150), lettore.getCronologia().get(pairs.getKey()), 120, 150));
+					bottoniCronologia.add(new BottoneCronologia(getURL(lettore.getCronologia().get(pairs.getKey()).getUrl(),120, 150), 
+							lettore.getCronologia().get(pairs.getKey()), 
+							120, 150, (int)this.getPreferredSize().getWidth(), panel));
+//		        	dataFumettiCronologia.add(lettore.getCronologia().get(pairs.getKey()).);
 				} catch (IOException e)
 				{
 					// TODO Auto-generated catch block
@@ -421,19 +423,23 @@ public class PannelloProfilo extends JPanel
 		    
 	    for (int i = 0; i < bottoniCronologia.size(); i++)
 	    {
-	    	bottoniCronologia.get(i).setPreferredSize(new Dimension(120,150));
-	    	
 	    	if (i == 0)
-			{
-				bottoniCronologia.get(i).setBounds(20, 20+jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniCronologia.get(i).getPreferredSize().getWidth(), (int)bottoniCronologia.get(i).getPreferredSize().getHeight());
-				
-			}
+				bottoniCronologia.get(i).setBounds(20, 20+jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), 
+						(int)bottoniCronologia.get(i).getPreferredSize().getWidth(), (int)bottoniCronologia.get(i).getPreferredSize().getHeight());
 			else
 				bottoniCronologia.get(i).setBounds(20, 20 + bottoniCronologia.get(i-1).getY() + (int)bottoniCronologia.get(i-1).getPreferredSize().getHeight(), (int)bottoniCronologia.get(i).getPreferredSize().getWidth(), (int)bottoniCronologia.get(i).getPreferredSize().getHeight());
 			
 			bottoniCronologia.get(i).addActionListener(listener);
 			
 			add(bottoniCronologia.get(i));
+			JSeparator jsepar = new JSeparator(JSeparator.HORIZONTAL);
+			jsepar.setBackground(Color.BLACK);
+			jsepar.setForeground(Color.BLACK);
+			jsepar.setBounds(0, 5+bottoniCronologia.get(i).getY()+
+					(int)bottoniCronologia.get(i).getPreferredSize().getHeight(), 
+					(int)jsepar.getPreferredSize().getWidth(), 300);
+			add(jsepar);
+			System.out.println(jsepar);
 	    }
 		repaint();
 	}
@@ -513,31 +519,20 @@ public class PannelloProfilo extends JPanel
 				bottoneFollower.setForeground(Color.WHITE);
 				bottoneDaLeggere.setForeground(Color.WHITE);
 				bottoneCronologia.setForeground(Color.DARK_GRAY);
-				try
-				{
-					prendiCronologia();
-				} catch (SQLException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				prendiCronologia();
 			}
 			
 			for (BottoneFumettoProfilo bottoneFumetto : bottoniFumettiPreferiti)
 			{
 				if (source == bottoneFumetto)
-				{
-					panel.PremiPerFumetto(bottoneFumetto.getFumetto(), bottoneFumetto.getImageScaled());
-	
-				}
+					panel.PremiPerFumetto(bottoneFumetto.getFumetto(), 
+							bottoneFumetto.getImageScaled(), "Profilo");
 			}
-			for (BottoneFumetto bottoneFumetto : bottoniCronologia)
+			for (BottoneCronologia bottoneFumetto : bottoniCronologia)
 			{
 				if (source == bottoneFumetto)
-				{
-						panel.PremiPerFumetto(bottoneFumetto.getFumetto(), bottoneFumetto.getImageScaled());
-			
-				}
+					panel.PremiPerFumetto(bottoneFumetto.getFumetto(), 
+							bottoneFumetto.getImageScaled(), "Profilo");
 			}
 		}
 	}
@@ -557,9 +552,9 @@ public class PannelloProfilo extends JPanel
 		if (aggiungiDaLeggere)
 			for (BottoneFumettoProfilo bottone : bottoniDaLeggere)
 				g.drawImage(bottone.getImageScaled(), 0,0, this);
-		if (aggiungiCronologia)
-			for (BottoneFumetto bottone : bottoniCronologia)
-				g.drawImage(bottone.getImageScaled(), 0,0, this);
+//		if (aggiungiCronologia)
+//			for (BottoneCronologia bottone : bottoniCronologia)
+//				g.drawImage(bottone.getImageScaled(), 0,0, this);
 		super.paintComponent(g);
 	}
 	

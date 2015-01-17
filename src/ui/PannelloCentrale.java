@@ -65,7 +65,7 @@ public class PannelloCentrale extends JPanel
 	{
 		super();	
 		setBackground(Color.GRAY);
-		setPreferredSize(new Dimension(larghezza, altezza-larghezzaPannello));
+		setPreferredSize(new Dimension(larghezza-larghezzaPannello*2, altezza));
 		setLayout(null);
 		this.panel = panel;
 		
@@ -77,13 +77,6 @@ public class PannelloCentrale extends JPanel
 		
 //		libreria.fumettiCorrenti();
 
-		textDiscover = new Text("Scopri", 32, Color.WHITE);
-		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
-				(int)textDiscover.getPreferredSize().getHeight());
-		add(textDiscover);
-		
-		aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
-		
 		imagePrev = new ImageIcon("image/prev-icon.png");
 		imageAvanti = new ImageIcon("image/next.png");
 		
@@ -96,7 +89,7 @@ public class PannelloCentrale extends JPanel
 		bottoneAvantiFumetti.setBorderPainted(false);
 		bottoneAvantiFumetti.setFocusPainted(false);
 		bottoneAvantiFumetti.setBackground(this.getBackground());
-		bottoneAvantiFumetti.setBounds((int)this.getPreferredSize().getWidth()-larghezzaPannello*2 -
+		bottoneAvantiFumetti.setBounds((int)this.getPreferredSize().getWidth()-
 				(int)bottoneAvantiFumetti.getPreferredSize().getWidth()/2-5, 
 				(int) this.getPreferredSize().getHeight()/2, 30, 30);
 		add(bottoneAvantiFumetti);
@@ -179,25 +172,13 @@ public class PannelloCentrale extends JPanel
 //			}
 //		}
 //	}
-	
-	public PannelloCentrale(final MyPanel panel, String tipoDaCercare, String nomeDaCercare)
+
+	public void setRicerca(String tipoDaCercare, String nomeDaCercare)
 	{
-		super();	
-		setBackground(Color.GRAY);
-		setPreferredSize(new Dimension(larghezza, altezza));
-		setLayout(null);
-		
-		this.panel = panel;
-		
-		bottoniFumetti = new ArrayList<>();
-		
 		textDiscover = new Text("Ricerca", 32, Color.WHITE);
 		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
 				(int)textDiscover.getPreferredSize().getHeight());
 		add(textDiscover);
-		
-		GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
-		gestoreDB.connetti();
 		
 		if (tipoDaCercare.equals("Autore"))
 			aggiungiFumettoAlPannello(libreria.caricaFumettiPerAutore(nomeDaCercare));
@@ -205,6 +186,16 @@ public class PannelloCentrale extends JPanel
 			aggiungiFumettoAlPannello(libreria.caricaFumettiPerArtista(nomeDaCercare));
 		else if (tipoDaCercare.equals("Fumetto"))
 			aggiungiFumettoAlPannello(libreria.caricaFumettiPerNome(nomeDaCercare));
+	}
+	
+	public void setDiscover()
+	{
+		textDiscover = new Text("Scopri", 32, Color.WHITE);
+		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
+				(int)textDiscover.getPreferredSize().getHeight());
+		add(textDiscover);
+		
+		aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
 	}
 	
 	private void aggiungiStringaFumettoNonTrovato()
@@ -230,10 +221,10 @@ public class PannelloCentrale extends JPanel
 		
 		for(int z = 0; z < fumettiDaAggiungere.length; z++, indiceFumetti++, j++)
 		{
-			System.out.println("Pannello Centrale: "+indiceFumetti);
+//			System.out.println("Pannello Centrale: "+indiceFumetti);
 			if (fumettiDaAggiungere[z] != null)
 			{
-				System.out.println(fumettiDaAggiungere[z].getNome());
+//				System.out.println(fumettiDaAggiungere[z].getNome());
 				BottoneFumetto bottoneFumetto = new BottoneFumetto(
 						fumettiDaAggiungere[z].getCopertina(), fumettiDaAggiungere[z]);
 				
@@ -270,7 +261,7 @@ public class PannelloCentrale extends JPanel
 					{
 					
 							panel.PremiPerFumetto(fumettiDaAggiungere[indice], 
-							bottoniFumetti.get(indicePerFumetto).getImageScaled());
+							bottoniFumetti.get(indicePerFumetto).getImageScaled(), "Discover");
 				
 					}
 				});
@@ -289,13 +280,13 @@ public class PannelloCentrale extends JPanel
 				GestoreDataBase.connetti();
 				for (int i = indiceFumetti-8; i < indiceFumetti; i++)
 				{
-					System.out.println("INDICE: "+i);
+//					System.out.println("INDICE: "+i);
 					remove(bottoniFumetti.get(i));
 				}
 			
 				libreria.fumettiSuccessivi();
 			
-				System.out.println("INDICE FUMETTO: "+indiceFumetti);
+//				System.out.println("INDICE FUMETTO: "+indiceFumetti);
 				aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
 				repaint();
 			}
@@ -306,7 +297,7 @@ public class PannelloCentrale extends JPanel
 				
 				libreria.fumettiPrecedenti();
 				
-				System.out.println("INDICE FUMETTO: "+indiceFumetti);
+//				System.out.println("INDICE FUMETTO: "+indiceFumetti);
 				aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
 				repaint();
 			}
