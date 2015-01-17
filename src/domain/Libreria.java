@@ -4,9 +4,9 @@ import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
 import downloader.CopertinaDowloaderManager;
 import technicalService.GestoreDataBase;
+import technicalService.Tupla;
 import technicalService.TuplaFumetto;
 
 
@@ -23,11 +23,15 @@ public class Libreria
 	private GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
 	private Fumetto[] fumettiCorrenti;
 	private int indiceUltimoFumetto;
+	private int indicePrimoFumetto;
+	private int numeroFumetti;
 		
 	private Libreria(){
 		downloaderManager = CopertinaDowloaderManager.getCopertinaDowloader();
 		fumetti = new LinkedHashMap<>();
-		indiceUltimoFumetto = 0;	
+		indiceUltimoFumetto = 0;
+		indicePrimoFumetto = 0;
+		numeroFumetti = gestoreDB.getNumeroFumetti();
 	}
 	
 	public static Libreria getIstanza(){
@@ -71,7 +75,7 @@ public class Libreria
 		
 		String[] urls = new String[MAX_NUMERO_FUMETTI];
 		Image[] copertina = new Image[MAX_NUMERO_FUMETTI];
-		int cont;
+		int cont;		
 		for(cont =0; tuplaFumetto.prossima(); cont++, indiceUltimoFumetto++){
 			fumettiCorrenti[cont] = new Fumetto(tuplaFumetto);
 			urls[cont] = tuplaFumetto.getUrlCopertina();
@@ -95,11 +99,14 @@ public class Libreria
 	}
 	
 	public boolean fumettiSuccessivi(){
-		if(giaCaricati()){
+		System.out.println("SUCCESSIVI: INDICE_PRIMO_FUMETTO "+indicePrimoFumetto+" INDICE_ULTIMO_FUMETTO : "+indiceUltimoFumetto);
+		if(indiceUltimoFumetto == numeroFumetti) return false;
+		indicePrimoFumetto = indiceUltimoFumetto;
+		if(giaCaricati()){	
 			for(int i = 0; tuplaFumetto.prossima();i++,indiceUltimoFumetto++){
 				fumettiCorrenti[i] = fumetti.get(tuplaFumetto.getNome());
-		}}
-		else{
+			}
+		}else{
 			caricaFumetti();	
 		}
 		return true;
@@ -107,6 +114,8 @@ public class Libreria
 	
 	public Fumetto[] fumettiCorrenti(){
 		if(fumettiCorrenti == null){
+			
+			System.out.println("INDICE_PRIMO_FUMETTO "+indicePrimoFumetto+" INDICE_ULTIMO_FUMETTO : "+indiceUltimoFumetto);
 			tuplaFumetto = gestoreDB.creaTuplaFumetto(indiceUltimoFumetto);
 			caricaFumetti();
 		}
@@ -114,12 +123,17 @@ public class Libreria
 	}
 	
 	public boolean fumettiPrecedenti(){
-		if(indiceUltimoFumetto==0)return false;
-		if(giaCaricati()){
-			for(int i = 0; tuplaFumetto.prossima();i++,indiceUltimoFumetto--){
-				fumettiCorrenti[i] = fumetti.get(tuplaFumetto.getNome());
-				System.out.println("Libreria.fumettiPrecedenti"+indiceUltimoFumetto);
-			}
+		System.out.println("PRECEDENTE : INDICE_PRIMO_FUMETTO "+indicePrimoFumetto+" INDICE_ULTIMO_FUMETTO : "+indiceUltimoFumetto);
+
+		if(indicePrimoFumetto==0)return false;	
+			
+		TuplaFumetto tuplaFumetto = gestoreDB.creaTuplaFumetto(indicePrimoFumetto-MAX_NUMERO_FUMETTI);
+					
+		indiceUltimoFumetto = indicePrimoFumetto;
+
+		for(int i = 0; tuplaFumetto.prossima();i++,indicePrimoFumetto--){
+			System.out.println(tuplaFumetto.getNome());
+			fumettiCorrenti[i] = fumetti.get(tuplaFumetto.getNome());
 		}
 		return true;
 	}
@@ -156,19 +170,33 @@ public class Libreria
 		return fumetti;
 	}
 	
-	public static void main(String[] args) throws SQLException, ClassNotFoundException, MalformedURLException
-	{
-//		DataBase gestore = DataBase.getIstanza();
-//		double start = System.currentTimeMillis();
-//		Libreria catalogo = Libreria.getIstanza();
-//		
-//		Fumetto[] fumetti = catalogo.fumettiCorrenti();
-//		double end = System.currentTimeMillis();
-//		System.out.println((end-start)/1000);
-//		catalogo.fumettiSuccessivi();
-//		catalogo.fumettiSuccessivi();
-//		
-//	
-//		DataBase.disconnetti();
+	public static void main(String[] args){
+		GestoreDataBase gestore = GestoreDataBase.getIstanza();
+		double start = System.currentTimeMillis();
+		Libreria catalogo = Libreria.getIstanza();
+		System.out.println("ciao");
+		Fumetto[] fumetti = catalogo.fumettiCorrenti();
+		double end = System.currentTimeMillis();
+		System.out.println((end-start)/1000);
+		System.out.println(catalogo.fumettiSuccessivi());
+		System.out.println(catalogo.fumettiSuccessivi());
+		System.out.println(catalogo.fumettiSuccessivi());
+		System.out.println(catalogo.fumettiSuccessivi());
+		System.out.println(catalogo.fumettiPrecedenti());
+		System.out.println(catalogo.fumettiSuccessivi());
+		System.out.println(catalogo.fumettiSuccessivi());
+		System.out.println(catalogo.fumettiPrecedenti());
+		System.out.println(catalogo.fumettiPrecedenti());
+		System.out.println(catalogo.fumettiSuccessivi());
+		System.out.println(catalogo.fumettiSuccessivi());
+		System.out.println(catalogo.fumettiPrecedenti());
+		System.out.println(catalogo.fumettiPrecedenti());
+		System.out.println(catalogo.fumettiSuccessivi());
+		System.out.println(catalogo.fumettiSuccessivi());
+		System.out.println(catalogo.fumettiPrecedenti());
+		System.out.println(catalogo.fumettiPrecedenti());
+		
+	
+		GestoreDataBase.disconnetti();
 	}
 }
