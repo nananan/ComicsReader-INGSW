@@ -239,7 +239,7 @@ public class PannelloCentrale extends JPanel
 			{
 //				System.out.println(fumettiDaAggiungere[z].getNome());
 				BottoneFumetto bottoneFumetto = new BottoneFumetto(
-						fumettiDaAggiungere[z].getCopertina(), fumettiDaAggiungere[z]);
+						fumettiDaAggiungere[z].getCopertina(), fumettiDaAggiungere[z], panel);
 				
 				bottoneFumetto.setPreferredSize(new Dimension(200,300));
 				bottoniFumetti.add(bottoneFumetto);
@@ -266,16 +266,7 @@ public class PannelloCentrale extends JPanel
 //				{
 //					setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight()+i+(int)bottoniFumetti.get(j).getPreferredSize().getHeight()));
 //				}
-				
-				final int indicePerFumetto = j;
-				final int indice = z;
-				bottoniFumetti.get(j).addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e)
-					{
-						panel.PremiPerFumetto(fumettiDaAggiungere[indice], 
-							bottoniFumetti.get(indicePerFumetto).getImageScaled());
-					}
-				});
+
 			}
 		}		
 	}

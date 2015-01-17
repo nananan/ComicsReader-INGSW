@@ -35,7 +35,6 @@ import downloader.ImmagineNonPresenteException;
 public class PannelloDescrizioneFumetto extends JPanel
 {
 	private int indiceVolumi = 0;
-	private File file;
 	private Image scaledImage;
 	private Text nome;
 	private JLabel forImage;
@@ -51,14 +50,15 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private JButton bottoneIndietro;
 	private JButton bottoneAvantiVolumi;
 	private JButton bottoneIndietroVolumi;
-	private MyButton bottonePreferiti;
+	private JButton bottonePreferiti;
 	private MyButton bottoneDaLeggere;
 	private ImageIcon imagePrev = new ImageIcon("image/prev-icon.png");
 	private ImageIcon imageAvanti = new ImageIcon("image/next.png");
+	private ImageIcon imagePiu = new ImageIcon("image/toRead.png");
 	
 	private ArrayList<BottoneCapitolo> bottoniCapitoli = new ArrayList<>();
 	
-	private ArrayList<BottoneFumetto> bottoniVolumi = new ArrayList<>();
+	private ArrayList<BottoneVolume> bottoniVolumi = new ArrayList<>();
 	private ArrayList<Text> nomiVolumi = new ArrayList<>();
 	private Text stringaVolumi;
 	private Text stringaCapitoli;
@@ -170,21 +170,33 @@ public class PannelloDescrizioneFumetto extends JPanel
 		starRated.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 1+ stringaValutazione.getY() + (int) stringaValutazione.getPreferredSize().getHeight(), (int)starRated.getPreferredSize().getWidth(), (int)starRated.getPreferredSize().getHeight());
 		add(starRated);
 		
-		bottonePreferiti = new MyButton("Preferiti", 16, Color.DARK_GRAY);
-		bottonePreferiti.setForeground(Color.BLACK);
-		bottonePreferiti.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottonePreferiti.getPreferredSize().getWidth(), (int)bottonePreferiti.getPreferredSize().getHeight());
+		Image imageIns = imagePiu.getImage().getScaledInstance(25,25, Image.SCALE_SMOOTH);
+		imagePiu.setImage(imageIns);
+		bottonePreferiti = new JButton();
+		bottonePreferiti.setIcon(imagePiu);
+		bottonePreferiti.setPressedIcon(imagePiu);
+		bottonePreferiti.setBorderPainted(false);
+		bottonePreferiti.setFocusPainted(false);
+		bottonePreferiti.setContentAreaFilled(false);
+		bottonePreferiti.setBackground(this.getBackground());
+		bottonePreferiti.setText("Preferiti");
+		bottonePreferiti.setFont(new Font("Caladea", Font.BOLD, 14));
+		bottonePreferiti.setForeground(Color.DARK_GRAY);
+//				new MyButton("Preferiti", 16, Color.DARK_GRAY);
+//		bottonePreferiti.setForeground(Color.BLACK);
+		bottonePreferiti.setBounds(10+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottonePreferiti.getPreferredSize().getWidth(), (int)bottonePreferiti.getPreferredSize().getHeight());
 		
-		bottonePreferiti.addMouseMotionListener(new MouseMotionAdapter() {
-		      public void mouseMoved(MouseEvent event) {
-		    	  bottonePreferiti.setForeground(Color.RED);
-		      }
-		});
-		
-		bottonePreferiti.addMouseListener(new MouseAdapter() {
-		      public void mouseExited(MouseEvent event) {
-		    	  bottonePreferiti.setForeground(Color.BLACK);
-		      }
-		});
+//		bottonePreferiti.addMouseMotionListener(new MouseMotionAdapter() {
+//		      public void mouseMoved(MouseEvent event) {
+//		    	  bottonePreferiti.setForeground(Color.RED);
+//		      }
+//		});
+//		
+//		bottonePreferiti.addMouseListener(new MouseAdapter() {
+//		      public void mouseExited(MouseEvent event) {
+//		    	  bottonePreferiti.setForeground(Color.BLACK);
+//		      }
+//		});
 		bottonePreferiti.addActionListener(listener);
 		add(bottonePreferiti);
 		
@@ -239,7 +251,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 			stringaCapitoli = new Text("Capitoli", 24, Color.DARK_GRAY);
 			stringaCapitoli.setBounds(10, 15 + nomiVolumi.get(0).getY() + (int)nomiVolumi.get(0).getPreferredSize().getHeight(), (int) stringaCapitoli.getPreferredSize().getWidth(), (int) stringaCapitoli.getPreferredSize().getHeight() );
 			
-			for (BottoneFumetto bottoneVolumi : bottoniVolumi) {
+			for (BottoneVolume bottoneVolumi : bottoniVolumi) {
 				bottoneVolumi.addActionListener(listener);
 			}
 		}
@@ -287,15 +299,27 @@ public class PannelloDescrizioneFumetto extends JPanel
 	@Override
 	protected void paintComponent(Graphics g) 
 	{
-		for (BottoneFumetto bottoneFumetto : bottoniVolumi) 
+		for (BottoneVolume bottoneFumetto : bottoniVolumi) 
 		{
 			g.drawImage(bottoneFumetto.getImageScaled(), 0,0, this);
 		}
 		super.paintComponent(g);
 	}
 	
-	private void getCapitoliVolume(Volume volume)
+	public void getCapitoliVolume(Volume volume)
 	{
+		if (!stringaCapitoli.equals(null))
+		{
+			remove(stringaCapitoli);
+			for (BottoneCapitolo myButton : bottoniCapitoli)
+			{
+				remove(myButton);
+			}
+			bottoniCapitoli.clear();
+		}
+		
+		add(stringaCapitoli);
+		
 		volume.caricaCapitoli();
 		
 		int altezza = 0;
@@ -337,16 +361,16 @@ public class PannelloDescrizioneFumetto extends JPanel
 			Text nomeVolume = new Text(fumetto.getVolumi()[j].getNumero()+" - "+fumetto.getVolumi()[j].getNome(), 12, Color.WHITE);
 			nomiVolumi.add(nomeVolume);
 			
-			BottoneFumetto bottoneVolume = new BottoneFumetto(volumi[j].getCopertina(),fumetto);
+			BottoneVolume bottoneVolume = new BottoneVolume(volumi[j].getCopertina(), volumi[j], fumetto, this);
 			bottoneVolume.setBorder(BorderFactory.createLineBorder(Color.black,3));
 			bottoniVolumi.add(bottoneVolume);
 			
 			bottoniVolumi.get(j).setPreferredSize(new Dimension(200,300));
 			
 			if (j == indiceIniziale)
-				bottoniVolumi.get(j).setBounds(10, 20 + stringaVolumi.getY() +(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
+				bottoniVolumi.get(j).setBounds(30, 20 + stringaVolumi.getY() +(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
 			else
-				bottoniVolumi.get(j).setBounds(15+bottoniVolumi.get(j-1).getX()+(int)bottoniVolumi.get(j-1).getPreferredSize().getWidth(),20 + stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
+				bottoniVolumi.get(j).setBounds(25+bottoniVolumi.get(j-1).getX()+(int)bottoniVolumi.get(j-1).getPreferredSize().getWidth(),20 + stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
 		
 			nomiVolumi.get(j).setBounds(bottoniVolumi.get(j).getX(), 10 + bottoniVolumi.get(j).getY() + (int)bottoniVolumi.get(j).getPreferredSize().getHeight(), (int)nomiVolumi.get(j).getPreferredSize().getWidth(), (int)nomiVolumi.get(j).getPreferredSize().getHeight());
 
@@ -420,24 +444,6 @@ public class PannelloDescrizioneFumetto extends JPanel
 				repaint();
 			}
 			
-			for (int i = 0; i < bottoniVolumi.size(); i++)   //BOTTONE VOLUMI  ********
-			{
-				if (source == bottoniVolumi.get(i))
-				{
-					if (!stringaCapitoli.equals(null))
-					{
-						remove(stringaCapitoli);
-						for (BottoneCapitolo myButton : bottoniCapitoli)
-						{
-							remove(myButton);
-						}
-						bottoniCapitoli.clear();
-					}
-					
-					add(stringaCapitoli);
-					getCapitoliVolume(fumetto.getVolumi()[i]);
-				}
-			}
 			if (source == bottonePreferiti)
 			{
 				panel.getLettore().inserisciPreferiti(fumetto);

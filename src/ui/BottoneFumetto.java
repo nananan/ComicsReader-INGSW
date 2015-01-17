@@ -3,6 +3,8 @@ package ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -20,27 +22,36 @@ import javax.swing.JPanel;
 
 import domain.Fumetto;
 
-public class BottoneFumetto extends JButton
+public class BottoneFumetto extends JButton implements ActionListener
 {
 	private Image scaledImage;
 	private Fumetto fumetto;
+	private MyPanel panel;
 	
-	public BottoneFumetto(Image image, final Fumetto fumetto) 
+	public BottoneFumetto(Image image, final Fumetto fumetto, MyPanel panel) 
 	{
 		super();
+		this.panel = panel;
+		
 		image = image.getScaledInstance(200, 300, Image.SCALE_SMOOTH);
 		this.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		this.scaledImage = image;
 		this.fumetto = fumetto;
+
+		addActionListener(this);
 	}	
 	
-	public BottoneFumetto(Image image, final Fumetto fumetto, int larghezza, int altezza) 
+	public BottoneFumetto(Image image, final Fumetto fumetto, int larghezza, int altezza, MyPanel panel) 
 	{
 		super();
+		this.panel = panel;
+		
 		image = image.getScaledInstance(larghezza, altezza, Image.SCALE_SMOOTH);
 		this.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		this.scaledImage = image;
 		this.fumetto = fumetto;
+		
+		addActionListener(this);
 	}	
 	
 	public Image getImageScaled()
@@ -58,6 +69,12 @@ public class BottoneFumetto extends JButton
 	{
 		super.paintComponent(g);
 		g.drawImage(scaledImage, 0,0, this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		panel.PremiPerFumetto(fumetto, scaledImage);
 	}
 	
 }
