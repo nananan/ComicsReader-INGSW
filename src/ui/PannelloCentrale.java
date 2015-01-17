@@ -60,6 +60,7 @@ public class PannelloCentrale extends JPanel
 	private Text textDiscover;
 	
 	private MyListener listener;
+	private Text fumettiNonTrovati;
 	
 	public PannelloCentrale(final MyPanel panel, int larghezzaPannello)
 	{
@@ -198,9 +199,19 @@ public class PannelloCentrale extends JPanel
 		aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
 	}
 	
+	public void rimuoviImmaginiPresenti()
+	{
+		if (fumettiNonTrovati != null)
+			remove(fumettiNonTrovati);
+		for (BottoneFumetto bottoneFumetto : bottoniFumetti)
+		{
+			remove(bottoneFumetto);
+		}
+	}
+	
 	private void aggiungiStringaFumettoNonTrovato()
 	{
-		Text fumettiNonTrovati = new Text("Fumetti non trovati", 24, Color.WHITE);
+		fumettiNonTrovati = new Text("Fumetti non trovati", 24, Color.WHITE);
 		fumettiNonTrovati.setBounds(20, 20 +
 				textDiscover.getY() + (int)textDiscover.getPreferredSize().getHeight(), 
 				(int)fumettiNonTrovati.getPreferredSize().getWidth(),

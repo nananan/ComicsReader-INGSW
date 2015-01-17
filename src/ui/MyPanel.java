@@ -117,6 +117,7 @@ public class MyPanel extends JPanel
 		}
 		else
 		{
+			mapPannelliCentrali.get("Ricerca").rimuoviImmaginiPresenti();
 			mapPannelliCentrali.get("Ricerca").setRicerca(tipoDaCercare, nomeDaCercare);
 			this.add(mapPannelliCentrali.get("Ricerca"), BorderLayout.CENTER);
 		}
