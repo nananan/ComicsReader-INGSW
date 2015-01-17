@@ -45,7 +45,6 @@ public class PannelloCentrale extends JPanel
 	HashMap<String,Fumetto> fumetti = new HashMap<>();
 	HashMap<String,Fumetto> fumettiFiltrati = new HashMap<>();
 	HashMap<String,Fumetto> fumettiCercati = new HashMap<>();
-	
 	ArrayList<BottoneFumetto> bottoniFumetti;
 	
 	private int indiceFumetti = 0;
@@ -73,10 +72,7 @@ public class PannelloCentrale extends JPanel
 		listener = new MyListener();
 		
 		bottoniFumetti = new ArrayList<>();
-			GestoreDataBase.connetti();
-		
-		
-//		libreria.fumettiCorrenti();
+		GestoreDataBase.connetti();
 
 		imagePrev = new ImageIcon("image/prev-icon.png");
 		imageAvanti = new ImageIcon("image/next.png");
@@ -181,6 +177,9 @@ public class PannelloCentrale extends JPanel
 				(int)textDiscover.getPreferredSize().getHeight());
 		add(textDiscover);
 		
+		bottoneIndietroFumetti.setVisible(false);
+		bottoneAvantiFumetti.setVisible(false);
+		
 		if (tipoDaCercare.equals("Autore"))
 			aggiungiFumettoAlPannello(libreria.caricaFumettiPerAutore(nomeDaCercare));
 		else if (tipoDaCercare.equals("Artista"))
@@ -204,16 +203,14 @@ public class PannelloCentrale extends JPanel
 		if (fumettiNonTrovati != null)
 			remove(fumettiNonTrovati);
 		for (BottoneFumetto bottoneFumetto : bottoniFumetti)
-		{
 			remove(bottoneFumetto);
-		}
 	}
 	
 	private void aggiungiStringaFumettoNonTrovato()
 	{
 		fumettiNonTrovati = new Text("Fumetti non trovati", 24, Color.WHITE);
-		fumettiNonTrovati.setBounds(20, 20 +
-				textDiscover.getY() + (int)textDiscover.getPreferredSize().getHeight(), 
+		fumettiNonTrovati.setBounds(20, 20 + textDiscover.getY() + 
+				(int)textDiscover.getPreferredSize().getHeight(), 
 				(int)fumettiNonTrovati.getPreferredSize().getWidth(),
 				(int)fumettiNonTrovati.getPreferredSize().getHeight());
 		add(fumettiNonTrovati);
@@ -229,6 +226,11 @@ public class PannelloCentrale extends JPanel
 			aggiungiStringaFumettoNonTrovato();
 			return;
 		}
+		
+		if (!libreria.haPrecedente())
+			bottoneIndietroFumetti.setVisible(false);
+		if (!libreria.haSuccessivo())
+			bottoneAvantiFumetti.setVisible(false);
 		
 		for(int z = 0; z < fumettiDaAggiungere.length; z++, indiceFumetti++, j++)
 		{
@@ -270,10 +272,8 @@ public class PannelloCentrale extends JPanel
 				bottoniFumetti.get(j).addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e)
 					{
-					
-							panel.PremiPerFumetto(fumettiDaAggiungere[indice], 
-							bottoniFumetti.get(indicePerFumetto).getImageScaled(), "Discover");
-				
+						panel.PremiPerFumetto(fumettiDaAggiungere[indice], 
+							bottoniFumetti.get(indicePerFumetto).getImageScaled());
 					}
 				});
 			}
@@ -289,27 +289,22 @@ public class PannelloCentrale extends JPanel
 			if (source == bottoneAvantiFumetti)
 			{
 				GestoreDataBase.connetti();
-				for (int i = indiceFumetti-8; i < indiceFumetti; i++)
-				{
-//					System.out.println("INDICE: "+i);
+				for (int i = 0; i < bottoniFumetti.size(); i++)
 					remove(bottoniFumetti.get(i));
-				}
 			
 				libreria.fumettiSuccessivi();
-			
-//				System.out.println("INDICE FUMETTO: "+indiceFumetti);
 				aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
+				bottoneIndietroFumetti.setVisible(true);
 				repaint();
 			}
 			else if (source == bottoneIndietroFumetti)
 			{
-				for (int i = 0; i < indiceFumetti; i++)
+				for (int i = 0; i < bottoniFumetti.size(); i++)
 					remove(bottoniFumetti.get(i));
 				
 				libreria.fumettiPrecedenti();
-				
-//				System.out.println("INDICE FUMETTO: "+indiceFumetti);
 				aggiungiFumettoAlPannello(libreria.fumettiCorrenti());
+				bottoneAvantiFumetti.setVisible(true);
 				repaint();
 			}
 		}

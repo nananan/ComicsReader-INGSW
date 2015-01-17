@@ -200,6 +200,6 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		panel.PremiPerFumetto(fumetto, scaledImage, "Profilo");
+		panel.PremiPerFumetto(fumetto, scaledImage);
 	}
 }

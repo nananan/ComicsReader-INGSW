@@ -11,28 +11,31 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JSeparator;
 
 import domain.Fumetto;
 
 public class BottoneCronologia extends JButton implements ActionListener
 {
 	private Image immagineCopertina;
+	private Image immagineDaRestituire;
 	private Fumetto fumetto;
 	private MyPanel panel;
 	
 	public BottoneCronologia(Image immagineCopertina, Fumetto fumetto, 
 			int larghezza, int altezza, int larghezzaBottone, MyPanel panel)
 	{
-		this.immagineCopertina = immagineCopertina;
+		this.immagineDaRestituire = immagineCopertina;
 		this.fumetto = fumetto;
 		this.panel = panel;
 		
-		this.immagineCopertina.getScaledInstance(larghezza, altezza+10, Image.SCALE_SMOOTH);
-		this.setPreferredSize(new Dimension(larghezzaBottone-30, altezza+20));
+		this.immagineCopertina = immagineCopertina.getScaledInstance(larghezza, altezza, Image.SCALE_SMOOTH);
+		this.setPreferredSize(new Dimension(larghezzaBottone-40, altezza+20));
 		this.setBackground(Color.GRAY);
 		this.setBorderPainted(false);
+		this.setContentAreaFilled(false);
 				
-		JLabel immagine = new JLabel(new ImageIcon(immagineCopertina));
+		JLabel immagine = new JLabel(new ImageIcon(this.immagineCopertina));
 		immagine.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		immagine.setPreferredSize(new Dimension(larghezza, altezza));
 		immagine.setBounds(20, 10, (int)immagine.getPreferredSize().getWidth(),
@@ -51,6 +54,8 @@ public class BottoneCronologia extends JButton implements ActionListener
 				nomeFumetto.getY(), (int)dataLetturaFumetto.getPreferredSize().getWidth(), 
 				(int)nomeFumetto.getPreferredSize().getHeight());
 		add(dataLetturaFumetto);
+		
+		
 	}
 	
 	@Override
@@ -66,13 +71,13 @@ public class BottoneCronologia extends JButton implements ActionListener
 
 	public Image getImageScaled()
 	{
-		return immagineCopertina;
+		return immagineDaRestituire;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		panel.PremiPerFumetto(fumetto, fumetto.getCopertina(), "Profilo");
+		panel.PremiPerFumetto(fumetto, immagineDaRestituire);
 	}
 	
 }

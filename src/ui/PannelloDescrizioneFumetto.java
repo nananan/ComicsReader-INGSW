@@ -70,6 +70,8 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private Lettore lettore;
 	private Volume volumi[];
 	
+	private String ultimoPannelloInstanziato;
+	
 	public PannelloDescrizioneFumetto(Fumetto fumetto, Image immagineCopertinaFumetto, int panelWidth, int panelHeight,final MyPanel panel, Lettore lettore) 
 	{
 		super();
@@ -79,11 +81,13 @@ public class PannelloDescrizioneFumetto extends JPanel
 		this.immagineCopertinaFumetto = immagineCopertinaFumetto;
 		this.lettore = lettore;
 		
-		setBackground(Color.GRAY);		
-		setPreferredSize(new Dimension(panelWidth, panelHeight));
-		setBounds(10, 10, (int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight());
-		setLayout(null);
-				
+		this.setBackground(Color.GRAY);		
+		this.setPreferredSize(new Dimension(panelWidth, panelHeight));
+		this.setBounds(10, 10, (int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight());
+		this.setLayout(null);
+		
+		ultimoPannelloInstanziato = new String();
+		
 		listener = new MyListener();
 		
 		nome = new Text(fumetto.getNome(), 45, Color.DARK_GRAY);
@@ -137,7 +141,6 @@ public class PannelloDescrizioneFumetto extends JPanel
 		Text stringaGenere = new Text("Genere", 18, Color.DARK_GRAY);
 		stringaGenere.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ eOccidentale.getY() + (int) eOccidentale.getPreferredSize().getHeight(), (int)stringaGenere.getPreferredSize().getWidth(), (int)stringaGenere.getPreferredSize().getHeight());
 		add(stringaGenere);
-		
 	
 		GestoreDataBase.connetti();
 
@@ -263,6 +266,11 @@ public class PannelloDescrizioneFumetto extends JPanel
 		return fumetto;
 	}
 	
+	public void setUltimoPannelloInstanziato(String nomePannello)
+	{
+		this.ultimoPannelloInstanziato = nomePannello;
+	}
+	
 	private void setBottoneIndietro(JButton bottone)
 	{
 		Image imageScaled = imagePrev.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -341,7 +349,6 @@ public class PannelloDescrizioneFumetto extends JPanel
 				bottoniVolumi.get(j).setBounds(15+bottoniVolumi.get(j-1).getX()+(int)bottoniVolumi.get(j-1).getPreferredSize().getWidth(),20 + stringaVolumi.getY()+(int)stringaVolumi.getPreferredSize().getHeight(), (int)bottoniVolumi.get(j).getPreferredSize().getWidth(), (int)bottoniVolumi.get(j).getPreferredSize().getHeight());
 		
 			nomiVolumi.get(j).setBounds(bottoniVolumi.get(j).getX(), 10 + bottoniVolumi.get(j).getY() + (int)bottoniVolumi.get(j).getPreferredSize().getHeight(), (int)nomiVolumi.get(j).getPreferredSize().getWidth(), (int)nomiVolumi.get(j).getPreferredSize().getHeight());
-			
 
 			add(bottoniVolumi.get(j));
 			add(nomiVolumi.get(j));
@@ -365,8 +372,12 @@ public class PannelloDescrizioneFumetto extends JPanel
 			Object source = e.getSource();
 			if (source == bottoneIndietro)  //BOTTONE INDIETRO
 			{
+				if (ultimoPannelloInstanziato.equals("Discover"))
 					panel.PremiPerDiscover();
-			
+				else if (ultimoPannelloInstanziato.equals("Ricerca"))
+					panel.getPannelloRicerca();
+				else if (ultimoPannelloInstanziato.equals("Profilo"))
+					panel.PremiPerProfiloUtente();
 			}
 			else if (source == bottoneIndietroVolumi)   //BOTTONE INDIETRO VOLUMI
 			{
@@ -387,10 +398,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 					indiceVolumi = 4;
 				}
 				if (indiceVolumi >= volumi.length)
-				{
 					indiceVolumi -= volumi.length;
-					System.out.println("::::"+indiceVolumi);
-				}
 					
 				disegnaCopertineVolumi(indiceVolumi-4, indiceVolumi, 1);
 				repaint();
@@ -408,11 +416,8 @@ public class PannelloDescrizioneFumetto extends JPanel
 						remove(nomiVolumi.get(i));
 					}
 				}
-				
-				
 				disegnaCopertineVolumi(indiceVolumi, indiceVolumi+4, 0);
 				repaint();
-				
 			}
 			
 			for (int i = 0; i < bottoniVolumi.size(); i++)   //BOTTONE VOLUMI  ********
@@ -435,14 +440,11 @@ public class PannelloDescrizioneFumetto extends JPanel
 			}
 			if (source == bottonePreferiti)
 			{
-					panel.getLettore().inserisciPreferiti(fumetto);
-				
+				panel.getLettore().inserisciPreferiti(fumetto);
 			}
 			else if (source == bottoneDaLeggere)
 			{
-			
-					panel.getLettore().inserisciDaLeggere(fumetto);
-			
+				panel.getLettore().inserisciDaLeggere(fumetto);
 			}
 			
 			repaint();

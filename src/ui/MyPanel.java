@@ -42,6 +42,9 @@ public class MyPanel extends JPanel
 	
 	private Lettore lettore;
 	private PannelloSotto pannelloSotto;
+	private boolean eStatoRichiestoIlDiscover;
+	private boolean eStatoRichiestoLaRicerca;
+	private boolean eStatoRichiestoIlProfilo;
 	
 	public MyPanel(Lettore lettore) throws IOException 
 	{
@@ -94,6 +97,10 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerAvereRisultatiDellaRicerca(String tipoDaCercare, String nomeDaCercare)
 	{
+		eStatoRichiestoLaRicerca = true;
+		eStatoRichiestoIlDiscover = false;
+		eStatoRichiestoIlProfilo = false;
+		
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
 		Iterator it = arrayPannelli.entrySet().iterator();
@@ -124,8 +131,31 @@ public class MyPanel extends JPanel
 		repaint();
 	}
 	
+	public void getPannelloRicerca()
+	{
+		if (pannelloProfilo != null)
+			remove(pannelloProfilo);
+		Iterator it = arrayPannelli.entrySet().iterator();
+		while (it.hasNext())
+		{
+			Map.Entry pairs = (Map.Entry)it.next();
+			if (it != null)
+				remove(arrayPannelli.get(pairs.getKey()));
+		}
+
+		if (mapPannelliCentrali.get("Discover") != null)
+			remove(mapPannelliCentrali.get("Discover"));
+		
+		this.add(mapPannelliCentrali.get("Ricerca"), BorderLayout.CENTER);
+		repaint();
+	}
+	
 	public void PremiPerDiscover()
 	{
+		eStatoRichiestoIlDiscover = true;
+		eStatoRichiestoLaRicerca = false;
+		eStatoRichiestoIlProfilo = false;
+		
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
 		Iterator it = arrayPannelli.entrySet().iterator();
@@ -159,8 +189,17 @@ public class MyPanel extends JPanel
 		repaint();
 	}
 	
+	private void setIndietro(String nomeFumetto)
+	{
+		if (eStatoRichiestoIlDiscover)
+			((PannelloDescrizioneFumetto) arrayPannelli.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("Discover");
+		else if (eStatoRichiestoLaRicerca)
+			((PannelloDescrizioneFumetto) arrayPannelli.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("Ricerca");
+		else if (eStatoRichiestoIlProfilo)
+			((PannelloDescrizioneFumetto) arrayPannelli.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("Profilo");
+	}
 	
-	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto, String pannelloInCuiEro) 
+	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto) 
 	{
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
@@ -179,34 +218,40 @@ public class MyPanel extends JPanel
 		{
 			arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
 					new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
-							mapPannelliCentrali.get(pannelloInCuiEro).getWidth(),
-							mapPannelliCentrali.get(pannelloInCuiEro).getHeight(), 
+							mapPannelliCentrali.get("Discover").getWidth(),
+							mapPannelliCentrali.get("Discover").getHeight(), 
 							this, lettore), null));
 			
 			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
 			arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			setIndietro(fumetto.getNome());
+			
 			this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
 		}
 		else
 		{
 			if(arrayPannelli.containsKey(fumetto.getNome()))
+			{
 				this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
+				setIndietro(fumetto.getNome());
+			}
 			else
 			{
 				arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
 						new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
-								mapPannelliCentrali.get(pannelloInCuiEro).getWidth(),
-								mapPannelliCentrali.get(pannelloInCuiEro).getHeight(), 
+								mapPannelliCentrali.get("Discover").getWidth(),
+								mapPannelliCentrali.get("Discover").getHeight(), 
 								this, lettore), null));
 				
 				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
 				arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+				setIndietro(fumetto.getNome());
+				
 				this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
 			}
 		}
-		
-//		pannelloScrollDescrizione.setVisible(true);
 		this.validate();
+//		pannelloScrollDescrizione.setVisible(true);
 		repaint();
 	}	
 	
@@ -220,8 +265,8 @@ public class MyPanel extends JPanel
 	        	remove(arrayPannelli.get(pairs.getKey()));
 	    }
 	    
-		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloVisualizzatore(pannelloCentrale.getWidth(), 
-														pannelloCentrale.getHeight()), null);
+		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloVisualizzatore(mapPannelliCentrali.get("Discover").getWidth(), 
+				mapPannelliCentrali.get("Discover").getHeight()), null);
 		pannelloScrollCapitoli.getVerticalScrollBar().setUnitIncrement(15);
 		((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()).avviaVisualizzazione(volume,numeroCapitolo,1);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
@@ -237,8 +282,14 @@ public class MyPanel extends JPanel
 
 	public void PremiPerProfiloUtente()
 	{
-		if (pannelloCentrale != null)
-			remove(pannelloCentrale);
+		eStatoRichiestoIlProfilo = true;
+		eStatoRichiestoIlDiscover = false;
+		eStatoRichiestoLaRicerca = false;
+		
+		if (mapPannelliCentrali.get("Ricerca") != null)
+			remove(mapPannelliCentrali.get("Ricerca"));
+		if (mapPannelliCentrali.get("Discover") != null)
+			remove(mapPannelliCentrali.get("Discover"));
 		
 		if (pannelloScrollCapitoli != null)
 		{
@@ -257,7 +308,7 @@ public class MyPanel extends JPanel
 		if (pannelloProfilo == null)
 		{
 			pannelloProfilo = new PannelloProfilo(lettore, this, 
-					(int)pannelloCentrale.getPreferredSize().getWidth());
+					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth());
 			this.add(pannelloProfilo,BorderLayout.CENTER);
 			this.validate();
 		}
@@ -266,8 +317,6 @@ public class MyPanel extends JPanel
 			
 		repaint();
 	}
-	
-	
 	
 	@Override
 	protected void paintComponent(Graphics g) 

@@ -36,9 +36,7 @@ public class PannelloSinistra extends JPanel
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() ;
 	
 	private MyButton tornaIndietro;
-
 	private JButton bottoneIndietro;
-
 	private JLabel copertinaFumetto;
 	
 	public PannelloSinistra(final MyPanel panel) 
@@ -114,7 +112,7 @@ public class PannelloSinistra extends JPanel
 			{
 				super.mouseReleased(e);
 			
-					panel.PremiPerFumetto(fumetto, immaginePerFumetto, "Descrizione");
+					panel.PremiPerFumetto(fumetto, immaginePerFumetto);
 		
 			}
 		});
@@ -126,7 +124,7 @@ public class PannelloSinistra extends JPanel
 			{
 				super.mouseReleased(e);
 			
-					panel.PremiPerFumetto(fumetto, immaginePerFumetto, "Descrizione");
+					panel.PremiPerFumetto(fumetto, immaginePerFumetto);
 			
 			}
 		});

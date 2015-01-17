@@ -99,13 +99,15 @@ public class Libreria
 	}
 	
 	public boolean fumettiSuccessivi(){
-		System.out.println("SUCCESSIVI: INDICE_PRIMO_FUMETTO "+indicePrimoFumetto+" INDICE_ULTIMO_FUMETTO : "+indiceUltimoFumetto);
 		if(indiceUltimoFumetto == numeroFumetti) return false;
 		indicePrimoFumetto = indiceUltimoFumetto;
-		if(giaCaricati()){	
-			for(int i = 0; tuplaFumetto.prossima();i++,indiceUltimoFumetto++){
+		if(giaCaricati()){
+			int i = 0;
+			for(; tuplaFumetto.prossima();i++,indiceUltimoFumetto++){
 				fumettiCorrenti[i] = fumetti.get(tuplaFumetto.getNome());
 			}
+			for (int j = MAX_NUMERO_FUMETTI - 1; j >= i; j--)
+				fumettiCorrenti[j] = null;
 		}else{
 			caricaFumetti();	
 		}
@@ -114,8 +116,6 @@ public class Libreria
 	
 	public Fumetto[] fumettiCorrenti(){
 		if(fumettiCorrenti == null){
-			
-			System.out.println("INDICE_PRIMO_FUMETTO "+indicePrimoFumetto+" INDICE_ULTIMO_FUMETTO : "+indiceUltimoFumetto);
 			tuplaFumetto = gestoreDB.creaTuplaFumetto(indiceUltimoFumetto);
 			caricaFumetti();
 		}
@@ -123,8 +123,6 @@ public class Libreria
 	}
 	
 	public boolean fumettiPrecedenti(){
-		System.out.println("PRECEDENTE : INDICE_PRIMO_FUMETTO "+indicePrimoFumetto+" INDICE_ULTIMO_FUMETTO : "+indiceUltimoFumetto);
-
 		if(indicePrimoFumetto==0)return false;	
 			
 		TuplaFumetto tuplaFumetto = gestoreDB.creaTuplaFumetto(indicePrimoFumetto-MAX_NUMERO_FUMETTI);
@@ -132,7 +130,6 @@ public class Libreria
 		indiceUltimoFumetto = indicePrimoFumetto;
 
 		for(int i = 0; tuplaFumetto.prossima();i++,indicePrimoFumetto--){
-			System.out.println(tuplaFumetto.getNome());
 			fumettiCorrenti[i] = fumetti.get(tuplaFumetto.getNome());
 		}
 		return true;
@@ -168,6 +165,20 @@ public class Libreria
 		caricaFumetti(tuplaFumetto, fumetti);
 		System.out.println(fumetti[0]);
 		return fumetti;
+	}
+	
+	public boolean haSuccessivo()
+	{
+		if (indiceUltimoFumetto == numeroFumetti)
+			return false;
+		return true;
+	}
+	
+	public boolean haPrecedente()
+	{
+		if (indicePrimoFumetto == 0)
+			return false;
+		return true;
 	}
 	
 	public static void main(String[] args){
