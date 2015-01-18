@@ -37,7 +37,6 @@ public class PannelloCentrale extends JPanel
 {
 	File file;
 	Image imageSfondo = null;
-	Image scaledImage = null;
 	
 	private MyPanel panel;
 	private static Libreria libreria = Libreria.getIstanza();
@@ -78,14 +77,7 @@ public class PannelloCentrale extends JPanel
 		imageAvanti = new ImageIcon("image/next.png");
 		
 		bottoneAvantiFumetti = new JButton();
-		Image imageScaled = imageAvanti.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		imageAvanti.setImage(imageScaled);
-		
-		bottoneAvantiFumetti.setIcon(imageAvanti);
-		bottoneAvantiFumetti.setPressedIcon(imageAvanti);
-		bottoneAvantiFumetti.setBorderPainted(false);
-		bottoneAvantiFumetti.setFocusPainted(false);
-		bottoneAvantiFumetti.setBackground(this.getBackground());
+		setBottone(bottoneAvantiFumetti, imageAvanti);
 		bottoneAvantiFumetti.setBounds((int)this.getPreferredSize().getWidth()-
 				(int)bottoneAvantiFumetti.getPreferredSize().getWidth()/2-5, 
 				(int) this.getPreferredSize().getHeight()/2, 30, 30);
@@ -93,20 +85,26 @@ public class PannelloCentrale extends JPanel
 		
 		bottoneAvantiFumetti.addActionListener(listener);
 		
-		imageScaled = imagePrev.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		imagePrev.setImage(imageScaled);
-		
 		bottoneIndietroFumetti = new JButton();
-		bottoneIndietroFumetti.setIcon(imagePrev);
-		bottoneIndietroFumetti.setPressedIcon(imagePrev);
-		bottoneIndietroFumetti.setBorderPainted(false);
-		bottoneIndietroFumetti.setFocusPainted(false);
-		bottoneIndietroFumetti.setBackground(this.getBackground());
+		setBottone(bottoneIndietroFumetti, imagePrev);
 		bottoneIndietroFumetti.setBounds(15, (int)this.getPreferredSize().getHeight()/2, 30, 30);
 		add(bottoneIndietroFumetti);
 		
 		bottoneIndietroFumetti.addActionListener(listener);
 		
+	}
+	
+	private void setBottone(JButton bottone, ImageIcon imageIcon)
+	{
+		Image imageScaled = imageIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		imageIcon.setImage(imageScaled);
+		
+		bottone.setIcon(imageIcon);
+		bottone.setPressedIcon(imageIcon);
+		bottone.setBorderPainted(false);
+		bottone.setFocusPainted(false);
+		bottone.setContentAreaFilled(false);
+		bottone.setBackground(this.getBackground());
 	}
 	
 //	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel, 

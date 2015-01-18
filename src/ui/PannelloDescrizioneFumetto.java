@@ -51,10 +51,11 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private JButton bottoneAvantiVolumi;
 	private JButton bottoneIndietroVolumi;
 	private JButton bottonePreferiti;
-	private MyButton bottoneDaLeggere;
+	private JButton bottoneDaLeggere;
 	private ImageIcon imagePrev = new ImageIcon("image/prev-icon.png");
 	private ImageIcon imageAvanti = new ImageIcon("image/next.png");
 	private ImageIcon imagePiu = new ImageIcon("image/toRead.png");
+	private ImageIcon imageMeno = new ImageIcon("image/notToRead.png");
 	
 	private ArrayList<BottoneCapitolo> bottoniCapitoli = new ArrayList<>();
 	
@@ -170,39 +171,22 @@ public class PannelloDescrizioneFumetto extends JPanel
 		starRated.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 1+ stringaValutazione.getY() + (int) stringaValutazione.getPreferredSize().getHeight(), (int)starRated.getPreferredSize().getWidth(), (int)starRated.getPreferredSize().getHeight());
 		add(starRated);
 		
-		Image imageIns = imagePiu.getImage().getScaledInstance(25,25, Image.SCALE_SMOOTH);
-		imagePiu.setImage(imageIns);
 		bottonePreferiti = new JButton();
-		bottonePreferiti.setIcon(imagePiu);
-		bottonePreferiti.setPressedIcon(imagePiu);
-		bottonePreferiti.setBorderPainted(false);
-		bottonePreferiti.setFocusPainted(false);
-		bottonePreferiti.setContentAreaFilled(false);
-		bottonePreferiti.setBackground(this.getBackground());
+		setBottone(bottonePreferiti, imagePiu, 25, 25);
 		bottonePreferiti.setText("Preferiti");
 		bottonePreferiti.setFont(new Font("Caladea", Font.BOLD, 14));
 		bottonePreferiti.setForeground(Color.DARK_GRAY);
-//				new MyButton("Preferiti", 16, Color.DARK_GRAY);
-//		bottonePreferiti.setForeground(Color.BLACK);
-		bottonePreferiti.setBounds(10+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottonePreferiti.getPreferredSize().getWidth(), (int)bottonePreferiti.getPreferredSize().getHeight());
+		bottonePreferiti.setBounds(5+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottonePreferiti.getPreferredSize().getWidth(), (int)bottonePreferiti.getPreferredSize().getHeight());
 		
-//		bottonePreferiti.addMouseMotionListener(new MouseMotionAdapter() {
-//		      public void mouseMoved(MouseEvent event) {
-//		    	  bottonePreferiti.setForeground(Color.RED);
-//		      }
-//		});
-//		
-//		bottonePreferiti.addMouseListener(new MouseAdapter() {
-//		      public void mouseExited(MouseEvent event) {
-//		    	  bottonePreferiti.setForeground(Color.BLACK);
-//		      }
-//		});
 		bottonePreferiti.addActionListener(listener);
 		add(bottonePreferiti);
 		
-		bottoneDaLeggere = new MyButton("Da Leggere", 16, Color.DARK_GRAY);
-		bottoneDaLeggere.setForeground(Color.BLACK);
-		bottoneDaLeggere.setBounds(20+bottonePreferiti.getX()+(int)bottonePreferiti.getPreferredSize().getWidth(), 2+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottonePreferiti.getPreferredSize().getWidth(), (int)bottonePreferiti.getPreferredSize().getHeight());
+		bottoneDaLeggere = new JButton();
+		setBottone(bottoneDaLeggere, imagePiu, 25, 25);
+		bottoneDaLeggere.setText("Da Leggere");
+		bottoneDaLeggere.setFont(new Font("Caladea", Font.BOLD, 14));
+		bottoneDaLeggere.setForeground(Color.DARK_GRAY);
+		bottoneDaLeggere.setBounds(10+bottonePreferiti.getX()+(int)bottonePreferiti.getPreferredSize().getWidth(), 2+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottoneDaLeggere.getPreferredSize().getWidth(), (int)bottoneDaLeggere.getPreferredSize().getHeight());
 		bottoneDaLeggere.addActionListener(listener);
 		add(bottoneDaLeggere);
 		
@@ -225,21 +209,13 @@ public class PannelloDescrizioneFumetto extends JPanel
 	
 		if (fumetto.getNumeroVolumi() != 0)
 		{
-			
 			bottoneAvantiVolumi = new JButton();
-			Image imageScaled = imageAvanti.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
-			imageAvanti.setImage(imageScaled);
-			
-			bottoneAvantiVolumi.setIcon(imageAvanti);
-			bottoneAvantiVolumi.setPressedIcon(imageAvanti);
-			bottoneAvantiVolumi.setBorderPainted(false);
-			bottoneAvantiVolumi.setFocusPainted(false);
-			bottoneAvantiVolumi.setBackground(this.getBackground());
+			setBottone(bottoneAvantiVolumi, imageAvanti, 30, 30);
 			bottoneAvantiVolumi.setBounds(stringaVolumi.getX()+((int)this.getPreferredSize().getWidth()- (int)bottoneAvantiVolumi.getPreferredSize().getWidth()-10), stringaVolumi.getY(), 30, 30);
 			add(bottoneAvantiVolumi);
 			
 			bottoneIndietroVolumi = new JButton();
-			setBottoneIndietro(bottoneIndietroVolumi);
+			setBottone(bottoneIndietroVolumi, imagePrev, 30, 30);
 			bottoneIndietroVolumi.setBounds(stringaVolumi.getX()+((int)this.getPreferredSize().getWidth()-(int)bottoneIndietroVolumi.getPreferredSize().getWidth() - (int)bottoneAvantiVolumi.getPreferredSize().getWidth()-10), stringaVolumi.getY(), 30, 30);
 			add(bottoneIndietroVolumi);
 			
@@ -267,7 +243,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		}
 		
 		bottoneIndietro = new JButton();
-		setBottoneIndietro(bottoneIndietro);
+		setBottone(bottoneIndietro, imagePrev, 30, 30);
 		bottoneIndietro.setBounds(nome.getX()+((int)this.getPreferredSize().getWidth()-(int)bottoneIndietro.getPreferredSize().getWidth()-20), nome.getY()*2, 30, 30);
 		add(bottoneIndietro);
 		bottoneIndietro.addActionListener(listener);
@@ -283,13 +259,13 @@ public class PannelloDescrizioneFumetto extends JPanel
 		this.ultimoPannelloInstanziato = nomePannello;
 	}
 	
-	private void setBottoneIndietro(JButton bottone)
+	private void setBottone(JButton bottone, ImageIcon imageIcon, int larghezza, int altezza)
 	{
-		Image imageScaled = imagePrev.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		imagePrev.setImage(imageScaled);
+		Image imageScaled = imageIcon.getImage().getScaledInstance(larghezza, altezza, Image.SCALE_SMOOTH);
+		imageIcon.setImage(imageScaled);
 		
-		bottone.setIcon(imagePrev);
-		bottone.setPressedIcon(imagePrev);
+		bottone.setIcon(imageIcon);
+		bottone.setPressedIcon(imageIcon);
 		bottone.setBorderPainted(false);
 		bottone.setFocusPainted(false);
 		bottone.setContentAreaFilled(false);
@@ -446,11 +422,30 @@ public class PannelloDescrizioneFumetto extends JPanel
 			
 			if (source == bottonePreferiti)
 			{
-				panel.getLettore().inserisciPreferiti(fumetto);
+				if (bottonePreferiti.getIcon() == imagePiu)
+				{
+//					panel.getLettore().inserisciPreferiti(fumetto);
+					setBottone(bottonePreferiti, imageMeno, 25, 25);
+				}
+				else
+				{
+//					panel.getLettore().rimuoviPreferiti(fumetto);
+					setBottone(bottonePreferiti, imagePiu, 25, 25);
+				}
+				
 			}
 			else if (source == bottoneDaLeggere)
 			{
-				panel.getLettore().inserisciDaLeggere(fumetto);
+				if (bottoneDaLeggere.getIcon() == imagePiu)
+				{
+//					panel.getLettore().inserisciDaLeggere(fumetto);
+					setBottone(bottoneDaLeggere, imageMeno, 25, 25);
+				}
+				else
+				{
+//					panel.getLettore().rimuoviDaLeggere(fumetto);
+					setBottone(bottoneDaLeggere, imagePiu, 25, 25);
+				}
 			}
 			
 			repaint();

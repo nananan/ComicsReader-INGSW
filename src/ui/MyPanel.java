@@ -1,5 +1,6 @@
 package ui;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -65,11 +66,14 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerFiltraggio()
 	{
+		GestoreDataBase.connetti();
+		
 		this.remove(pannelloSinistro);
-		pannelloFiltraggio = new PannelloFiltraggio(this, (int)pannelloCentrale.getPreferredSize().getHeight());
+		pannelloFiltraggio = new PannelloFiltraggio(this, (int)mapPannelliCentrali.get("Discover").getPreferredSize().getHeight());
 		pannelloSopra.setBooleanaPerBottoneFiltro(false);
 		pannelloScrollFiltraggio = new PannelloScrollPane(pannelloFiltraggio, null);
 		pannelloScrollFiltraggio.getVerticalScrollBar().setUnitIncrement(15);
+		pannelloScrollFiltraggio.getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(new Color(91,84,84)));
 		pannelloScrollFiltraggio.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		this.add(pannelloScrollFiltraggio, BorderLayout.WEST);
 		this.validate();
@@ -89,7 +93,7 @@ public class MyPanel extends JPanel
 //		pannelloDiscover = new PannelloDiscover(pannelloCentro, this, filtri, 
 //						pannelloFiltraggio.getTipoFumetto(), pannelloFiltraggio.getStatoFumetto());
 //		
-		this.add(pannelloCentrale, BorderLayout.CENTER);
+//		this.add(pannelloCentrale, BorderLayout.CENTER);
 		
 		this.validate();
 		repaint();
@@ -223,6 +227,7 @@ public class MyPanel extends JPanel
 							this, lettore), null));
 			
 			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
+			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
 			arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			setIndietro(fumetto.getNome());
 			
@@ -244,6 +249,7 @@ public class MyPanel extends JPanel
 								this, lettore), null));
 				
 				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
+				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
 				arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 				setIndietro(fumetto.getNome());
 				
@@ -268,6 +274,7 @@ public class MyPanel extends JPanel
 		pannelloScrollCapitoli = new PannelloScrollPane(new PannelloVisualizzatore(mapPannelliCentrali.get("Discover").getWidth(), 
 				mapPannelliCentrali.get("Discover").getHeight()), null);
 		pannelloScrollCapitoli.getVerticalScrollBar().setUnitIncrement(15);
+		pannelloScrollCapitoli.getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
 		((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()).avviaVisualizzazione(volume,numeroCapitolo,1);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
 	    pannelloScrollCapitoli.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
