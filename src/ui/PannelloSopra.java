@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.ImageObserver;
@@ -114,6 +116,27 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		textFiltraggio.setPreferredSize(new Dimension(150, 20));
 		textFiltraggio.setBounds(20+boxFiltri.getX()+(int)boxFiltri.getPreferredSize().getWidth(), 5, (int)textFiltraggio.getPreferredSize().getWidth(), (int)textFiltraggio.getPreferredSize().getHeight());
 		add(textFiltraggio);
+		
+		textFiltraggio.addKeyListener(new KeyListener()
+		{
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				if(e.getKeyChar() == KeyEvent.VK_ENTER)
+					panel.PremiPerAvereRisultatiDellaRicerca(boxFiltri.getSelectedItem().toString(), 
+							textFiltraggio.getText());
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+			}
+		});
 		
 		ImageIcon imageCerca = new ImageIcon("image/search.png");
 		

@@ -111,9 +111,7 @@ public class PannelloSinistra extends JPanel
 			public void mouseReleased(MouseEvent e)
 			{
 				super.mouseReleased(e);
-			
-					panel.PremiPerFumetto(fumetto, immaginePerFumetto);
-		
+				panel.PremiPerFumetto(fumetto, immaginePerFumetto);
 			}
 		});
 		
@@ -123,9 +121,7 @@ public class PannelloSinistra extends JPanel
 			public void mouseReleased(MouseEvent e)
 			{
 				super.mouseReleased(e);
-			
-					panel.PremiPerFumetto(fumetto, immaginePerFumetto);
-			
+				panel.PremiPerFumetto(fumetto, immaginePerFumetto);
 			}
 		});
 		
@@ -137,9 +133,12 @@ public class PannelloSinistra extends JPanel
 	
 	public void rimuoviBottoniDelVolume()
 	{
-		this.remove(copertinaFumetto);
-		this.remove(bottoneIndietro);
-		this.remove(tornaIndietro);
+		if (copertinaFumetto != null && bottoneIndietro != null && tornaIndietro != null)
+		{
+			this.remove(copertinaFumetto);
+			this.remove(bottoneIndietro);
+			this.remove(tornaIndietro);
+		}
 		repaint();
 	}
 	
@@ -158,10 +157,7 @@ public class PannelloSinistra extends JPanel
 			GestoreDataBase.connetti();
 			
 			if (source == buttonDiscover)
-			{
-				
-					panel.PremiPerDiscover();
-			}
+				panel.PremiPerDiscover();
 		}
 	}
 	

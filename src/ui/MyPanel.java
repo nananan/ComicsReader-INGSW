@@ -160,6 +160,8 @@ public class MyPanel extends JPanel
 		eStatoRichiestoLaRicerca = false;
 		eStatoRichiestoIlProfilo = false;
 		
+		pannelloSinistro.rimuoviBottoniDelVolume();
+		
 		if (pannelloProfilo != null)
 			remove(pannelloProfilo);
 		Iterator it = arrayPannelli.entrySet().iterator();
@@ -189,6 +191,12 @@ public class MyPanel extends JPanel
 //			pannelloScrollDiscover = new PannelloScrollPane(pannelloDiscover, new File("image/manga1.jpg"));
 //			pannelloScrollDiscover.getVerticalScrollBar().setUnitIncrement(15);
 //		    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		if (pannelloSotto != null)
+		{
+			remove(pannelloSotto);
+			this.validate();
+		}
 		
 		repaint();
 	}
