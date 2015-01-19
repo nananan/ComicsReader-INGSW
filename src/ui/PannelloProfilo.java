@@ -69,8 +69,8 @@ public class PannelloProfilo extends JPanel
 	{
 		super();
 		setBackground(Color.GRAY);
-		setBorder(BorderFactory.createLineBorder(Color.black,3));
-		setPreferredSize(new Dimension(larghezza, (int)this.getPreferredSize().getHeight()));
+//		setBorder(BorderFactory.createLineBorder(Color.black,3));
+		setPreferredSize(new Dimension(larghezza, (int)this.getPreferredSize().getHeight()*100));
 		setLayout(null);
 		
 		this.panel = panel;
@@ -211,7 +211,6 @@ public class PannelloProfilo extends JPanel
 			
 			add(bottoniFumettiPreferiti.get(i));
 	    }
-		repaint();
 	}
 	
 	public void prendiFollows() throws SQLException, IOException
@@ -247,7 +246,6 @@ public class PannelloProfilo extends JPanel
 			for (int i = 0; i < followDelLettoreCorrente.size(); i++)
 				add(listaBottoniFollowCorrente.get(i));
 		}
-		repaint();
 	}
 	
 	public void prendiFollowers() throws SQLException, IOException
@@ -283,7 +281,6 @@ public class PannelloProfilo extends JPanel
 			for (int i = 0; i < followerDelLettoreCorrente.size(); i++)
 				add(listaBottoniFollowerCorrente.get(i));
 		}
-		repaint();
 	}
 	
 	public void prendiDaLeggere()
@@ -318,13 +315,13 @@ public class PannelloProfilo extends JPanel
 			
 			add(bottoniDaLeggere.get(i));
 	    }
-		repaint();
 	}
 	
 	public void prendiCronologia()
 	{
 		rimuoviComponentiPrecedenti();
 		bottoneCronologia.setForeground(Color.DARK_GRAY);
+		
 		if (bottoniCronologia.size() == 0)
 		{
 			Iterator it = lettore.getCronologia().entrySet().iterator();
@@ -337,14 +334,13 @@ public class PannelloProfilo extends JPanel
 					bottoniCronologia.add(new BottoneCronologia(getURL(lettore.getCronologia().get(pairs.getKey()).getUrl(),200, 300), 
 							lettore.getCronologia().get(pairs.getKey()), 
 							120, 150, (int)this.getPreferredSize().getWidth(), panel));
-//		        	dataFumettiCronologia.add(lettore.getCronologia().get(pairs.getKey()).);
 				} catch (IOException e)
 				{
 					e.printStackTrace();
 				}
 		    }
 		}
-		    
+		int larghezza = 0;
 	    for (int i = 0; i < bottoniCronologia.size(); i++)
 	    {
 	    	if (i == 0)
@@ -356,6 +352,8 @@ public class PannelloProfilo extends JPanel
 			bottoniCronologia.get(i).addActionListener(listener);
 			
 			add(bottoniCronologia.get(i));
+			
+			larghezza += bottoniCronologia.get(i).getPreferredSize().getHeight();
 			if (i != bottoniCronologia.size()-1)
 			{
 				listaJSeparator.add(new JSeparator(JSeparator.HORIZONTAL));
@@ -368,8 +366,12 @@ public class PannelloProfilo extends JPanel
 						(int)this.getPreferredSize().getWidth()-13, (int)listaJSeparator.get(i).getPreferredSize().getHeight());
 				add(listaJSeparator.get(i));
 			}
+			
+			if (larghezza >= this.getPreferredSize().getHeight())
+				this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(),
+						(int)this.getPreferredSize().getHeight()+larghezza/2));
+			
 	    }
-		repaint();
 	}
 	
 	private void rimuoviComponentiPrecedenti()
@@ -470,19 +472,7 @@ public class PannelloProfilo extends JPanel
 				aggiungiCronologia = true;
 				prendiCronologia();
 			}
-			
-			for (BottoneFumettoProfilo bottoneFumetto : bottoniFumettiPreferiti)
-			{
-				if (source == bottoneFumetto)
-					panel.PremiPerFumetto(bottoneFumetto.getFumetto(), 
-							bottoneFumetto.getImageScaled());
-			}
-			for (BottoneCronologia bottoneFumetto : bottoniCronologia)
-			{
-				if (source == bottoneFumetto)
-					panel.PremiPerFumetto(bottoneFumetto.getFumetto(), 
-							bottoneFumetto.getImageScaled());
-			}
+			repaint();
 		}
 	}
 	
@@ -501,9 +491,6 @@ public class PannelloProfilo extends JPanel
 		if (aggiungiDaLeggere)
 			for (BottoneFumettoProfilo bottone : bottoniDaLeggere)
 				g.drawImage(bottone.getImageScaled(), 0,0, this);
-//		if (aggiungiCronologia)
-//			for (BottoneCronologia bottone : bottoniCronologia)
-//				g.drawImage(bottone.getImageScaled(), 0,0, this);
 		super.paintComponent(g);
 	}
 	

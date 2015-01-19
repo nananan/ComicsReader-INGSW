@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import technicalService.GestoreDataBase;
 
 
-public class Main {
+public class Main extends Thread{
 
 	public static void main(String[] args) throws IOException 
 	{
@@ -17,7 +17,14 @@ public class Main {
 			GestoreDataBase.connetti();
 			while (!((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
 			{
-				System.out.println("non devo fare niente");
+				try
+				{
+					sleep(100);
+				} catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			f.setVisible(false);
 			f = new MyFrame(((FrameLogin) f).getPanel().getLettore());

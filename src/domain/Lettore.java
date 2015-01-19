@@ -135,11 +135,11 @@ public class Lettore {
 		
 		cronologia = new HashMap<>();
 	
-		TuplaFumetto tuplaFumetto = tuplaLettore.getCronologia();
-		
+		TuplaFumetto tuplaFumetto = tuplaLettore.getCronologia(idFacebook);
 		while(tuplaFumetto.prossima()){
 			Fumetto fumetto = new Fumetto(tuplaFumetto, tuplaFumetto.getData());
-			cronologia.put(fumetto.getNome(), fumetto);
+			System.out.println(tuplaFumetto.getNome()+" "+tuplaFumetto.getData());
+			cronologia.put(fumetto.getData(), fumetto);
 		}	
 	}
 
@@ -149,7 +149,7 @@ public class Lettore {
 		
 		if(preferiti.containsKey(fumetto.getNome())) return false;
 		preferiti.put(fumetto.getNome(),fumetto);
-		gestoreDB.aggiungiPreferiti(nome,fumetto.getNome());
+		gestoreDB.aggiungiPreferiti(idFacebook,fumetto.getNome());
 		return true;
 	}
 	
@@ -160,16 +160,16 @@ public class Lettore {
 		if(!preferiti.containsKey(fumetto.getNome()))return false;
 		
 		preferiti.remove(fumetto.getNome());
-		gestoreDB.rimuoviPreferiti(nome,fumetto.getNome());
+		gestoreDB.rimuoviPreferiti(idFacebook,fumetto.getNome());
 		return true;
 	}
 	public boolean inserisciDaLeggere(Fumetto fumetto){
 		
-		if(daLeggere == null) caricaDaLeggere();;
+		if(daLeggere == null) caricaDaLeggere();
 		
 		if(daLeggere.containsKey(fumetto.getNome())) return false;
 		daLeggere.put(fumetto.getNome(),fumetto);
-		gestoreDB.aggiungiDaLeggere(nome,fumetto.getNome());
+		gestoreDB.aggiungiDaLeggere(idFacebook,fumetto.getNome());
 		return true;	
 	}
 	
@@ -180,10 +180,22 @@ public class Lettore {
 		if(!daLeggere.containsKey(fumetto.getNome())) return false;
 		
 		daLeggere.remove(fumetto.getNome());
-		gestoreDB.rimuoviDaLeggere(nome,fumetto.getNome());
+		gestoreDB.rimuoviDaLeggere(idFacebook,fumetto.getNome());
 		return true;
 	}
 	
+	public boolean inserisciCronologia(Fumetto fumetto)
+	{
+		if(cronologia == null) caricaCronologia();
+		
+		System.out.println("CONTIENE: "+fumetto.getData());
+		
+		if(cronologia.containsKey(fumetto.getData())) return false;
+		cronologia.put(fumetto.getData(),fumetto);
+		gestoreDB.aggiungiCronologia(idFacebook,fumetto.getNome());
+		return true;	
+	}
+
 	public boolean segui(Lettore lettore){
 		
 		if(follows == null) caricaFollows();
@@ -208,15 +220,6 @@ public class Lettore {
 			return true;
 		}
 		return false;
-	}
-	public boolean inserisciCronologia(Fumetto fumetto)
-	{
-//		if(cronologia == null) caricaCronologia();
-//		
-//		if(cronologia.containsKey(fumetto.getNome())) return false;
-//		cronologia.put(fumetto.getNome(),fumetto);
-//		gestoreDB.aggiungiCronologia(nome,fumetto.getNome());
-		return true;	
 	}
 	public int getNumFollow() {
 		caricaFollows();

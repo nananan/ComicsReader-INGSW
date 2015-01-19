@@ -170,7 +170,7 @@ public class PannelloCentrale extends JPanel
 
 	public void setRicerca(String tipoDaCercare, String nomeDaCercare)
 	{
-		textDiscover = new Text("Ricerca", 32, Color.WHITE);
+		textDiscover = new Text("Ricerca", 32, Color.DARK_GRAY);
 		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
 				(int)textDiscover.getPreferredSize().getHeight());
 		add(textDiscover);
@@ -188,7 +188,7 @@ public class PannelloCentrale extends JPanel
 	
 	public void setDiscover()
 	{
-		textDiscover = new Text("Scopri", 32, Color.WHITE);
+		textDiscover = new Text("Scopri", 32, Color.DARK_GRAY);
 		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
 				(int)textDiscover.getPreferredSize().getHeight());
 		add(textDiscover);

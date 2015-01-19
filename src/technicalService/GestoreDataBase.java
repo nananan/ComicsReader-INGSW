@@ -284,17 +284,22 @@ public class GestoreDataBase {
 		Calendar cal = Calendar.getInstance();
 		
 		int month = cal.get(Calendar.MONTH)+1;
-		String dataLettura = cal.get(Calendar.YEAR)+"-"+month+"-"+cal.get(Calendar.DAY_OF_MONTH)
-				+" "+cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE)+":"+cal.get(Calendar.SECOND);
+		String dataLettura = cal.get(Calendar.YEAR)+"-"+month+"-"+cal.get(Calendar.DAY_OF_MONTH);
 		
-		String query = "INSERT INTO letture_recenti(utente,nome_fumetto,data_lettura) values(\""+lettore
-				+"\",\""+nomeFumetto+"\",'"+dataLettura+"');";
-			try {
-				GestoreDataBase.getStatement().executeUpdate(query);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		String procedure = "{call add_cronologia(?,?,?)}";
+		CallableStatement callableStatement = null;
+		
+		try {
+			 callableStatement = connection.prepareCall(procedure);
+			 callableStatement.setString(1, lettore);
+			 callableStatement.setString(2, nomeFumetto);
+			 callableStatement.setString(3, dataLettura);
+			 callableStatement.execute();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void aggiungiValutazione(String lettore,String nomeFumetto, int valutazione){

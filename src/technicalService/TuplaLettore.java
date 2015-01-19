@@ -44,12 +44,15 @@ public class TuplaLettore extends Tupla{
 		return new TuplaFumetto(query );
 	}
 	
-	public TuplaFumetto getCronologia(){
+	public TuplaFumetto getCronologia(String utente){
 		String query = "SELECT f.nome, f.autore, f.artista,f.completa,f.occidentale,f.url_copertina_primo_volume,r.data_lettura,"
 				+ "f.valutazione_media,f.numero_letture "
 				+ "FROM fumetto as f, letture_recenti as r "
-				+ "WHERE r.utente =\""+getIdFacebook()+"\" and r.nome_fumetto = f.nome "
+				+ "WHERE r.utente =\""+utente+"\" and r.nome_fumetto = f.nome "
 				+ "ORDER BY data_lettura DESC; ";
+		
+		System.out.println(query);
+		
 		return new TuplaFumetto(query );
 	}
 	

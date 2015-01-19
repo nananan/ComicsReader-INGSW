@@ -34,7 +34,8 @@ public class BottoneCronologia extends JButton implements ActionListener
 		this.setBackground(Color.GRAY);
 		this.setBorderPainted(false);
 		this.setContentAreaFilled(false);
-				
+		this.setLayout(null);
+		
 		JLabel immagine = new JLabel(new ImageIcon(this.immagineCopertina));
 		immagine.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		immagine.setPreferredSize(new Dimension(larghezza, altezza));
@@ -52,9 +53,10 @@ public class BottoneCronologia extends JButton implements ActionListener
 		Text dataLetturaFumetto = new Text(fumetto.getData(), 18, Color.WHITE);
 		dataLetturaFumetto.setBounds(50+nomeFumetto.getX()+(int)nomeFumetto.getPreferredSize().getWidth(),
 				nomeFumetto.getY(), (int)dataLetturaFumetto.getPreferredSize().getWidth(), 
-				(int)nomeFumetto.getPreferredSize().getHeight());
+				(int)dataLetturaFumetto.getPreferredSize().getHeight());
 		add(dataLetturaFumetto);
 		
+		addActionListener(this);
 		
 	}
 	

@@ -424,12 +424,12 @@ public class PannelloDescrizioneFumetto extends JPanel
 			{
 				if (bottonePreferiti.getIcon() == imagePiu)
 				{
-//					panel.getLettore().inserisciPreferiti(fumetto);
+					panel.getLettore().inserisciPreferiti(fumetto);
 					setBottone(bottonePreferiti, imageMeno, 25, 25);
 				}
 				else
 				{
-//					panel.getLettore().rimuoviPreferiti(fumetto);
+					panel.getLettore().rimuoviPreferiti(fumetto);
 					setBottone(bottonePreferiti, imagePiu, 25, 25);
 				}
 				
@@ -438,12 +438,12 @@ public class PannelloDescrizioneFumetto extends JPanel
 			{
 				if (bottoneDaLeggere.getIcon() == imagePiu)
 				{
-//					panel.getLettore().inserisciDaLeggere(fumetto);
+					panel.getLettore().inserisciDaLeggere(fumetto);
 					setBottone(bottoneDaLeggere, imageMeno, 25, 25);
 				}
 				else
 				{
-//					panel.getLettore().rimuoviDaLeggere(fumetto);
+					panel.getLettore().rimuoviDaLeggere(fumetto);
 					setBottone(bottoneDaLeggere, imagePiu, 25, 25);
 				}
 			}

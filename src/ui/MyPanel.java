@@ -40,6 +40,7 @@ public class MyPanel extends JPanel
 	private HashMap<String,PannelloScrollPane> arrayPannelli = new HashMap<>();
 	private HashMap<String,PannelloCentrale> mapPannelliCentrali = new HashMap<>();
 	private PannelloScrollPane pannelloScrollFiltraggio;
+	private PannelloScrollPane pannelloScrollProfilo;
 	
 	private Lettore lettore;
 	private PannelloSotto pannelloSotto;
@@ -105,8 +106,8 @@ public class MyPanel extends JPanel
 		eStatoRichiestoIlDiscover = false;
 		eStatoRichiestoIlProfilo = false;
 		
-		if (pannelloProfilo != null)
-			remove(pannelloProfilo);
+		if (pannelloScrollProfilo != null)
+			remove(pannelloScrollProfilo);
 		Iterator it = arrayPannelli.entrySet().iterator();
 		while (it.hasNext())
 		{
@@ -137,8 +138,8 @@ public class MyPanel extends JPanel
 	
 	public void getPannelloRicerca()
 	{
-		if (pannelloProfilo != null)
-			remove(pannelloProfilo);
+		if (pannelloScrollProfilo != null)
+			remove(pannelloScrollProfilo);
 		Iterator it = arrayPannelli.entrySet().iterator();
 		while (it.hasNext())
 		{
@@ -162,8 +163,8 @@ public class MyPanel extends JPanel
 		
 		pannelloSinistro.rimuoviBottoniDelVolume();
 		
-		if (pannelloProfilo != null)
-			remove(pannelloProfilo);
+		if (pannelloScrollProfilo != null)
+			remove(pannelloScrollProfilo);
 		Iterator it = arrayPannelli.entrySet().iterator();
 		while (it.hasNext())
 		{
@@ -213,8 +214,8 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto) 
 	{
-		if (pannelloProfilo != null)
-			remove(pannelloProfilo);
+		if (pannelloScrollProfilo != null)
+			remove(pannelloScrollProfilo);
 		if (pannelloScrollCapitoli != null)
 		{
 			remove(pannelloScrollCapitoli);
@@ -320,15 +321,19 @@ public class MyPanel extends JPanel
 	        if (it != null)
 	        	remove(arrayPannelli.get(pairs.getKey()));
 	    }
-		if (pannelloProfilo == null)
+		if (pannelloScrollProfilo == null)
 		{
-			pannelloProfilo = new PannelloProfilo(lettore, this, 
-					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth());
-			this.add(pannelloProfilo,BorderLayout.CENTER);
+			pannelloScrollProfilo = new PannelloScrollPane(new PannelloProfilo(lettore, this, 
+					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth()), null);
+			pannelloScrollProfilo.getVerticalScrollBar().setUnitIncrement(15);
+			pannelloScrollProfilo.getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
+		    pannelloScrollProfilo.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			
+			this.add(pannelloScrollProfilo,BorderLayout.CENTER);
 			this.validate();
 		}
 		else
-			this.add(pannelloProfilo,BorderLayout.CENTER);
+			this.add(pannelloScrollProfilo,BorderLayout.CENTER);
 			
 		repaint();
 	}
