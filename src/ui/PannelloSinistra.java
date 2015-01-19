@@ -30,7 +30,6 @@ public class PannelloSinistra extends JPanel
 	MyButton buttonDiscover = new MyButton("Scopri");
 	MyButton buttonTopRead = new MyButton("Top Read");
 	MyButton buttonTopRated = new MyButton("Top Rated Comics");
-	MyButton buttonUtentsRated = new MyButton("Utents Rated");
 	
 	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 7;
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() ;
@@ -57,14 +56,12 @@ public class PannelloSinistra extends JPanel
 		  
 		buttonTopRated.setBounds(buttonDiscover.getX(), 3+buttonTopRead.getY()+(int)buttonTopRead.getPreferredSize().getHeight(), (int)buttonTopRated.getPreferredSize().getWidth(), (int)buttonTopRated.getPreferredSize().getHeight());
 		add(buttonTopRated);
-
-		buttonUtentsRated.setBounds(buttonDiscover.getX(), 3+buttonTopRated.getY()+(int)buttonTopRated.getHeight(), (int)buttonUtentsRated.getPreferredSize().getWidth(), (int)buttonUtentsRated.getPreferredSize().getHeight());
-		add(buttonUtentsRated);
 		
 		MyListener listener = new MyListener();
 		
 		buttonDiscover.addActionListener(listener);
 		buttonTopRead.addActionListener(listener);
+		buttonTopRated.addActionListener(listener);
 	
 	}
 	
@@ -143,6 +140,26 @@ public class PannelloSinistra extends JPanel
 		repaint();
 	}
 	
+	public void deselezionaBottoni()
+	{
+		buttonDiscover.setForeground(Color.WHITE);
+		buttonTopRead.setForeground(Color.WHITE);
+		buttonTopRated.setForeground(Color.WHITE);
+	}
+	
+	public void setColorBottoneDiscover(Color color)
+	{
+		buttonDiscover.setForeground(color);
+	}
+	public void setColorBottoneTopRead(Color color)
+	{
+		buttonTopRead.setForeground(color);
+	}
+	public void setColorBottoneTopRated(Color color)
+	{
+		buttonTopRated.setForeground(color);
+	}
+	
 	@Override
 	protected void paintComponent(Graphics g) 
 	{
@@ -161,6 +178,8 @@ public class PannelloSinistra extends JPanel
 				panel.PremiPerDiscover();
 			else if (source == buttonTopRead)
 				panel.premiPerAverePiuLetti();
+			else if (source == buttonTopRated)
+				panel.premiPerAverePiuVotati();
 		}
 	}
 	

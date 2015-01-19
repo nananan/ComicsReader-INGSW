@@ -60,6 +60,8 @@ public class PannelloCentrale extends JPanel
 	private MyListener listener;
 	private Text fumettiNonTrovati;
 	
+	private String arrayNumeriClassifica[];
+	
 	public PannelloCentrale(final MyPanel panel, int larghezzaPannello)
 	{
 		super();	
@@ -92,6 +94,13 @@ public class PannelloCentrale extends JPanel
 		add(bottoneIndietroFumetti);
 		
 		bottoneIndietroFumetti.addActionListener(listener);
+		
+		arrayNumeriClassifica = new String[8];
+		for (int i = 0; i < arrayNumeriClassifica.length; i++)
+		{
+			int indice = i+1;
+			arrayNumeriClassifica[i] = "image/number"+indice+".png";
+		}
 		
 	}
 	
@@ -175,17 +184,18 @@ public class PannelloCentrale extends JPanel
 		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
 				(int)textDiscover.getPreferredSize().getHeight());
 		add(textDiscover);
-		aggiungiFumettoAlPannello(libreria.caricaPiuLetti());
+		aggiungiFumettoClassificheAlPannello(libreria.caricaPiuLetti());
 		
 	}
 	
 	public void setTopRated()
 	{
+		rimuoviImmaginiPresenti();
 		textDiscover = new Text("Più Votati", 32, Color.DARK_GRAY);
 		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
 				(int)textDiscover.getPreferredSize().getHeight());
 		add(textDiscover);
-		aggiungiFumettoAlPannello(libreria.caricaPiuVotati());
+		aggiungiFumettoClassificheAlPannello(libreria.caricaPiuVotati());
 		
 	}
 	
@@ -286,6 +296,66 @@ public class PannelloCentrale extends JPanel
 //					setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight()+i+(int)bottoniFumetti.get(j).getPreferredSize().getHeight()));
 //				}
 
+			}
+		}		
+	}
+	
+	private void aggiungiFumettoClassificheAlPannello(final Fumetto[] fumettiDaAggiungere)
+	{
+		int j=0, i=0;
+		if (!libreria.haPrecedente())
+			bottoneIndietroFumetti.setVisible(false);
+		if (!libreria.haSuccessivo())
+			bottoneAvantiFumetti.setVisible(false);
+		
+		for(int z = 0; z < fumettiDaAggiungere.length; z++, indiceFumetti++, j++)
+		{
+//			System.out.println("Pannello Centrale: "+indiceFumetti);
+			if (fumettiDaAggiungere[z] != null)
+			{
+//				System.out.println(fumettiDaAggiungere[z].getNome());
+				BottoneFumetto bottoneFumetto = new BottoneFumetto(
+						fumettiDaAggiungere[z].getCopertina(), fumettiDaAggiungere[z], panel);
+				
+				
+				bottoneFumetto.setPreferredSize(new Dimension(200,300));
+				bottoniFumetti.add(bottoneFumetto);
+				
+				if (j == 0)
+					bottoniFumetti.get(j).setBounds(64,10 + textDiscover.getX() +
+							(int)textDiscover.getPreferredSize().getHeight(), 200,300);
+				else
+				{
+					if (j % 4 == 0)
+					{
+						bottoniFumetti.get(j).setBounds(64,10 + 
+								(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight()+
+								bottoniFumetti.get(j-1).getY(), 200, 300);
+						
+						i += bottoniFumetti.get(j).getPreferredSize().getHeight()+10;
+					}
+					else
+						bottoniFumetti.get(j).setBounds(10 + (int)bottoniFumetti.get(j-1).getPreferredSize().getWidth()+bottoniFumetti.get(j-1).getX(),10+textDiscover.getX() +
+								(int)textDiscover.getPreferredSize().getHeight()+i, 200,300);
+				}
+				this.add(bottoniFumetti.get(indiceFumetti));
+				bottoniFumetti.get(indiceFumetti).setLayout(null);
+				
+				ImageIcon numero = new ImageIcon(arrayNumeriClassifica[indiceFumetti]);
+				Image imageScaled = numero.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
+				numero.setImage(imageScaled);
+				
+				JLabel numeroClassifica = new JLabel(numero);
+				numeroClassifica.setPreferredSize(new Dimension(50,50));
+				numeroClassifica.setBounds((int)bottoniFumetti.get(indiceFumetti).getPreferredSize().getWidth() - (int)numeroClassifica.getPreferredSize().getWidth()
+						- bottoniFumetti.get(indiceFumetti).getInsets().bottom,
+						(int)bottoniFumetti.get(indiceFumetti).getPreferredSize().getHeight() - (int)numeroClassifica.getPreferredSize().getHeight()
+						- bottoniFumetti.get(indiceFumetti).getInsets().bottom,
+						(int)numeroClassifica.getPreferredSize().getWidth(), (int)numeroClassifica.getPreferredSize().getHeight());
+				
+				numeroClassifica.setOpaque(true);
+				numeroClassifica.setBackground(Color.BLACK);
+				bottoniFumetti.get(indiceFumetti).add(numeroClassifica);
 			}
 		}		
 	}

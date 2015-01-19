@@ -379,6 +379,10 @@ public class PannelloDescrizioneFumetto extends JPanel
 					panel.getPannelloRicerca();
 				else if (ultimoPannelloInstanziato.equals("Profilo"))
 					panel.PremiPerProfiloUtente();
+				else if (ultimoPannelloInstanziato.equals("PiuLetti"))
+					panel.premiPerAverePiuLetti();
+				else if (ultimoPannelloInstanziato.equals("PiuVotati"))
+					panel.premiPerAverePiuVotati();
 			}
 			else if (source == bottoneIndietroVolumi)   //BOTTONE INDIETRO VOLUMI
 			{

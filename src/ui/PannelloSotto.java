@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 
 import javax.imageio.ImageIO;
@@ -29,11 +31,11 @@ public class PannelloSotto extends JPanel
 	private JButton next = new JButton();
 	private JButton prev = new JButton();
 	
-	private PannelloVisualizzatore pannelloVisualizzatore;
+	private MyPanel panel;
 	
 	private MyListener listener;
 	
-	public PannelloSotto(PannelloVisualizzatore pannelloVisualizzatore) 
+	public PannelloSotto(final MyPanel panel) 
 	{
 //		int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 //		int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -46,7 +48,7 @@ public class PannelloSotto extends JPanel
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		
-		this.pannelloVisualizzatore = pannelloVisualizzatore;
+		this.panel = panel;
 		listener = new MyListener();
 		
 		//PLAY
@@ -84,7 +86,7 @@ public class PannelloSotto extends JPanel
 
 		next.addActionListener(listener);
 		prev.addActionListener(listener);
-		
+
 		add(play);
 		add(next);
 		add(prev);
@@ -104,10 +106,9 @@ public class PannelloSotto extends JPanel
 		{
 			Object source = e.getSource();
 			if (source == next) 
-				pannelloVisualizzatore.vaiAPaginaSuccessiva();
+				panel.premiPerPaginaSuccessiva();
 			else if (source == prev) 
-				pannelloVisualizzatore.vaiAPaginaPrecedente();
+				panel.premiPerPaginaPrecedente();
 		}
 	}
-	
 }
