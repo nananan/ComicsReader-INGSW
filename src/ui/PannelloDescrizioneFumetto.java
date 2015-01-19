@@ -166,7 +166,8 @@ public class PannelloDescrizioneFumetto extends JPanel
 		Text stringaValutazione = new Text("Valutazione", 18, Color.DARK_GRAY);
 		stringaValutazione.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ generi.getY() + (int) generi.getPreferredSize().getHeight(), (int)stringaValutazione.getPreferredSize().getWidth(), (int)stringaValutazione.getPreferredSize().getHeight());
 		add(stringaValutazione);
-		starRated = new StarRater();
+		starRated = new StarRater(lettore, fumetto);
+		starRated.setRating((float)fumetto.getValutazioneMedia());
 		starRated.setPreferredSize(new Dimension(300, 10));
 		starRated.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 1+ stringaValutazione.getY() + (int) stringaValutazione.getPreferredSize().getHeight(), (int)starRated.getPreferredSize().getWidth(), (int)starRated.getPreferredSize().getHeight());
 		add(starRated);

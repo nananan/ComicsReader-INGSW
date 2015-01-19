@@ -20,6 +20,9 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.swing.JPanel;
 
+import domain.Fumetto;
+import domain.Lettore;
+
 /**
  * The star rater panel. 
  *
@@ -53,12 +56,15 @@ public class StarRater extends JPanel {
   /** True for clicked this time. */
   private boolean done;
   
-  
+  private Lettore lettore;
+  private Fumetto fumetto;
   /**
    * The constructor.
    */
-  public StarRater() {
+  public StarRater(Lettore lettore, Fumetto fumetto) {
     this(5);
+    this.lettore = lettore;
+    this.fumetto = fumetto;
   }
   
   /**
@@ -125,6 +131,8 @@ public class StarRater extends JPanel {
           for (int i = 0; i < listeners.size(); i++) {
             listeners.get(i).handleSelection(StarRater.this.selection);
           }
+          System.out.println(StarRater.this.selection);
+          lettore.vota(fumetto, StarRater.this.selection);
           repaint();
         }
       }

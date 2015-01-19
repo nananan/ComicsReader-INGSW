@@ -238,13 +238,25 @@ public class GestoreDataBase {
 				+ "FROM valuta"
 				+ "WHERE utente =\""+lettore+"\" and d.nome_fumetto =\""+nomeFumetto+"\";";
 		try {
-			ResultSet v =GestoreDataBase.getStatement().executeQuery(query);
+			ResultSet v = GestoreDataBase.getStatement().executeQuery(query);
 			v.next();
 			return v.getInt("valutazione");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
 		}
+	}
+	
+	public TuplaFumetto piuVotati()
+	{
+		String query = "SELECT nome,url_copertina_primo_volume,autore,artista,completa,occidentale,valutazione_media, numero_Letture FROM fumetto ORDER BY valutazione_media DESC LIMIT 8;";
+		return new TuplaFumetto(query);
+	}
+	
+	public TuplaFumetto piuLetti()
+	{
+		String query = "SELECT nome,url_copertina_primo_volume,autore,artista,completa,occidentale,valutazione_media, numero_Letture FROM fumetto ORDER BY numero_letture DESC LIMIT 8;";
+		return new TuplaFumetto(query);
 	}
 	
 	public void aggiungiPreferiti(String lettore,String nomeFumetto){
@@ -304,7 +316,7 @@ public class GestoreDataBase {
 	
 	public void aggiungiValutazione(String lettore,String nomeFumetto, int valutazione){
 		
-		String query = "call aggiungiValutazione(\""+lettore+"\",\""+nomeFumetto+"\","
+		String query = "call valutazione(\""+lettore+"\",\""+nomeFumetto+"\","
 				+valutazione+");";
 		try {
 			GestoreDataBase.getStatement().execute(query);

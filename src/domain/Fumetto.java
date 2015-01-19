@@ -175,14 +175,6 @@ public class Fumetto {
 		return url;
 	}
 
-	public double getValutazione_media() {
-		return valutazioneMedia;
-	}
-
-	public int getNumero_letture() {
-		return numeroLetture;
-	}
-
 	public Volume[] getVolumi() {
 		return volumi;
 	}

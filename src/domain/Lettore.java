@@ -142,6 +142,11 @@ public class Lettore {
 			cronologia.put(fumetto.getData(), fumetto);
 		}	
 	}
+	
+	public void vota(Fumetto fumetto, int valutazione)
+	{
+		gestoreDB.aggiungiValutazione(this.idFacebook, fumetto.getNome(), valutazione);
+	}	
 
 	public boolean inserisciPreferiti(Fumetto fumetto){
 		
