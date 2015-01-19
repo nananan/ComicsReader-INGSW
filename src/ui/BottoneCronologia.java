@@ -52,7 +52,7 @@ public class BottoneCronologia extends JButton implements ActionListener
 		
 		Text dataLetturaFumetto = new Text(fumetto.getData(), 18, Color.WHITE);
 		dataLetturaFumetto.setBounds(50+nomeFumetto.getX()+(int)nomeFumetto.getPreferredSize().getWidth(),
-				nomeFumetto.getY(), (int)dataLetturaFumetto.getPreferredSize().getWidth(), 
+				5+nomeFumetto.getY(), (int)dataLetturaFumetto.getPreferredSize().getWidth(), 
 				(int)dataLetturaFumetto.getPreferredSize().getHeight());
 		add(dataLetturaFumetto);
 		

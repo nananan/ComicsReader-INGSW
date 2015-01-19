@@ -25,7 +25,7 @@ public class PannelloScrollPane extends JScrollPane
 		super(panel);
 		this.panel = panel;
 		setOpaque(false);
-		setBorder(BorderFactory.createLineBorder(Color.black,3));
+		setBorder(BorderFactory.createLineBorder(Color.black,2));
 	}
 	
 	public JPanel getPanel()

@@ -46,7 +46,7 @@ public class PannelloSinistra extends JPanel
 		
 		setBackground(new Color(91,84,84));
 		setPreferredSize(new Dimension(larghezza, altezza));
-		setBorder(BorderFactory.createLineBorder(Color.black,1));
+//		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		
 		buttonDiscover.setBounds(5, 10, (int)buttonDiscover.getPreferredSize().getWidth(), (int)buttonDiscover.getPreferredSize().getHeight());
@@ -64,6 +64,7 @@ public class PannelloSinistra extends JPanel
 		MyListener listener = new MyListener();
 		
 		buttonDiscover.addActionListener(listener);
+		buttonTopRead.addActionListener(listener);
 	
 	}
 	
@@ -158,6 +159,8 @@ public class PannelloSinistra extends JPanel
 			
 			if (source == buttonDiscover)
 				panel.PremiPerDiscover();
+			else if (source == buttonTopRead)
+				panel.premiPerAverePiuLetti();
 		}
 	}
 	

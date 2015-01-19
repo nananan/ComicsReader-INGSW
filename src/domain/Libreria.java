@@ -25,13 +25,15 @@ public class Libreria
 	private int indiceUltimoFumetto;
 	private int indicePrimoFumetto;
 	private int numeroFumetti;
+	private int numeroFumettiTotali;
 		
 	private Libreria(){
 		downloaderManager = CopertinaDowloaderManager.getCopertinaDowloader();
 		fumetti = new LinkedHashMap<>();
 		indiceUltimoFumetto = 0;
 		indicePrimoFumetto = 0;
-		numeroFumetti = gestoreDB.getNumeroFumetti();
+		numeroFumettiTotali = gestoreDB.getNumeroFumetti();
+		numeroFumetti = numeroFumettiTotali;
 	}
 	
 	public static Libreria getIstanza(){
@@ -69,6 +71,7 @@ public class Libreria
 			fumettiCorrenti[i].setCopertina(copertina[i]);
 			fumetti.put(fumettiCorrenti[i].getNome(), fumettiCorrenti[i]);
 		}
+		numeroFumetti = numeroFumettiTotali;
 	}
 	
 	public void caricaFumetti(TuplaFumetto tuplaFumetto, Fumetto[] fumettiCorrenti){
@@ -85,6 +88,7 @@ public class Libreria
 			fumettiCorrenti[i].setCopertina(copertina[i]);
 			fumetti.put(fumettiCorrenti[i].getNome(), fumettiCorrenti[i]);
 		}
+		numeroFumetti = numeroFumettiTotali;
 	}
 	
 	public boolean giaCaricati(){
@@ -115,6 +119,7 @@ public class Libreria
 	}
 	
 	public Fumetto[] fumettiCorrenti(){
+		numeroFumetti = numeroFumettiTotali;
 		if(fumettiCorrenti == null){
 			tuplaFumetto = gestoreDB.creaTuplaFumetto(indiceUltimoFumetto);
 			caricaFumetti();
@@ -163,13 +168,32 @@ public class Libreria
 		TuplaFumetto tuplaFumetto = gestoreDB.creaTuplaFumettoPerArtista(artista);
 		
 		caricaFumetti(tuplaFumetto, fumetti);
-		System.out.println(fumetti[0]);
+		return fumetti;
+	}
+	
+	public Fumetto[] caricaPiuLetti()
+	{
+		Fumetto[] fumetti = new Fumetto[MAX_NUMERO_FUMETTI];
+		TuplaFumetto tuplaFumetto = gestoreDB.piuLetti();
+		
+		caricaFumetti(tuplaFumetto, fumetti);
+		numeroFumetti = MAX_NUMERO_FUMETTI;
+		return fumetti;
+	}
+	
+	public Fumetto[] caricaPiuVotati()
+	{
+		Fumetto[] fumetti = new Fumetto[MAX_NUMERO_FUMETTI];
+		TuplaFumetto tuplaFumetto = gestoreDB.piuVotati();
+		
+		caricaFumetti(tuplaFumetto, fumetti);
+		numeroFumetti = MAX_NUMERO_FUMETTI;
 		return fumetti;
 	}
 	
 	public boolean haSuccessivo()
 	{
-		if (indiceUltimoFumetto == numeroFumetti)
+		if (indiceUltimoFumetto >= numeroFumetti)
 			return false;
 		return true;
 	}

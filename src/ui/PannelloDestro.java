@@ -16,7 +16,7 @@ public class PannelloDestro extends JPanel
 	{
 		setBackground(new Color(91,84,84));
 		setPreferredSize(new Dimension(larghezza, 0));
-		setBorder(BorderFactory.createLineBorder(Color.black,1));
+//		setBorder(BorderFactory.createLineBorder(Color.black,1));
 	}
 	
 	@Override

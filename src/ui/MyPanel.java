@@ -165,6 +165,10 @@ public class MyPanel extends JPanel
 		
 		if (pannelloScrollProfilo != null)
 			remove(pannelloScrollProfilo);
+		if (mapPannelliCentrali.get("PiuLetti") != null)
+			remove(mapPannelliCentrali.get("PiuLetti"));
+		if (mapPannelliCentrali.get("PiuVotati") != null)
+			remove(mapPannelliCentrali.get("PiuVotati"));
 		Iterator it = arrayPannelli.entrySet().iterator();
 		while (it.hasNext())
 		{
@@ -306,6 +310,8 @@ public class MyPanel extends JPanel
 			remove(mapPannelliCentrali.get("Ricerca"));
 		if (mapPannelliCentrali.get("Discover") != null)
 			remove(mapPannelliCentrali.get("Discover"));
+		if (mapPannelliCentrali.get("PiuLetti") != null)
+			remove(mapPannelliCentrali.get("PiuLetti"));
 		
 		if (pannelloScrollCapitoli != null)
 		{
@@ -335,6 +341,56 @@ public class MyPanel extends JPanel
 		else
 			this.add(pannelloScrollProfilo,BorderLayout.CENTER);
 			
+		repaint();
+	}
+	
+	public void premiPerAverePiuLetti()
+	{
+		if (mapPannelliCentrali.get("Ricerca") != null)
+			remove(mapPannelliCentrali.get("Ricerca"));
+		if (mapPannelliCentrali.get("Discover") != null)
+			remove(mapPannelliCentrali.get("Discover"));
+		
+		if (!mapPannelliCentrali.containsKey("PiuLetti"))
+		{
+			mapPannelliCentrali.put("PiuLetti", new PannelloCentrale(this, 
+					(int)pannelloDestro.getPreferredSize().getWidth()));
+			mapPannelliCentrali.get("PiuLetti").setTopRead();
+			this.add(mapPannelliCentrali.get("PiuLetti"), BorderLayout.CENTER);
+			this.validate();
+		}
+		else
+		{
+			mapPannelliCentrali.get("PiuLetti").setTopRead();
+			this.add(mapPannelliCentrali.get("PiuLetti"), BorderLayout.CENTER);
+		}	
+		
+		repaint();
+	}
+	
+	public void premiPerAverePiuVotati()
+	{
+		if (mapPannelliCentrali.get("Ricerca") != null)
+			remove(mapPannelliCentrali.get("Ricerca"));
+		if (mapPannelliCentrali.get("Discover") != null)
+			remove(mapPannelliCentrali.get("Discover"));
+		if (mapPannelliCentrali.get("PiuLetti") != null)
+			remove(mapPannelliCentrali.get("PiuLetti"));
+		
+		if (!mapPannelliCentrali.containsKey("PiuVotati"))
+		{
+			mapPannelliCentrali.put("PiuVotati", new PannelloCentrale(this, 
+					(int)pannelloDestro.getPreferredSize().getWidth()));
+			mapPannelliCentrali.get("PiuVotati").setTopRated();
+			this.add(mapPannelliCentrali.get("PiuVotati"), BorderLayout.CENTER);
+			this.validate();
+		}
+		else
+		{
+			mapPannelliCentrali.get("PiuVotati").setTopRead();
+			this.add(mapPannelliCentrali.get("PiuVotati"), BorderLayout.CENTER);
+		}	
+		
 		repaint();
 	}
 	

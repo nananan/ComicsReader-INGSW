@@ -65,6 +65,7 @@ public class PannelloCentrale extends JPanel
 		super();	
 		setBackground(Color.GRAY);
 		setPreferredSize(new Dimension(larghezza-larghezzaPannello*2, altezza));
+		this.setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		this.panel = panel;
 		
@@ -168,6 +169,26 @@ public class PannelloCentrale extends JPanel
 //		}
 //	}
 
+	public void setTopRead()
+	{
+		textDiscover = new Text("Più Letti", 32, Color.DARK_GRAY);
+		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
+				(int)textDiscover.getPreferredSize().getHeight());
+		add(textDiscover);
+		aggiungiFumettoAlPannello(libreria.caricaPiuLetti());
+		
+	}
+	
+	public void setTopRated()
+	{
+		textDiscover = new Text("Più Votati", 32, Color.DARK_GRAY);
+		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
+				(int)textDiscover.getPreferredSize().getHeight());
+		add(textDiscover);
+		aggiungiFumettoAlPannello(libreria.caricaPiuVotati());
+		
+	}
+	
 	public void setRicerca(String tipoDaCercare, String nomeDaCercare)
 	{
 		textDiscover = new Text("Ricerca", 32, Color.DARK_GRAY);
