@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import technicalService.GestoreDataBase;
+import domain.AppManager;
 import domain.Fumetto;
 import domain.Lettore;
 import domain.VisualizzatoreCapitoli;
@@ -69,18 +70,19 @@ public class PannelloDescrizioneFumetto extends JPanel
 	
 	private Image immagineCopertinaFumetto;
 	private Lettore lettore;
+	private Lettore ultimoLettoreVisto;
 	private Volume volumi[];
 	
 	private String ultimoPannelloInstanziato;
 	
-	public PannelloDescrizioneFumetto(Fumetto fumetto, Image immagineCopertinaFumetto, int panelWidth, int panelHeight,final MyPanel panel, Lettore lettore) 
+	public PannelloDescrizioneFumetto(Fumetto fumetto, Image immagineCopertinaFumetto, int panelWidth, int panelHeight,final MyPanel panel) 
 	{
 		super();
 		
 		this.panel = panel;
 		this.fumetto = fumetto;
 		this.immagineCopertinaFumetto = immagineCopertinaFumetto;
-		this.lettore = lettore;
+		this.lettore = AppManager.getLettore();
 		
 		this.setBackground(Color.GRAY);		
 		this.setPreferredSize(new Dimension(panelWidth, panelHeight));
@@ -149,15 +151,14 @@ public class PannelloDescrizioneFumetto extends JPanel
 	
 		String genere = new String("");
 		
-	
-			String generiFumetto[] = fumetto.getGeneri();
-			for (int i = 0; i < generiFumetto.length; i++)
-			{
-				if (i < generiFumetto.length - 1)
-					genere += generiFumetto[i] +", ";
-				else
-					genere += generiFumetto[i];
-			}
+		String generiFumetto[] = fumetto.getGeneri();
+		for (int i = 0; i < generiFumetto.length; i++)
+		{
+			if (i < generiFumetto.length - 1)
+				genere += generiFumetto[i] +", ";
+			else
+				genere += generiFumetto[i];
+		}
 		
 		Text generi = new Text(genere, 16, Color.WHITE);
 		generi.setBounds(20+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 1+ stringaGenere.getY() + (int) stringaGenere.getPreferredSize().getHeight(), (int)generi.getPreferredSize().getWidth(), (int)generi.getPreferredSize().getHeight());
@@ -173,7 +174,10 @@ public class PannelloDescrizioneFumetto extends JPanel
 		add(starRated);
 		
 		bottonePreferiti = new JButton();
-		setBottone(bottonePreferiti, imagePiu, 25, 25);
+		if (!lettore.eInPreferiti(fumetto))
+			setBottone(bottonePreferiti, imagePiu, 25, 25);
+		else
+			setBottone(bottonePreferiti, imageMeno, 25, 25);
 		bottonePreferiti.setText("Preferiti");
 		bottonePreferiti.setFont(new Font("Caladea", Font.BOLD, 14));
 		bottonePreferiti.setForeground(Color.DARK_GRAY);
@@ -183,7 +187,10 @@ public class PannelloDescrizioneFumetto extends JPanel
 		add(bottonePreferiti);
 		
 		bottoneDaLeggere = new JButton();
-		setBottone(bottoneDaLeggere, imagePiu, 25, 25);
+		if (!lettore.eInDaLeggere(fumetto))
+			setBottone(bottoneDaLeggere, imagePiu, 25, 25);
+		else
+			setBottone(bottoneDaLeggere, imageMeno, 25, 25);
 		bottoneDaLeggere.setText("Da Leggere");
 		bottoneDaLeggere.setFont(new Font("Caladea", Font.BOLD, 14));
 		bottoneDaLeggere.setForeground(Color.DARK_GRAY);
@@ -365,6 +372,11 @@ public class PannelloDescrizioneFumetto extends JPanel
 			bottoneAvantiVolumi.setEnabled(false);
 	}
 	
+	public void setUltimoLettoreVisto(Lettore lettoreVisto)
+	{
+		this.ultimoLettoreVisto = lettoreVisto;
+	}
+	
 	private class MyListener implements ActionListener 
 	{
 		@Override
@@ -383,6 +395,8 @@ public class PannelloDescrizioneFumetto extends JPanel
 					panel.premiPerAverePiuLetti();
 				else if (ultimoPannelloInstanziato.equals("PiuVotati"))
 					panel.premiPerAverePiuVotati();
+				else if (ultimoPannelloInstanziato.equals("ProfiloAltroUtente"))
+					panel.premiPerAvereProfiloDiAltroUtente(ultimoLettoreVisto);
 			}
 			else if (source == bottoneIndietroVolumi)   //BOTTONE INDIETRO VOLUMI
 			{

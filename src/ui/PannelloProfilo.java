@@ -188,7 +188,7 @@ public class PannelloProfilo extends JPanel
 		        
 		        try
 		        {
-		        	bottoniFumettiPreferiti.add(new BottoneFumettoProfilo(panel, getURL(lettore.getPreferiti().get(pairs.getKey()).getUrl(),200,300), lettore.getPreferiti().get(pairs.getKey())));
+		        	bottoniFumettiPreferiti.add(new BottoneFumettoProfilo(panel, getURL(lettore.getPreferiti().get(pairs.getKey()).getUrl(),200,300), lettore.getPreferiti().get(pairs.getKey()), 2));
 		        } catch (IOException e1)
 				{
 					e1.printStackTrace();
@@ -314,7 +314,7 @@ public class PannelloProfilo extends JPanel
 		        
 		        try
 		        {
-		        	bottoniDaLeggere.add(new BottoneFumettoProfilo(panel, getURL(lettore.getDaLeggere().get(pairs.getKey()).getUrl(),200,300), lettore.getDaLeggere().get(pairs.getKey())));
+		        	bottoniDaLeggere.add(new BottoneFumettoProfilo(panel, getURL(lettore.getDaLeggere().get(pairs.getKey()).getUrl(),200,300), lettore.getDaLeggere().get(pairs.getKey()), 0));
 				} catch (IOException e1)
 				{
 					e1.printStackTrace();

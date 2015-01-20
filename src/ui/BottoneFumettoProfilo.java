@@ -45,7 +45,7 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 	private static final int AGGIUNGERE_DA_LEGGERE = 1;
 	private static final int INDEFINITO_DA_LEGGERE = 2;
 	
-	public BottoneFumettoProfilo(MyPanel panel, Image image, final Fumetto fumetto) 
+	public BottoneFumettoProfilo(MyPanel panel, Image image, final Fumetto fumetto, int stato) 
 	{
 		super();
 		this.scaledImage = image;
@@ -57,7 +57,7 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 		this.setPreferredSize(new Dimension(200, 300));
 		this.setBorder(BorderFactory.createLineBorder(Color.black,3));
 		
-		if (statoBottoneDaLeggere == INDEFINITO_DA_LEGGERE)
+		if (stato == INDEFINITO_DA_LEGGERE)
 		{
 			if (lettoreCorrente.eInPreferiti(fumetto))
 			{

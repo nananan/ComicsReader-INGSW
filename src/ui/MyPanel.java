@@ -52,6 +52,8 @@ public class MyPanel extends JPanel
 	private boolean eStatoRichiestoPiuLetti;
 	private boolean eStatoRichiestoPiuVotati;
 	private boolean eStatoRichiestoIlFiltro;
+	private boolean eStatoRichiestoIlProfiloAltroUtente;
+	private Lettore lettoreVisto;
 	
 	public MyPanel(Lettore lettore) throws IOException 
 	{
@@ -209,6 +211,16 @@ public class MyPanel extends JPanel
 			((PannelloDescrizioneFumetto) arrayPannelli.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("PiuVotati");
 		else if (eStatoRichiestoIlFiltro)
 			((PannelloDescrizioneFumetto) arrayPannelli.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("Filtri");
+		else if (eStatoRichiestoIlProfiloAltroUtente)
+		{
+			((PannelloDescrizioneFumetto) arrayPannelli.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("ProfiloAltroUtente");
+			((PannelloDescrizioneFumetto) arrayPannelli.get(nomeFumetto).getPanel()).setUltimoLettoreVisto(lettoreVisto);
+		}
+	}
+	
+	private void setUltimoLettoreVisto(Lettore lettoreVisto)
+	{
+		this.lettoreVisto = lettoreVisto;
 	}
 	
 	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto) 
@@ -220,8 +232,7 @@ public class MyPanel extends JPanel
 			arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
 					new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
 							mapPannelliCentrali.get("Discover").getWidth(),
-							mapPannelliCentrali.get("Discover").getHeight(), 
-							this, lettore), null));
+							mapPannelliCentrali.get("Discover").getHeight(), this), null));
 			
 			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
 			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
@@ -242,8 +253,7 @@ public class MyPanel extends JPanel
 				arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
 						new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
 								mapPannelliCentrali.get("Discover").getWidth(),
-								mapPannelliCentrali.get("Discover").getHeight(), 
-								this, lettore), null));
+								mapPannelliCentrali.get("Discover").getHeight(), this), null));
 				
 				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
 				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
@@ -369,7 +379,8 @@ public class MyPanel extends JPanel
 		rimuoviPrecedenti();
 		rimuoviBooleani();
 		
-		eStatoRichiestoIlProfilo = true;
+		eStatoRichiestoIlProfiloAltroUtente = true;
+		setUltimoLettoreVisto(lettore);
 		if (mapPannelliProfilo.get(lettore.getIdFacebook()) == null)
 		{
 			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(lettore, this, 
@@ -395,6 +406,7 @@ public class MyPanel extends JPanel
 		eStatoRichiestoPiuLetti = false;
 		eStatoRichiestoPiuVotati = false;
 		eStatoRichiestoIlFiltro = false;
+		eStatoRichiestoIlProfiloAltroUtente = false;
 	}
 	
 	private void rimuoviPrecedenti()

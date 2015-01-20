@@ -44,7 +44,7 @@ public class PannelloSinistra extends JPanel
 		this.panel = panel;
 		
 		setBackground(new Color(91,84,84));
-		setPreferredSize(new Dimension(larghezza, altezza));
+		setPreferredSize(new Dimension(larghezza+10, altezza));
 //		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);
 		
