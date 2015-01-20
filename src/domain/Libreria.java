@@ -1,9 +1,14 @@
 package domain;
 import java.awt.Image;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+
+import javax.imageio.ImageIO;
+
 import downloader.CopertinaDowloaderManager;
 import technicalService.GestoreDataBase;
 import technicalService.Tupla;
@@ -22,10 +27,21 @@ public class Libreria
 	
 	private GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
 	private Fumetto[] fumettiCorrenti;
+	private Fumetto[] fumettiFiltriCorrenti;
 	private int indiceUltimoFumetto;
 	private int indicePrimoFumetto;
 	private int numeroFumetti;
 	private int numeroFumettiTotali;
+	private int indiceUltimoFumettoFiltrato;
+	
+
+	private int statoFumetto;
+
+	private int provenienzaFumetto;
+
+	private ArrayList<String> generiSelezionati;
+
+	private int indicePrimoFumettoFiltrato;
 		
 	private Libreria(){
 		downloaderManager = CopertinaDowloaderManager.getCopertinaDowloader();
@@ -34,6 +50,7 @@ public class Libreria
 		indicePrimoFumetto = 0;
 		numeroFumettiTotali = gestoreDB.getNumeroFumetti();
 		numeroFumetti = numeroFumettiTotali;
+		
 	}
 	
 	public static Libreria getIstanza(){
@@ -46,10 +63,19 @@ public class Libreria
 		TuplaFumetto tupla = gestoreDB.creaTuplaFumetto(nomeFumetto);
 		if(tupla.prossima()){
 			Fumetto fumetto = fumetti.get(tupla.getNome());
-			
 			if(fumetto == null)
 			{
-				fumetto = new Fumetto(tupla);
+				try{
+					fumetto = new Fumetto(tupla);
+					Image copertina =ImageIO.read(new URL(fumetto.getUrl()));
+					fumetto.setCopertina(copertina);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			return fumetto;
 		}
@@ -101,7 +127,39 @@ public class Libreria
 		System.out.println(nome);
 		return fumetti.containsKey(nome);	
 	}
-	
+	public void caricaFumettiPerFiltri(ArrayList<String> generi,
+			int statoFumetto, int provenienzaFumetto){
+		indiceUltimoFumettoFiltrato=0;
+		this.generiSelezionati = generi;
+		this.statoFumetto = statoFumetto;
+		this.provenienzaFumetto = provenienzaFumetto;
+		TuplaFumetto tupla = gestoreDB.generaFumettiPerFiltri(generi,statoFumetto,provenienzaFumetto,indiceUltimoFumettoFiltrato);
+		fumettiFiltriCorrenti = new Fumetto[MAX_NUMERO_FUMETTI];
+		int cont=0;
+		for(;tupla.prossima();indiceUltimoFumettoFiltrato++,cont++){
+			fumettiFiltriCorrenti[cont]=getFumetto(tupla.getNome());
+		}		
+	}
+
+	public  void fumettiFiltratiSuccessivi(){
+		TuplaFumetto tupla = gestoreDB.generaFumettiPerFiltri(generiSelezionati,statoFumetto,provenienzaFumetto,indiceUltimoFumettoFiltrato);
+		int cont=0;
+		indicePrimoFumettoFiltrato = indiceUltimoFumettoFiltrato;
+		for(;tupla.prossima();indiceUltimoFumettoFiltrato++,cont++){
+			fumettiFiltriCorrenti[cont]=getFumetto(tupla.getNome());
+		}
+	}
+	public Fumetto[] fumettiFiltratiCorrente(){
+		return fumettiCorrenti;
+	}
+	public void fumettiFiltratiPrecedenti(){
+		TuplaFumetto tupla = gestoreDB.generaFumettiPerFiltri(generiSelezionati,statoFumetto,provenienzaFumetto,indicePrimoFumetto-MAX_NUMERO_FUMETTI);
+		
+		indiceUltimoFumettoFiltrato = indicePrimoFumettoFiltrato;
+		for(int cont=0;tupla.prossima();indicePrimoFumettoFiltrato++,cont++){
+			fumettiFiltriCorrenti[cont]=getFumetto(tupla.getNome());
+		}
+	}
 	public boolean fumettiSuccessivi(){
 		if(indiceUltimoFumetto == numeroFumetti) return false;
 		indicePrimoFumetto = indiceUltimoFumetto;
@@ -126,7 +184,9 @@ public class Libreria
 		}
 		return fumettiCorrenti;
 	}
-	
+	public boolean ePresente(Fumetto fumetto){
+		return fumetti.containsKey(fumetto.getNome());
+	}
 	public boolean fumettiPrecedenti(){
 		if(indicePrimoFumetto==0)return false;	
 			
@@ -138,13 +198,6 @@ public class Libreria
 			fumettiCorrenti[i] = fumetti.get(tuplaFumetto.getNome());
 		}
 		return true;
-	}
-	
-	public Fumetto[] caricaFumettiPerFiltri(ArrayList<String> generi,
-			int statoFumetto, int provenienzaFumetto){
-		tuplaFumetto = TuplaFumetto.generaFumettiPerFiltri((String[])generi.toArray(),
-				statoFumetto,provenienzaFumetto);
-		return null;
 	}
 	
 	public Fumetto[] caricaFumettiPerNome(String nomeFumetto){

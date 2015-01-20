@@ -1,5 +1,6 @@
 package technicalService;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class GestoreDataBase {
@@ -362,6 +363,30 @@ public class GestoreDataBase {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public  TuplaFumetto generaFumettiPerFiltri(ArrayList<String> array,
+			int statoFumetto, int provenienzaFumetto,int numeroRiga)
+	{
+		TuplaFumetto tupla=null;
+		try{
+			if(array.size() == 0){
+				String query="call filtriSenzaGeneri("+statoFumetto+","+provenienzaFumetto+","+numeroRiga+");";
+				tupla = new TuplaFumetto(query);
+			}
+			else{
+				String querytmp="insert into generi_tmp(nome)values(\"";
+				for (String string : array) 
+					getStatement().executeUpdate(querytmp+string+"\");");
+				String query = "call filtri("+statoFumetto+","+provenienzaFumetto+","+numeroRiga+");";
+				tupla = new TuplaFumetto(query);
+				getStatement().executeUpdate("delete from generi_tmp;"); 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+		return tupla;
 	}
 	public static void main(String[] args) {
 //		

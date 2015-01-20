@@ -109,10 +109,4 @@ public class TuplaFumetto extends Tupla{
 			return null;
 		}
 	}
-
-	public static TuplaFumetto generaFumettiPerFiltri(String[] array,
-			int statoFumetto, int provenienzaFumetto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
