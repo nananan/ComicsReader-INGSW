@@ -43,6 +43,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 	private MyPanel panel;
 	
 	private JButton bottoneCerca;
+	private Lettore lettore;
 	
 	private static final String[] stringheFiltri = { "Artista", "Autore", "Fumetto" };
 
@@ -51,6 +52,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 	public PannelloSopra(final MyPanel panel, Lettore lettore, int larghezzaPerJMenu) 
 	{
 		this.panel = panel;
+		this.lettore = lettore;
 		setBackground(new Color(91,84,84));
 		setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 30));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));

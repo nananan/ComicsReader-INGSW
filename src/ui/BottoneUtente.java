@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -21,16 +23,20 @@ import javax.swing.JPanel;
 import domain.Fumetto;
 import domain.Lettore;
 
-public class BottoneUtente extends JButton
+public class BottoneUtente extends JButton implements ActionListener
 {
 	private Image scaledImage;
 	private Lettore lettore;
+	private MyPanel panel;
 	
-	public BottoneUtente(Image image, final Lettore utente) 
+	public BottoneUtente(Image image, final Lettore utente, MyPanel panel) 
 	{
 		super();
 		this.scaledImage = image;
 		this.lettore = utente;
+		this.panel = panel;
+		
+		addActionListener(this);
 	}	
 	
 	public BottoneUtente(String text, int larghezza, Color colore, Lettore lettore) 
@@ -44,6 +50,8 @@ public class BottoneUtente extends JButton
 		setContentAreaFilled(false);
 		setFont(new Font("Caladea", Font.BOLD, larghezza));
 		this.lettore = lettore;
+		
+		addActionListener(this);
 	}
 	
 	public Image getImageScaled()
@@ -61,6 +69,13 @@ public class BottoneUtente extends JButton
 	{
 		super.paintComponent(g);
 		g.drawImage(scaledImage, 0,0, this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		System.out.println("LETTORE: "+lettore.getNome());
+		panel.premiPerAvereProfiloDiAltroUtente(lettore);
 	}
 	
 }

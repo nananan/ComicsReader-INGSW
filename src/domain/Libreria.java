@@ -137,6 +137,7 @@ public class Libreria
 		fumettiFiltriCorrenti = new Fumetto[MAX_NUMERO_FUMETTI];
 		int cont=0;
 		for(;tupla.prossima();indiceUltimoFumettoFiltrato++,cont++){
+			System.out.println(tupla.getNome());
 			fumettiFiltriCorrenti[cont]=getFumetto(tupla.getNome());
 		}		
 	}
@@ -150,7 +151,7 @@ public class Libreria
 		}
 	}
 	public Fumetto[] fumettiFiltratiCorrente(){
-		return fumettiCorrenti;
+		return fumettiFiltriCorrenti;
 	}
 	public void fumettiFiltratiPrecedenti(){
 		TuplaFumetto tupla = gestoreDB.generaFumettiPerFiltri(generiSelezionati,statoFumetto,provenienzaFumetto,indicePrimoFumetto-MAX_NUMERO_FUMETTI);

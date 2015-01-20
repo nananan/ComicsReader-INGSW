@@ -220,7 +220,7 @@ public class PannelloProfilo extends JPanel
 		    {
 		        Map.Entry pairs = (Map.Entry)it.next();
 	
-	        	BottoneFollow bottoneFollowCorrente = new BottoneFollow(lettore.getFollows().get(pairs.getKey()), larghezza, 1, this.lettore, 150);
+	        	BottoneFollow bottoneFollowCorrente = new BottoneFollow(lettore.getFollows().get(pairs.getKey()), larghezza, 1, this.lettore, 150, panel);
 				
 				listaBottoniFollowCorrente.add(bottoneFollowCorrente);
 		    }
@@ -266,7 +266,7 @@ public class PannelloProfilo extends JPanel
 		    {
 		        Map.Entry pairs = (Map.Entry)it.next();
 	
-	        	BottoneFollow bottoneFollowerCorrente = new BottoneFollow(lettore.getFollower().get(pairs.getKey()), larghezza, 0, this.lettore, 150);
+	        	BottoneFollow bottoneFollowerCorrente = new BottoneFollow(lettore.getFollower().get(pairs.getKey()), larghezza, 0, this.lettore, 150, panel);
 	        	listaBottoniFollowerCorrente.add(bottoneFollowerCorrente);
 		    }
 		}

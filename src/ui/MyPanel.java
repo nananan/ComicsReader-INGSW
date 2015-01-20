@@ -40,6 +40,7 @@ public class MyPanel extends JPanel
 	private PannelloScrollPane pannelloScrollCapitoli;
 	private HashMap<String,PannelloScrollPane> arrayPannelli = new HashMap<>();
 	private HashMap<String,PannelloCentrale> mapPannelliCentrali = new HashMap<>();
+	private HashMap<String,PannelloScrollPane> mapPannelliProfilo = new HashMap<>();
 	private PannelloScrollPane pannelloScrollFiltraggio;
 	private PannelloScrollPane pannelloScrollProfilo;
 	
@@ -50,6 +51,7 @@ public class MyPanel extends JPanel
 	private boolean eStatoRichiestoIlProfilo;
 	private boolean eStatoRichiestoPiuLetti;
 	private boolean eStatoRichiestoPiuVotati;
+	private boolean eStatoRichiestoIlFiltro;
 	
 	public MyPanel(Lettore lettore) throws IOException 
 	{
@@ -90,16 +92,31 @@ public class MyPanel extends JPanel
 	
 		pannelloSopra.setBooleanaPerBottoneFiltro(true);
 		
+		rimuoviPrecedenti();
+		rimuoviBooleani();
+		eStatoRichiestoIlFiltro = true;
+		
 		ArrayList<String> filtri = pannelloFiltraggio.getArrayDiFiltri();
+		int statoFumetto = pannelloFiltraggio.getStatoFumetto();
+		int tipoFumetto = pannelloFiltraggio.getTipoFumetto();
 		remove(pannelloScrollFiltraggio);
 		this.add(pannelloSinistro,BorderLayout.WEST);
-//
-//		pannelloDiscover = new PannelloDiscover(pannelloCentro, this, filtri, 
-//						pannelloFiltraggio.getTipoFumetto(), pannelloFiltraggio.getStatoFumetto());
-//		
-//		this.add(pannelloCentrale, BorderLayout.CENTER);
 		
-		this.validate();
+		if (!mapPannelliCentrali.containsKey("Filtri"))
+		{
+			mapPannelliCentrali.put("Filtri", new PannelloCentrale(this, 
+					(int)pannelloDestro.getPreferredSize().getWidth()));
+			mapPannelliCentrali.get("Filtri").setRicercaFiltri(filtri, statoFumetto, tipoFumetto);
+			this.add(mapPannelliCentrali.get("Filtri"), BorderLayout.CENTER);
+			this.validate();
+		}
+		else
+		{
+			mapPannelliCentrali.get("Filtri").rimuoviImmaginiPresenti();
+			mapPannelliCentrali.get("Filtri").setRicercaFiltri(filtri, statoFumetto, tipoFumetto);
+			this.add(mapPannelliCentrali.get("Filtri"), BorderLayout.CENTER);
+		}
+		
 		repaint();
 	}
 	
@@ -190,6 +207,8 @@ public class MyPanel extends JPanel
 			((PannelloDescrizioneFumetto) arrayPannelli.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("PiuLetti");
 		else if (eStatoRichiestoPiuVotati)
 			((PannelloDescrizioneFumetto) arrayPannelli.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("PiuVotati");
+		else if (eStatoRichiestoIlFiltro)
+			((PannelloDescrizioneFumetto) arrayPannelli.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("Filtri");
 	}
 	
 	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto) 
@@ -272,19 +291,19 @@ public class MyPanel extends JPanel
 		rimuoviPrecedenti();
 		
 		eStatoRichiestoIlProfilo = true;
-		if (pannelloScrollProfilo == null)
+		if (mapPannelliProfilo.get(lettore.getIdFacebook()) == null)
 		{
-			pannelloScrollProfilo = new PannelloScrollPane(new PannelloProfilo(lettore, this, 
-					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth()), null);
-			pannelloScrollProfilo.getVerticalScrollBar().setUnitIncrement(15);
-			pannelloScrollProfilo.getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
-		    pannelloScrollProfilo.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(lettore, this, 
+					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth()), null));
+			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUnitIncrement(15);
+			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
+			mapPannelliProfilo.get(lettore.getIdFacebook()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			
-			this.add(pannelloScrollProfilo,BorderLayout.CENTER);
+			this.add(mapPannelliProfilo.get(lettore.getIdFacebook()),BorderLayout.CENTER);
 			this.validate();
 		}
 		else
-			this.add(pannelloScrollProfilo,BorderLayout.CENTER);
+			this.add(mapPannelliProfilo.get(lettore.getIdFacebook()),BorderLayout.CENTER);
 			
 		repaint();
 	}
@@ -345,6 +364,29 @@ public class MyPanel extends JPanel
 		pannelloVisualizzatore.vaiAPaginaPrecedente();
 	}
 	
+	public void premiPerAvereProfiloDiAltroUtente(Lettore lettore)
+	{
+		rimuoviPrecedenti();
+		rimuoviBooleani();
+		
+		eStatoRichiestoIlProfilo = true;
+		if (mapPannelliProfilo.get(lettore.getIdFacebook()) == null)
+		{
+			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(lettore, this, 
+					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth()), null));
+			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUnitIncrement(15);
+			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
+			mapPannelliProfilo.get(lettore.getIdFacebook()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			
+			this.add(mapPannelliProfilo.get(lettore.getIdFacebook()),BorderLayout.CENTER);
+			this.validate();
+		}
+		else
+			this.add(mapPannelliProfilo.get(lettore.getIdFacebook()),BorderLayout.CENTER);
+			
+		repaint();
+	}
+	
 	private void rimuoviBooleani()
 	{
 		eStatoRichiestoIlProfilo = false;
@@ -352,6 +394,7 @@ public class MyPanel extends JPanel
 		eStatoRichiestoLaRicerca = false;
 		eStatoRichiestoPiuLetti = false;
 		eStatoRichiestoPiuVotati = false;
+		eStatoRichiestoIlFiltro = false;
 	}
 	
 	private void rimuoviPrecedenti()
@@ -364,6 +407,8 @@ public class MyPanel extends JPanel
 			remove(mapPannelliCentrali.get("PiuLetti"));
 		if (mapPannelliCentrali.get("PiuVotati") != null)
 			remove(mapPannelliCentrali.get("PiuVotati"));
+		if (mapPannelliCentrali.get("Filtri") != null)
+			remove(mapPannelliCentrali.get("Filtri"));
 		
 		if (pannelloScrollCapitoli != null)
 		{
@@ -380,8 +425,13 @@ public class MyPanel extends JPanel
 	        	remove(arrayPannelli.get(pairs.getKey()));
 	    }
 	    
-	    if (pannelloScrollProfilo != null)
-			remove(pannelloScrollProfilo);
+	    Iterator itProfilo = mapPannelliProfilo.entrySet().iterator();
+	    while (itProfilo.hasNext())
+	    {
+	        Map.Entry pairs = (Map.Entry)itProfilo.next();
+	        if (itProfilo != null)
+	        	remove(mapPannelliProfilo.get(pairs.getKey()));
+	    }
 	    
 	    pannelloSinistro.deselezionaBottoni();
 	    

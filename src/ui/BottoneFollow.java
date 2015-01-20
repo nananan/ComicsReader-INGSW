@@ -36,20 +36,20 @@ public class BottoneFollow extends JPanel
 	private int stato;
 	private MyListener listener;
 	
-	public BottoneFollow(Lettore lettore, int larghezza, int stato, Lettore lettoreCorrente, int altezzaImmagine) throws IOException
+	public BottoneFollow(Lettore lettoreFoll, int larghezza, int stato, Lettore lettoreCorrente, int altezzaImmagine, MyPanel panel) throws IOException
 	{
 		super();
 		this.setPreferredSize(new Dimension(larghezza, altezzaImmagine+10));
 		this.setBackground(Color.GRAY);
 		this.setLayout(null);
 		
-		this.lettore = lettore;
+		this.lettore = lettoreFoll;
 		this.lettoreCorrente = lettoreCorrente;
 		this.stato = stato;
 		
 		listener = new MyListener();
 		
-		bottoneUtente = new BottoneUtente(getURL(lettore.getUrlFoto(), 150, 150), lettore);
+		bottoneUtente = new BottoneUtente(getURL(lettore.getUrlFoto(), 150, 150), lettore, panel);
 		bottoneUtente.setPreferredSize(new Dimension(150, 150));
 		bottoneUtente.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		bottoneUtente.setBounds(10, 10, 150, 150);

@@ -32,6 +32,9 @@ public class Lettore {
 		this.numFollow = numFollow;
 		this.numFollower  = numFollower;
 		
+		this.tuplaLettore = gestoreDB.creaTuplaLettore(nome);
+		this.tuplaLettore.prossima();
+		
 		follower = null;
 		follows = null;
 		preferiti = null;

@@ -371,16 +371,16 @@ public class GestoreDataBase {
 		TuplaFumetto tupla=null;
 		try{
 			if(array.size() == 0){
-				String query="call filtriSenzaGeneri("+statoFumetto+","+provenienzaFumetto+","+numeroRiga+");";
+				String query="call filtriSenzaGenere("+statoFumetto+","+provenienzaFumetto+","+numeroRiga+");";
 				tupla = new TuplaFumetto(query);
 			}
 			else{
-				String querytmp="insert into generi_tmp(nome)values(\"";
-				for (String string : array) 
-					getStatement().executeUpdate(querytmp+string+"\");");
+				String querytmp="insert into genere_tmp(nome)values(\"";
+				for (String string : array)  { System.out.println(querytmp+string+"\");");
+					getStatement().executeUpdate(querytmp+string+"\");");}
 				String query = "call filtri("+statoFumetto+","+provenienzaFumetto+","+numeroRiga+");";
 				tupla = new TuplaFumetto(query);
-				getStatement().executeUpdate("delete from generi_tmp;"); 
+				getStatement().executeUpdate("delete from genere_tmp;"); 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

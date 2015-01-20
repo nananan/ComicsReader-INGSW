@@ -117,66 +117,18 @@ public class PannelloCentrale extends JPanel
 		bottone.setBackground(this.getBackground());
 	}
 	
-//	public PannelloDiscover(PannelloCentrale pannelloCentrale, final MyPanel panel, 
-//			ArrayList<String> filtri, String tipoFumetto, String statoFumetto)
-//	{
-//		super();	
-//		this.pannelloCentrale = pannelloCentrale;
-//		setBackground(Color.GRAY);
-//		setPreferredSize(new Dimension((int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight()));
-//		setBounds(0, 0, (int)pannelloCentrale.getPreferredSize().getWidth(), (int)pannelloCentrale.getPreferredSize().getHeight());
-//		setLayout(null);
-//		
-//		this.panel = panel;
-//		
-//		bottoniFumetti = new ArrayList<>();
-//		
-//		if (filtri.size() == 0)
-//		{
-//			try {
-//				TabellaFumetto tupleFumetto = new TabellaFumetto("", tipoFumetto, statoFumetto);
-//				
-//				while(tupleFumetto.nextFumetto())
-//				{
-//					Fumetto fumetto = new Fumetto(tupleFumetto);
-//					System.out.println(fumetto.getNome());
-//					if (!fumettiFiltrati.containsKey(fumetto.getNome()))
-//							fumettiFiltrati.put(fumetto.getNome(), fumetto);
-//				}
-//				if (fumettiFiltrati.size() == 0)
-//					aggiungiStringaFumettoNonTrovato(tupleFumetto);
-//				tupleFumetto.close();
-//				
-//				aggiungiFumettoAlPannello(fumettiFiltrati);
-//				
-//			}  catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		for (int i = 0; i < filtri.size(); i++)
-//		{
-//			try {
-//				TabellaFumetto tupleFumetto = new TabellaFumetto(filtri.get(i), tipoFumetto, statoFumetto);
-//				
-//				while(tupleFumetto.nextFumetto())
-//				{
-//					Fumetto fumetto = new Fumetto(tupleFumetto);
-//					System.out.println(fumetto.getNome());
-//					if (!fumettiFiltrati.containsKey(fumetto.getNome()))
-//							fumettiFiltrati.put(fumetto.getNome(), fumetto);
-//				}
-//				if (fumettiFiltrati.size() == 0)
-//					aggiungiStringaFumettoNonTrovato(tupleFumetto);
-//				tupleFumetto.close();
-//				
-//				aggiungiFumettoAlPannello(fumettiFiltrati);
-//				
-//			}  catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	public void setRicercaFiltri(ArrayList<String> filtri, int statoFumetto, int tipoFumetto)
+	{
+		textDiscover = new Text("Ricerca", 32, Color.DARK_GRAY);
+		textDiscover.setBounds(10, 10, (int)textDiscover.getPreferredSize().getWidth(), 
+				(int)textDiscover.getPreferredSize().getHeight());
+		add(textDiscover);
+		bottoniFumetti = new ArrayList<>();
+		
+		libreria.caricaFumettiPerFiltri(filtri, statoFumetto, tipoFumetto);
+		
+		aggiungiFumettoAlPannello(libreria.fumettiFiltratiCorrente());
+	}
 
 	public void setTopRead()
 	{

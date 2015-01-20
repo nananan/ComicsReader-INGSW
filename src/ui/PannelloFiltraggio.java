@@ -31,8 +31,8 @@ public class PannelloFiltraggio extends JPanel
 	private String nomiGeneriFiltri[];
 	private MyButton bottoniGeneriFiltri[];
 	private ArrayList<String> filtri = new ArrayList<>();
-	private String tipoFumetto;
-	private String statoFumetto;
+	private int tipoFumetto;
+	private int statoFumetto;
 	
 	private int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 7;
 	private Text tipo;
@@ -51,8 +51,8 @@ public class PannelloFiltraggio extends JPanel
 		setPreferredSize(new Dimension(larghezza, altezzaPannello));
 		setLayout(null);
 		
-		tipoFumetto = new String("");
-		statoFumetto = new String("");
+		tipoFumetto = 0;
+		statoFumetto = 0;
 		
 		listener = new MyListener();
 		
@@ -138,12 +138,12 @@ public class PannelloFiltraggio extends JPanel
 		return filtri;
 	}
 	
-	public String getTipoFumetto()
+	public int getTipoFumetto()
 	{
 		return tipoFumetto;
 	}
 	
-	public String getStatoFumetto()
+	public int getStatoFumetto()
 	{
 		return statoFumetto;
 	}
@@ -158,41 +158,41 @@ public class PannelloFiltraggio extends JPanel
 			{
 				if (buttonManga.getForeground() == Color.WHITE)
 				{
-					tipoFumetto = "Orientale";
+					tipoFumetto = -1;
 					buttonManga.setForeground(new Color(35,148,188));
 					buttonFumetti.setForeground(Color.WHITE);
 				}
 				else
 				{
 					buttonManga.setForeground(Color.WHITE);
-					tipoFumetto = "";
+					tipoFumetto = 0;
 				}
 			}
 			else if (source == buttonFumetti)
 			{
 				if (buttonFumetti.getForeground() == Color.WHITE)
 				{
-					tipoFumetto = "Occidentale";
+					tipoFumetto = 1;
 					buttonFumetti.setForeground(new Color(35,148,188));
 					buttonManga.setForeground(Color.WHITE);
 				}
 				else
 				{
 					buttonFumetti.setForeground(Color.WHITE);
-					tipoFumetto = "";
+					tipoFumetto = 0;
 				}
 			}
 			if (source == buttonStatoCompleto)
 			{
 				if (buttonStatoCompleto.getForeground() == Color.WHITE)
 				{
-					statoFumetto = "Completo";
+					statoFumetto = 1;
 					buttonStatoCompleto.setForeground(new Color(35,148,188));
 					buttonStatoIncompleto.setForeground(Color.WHITE);
 				}
 				else
 				{
-					statoFumetto = "";
+					statoFumetto = 0;
 					buttonStatoCompleto.setForeground(Color.WHITE);
 				}
 			}
@@ -200,13 +200,13 @@ public class PannelloFiltraggio extends JPanel
 			{
 				if (buttonStatoIncompleto.getForeground() == Color.WHITE)
 				{
-					statoFumetto = "Incompleto";
+					statoFumetto = -1;
 					buttonStatoIncompleto.setForeground(new Color(35,148,188));
 					buttonStatoCompleto.setForeground(Color.WHITE);
 				}
 				else
 				{
-					statoFumetto = "";
+					statoFumetto = 0;
 					buttonStatoIncompleto.setForeground(Color.WHITE);
 				}
 			}
