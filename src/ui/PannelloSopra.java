@@ -49,10 +49,10 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 
 	private JComboBox boxFiltri;
 	
-	public PannelloSopra(final MyPanel panel, Lettore lettore, int larghezzaPerJMenu) 
+	public PannelloSopra(final MyPanel panel, int larghezzaPerJMenu) 
 	{
 		this.panel = panel;
-		this.lettore = lettore;
+		this.lettore = AppManager.getLettore();
 		setBackground(new Color(91,84,84));
 		setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 30));
 		setBorder(BorderFactory.createLineBorder(Color.black,1));

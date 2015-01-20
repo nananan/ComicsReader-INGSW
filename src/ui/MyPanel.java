@@ -59,7 +59,7 @@ public class MyPanel extends JPanel
 	{
 		super();
 		this.setLayout(new BorderLayout());
-		pannelloSopra = new PannelloSopra(this, lettore, (int)pannelloDestro.getPreferredSize().getWidth());
+		pannelloSopra = new PannelloSopra(this, (int)pannelloDestro.getPreferredSize().getWidth());
 		
 		this.lettore = lettore;
 		
@@ -303,7 +303,7 @@ public class MyPanel extends JPanel
 		eStatoRichiestoIlProfilo = true;
 		if (mapPannelliProfilo.get(lettore.getIdFacebook()) == null)
 		{
-			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(lettore, this, 
+			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(this, 
 					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth()), null));
 			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUnitIncrement(15);
 			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
@@ -383,7 +383,7 @@ public class MyPanel extends JPanel
 		setUltimoLettoreVisto(lettore);
 		if (mapPannelliProfilo.get(lettore.getIdFacebook()) == null)
 		{
-			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(lettore, this, 
+			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(this, 
 					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth()), null));
 			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUnitIncrement(15);
 			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));

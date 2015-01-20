@@ -11,27 +11,22 @@ public class Main extends Thread{
 
 	public static void main(String[] args) throws IOException 
 	{
-		
-		
-			JFrame f = new FrameLogin();
-			while (!((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
+		JFrame f = new FrameLogin();
+		while (!((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
+		{
+			try
 			{
-				try
-				{
-					sleep(100);
-				} catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				sleep(100);
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			f.setVisible(false);
-			f = new MyFrame(((FrameLogin) f).getPanel().getLettore());
-			f.repaint();
-			GestoreDataBase.disconnetti();
-	
-		
-		
+		}
+		f.setVisible(false);
+		f = new MyFrame(((FrameLogin) f).getPanel().getLettore());
+		f.repaint();
+		GestoreDataBase.disconnetti();
 	}
 
 }

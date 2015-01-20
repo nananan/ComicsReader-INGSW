@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import domain.AppManager;
 import domain.Fumetto;
 import domain.Lettore;
 
@@ -29,11 +30,11 @@ public class BottoneUtente extends JButton implements ActionListener
 	private Lettore lettore;
 	private MyPanel panel;
 	
-	public BottoneUtente(Image image, final Lettore utente, MyPanel panel) 
+	public BottoneUtente(Image image, MyPanel panel) 
 	{
 		super();
 		this.scaledImage = image;
-		this.lettore = utente;
+		this.lettore = AppManager.getLettore();
 		this.panel = panel;
 		
 		addActionListener(this);

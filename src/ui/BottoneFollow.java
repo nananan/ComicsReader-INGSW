@@ -50,7 +50,7 @@ public class BottoneFollow extends JPanel
 		
 		listener = new MyListener();
 		
-		bottoneUtente = new BottoneUtente(getURL(lettore.getUrlFoto(), 150, 150), lettore, panel);
+		bottoneUtente = new BottoneUtente(getURL(lettore.getUrlFoto(), 150, 150), panel);
 		bottoneUtente.setPreferredSize(new Dimension(150, 150));
 		bottoneUtente.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		bottoneUtente.setBounds(10, 10, 150, 150);

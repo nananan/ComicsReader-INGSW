@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.Color;
-
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -27,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import technicalService.GestoreDataBase;
+import domain.AppManager;
 import domain.Lettore;
 
 public class PannelloProfilo extends JPanel
@@ -63,7 +63,7 @@ public class PannelloProfilo extends JPanel
 	private int larghezza;
 	public boolean aggiungiCronologia;
 	
-	public PannelloProfilo(Lettore lettore, MyPanel panel, int larghezza)
+	public PannelloProfilo(MyPanel panel, int larghezza)
 	{
 		super();
 		setBackground(Color.GRAY);
@@ -76,9 +76,9 @@ public class PannelloProfilo extends JPanel
 		
 		listener = new MyListener();
 		
-			GestoreDataBase.connetti();
+		GestoreDataBase.connetti();
 		
-		this.lettore = lettore;
+		this.lettore = AppManager.getLettore();
 		
 		try {
 			scaledImage = getURL(lettore.getUrlFoto(),150,150);
