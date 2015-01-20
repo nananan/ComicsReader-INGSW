@@ -14,7 +14,6 @@ public class Main extends Thread{
 		
 		
 			JFrame f = new FrameLogin();
-			GestoreDataBase.connetti();
 			while (!((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
 			{
 				try

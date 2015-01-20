@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import domain.AccessoLettore;
+import domain.AppManager;
 import domain.Lettore;
 
 
@@ -25,7 +25,6 @@ public class Login extends JPanel
 	MyButton buttonOk = new MyButton("Ok");
 	MyButton buttonAnnulla = new MyButton("Annulla");
 	
-	private AccessoLettore accessoLettore;
 	private Lettore lettore; 
 	
 	boolean pressedOk = false;
@@ -70,9 +69,9 @@ public class Login extends JPanel
 			{
 				String text = textAreaName.getText();
 				
-				accessoLettore = new AccessoLettore(text);
+				AppManager.effettuaLogin(text);
 				
-				lettore = accessoLettore.getLettore();
+				lettore = AppManager.getLettore();
 				
 //				if (textAreaPassword.getText().isEmpty())
 //					System.out.println("inserisci la password");

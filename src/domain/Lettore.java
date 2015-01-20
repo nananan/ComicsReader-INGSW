@@ -193,6 +193,8 @@ public class Lettore {
 	
 	public boolean inserisciCronologia(Fumetto fumetto)
 	{
+		if(AppManager.getStatoApp() == AppManager.SESSIONE_PRIVATA)return false;
+		
 		if(cronologia == null) caricaCronologia();
 		
 		if(cronologia.containsKey(fumetto.getData())) return false;

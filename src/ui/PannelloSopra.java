@@ -27,7 +27,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import domain.AccessoLettore;
+import domain.AppManager;
 import domain.Lettore;
 
 public class PannelloSopra extends JMenuBar implements ActionListener, ItemListener
