@@ -16,6 +16,9 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import com.sun.org.apache.bcel.internal.generic.DALOAD;
+
+import domain.AppManager;
 import domain.Fumetto;
 import domain.Lettore;
 
@@ -31,6 +34,8 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 	private ImageIcon imageMenu;
 	
 	private MyPanel panel;
+	private Lettore lettoreCorrente;
+	private MyListener listener;
 	
 	private static final int PIACE = 0;
 	private static final int NON_PIACE = 1;
@@ -40,135 +45,103 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 	private static final int AGGIUNGERE_DA_LEGGERE = 1;
 	private static final int INDEFINITO_DA_LEGGERE = 2;
 	
-	public BottoneFumettoProfilo(MyPanel panel, Image image, final Fumetto fumetto, int stato, final int statoDaLeggere, final Lettore lettore) 
+	public BottoneFumettoProfilo(MyPanel panel, Image image, final Fumetto fumetto) 
 	{
 		super();
 		this.scaledImage = image;
 		this.fumetto = fumetto;
-		this.statoBottonePreferito = stato;
-		this.statoBottoneDaLeggere = statoDaLeggere;
 		this.panel = panel;
+		this.lettoreCorrente = AppManager.getLettore();
+		this.listener = new MyListener();
 		
 		this.setPreferredSize(new Dimension(200, 300));
 		this.setBorder(BorderFactory.createLineBorder(Color.black,3));
 		
-		if (statoBottonePreferito != INDEFINITO_PREFERITI && statoBottoneDaLeggere == INDEFINITO_DA_LEGGERE)
+		if (statoBottoneDaLeggere == INDEFINITO_DA_LEGGERE)
 		{
-			imageMenu = new ImageIcon("image/favorite.png");
-			imageScaled = imageMenu.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-			imageMenu.setImage(imageScaled);
-			
-			setIcon(imageMenu);
-			setPressedIcon(imageMenu);
-			
-			bottoneStatoPreferiti = new JButton(imageMenu);
-			
-			bottoneStatoPreferiti.setIcon(imageMenu);
-			bottoneStatoPreferiti.setBorderPainted(false);
-			bottoneStatoPreferiti.setFocusPainted(false);
-			
-			bottoneStatoPreferiti.setPreferredSize(new Dimension(40,40));
-			bottoneStatoPreferiti.setBounds(this.getX()+(int)this.getPreferredSize().getWidth()-
-					(int)bottoneStatoPreferiti.getPreferredSize().getWidth() - this.getInsets().bottom, 
-					this.getY()+(int)this.getPreferredSize().getHeight()-
-					(int)bottoneStatoPreferiti.getPreferredSize().getHeight() - this.getInsets().bottom, 
-					(int)bottoneStatoPreferiti.getPreferredSize().getWidth(), 
-					(int)bottoneStatoPreferiti.getPreferredSize().getHeight());
-			
-			
-			bottoneStatoPreferiti.setBackground(Color.GRAY);
-			
-			bottoneStatoPreferiti.addMouseListener(new MouseAdapter()
+			if (lettoreCorrente.eInPreferiti(fumetto))
 			{
-				@Override
-				public void mouseReleased(MouseEvent e)
-				{
-					super.mouseReleased(e);
-					if (statoBottonePreferito == PIACE)
-					{
-						statoBottonePreferito = NON_PIACE;
-						aggiungiBottone("image/notFavorite.png", bottoneStatoPreferiti);
-					
-							lettore.rimuoviPreferiti(fumetto);
-			
-					}
-					else
-					{
-						statoBottonePreferito = PIACE;
-						aggiungiBottone("image/favorite.png", bottoneStatoPreferiti);
+				statoBottoneDaLeggere = PIACE;
+				bottoneStatoPreferiti = new JButton();
+				aggiungiBottone("image/favorite.png", bottoneStatoPreferiti);
 				
-							lettore.inserisciPreferiti(fumetto);
-					
-					}
-				}
-			});
-			
-			add(bottoneStatoPreferiti);
-		}
-		else if (statoDaLeggere != INDEFINITO_DA_LEGGERE && statoBottonePreferito == INDEFINITO_PREFERITI)
-		{
-			imageMenu = new ImageIcon("image/notToRead.png");
-			imageScaled = imageMenu.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-			imageMenu.setImage(imageScaled);
-			
-			setIcon(imageMenu);
-			setPressedIcon(imageMenu);
-			
-			bottoneStatoDaLeggere = new JButton(imageMenu);
-			
-			bottoneStatoDaLeggere.setIcon(imageMenu);
-			bottoneStatoDaLeggere.setBorderPainted(false);
-			bottoneStatoDaLeggere.setFocusPainted(false);
-			
-			bottoneStatoDaLeggere.setPreferredSize(new Dimension(40,40));
-			bottoneStatoDaLeggere.setBounds(this.getX()+(int)this.getPreferredSize().getWidth()-
-					(int)bottoneStatoDaLeggere.getPreferredSize().getWidth() - this.getInsets().bottom, 
-					this.getY()+(int)this.getPreferredSize().getHeight()-
-					(int)bottoneStatoDaLeggere.getPreferredSize().getHeight() - this.getInsets().bottom, 
-					(int)bottoneStatoDaLeggere.getPreferredSize().getWidth(), 
-					(int)bottoneStatoDaLeggere.getPreferredSize().getHeight());
-			
-			
-			bottoneStatoDaLeggere.setBackground(Color.GRAY);
-			
-			bottoneStatoDaLeggere.addMouseListener(new MouseAdapter()
+				bottoneStatoPreferiti.setPreferredSize(new Dimension(40,40));
+				bottoneStatoPreferiti.setBounds(this.getX()+(int)this.getPreferredSize().getWidth()-
+						(int)bottoneStatoPreferiti.getPreferredSize().getWidth() - this.getInsets().bottom, 
+						this.getY()+(int)this.getPreferredSize().getHeight()-
+						(int)bottoneStatoPreferiti.getPreferredSize().getHeight() - this.getInsets().bottom, 
+						(int)bottoneStatoPreferiti.getPreferredSize().getWidth(), 
+						(int)bottoneStatoPreferiti.getPreferredSize().getHeight());
+				
+				bottoneStatoPreferiti.setBackground(Color.GRAY);
+				bottoneStatoPreferiti.addActionListener(listener);
+				add(bottoneStatoPreferiti);
+			}
+			else if (!lettoreCorrente.eInPreferiti(fumetto))
 			{
-				@Override
-				public void mouseReleased(MouseEvent e)
-				{
-					super.mouseReleased(e);
-					if (statoBottoneDaLeggere == AGGIUNTO_DA_LEGGERE)
-					{
-						statoBottoneDaLeggere = AGGIUNGERE_DA_LEGGERE;
-						aggiungiBottone("image/toRead.png", bottoneStatoDaLeggere);
-					
-							lettore.rimuoviDaLeggere(fumetto);
-			
-						
-					}
-					else
-					{
-						statoBottoneDaLeggere = AGGIUNTO_DA_LEGGERE;
-						aggiungiBottone("image/notToRead.png", bottoneStatoDaLeggere);
-						
-							lettore.inserisciDaLeggere(fumetto);
-						
-					}
-				}
-			});
-			
-			add(bottoneStatoDaLeggere);
-			
+				statoBottonePreferito = NON_PIACE;
+				bottoneStatoPreferiti = new JButton();
+				aggiungiBottone("image/notFavorite.png", bottoneStatoPreferiti);
+				bottoneStatoPreferiti.setPreferredSize(new Dimension(40,40));
+				bottoneStatoPreferiti.setBounds(this.getX()+(int)this.getPreferredSize().getWidth()-
+						(int)bottoneStatoPreferiti.getPreferredSize().getWidth() - this.getInsets().bottom, 
+						this.getY()+(int)this.getPreferredSize().getHeight()-
+						(int)bottoneStatoPreferiti.getPreferredSize().getHeight() - this.getInsets().bottom, 
+						(int)bottoneStatoPreferiti.getPreferredSize().getWidth(), 
+						(int)bottoneStatoPreferiti.getPreferredSize().getHeight());
+				
+				bottoneStatoPreferiti.setBackground(Color.GRAY);
+				bottoneStatoPreferiti.addActionListener(listener);
+				add(bottoneStatoPreferiti);
+			}
 		}
-		
-		addActionListener(this);
+		else
+		{
+			if (lettoreCorrente.eInDaLeggere(fumetto))
+			{
+				statoBottoneDaLeggere = AGGIUNTO_DA_LEGGERE;
+				bottoneStatoDaLeggere = new JButton();
+				aggiungiBottone("image/notToRead.png", bottoneStatoDaLeggere);
+	
+				bottoneStatoDaLeggere.setPreferredSize(new Dimension(40,40));
+				bottoneStatoDaLeggere.setBounds(this.getX()+(int)this.getPreferredSize().getWidth()-
+						(int)bottoneStatoDaLeggere.getPreferredSize().getWidth() - this.getInsets().bottom, 
+						this.getY()+(int)this.getPreferredSize().getHeight()-
+						(int)bottoneStatoDaLeggere.getPreferredSize().getHeight() - this.getInsets().bottom, 
+						(int)bottoneStatoDaLeggere.getPreferredSize().getWidth(), 
+						(int)bottoneStatoDaLeggere.getPreferredSize().getHeight());
+				
+				bottoneStatoDaLeggere.setBackground(Color.GRAY);
+				bottoneStatoDaLeggere.addActionListener(listener);
+				add(bottoneStatoDaLeggere);
+				
+			}
+			else if (!lettoreCorrente.eInDaLeggere(fumetto))
+			{
+				statoBottoneDaLeggere = AGGIUNGERE_DA_LEGGERE;
+				bottoneStatoDaLeggere = new JButton();
+				aggiungiBottone("image/toRead.png", bottoneStatoDaLeggere);
+	
+				bottoneStatoDaLeggere.setPreferredSize(new Dimension(40,40));
+				bottoneStatoDaLeggere.setBounds(this.getX()+(int)this.getPreferredSize().getWidth()-
+						(int)bottoneStatoDaLeggere.getPreferredSize().getWidth() - this.getInsets().bottom, 
+						this.getY()+(int)this.getPreferredSize().getHeight()-
+						(int)bottoneStatoDaLeggere.getPreferredSize().getHeight() - this.getInsets().bottom, 
+						(int)bottoneStatoDaLeggere.getPreferredSize().getWidth(), 
+						(int)bottoneStatoDaLeggere.getPreferredSize().getHeight());
+				
+				bottoneStatoDaLeggere.setBackground(Color.GRAY);
+				add(bottoneStatoDaLeggere);
+				System.out.println("STATO: "+statoBottoneDaLeggere);
+				bottoneStatoDaLeggere.addActionListener(listener);
+			}
+		}
+		this.addActionListener(this);
 			
 	}	
 	
 	public void aggiungiBottone(String path, JButton bottone)
 	{
-		bottone.removeAll();
-
 		imageMenu = new ImageIcon(path);
 		imageScaled = imageMenu.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		imageMenu.setImage(imageScaled);
@@ -177,7 +150,9 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 		setPressedIcon(imageMenu);
 		
 		bottone.setIcon(imageMenu);
-		repaint();
+		bottone.setBorderPainted(false);
+		bottone.setFocusPainted(false);
+		
 	}
 	
 	public Image getImageScaled()
@@ -201,5 +176,51 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		panel.PremiPerFumetto(fumetto, scaledImage);
+	}
+	
+	private class MyListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			Object source = e.getSource();
+			if (source == bottoneStatoDaLeggere)
+			{
+				System.out.println(statoBottoneDaLeggere);
+				if (statoBottoneDaLeggere == AGGIUNTO_DA_LEGGERE)
+				{
+					System.out.println("ENTROOOO "+statoBottoneDaLeggere);
+					statoBottoneDaLeggere = AGGIUNGERE_DA_LEGGERE;
+					aggiungiBottone("image/toRead.png", bottoneStatoDaLeggere);
+				
+					lettoreCorrente.rimuoviDaLeggere(fumetto);
+				}
+				else
+				{
+					statoBottoneDaLeggere = AGGIUNTO_DA_LEGGERE;
+					aggiungiBottone("image/notToRead.png", bottoneStatoDaLeggere);
+					
+					lettoreCorrente.inserisciDaLeggere(fumetto);
+				}
+			}
+			else if (source == bottoneStatoPreferiti)
+			{
+				if (statoBottonePreferito == 0)
+				{
+					statoBottonePreferito = NON_PIACE;
+					aggiungiBottone("image/notFavorite.png", bottoneStatoPreferiti);
+				
+					lettoreCorrente.rimuoviPreferiti(fumetto);
+				}
+				else
+				{
+					statoBottonePreferito = PIACE;
+					aggiungiBottone("image/favorite.png", bottoneStatoPreferiti);
+			
+					lettoreCorrente.inserisciPreferiti(fumetto);
+				}
+			}
+			repaint();
+		}
 	}
 }

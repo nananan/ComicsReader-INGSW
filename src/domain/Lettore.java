@@ -228,6 +228,30 @@ public class Lettore {
 		}
 		return false;
 	}
+	
+	public boolean eFollows(Lettore lettore)
+	{
+		if (follows.containsKey(lettore.idFacebook))
+			return true;
+		return false;
+	}
+	
+	public boolean eInPreferiti(Fumetto fumetto)
+	{
+		caricaPreferiti();
+		if (preferiti.containsKey(fumetto.getNome()))
+			return true;
+		return false;
+	}
+	
+	public boolean eInDaLeggere(Fumetto fumetto)
+	{
+		caricaDaLeggere();
+		if (daLeggere.containsKey(fumetto.getNome()))
+			return true;
+		return false;
+	}
+	
 	public int getNumFollow() {
 		caricaFollows();
 		return numFollow = follows.size();

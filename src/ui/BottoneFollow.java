@@ -21,6 +21,7 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import domain.AppManager;
 import domain.Lettore;
 
 public class BottoneFollow extends JPanel
@@ -44,7 +45,7 @@ public class BottoneFollow extends JPanel
 		this.setLayout(null);
 		
 		this.lettore = lettoreFoll;
-		this.lettoreCorrente = lettoreCorrente;
+		this.lettoreCorrente = AppManager.getLettore();
 		this.stato = stato;
 		
 		listener = new MyListener();
@@ -67,8 +68,16 @@ public class BottoneFollow extends JPanel
 		numeroFollower.setBounds(10+bottoneUtente.getX() + (int)bottoneUtente.getPreferredSize().getWidth(), numeroFollow.getY()+(int)numeroFollow.getPreferredSize().getHeight(), (int)numeroFollower.getPreferredSize().getWidth(), (int)numeroFollower.getPreferredSize().getHeight());
 		add(numeroFollower);
 		
-		creaStato(stato);
-		
+		if (this.lettoreCorrente.eFollows(lettore) && !this.lettoreCorrente.getIdFacebook().equals(lettore.getIdFacebook()))
+		{
+			cambiaStato(FOLLOWING);
+			creaStato(FOLLOWING);
+		}
+		else if (!this.lettoreCorrente.eFollows(lettore) && !this.lettoreCorrente.getIdFacebook().equals(lettore.getIdFacebook()))
+		{
+			cambiaStato(FOLLOW);
+			creaStato(FOLLOW);
+		}
 	}
 	
 	public Image getURL(String stringa, int w, int h) throws IOException
@@ -109,16 +118,9 @@ public class BottoneFollow extends JPanel
 	{
 		this.stato = stato;
 		if (stato == FOLLOWING)
-		{
-		
-				lettoreCorrente.segui(lettore);
-		}
+			lettoreCorrente.segui(lettore);
 		else if (stato == FOLLOW)
-		{
-			
-				lettoreCorrente.nonSeguire(lettore);
-	
-		}
+			lettoreCorrente.nonSeguire(lettore);
 		creaStato(stato);
 	}
 	
@@ -141,7 +143,7 @@ public class BottoneFollow extends JPanel
 			        }
 			      });
 		}
-		else if (stato == FOLLOW)
+		else if (stato == FOLLOW && !lettoreCorrente.eFollows(lettore))
 			bottonePerFollow = new MyButton("Follow", 18, Color.WHITE);
 		
 		bottonePerFollow.setBounds((int)this.getPreferredSize().getWidth() - 100, (int)bottoneUtente.getPreferredSize().getHeight()/3, (int)bottonePerFollow.getPreferredSize().getWidth(), (int)bottonePerFollow.getPreferredSize().getHeight());
