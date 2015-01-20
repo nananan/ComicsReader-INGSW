@@ -36,10 +36,10 @@ public class BottoneFollow extends JPanel
 	private int stato;
 	private MyListener listener;
 	
-	public BottoneFollow(Lettore lettore, int larghezza, int stato, Lettore lettoreCorrente) throws IOException
+	public BottoneFollow(Lettore lettore, int larghezza, int stato, Lettore lettoreCorrente, int altezzaImmagine) throws IOException
 	{
 		super();
-		this.setPreferredSize(new Dimension(larghezza, 200));
+		this.setPreferredSize(new Dimension(larghezza, altezzaImmagine+10));
 		this.setBackground(Color.GRAY);
 		this.setLayout(null);
 		

@@ -44,9 +44,7 @@ public class PannelloProfilo extends JPanel
 	private ArrayList<BottoneCronologia> bottoniCronologia;
 	private ArrayList<JSeparator> listaJSeparator;
 
-	private ArrayList<Lettore> followDelLettoreCorrente;
 	private ArrayList<BottoneFollow> listaBottoniFollowCorrente;
-	private ArrayList<Lettore> followerDelLettoreCorrente;
 	private ArrayList<BottoneFollow> listaBottoniFollowerCorrente;
 	
 	private Lettore lettore;
@@ -143,9 +141,7 @@ public class PannelloProfilo extends JPanel
 		bottoniCronologia = new ArrayList<>();
 		listaJSeparator = new ArrayList<>();
 		
-		followDelLettoreCorrente = new ArrayList<>();
 		listaBottoniFollowCorrente = new ArrayList<>();
-		followerDelLettoreCorrente = new ArrayList<>();
 		listaBottoniFollowerCorrente = new ArrayList<>();
 		
 	}
@@ -217,70 +213,92 @@ public class PannelloProfilo extends JPanel
 	{
 		rimuoviComponentiPrecedenti();
 		bottoneFollows.setForeground(Color.DARK_GRAY);
-		if (followDelLettoreCorrente.size() == 0)
+		if (listaBottoniFollowCorrente.size() == 0)
 		{
 			Iterator it = lettore.getFollows().entrySet().iterator();
 		    while (it.hasNext())
 		    {
 		        Map.Entry pairs = (Map.Entry)it.next();
 	
-	        	followDelLettoreCorrente.add(lettore.getFollows().get(pairs.getKey()));
-		    }
-		
-			for (int i = 0; i < followDelLettoreCorrente.size(); i++)
-			{
-				BottoneFollow bottoneFollowCorrente = new BottoneFollow(followDelLettoreCorrente.get(i), larghezza, 1, this.lettore);
+	        	BottoneFollow bottoneFollowCorrente = new BottoneFollow(lettore.getFollows().get(pairs.getKey()), larghezza, 1, this.lettore, 150);
 				
 				listaBottoniFollowCorrente.add(bottoneFollowCorrente);
-				
-				if (i == 0)
-					bottoneFollowCorrente.setBounds(5 + jseparator.getX(), jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)listaBottoniFollowCorrente.get(i).getPreferredSize().getWidth(), (int)listaBottoniFollowCorrente.get(i).getPreferredSize().getHeight());
-				else
-					bottoneFollowCorrente.setBounds(listaBottoniFollowCorrente.get(i-1).getX(), 5+listaBottoniFollowCorrente.get(i-1).getY() + (int)listaBottoniFollowCorrente.get(i-1).getPreferredSize().getHeight(), (int)listaBottoniFollowCorrente.get(i).getPreferredSize().getWidth(), (int)listaBottoniFollowCorrente.get(i).getPreferredSize().getHeight());
-				
-				add(listaBottoniFollowCorrente.get(i));
+		    }
+		}
+		
+		for (int i = 0; i < listaBottoniFollowCorrente.size(); i++)
+		{
+			if (i == 0)
+				listaBottoniFollowCorrente.get(i).setBounds(5 + jseparator.getX(), jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)listaBottoniFollowCorrente.get(i).getPreferredSize().getWidth(), (int)listaBottoniFollowCorrente.get(i).getPreferredSize().getHeight());
+			else
+				listaBottoniFollowCorrente.get(i).setBounds(listaBottoniFollowCorrente.get(i-1).getX(), 5+listaBottoniFollowCorrente.get(i-1).getY() + (int)listaBottoniFollowCorrente.get(i-1).getPreferredSize().getHeight(), (int)listaBottoniFollowCorrente.get(i).getPreferredSize().getWidth(), (int)listaBottoniFollowCorrente.get(i).getPreferredSize().getHeight());
+			
+			add(listaBottoniFollowCorrente.get(i));
+		
+			if (i != listaBottoniFollowCorrente.size()-1)
+			{
+				listaJSeparator.add(new JSeparator(JSeparator.HORIZONTAL));
+				listaJSeparator.get(i).setBackground(Color.BLACK);
+				listaJSeparator.get(i).setForeground(Color.GRAY);
+				listaJSeparator.get(i).setPreferredSize(new Dimension((int)this.getPreferredSize().getHeight(),
+						(int)listaJSeparator.get(i).getPreferredSize().getHeight()));
+				listaJSeparator.get(i).setBounds(10, 5+listaBottoniFollowCorrente.get(i).getY()+
+						(int)listaBottoniFollowCorrente.get(i).getPreferredSize().getHeight(), 
+						(int)this.getPreferredSize().getWidth()-13, (int)listaJSeparator.get(i).getPreferredSize().getHeight());
+				add(listaJSeparator.get(i));
 			}
 		}
-		else
-		{
-			for (int i = 0; i < followDelLettoreCorrente.size(); i++)
-				add(listaBottoniFollowCorrente.get(i));
-		}
+//		else
+//		{
+//			for (int i = 0; i < listaBottoniFollowCorrente.size(); i++)
+//				add(listaBottoniFollowCorrente.get(i));
+//		}
 	}
 	
 	public void prendiFollowers() throws SQLException, IOException
 	{
 		rimuoviComponentiPrecedenti();
 		bottoneFollower.setForeground(Color.DARK_GRAY);
-		if (followerDelLettoreCorrente.size() == 0)
+		if (listaBottoniFollowerCorrente.size() == 0)
 		{
 			Iterator it = lettore.getFollower().entrySet().iterator();
 		    while (it.hasNext())
 		    {
 		        Map.Entry pairs = (Map.Entry)it.next();
 	
-	        	followerDelLettoreCorrente.add(lettore.getFollower().get(pairs.getKey()));
+	        	BottoneFollow bottoneFollowerCorrente = new BottoneFollow(lettore.getFollower().get(pairs.getKey()), larghezza, 0, this.lettore, 150);
+	        	listaBottoniFollowerCorrente.add(bottoneFollowerCorrente);
 		    }
+		}
 	
-			for (int i = 0; i < followerDelLettoreCorrente.size(); i++)
+			for (int i = 0; i < listaBottoniFollowerCorrente.size(); i++)
 			{
-				BottoneFollow bottoneFollowerCorrente = new BottoneFollow(followerDelLettoreCorrente.get(i), larghezza, 0, this.lettore);
-				
-				listaBottoniFollowerCorrente.add(bottoneFollowerCorrente);
-				
 				if (i == 0)
-					bottoneFollowerCorrente.setBounds(5 + jseparator.getX(), jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)listaBottoniFollowerCorrente.get(i).getPreferredSize().getWidth(), (int)listaBottoniFollowerCorrente.get(i).getPreferredSize().getHeight());
+					listaBottoniFollowerCorrente.get(i).setBounds(5 + jseparator.getX(), jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)listaBottoniFollowerCorrente.get(i).getPreferredSize().getWidth(), (int)listaBottoniFollowerCorrente.get(i).getPreferredSize().getHeight());
 				else
-					bottoneFollowerCorrente.setBounds(listaBottoniFollowerCorrente.get(i-1).getX(), 5+listaBottoniFollowerCorrente.get(i-1).getY() + (int)listaBottoniFollowerCorrente.get(i-1).getPreferredSize().getHeight(), (int)listaBottoniFollowerCorrente.get(i).getPreferredSize().getWidth(), (int)listaBottoniFollowerCorrente.get(i).getPreferredSize().getHeight());
+					listaBottoniFollowerCorrente.get(i).setBounds(listaBottoniFollowerCorrente.get(i-1).getX(), 5+listaBottoniFollowerCorrente.get(i-1).getY() + (int)listaBottoniFollowerCorrente.get(i-1).getPreferredSize().getHeight(), (int)listaBottoniFollowerCorrente.get(i).getPreferredSize().getWidth(), (int)listaBottoniFollowerCorrente.get(i).getPreferredSize().getHeight());
 				
 				add(listaBottoniFollowerCorrente.get(i));
+				
+				if (i != listaBottoniFollowerCorrente.size()-1)
+				{
+					listaJSeparator.add(new JSeparator(JSeparator.HORIZONTAL));
+					listaJSeparator.get(i).setBackground(Color.BLACK);
+					listaJSeparator.get(i).setForeground(Color.GRAY);
+					listaJSeparator.get(i).setPreferredSize(new Dimension((int)this.getPreferredSize().getHeight(),
+							(int)listaJSeparator.get(i).getPreferredSize().getHeight()));
+					listaJSeparator.get(i).setBounds(10, 10+listaBottoniFollowerCorrente.get(i).getY()+
+							(int)listaBottoniFollowerCorrente.get(i).getPreferredSize().getHeight(), 
+							(int)this.getPreferredSize().getWidth()-13, (int)listaJSeparator.get(i).getPreferredSize().getHeight());
+					add(listaJSeparator.get(i));
+				}
+				
 			}
-		}
-		else
-		{
-			for (int i = 0; i < followerDelLettoreCorrente.size(); i++)
-				add(listaBottoniFollowerCorrente.get(i));
-		}
+//		else
+//		{
+//			for (int i = 0; i < listaBottoniFollowerCorrente.size(); i++)
+//				add(listaBottoniFollowerCorrente.get(i));
+//		}
 	}
 	
 	public void prendiDaLeggere()

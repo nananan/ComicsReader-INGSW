@@ -3,21 +3,19 @@ package technicalService;
 import java.sql.SQLException;
 
 public class TuplaLettore extends Tupla{
-	private String utenteCorrente;
 	public TuplaLettore(String query) {
 		super(query);
 	}
 
-	public TuplaLettore getFollows() {
+	public TuplaLettore getFollows(String utenteCorrente) {
 		
 		String query = "SELECT id_facebook, nome, url_foto,numFollows, numFollower "
 				+ "FROM utente ,segue "
 				+ "WHERE utente_follower=\""+utenteCorrente+"\" and utente_follow = id_facebook;";		
-		
 		return new TuplaLettore(query);
 	}
 	
-	public TuplaLettore getFollower(){
+	public TuplaLettore getFollower(String utenteCorrente){
 		
 		String query = "SELECT id_facebook, nome, url_foto,numFollows, numFollower "
 				+ "FROM utente ,segue "
@@ -26,7 +24,7 @@ public class TuplaLettore extends Tupla{
 		return new TuplaLettore(query);
 	}
 	
-	public TuplaFumetto getPreferiti() {
+	public TuplaFumetto getPreferiti(String utenteCorrente) {
 		String query =" SELECT f.nome, f.autore, f.artista,f.completa,f.occidentale,f.url_copertina_primo_volume,"
 				+ "f.valutazione_media,f.numero_letture "
 				+ "FROM fumetto as f , preferiti as p "
@@ -35,13 +33,13 @@ public class TuplaLettore extends Tupla{
 		return new TuplaFumetto(query);
 	}
 	
-	public TuplaFumetto getDaLeggere(){
+	public TuplaFumetto getDaLeggere(String utenteCorrente){
 	
 		String query = "SELECT f.nome, f.autore, f.artista,f.completa,f.occidentale,f.url_copertina_primo_volume,"
 				+ "f.valutazione_media,f.numero_letture  "
 				+ "FROM fumetto as f, da_leggere as d "
 				+ "WHERE d.utente =\""+utenteCorrente+"\" and d.nome_fumetto = f.nome;";
-		return new TuplaFumetto(query );
+		return new TuplaFumetto(query);
 	}
 	
 	public TuplaFumetto getCronologia(String utente){
@@ -51,15 +49,13 @@ public class TuplaLettore extends Tupla{
 				+ "WHERE r.utente =\""+utente+"\" and r.nome_fumetto = f.nome "
 				+ "ORDER BY data_lettura DESC; ";
 		
-		System.out.println(query);
-		
 		return new TuplaFumetto(query );
 	}
 	
 	public String getIdFacebook() {
 		
 		try {
-			return utenteCorrente=cursore.getString("id_facebook");
+			return cursore.getString("id_facebook");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

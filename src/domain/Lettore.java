@@ -63,8 +63,7 @@ public class Lettore {
 		follows = new HashMap<>();
 		
 	
-		TuplaLettore tuplaFollows = tuplaLettore.getFollows();
-		
+		TuplaLettore tuplaFollows = tuplaLettore.getFollows(idFacebook);
 		while(tuplaFollows.prossima())
 		{	
 			String idFacebook = tuplaFollows.getIdFacebook();
@@ -87,7 +86,7 @@ public class Lettore {
 		tuplaLettore.prossima();
 		if(follower.size() == tuplaLettore.getNumFollower()) return;
 		
-		TuplaLettore tuplaFollower = tuplaLettore.getFollower();
+		TuplaLettore tuplaFollower = tuplaLettore.getFollower(idFacebook);
 		
 		if(follower.size() > tuplaLettore.getNumFollower()) follower = new HashMap<>();
 
@@ -108,7 +107,7 @@ public class Lettore {
 			
 		preferiti = new HashMap<>();   
 		
-		TuplaFumetto tuplaFumetto = tuplaLettore.getPreferiti();
+		TuplaFumetto tuplaFumetto = tuplaLettore.getPreferiti(idFacebook);
 		
 		while(tuplaFumetto.prossima())
 		{
@@ -122,7 +121,7 @@ public class Lettore {
 		
 		daLeggere = new HashMap<>();
 		
-		TuplaFumetto tuplaFumetto =tuplaLettore.getDaLeggere();
+		TuplaFumetto tuplaFumetto =tuplaLettore.getDaLeggere(idFacebook);
 		
 		while(tuplaFumetto.prossima()){
 			Fumetto fumetto = new Fumetto(tuplaFumetto);
@@ -193,8 +192,6 @@ public class Lettore {
 	{
 		if(cronologia == null) caricaCronologia();
 		
-		System.out.println("CONTIENE: "+fumetto.getData());
-		
 		if(cronologia.containsKey(fumetto.getData())) return false;
 		cronologia.put(fumetto.getData(),fumetto);
 		gestoreDB.aggiungiCronologia(idFacebook,fumetto.getNome());
@@ -208,7 +205,7 @@ public class Lettore {
 		if(!follows.containsKey(lettore.idFacebook))
 		{
 			follows.put(lettore.idFacebook, lettore);
-			gestoreDB.aggiungiFollow(nome,lettore.idFacebook);
+			gestoreDB.aggiungiFollow(idFacebook,lettore.idFacebook);
 			return true;
 		}
 		return false;
@@ -221,7 +218,7 @@ public class Lettore {
 		if(follows.containsKey(lettore.idFacebook))
 		{
 			follows.remove(lettore.idFacebook);
-			gestoreDB.rimuoviFollow(nome,lettore.idFacebook);
+			gestoreDB.rimuoviFollow(idFacebook,lettore.idFacebook);
 			return true;
 		}
 		return false;
