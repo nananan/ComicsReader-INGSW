@@ -3,6 +3,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import domain.Fumetto;
+import domain.Lettore;
+
 public class GestoreDataBase {
 	
 	private static final String USER = "manueliana";
@@ -246,6 +249,16 @@ public class GestoreDataBase {
 			e.printStackTrace();
 			return -1;
 		}
+	}
+	
+	public TuplaFumetto getPrimoFumettoCronologia(Lettore lettore)
+	{
+		String query = " SELECT f.nome, f.url_copertina_primo_volume, f.autore, f.artista, "
+				+ "f.completa, f.occidentale, f.valutazione_media, f.numero_Letture from fumetto as f, "+
+				"letture_recenti as l where f.nome = l.nome and l.utente = \""+lettore.getIdFacebook()+
+				"\" order by l.data_lettura DESC limit 1";
+		
+		return new TuplaFumetto(query);		
 	}
 	
 	public TuplaFumetto piuVotati()

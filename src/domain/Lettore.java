@@ -252,6 +252,18 @@ public class Lettore {
 		return false;
 	}
 	
+	public Fumetto getPrimoCronologia(Lettore lettore)
+	{
+		TuplaFumetto tuplaFumetto = gestoreDB.getPrimoFumettoCronologia(lettore);
+		
+		if (tuplaFumetto.prossima())
+		{
+			Fumetto fumetto = new Fumetto(tuplaFumetto);
+			return fumetto;
+		}
+		return null;
+	}
+	
 	public int getNumFollow() {
 		caricaFollows();
 		return numFollow = follows.size();
