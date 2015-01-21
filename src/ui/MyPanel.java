@@ -22,6 +22,7 @@ import technicalService.GestoreDataBase;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
+import domain.AppManager;
 import domain.Fumetto;
 import domain.Lettore;
 import domain.Volume;
@@ -29,7 +30,7 @@ import domain.Volume;
 public class MyPanel extends JPanel
 {		
 	PannelloSopra pannelloSopra;
-	PannelloDestro pannelloDestro = new PannelloDestro();
+	PannelloDestro pannelloDestro;
 	PannelloSinistra pannelloSinistro = new PannelloSinistra(this);
 	PannelloCentrale pannelloCentrale;
 	PannelloFiltraggio pannelloFiltraggio;
@@ -55,13 +56,14 @@ public class MyPanel extends JPanel
 	private boolean eStatoRichiestoIlProfiloAltroUtente;
 	private Lettore lettoreVisto;
 	
-	public MyPanel(Lettore lettore) throws IOException 
+	public MyPanel() throws IOException 
 	{
 		super();
 		this.setLayout(new BorderLayout());
+		pannelloDestro = new PannelloDestro(this);
 		pannelloSopra = new PannelloSopra(this, (int)pannelloDestro.getPreferredSize().getWidth());
 		
-		this.lettore = lettore;
+		this.lettore = AppManager.getLettore();
 		
 		this.add(pannelloDestro,BorderLayout.EAST);
 		this.add(pannelloSinistro,BorderLayout.WEST);
@@ -304,7 +306,7 @@ public class MyPanel extends JPanel
 		if (mapPannelliProfilo.get(lettore.getIdFacebook()) == null)
 		{
 			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(this, 
-					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth()), null));
+					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth(), this.lettore), null));
 			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUnitIncrement(15);
 			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
 			mapPannelliProfilo.get(lettore.getIdFacebook()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -374,26 +376,27 @@ public class MyPanel extends JPanel
 		pannelloVisualizzatore.vaiAPaginaPrecedente();
 	}
 	
-	public void premiPerAvereProfiloDiAltroUtente(Lettore lettore)
+	public void premiPerAvereProfiloDiAltroUtente(Lettore utente)
 	{
 		rimuoviPrecedenti();
 		rimuoviBooleani();
 		
 		eStatoRichiestoIlProfiloAltroUtente = true;
-		setUltimoLettoreVisto(lettore);
-		if (mapPannelliProfilo.get(lettore.getIdFacebook()) == null)
+		setUltimoLettoreVisto(utente);
+		
+		if (mapPannelliProfilo.get(utente.getIdFacebook()) == null)
 		{
-			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(this, 
-					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth()), null));
-			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUnitIncrement(15);
-			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
-			mapPannelliProfilo.get(lettore.getIdFacebook()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			mapPannelliProfilo.put(utente.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(this, 
+					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth(), utente), null));
+			mapPannelliProfilo.get(utente.getIdFacebook()).getVerticalScrollBar().setUnitIncrement(15);
+			mapPannelliProfilo.get(utente.getIdFacebook()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
+			mapPannelliProfilo.get(utente.getIdFacebook()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			
-			this.add(mapPannelliProfilo.get(lettore.getIdFacebook()),BorderLayout.CENTER);
+			this.add(mapPannelliProfilo.get(utente.getIdFacebook()),BorderLayout.CENTER);
 			this.validate();
 		}
 		else
-			this.add(mapPannelliProfilo.get(lettore.getIdFacebook()),BorderLayout.CENTER);
+			this.add(mapPannelliProfilo.get(utente.getIdFacebook()),BorderLayout.CENTER);
 			
 		repaint();
 	}
@@ -454,6 +457,7 @@ public class MyPanel extends JPanel
 	protected void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
+		pannelloDestro.paintComponents(g);
 	}
 
 	public Lettore getLettore()

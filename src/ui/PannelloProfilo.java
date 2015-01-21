@@ -63,7 +63,7 @@ public class PannelloProfilo extends JPanel
 	private int larghezza;
 	public boolean aggiungiCronologia;
 	
-	public PannelloProfilo(MyPanel panel, int larghezza)
+	public PannelloProfilo(MyPanel panel, int larghezza, Lettore lettore)
 	{
 		super();
 		setBackground(Color.GRAY);
@@ -78,7 +78,7 @@ public class PannelloProfilo extends JPanel
 		
 		GestoreDataBase.connetti();
 		
-		this.lettore = AppManager.getLettore();
+		this.lettore = lettore;
 		
 		try {
 			scaledImage = getURL(lettore.getUrlFoto(),150,150);

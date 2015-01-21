@@ -30,11 +30,11 @@ public class BottoneUtente extends JButton implements ActionListener
 	private Lettore lettore;
 	private MyPanel panel;
 	
-	public BottoneUtente(Image image, MyPanel panel) 
+	public BottoneUtente(Image image, MyPanel panel, Lettore lettore) 
 	{
 		super();
 		this.scaledImage = image;
-		this.lettore = AppManager.getLettore();
+		this.lettore = lettore;
 		this.panel = panel;
 		
 		addActionListener(this);
@@ -75,7 +75,6 @@ public class BottoneUtente extends JButton implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		System.out.println("LETTORE: "+lettore.getNome());
 		panel.premiPerAvereProfiloDiAltroUtente(lettore);
 	}
 	

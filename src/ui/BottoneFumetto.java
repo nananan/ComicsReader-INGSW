@@ -27,11 +27,14 @@ public class BottoneFumetto extends JButton implements ActionListener
 	private Image scaledImage;
 	private Fumetto fumetto;
 	private MyPanel panel;
+	private Image scaledImageDaPassare;
 	
 	public BottoneFumetto(Image image, final Fumetto fumetto, MyPanel panel) 
 	{
 		super();
 		this.panel = panel;
+		
+		this.scaledImageDaPassare = image;
 		
 		image = image.getScaledInstance(200, 300, Image.SCALE_SMOOTH);
 		this.setBorder(BorderFactory.createLineBorder(Color.black,2));
@@ -46,6 +49,7 @@ public class BottoneFumetto extends JButton implements ActionListener
 		super();
 		this.panel = panel;
 		
+		this.scaledImageDaPassare = image.getScaledInstance(200, 300, Image.SCALE_SMOOTH);;
 		image = image.getScaledInstance(larghezza, altezza, Image.SCALE_SMOOTH);
 		this.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		this.scaledImage = image;
@@ -74,7 +78,7 @@ public class BottoneFumetto extends JButton implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		panel.PremiPerFumetto(fumetto, scaledImage);
+		panel.PremiPerFumetto(fumetto, scaledImageDaPassare);
 	}
 	
 }

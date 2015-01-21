@@ -186,10 +186,8 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 			Object source = e.getSource();
 			if (source == bottoneStatoDaLeggere)
 			{
-				System.out.println(statoBottoneDaLeggere);
 				if (statoBottoneDaLeggere == AGGIUNTO_DA_LEGGERE)
 				{
-					System.out.println("ENTROOOO "+statoBottoneDaLeggere);
 					statoBottoneDaLeggere = AGGIUNGERE_DA_LEGGERE;
 					aggiungiBottone("image/toRead.png", bottoneStatoDaLeggere);
 				

@@ -18,7 +18,7 @@ public class MyFrame extends JFrame
 	public MyFrame(Lettore lettore) throws IOException
 	{
 		super();
-		JPanel p = new MyPanel(lettore);
+		JPanel p = new MyPanel();
 		this.setTitle("MyFrame");
 //		this.setUndecorated(true);
 		this.setVisible(true);
