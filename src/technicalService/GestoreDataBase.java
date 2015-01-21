@@ -255,7 +255,7 @@ public class GestoreDataBase {
 	{
 		String query = " SELECT f.nome, f.url_copertina_primo_volume, f.autore, f.artista, "
 				+ "f.completa, f.occidentale, f.valutazione_media, f.numero_Letture from fumetto as f, "+
-				"letture_recenti as l where f.nome = l.nome and l.utente = \""+lettore.getIdFacebook()+
+				"letture_recenti as l where f.nome = l.nome_fumetto and l.utente = \""+lettore.getIdFacebook()+
 				"\" order by l.data_lettura DESC limit 1";
 		
 		return new TuplaFumetto(query);		

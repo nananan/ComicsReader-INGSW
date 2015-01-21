@@ -3,13 +3,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import domain.AppManager;
+import domain.Fumetto;
 import domain.Lettore;
 
 
@@ -17,7 +21,9 @@ public class PannelloDestro extends JPanel
 {
 	int larghezza = ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 3) - 50 ;
 	
-	Lettore lettore;	
+	private Lettore lettore;	
+	
+	private ArrayList<JButton> copertineCronologiaFollow;
 	
 	public PannelloDestro()
 	{
@@ -27,20 +33,28 @@ public class PannelloDestro extends JPanel
 		
 		lettore = AppManager.getLettore();
 		
+		copertineCronologiaFollow = new ArrayList<>();
+		
 		Iterator it = lettore.getFollows().entrySet().iterator();
 	    while (it.hasNext())
 	    {
-	        Map.Entry pairs = (Map.Entry)it.next();
-	        System.out.println(	lettore.getFollows().get(pairs.getKey()));
-	        Iterator iter = lettore.getFollows().get(pairs.getKey()).getCronologia().entrySet().iterator();
-		    while (it.hasNext())
-		    {
-		        Map.Entry pair = (Map.Entry)it.next();
-		        if (lettore.getCronologia().get(pair.getKey()) != null)
-		        	System.out.println(lettore.getCronologia().get(pair.getKey()));
-		    }
+	       Map.Entry pairs = (Map.Entry)it.next();
+	       Fumetto fumettoPrimo = lettore.getPrimoCronologia(lettore.getFollows().get(pairs.getKey()));
+	       if (fumettoPrimo != null)
+	       {
+	    	   copertineCronologiaFollow.add(new JButton(new ImageIcon(fumettoPrimo.getCopertina())));
+	       }
 	        
 	    }
+	    
+	    for (int i = 0; i < copertineCronologiaFollow.size(); i++)
+		{
+			copertineCronologiaFollow.get(i).setBounds(10, 10, 
+					(int)copertineCronologiaFollow.get(i).getPreferredSize().getWidth(), 
+					(int)copertineCronologiaFollow.get(i).getPreferredSize().getHeight());
+			
+			add(copertineCronologiaFollow.get(i));
+		}
 		
 	}
 	
