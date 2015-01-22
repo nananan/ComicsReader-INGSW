@@ -98,6 +98,7 @@ public class MyPanel extends JPanel
 		
 		rimuoviPrecedenti();
 		rimuoviBooleani();
+		pannelloSopra.setBooleanaPerBottoneFiltro(true);
 		eStatoRichiestoIlFiltro = true;
 		
 		ArrayList<String> filtri = pannelloFiltraggio.getArrayDiFiltri();
@@ -170,6 +171,7 @@ public class MyPanel extends JPanel
 	{
 		rimuoviPrecedenti();
 		rimuoviBooleani();
+		pannelloSopra.setBooleanaPerBottoneFiltro(true);
 		pannelloSinistro.setColorBottoneDiscover(new Color(35,148,188));
 		eStatoRichiestoIlDiscover = true;
 		if (!mapPannelliCentrali.containsKey("Discover"))
@@ -178,7 +180,6 @@ public class MyPanel extends JPanel
 					(int)pannelloDestro.getPreferredSize().getWidth()));
 			mapPannelliCentrali.get("Discover").setDiscover();
 			this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);
-			this.validate();
 		}
 		else
 		{
@@ -191,11 +192,9 @@ public class MyPanel extends JPanel
 //		    pannelloScrollDiscover.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		if (pannelloSotto != null)
-		{
 			remove(pannelloSotto);
-			this.validate();
-		}
 		
+		this.validate();
 		repaint();
 	}
 	
@@ -449,7 +448,8 @@ public class MyPanel extends JPanel
 	    }
 	    
 	    pannelloSinistro.deselezionaBottoni();
-	    
+		pannelloSopra.setBooleanaPerBottoneFiltro(false);
+
 	    this.validate();
 	}
 	

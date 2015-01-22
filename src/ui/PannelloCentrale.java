@@ -125,6 +125,11 @@ public class PannelloCentrale extends JPanel
 		add(textDiscover);
 		bottoniFumetti = new ArrayList<>();
 		
+		if (filtri.size() == 0 && statoFumetto == 0 && tipoFumetto == 0)
+		{
+			panel.PremiPerDiscover();
+			return;
+		}
 		libreria.caricaFumettiPerFiltri(filtri, statoFumetto, tipoFumetto);
 		
 		aggiungiFumettoAlPannello(libreria.fumettiFiltratiCorrente());
