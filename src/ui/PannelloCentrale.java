@@ -231,13 +231,13 @@ public class PannelloCentrale extends JPanel
 				bottoniFumetti.add(bottoneFumetto);
 				
 				if (j == 0)
-					bottoniFumetti.get(j).setBounds(64,10 + textDiscover.getX() +
+					bottoniFumetti.get(j).setBounds(53,10 + textDiscover.getX() +
 							(int)textDiscover.getPreferredSize().getHeight(), 200,300);
 				else
 				{
 					if (j % 4 == 0)
 					{
-						bottoniFumetti.get(j).setBounds(64,10 + 
+						bottoniFumetti.get(j).setBounds(53,10 + 
 								(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight()+
 								bottoniFumetti.get(j-1).getY(), 200,300);
 						
@@ -279,13 +279,13 @@ public class PannelloCentrale extends JPanel
 				bottoniFumetti.add(bottoneFumetto);
 				
 				if (j == 0)
-					bottoniFumetti.get(j).setBounds(64,10 + textDiscover.getX() +
+					bottoniFumetti.get(j).setBounds(53,10 + textDiscover.getX() +
 							(int)textDiscover.getPreferredSize().getHeight(), 200,300);
 				else
 				{
 					if (j % 4 == 0)
 					{
-						bottoniFumetti.get(j).setBounds(64,10 + 
+						bottoniFumetti.get(j).setBounds(53,10 + 
 								(int)bottoniFumetti.get(j-1).getPreferredSize().getHeight()+
 								bottoniFumetti.get(j-1).getY(), 200, 300);
 						

@@ -62,6 +62,7 @@ public class PannelloProfilo extends JPanel
 	
 	private int larghezza;
 	public boolean aggiungiCronologia;
+	private int altezzaPrima;
 	
 	public PannelloProfilo(MyPanel panel, int larghezza, Lettore lettore)
 	{
@@ -136,6 +137,9 @@ public class PannelloProfilo extends JPanel
 				(int)this.getPreferredSize().getWidth()-13, (int)jseparator.getPreferredSize().getHeight());
 		add(jseparator);
 		
+		altezzaPrima = altezzaPrima+(int)forImage.getPreferredSize().getHeight()+(int)bottoneFollows.getPreferredSize().getHeight()+
+				(int)jseparator.getPreferredSize().getHeight();
+		
 		bottoniFumettiPreferiti = new ArrayList<>();
 		bottoniDaLeggere = new ArrayList<>();
 		bottoniCronologia = new ArrayList<>();
@@ -198,10 +202,26 @@ public class PannelloProfilo extends JPanel
 		    
 	    for (int i = 0; i < bottoniFumettiPreferiti.size(); i++)
 	    {
+	    	bottoniFumettiPreferiti.get(i).setLayout(null);
 			if (i == 0)
-				bottoniFumettiPreferiti.get(i).setBounds(20, 20+ jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniFumettiPreferiti.get(i).getPreferredSize().getWidth(), (int)bottoniFumettiPreferiti.get(i).getPreferredSize().getHeight());
+				bottoniFumettiPreferiti.get(i).setBounds(20, 20+ jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), 
+						(int)bottoniFumettiPreferiti.get(i).getPreferredSize().getWidth(), 
+						(int)bottoniFumettiPreferiti.get(i).getPreferredSize().getHeight());
 			else
-				bottoniFumettiPreferiti.get(i).setBounds(15 + bottoniFumettiPreferiti.get(i-1).getX() + (int)bottoniFumettiPreferiti.get(i-1).getPreferredSize().getWidth(), 20 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniFumettiPreferiti.get(i).getPreferredSize().getWidth(), (int)bottoniFumettiPreferiti.get(i).getPreferredSize().getHeight());
+			{
+				if (i % 4 == 0)
+					bottoniFumettiPreferiti.get(i).setBounds(20, 15 + bottoniFumettiPreferiti.get(i-1).getY() 
+							+ (int)bottoniFumettiPreferiti.get(i-1).getPreferredSize().getHeight(), 
+							(int)bottoniFumettiPreferiti.get(i).getPreferredSize().getWidth(), 
+							(int)bottoniFumettiPreferiti.get(i).getPreferredSize().getHeight());
+
+				else
+					bottoniFumettiPreferiti.get(i).setBounds(15 + bottoniFumettiPreferiti.get(i-1).getX() 
+							+ (int)bottoniFumettiPreferiti.get(i-1).getPreferredSize().getWidth(), 
+							20 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), 
+							(int)bottoniFumettiPreferiti.get(i).getPreferredSize().getWidth(), 
+							(int)bottoniFumettiPreferiti.get(i).getPreferredSize().getHeight());
+			}
 
 			bottoniFumettiPreferiti.get(i).addActionListener(listener);
 			
@@ -321,18 +341,40 @@ public class PannelloProfilo extends JPanel
 				}
 		    }
 		}
-		    
+		int altezza = 0;   
 	    for (int i = 0; i < bottoniDaLeggere.size(); i++)
 	    {
-			if (i == 0)
-				bottoniDaLeggere.get(i).setBounds(20, 20+ jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniDaLeggere.get(i).getPreferredSize().getWidth(), (int)bottoniDaLeggere.get(i).getPreferredSize().getHeight());
+	    	bottoniDaLeggere.get(i).setLayout(null);
+	    	if (i == 0)
+    		{
+	    		bottoniDaLeggere.get(i).setBounds(20, 20+ jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), 
+						(int)bottoniDaLeggere.get(i).getPreferredSize().getWidth(), 
+						(int)bottoniDaLeggere.get(i).getPreferredSize().getHeight());
+	    		altezza += (int)bottoniDaLeggere.get(i).getPreferredSize().getHeight();
+    		}
 			else
-				bottoniDaLeggere.get(i).setBounds(15 + bottoniDaLeggere.get(i-1).getX() + (int)bottoniDaLeggere.get(i-1).getPreferredSize().getWidth(), 20 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), (int)bottoniDaLeggere.get(i).getPreferredSize().getWidth(), (int)bottoniDaLeggere.get(i).getPreferredSize().getHeight());
-			
+			{
+				if (i % 4 == 0)
+				{
+					bottoniDaLeggere.get(i).setBounds(20, 15 + bottoniDaLeggere.get(i-1).getY() 
+							+ (int)bottoniDaLeggere.get(i-1).getPreferredSize().getHeight(), 
+							(int)bottoniDaLeggere.get(i).getPreferredSize().getWidth(), 
+							(int)bottoniDaLeggere.get(i).getPreferredSize().getHeight());
+					altezza += (int)bottoniDaLeggere.get(i).getPreferredSize().getHeight();
+				}
+				else
+					bottoniDaLeggere.get(i).setBounds(15 + bottoniDaLeggere.get(i-1).getX() 
+							+ (int)bottoniDaLeggere.get(i-1).getPreferredSize().getWidth(), 
+							20 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), 
+							(int)bottoniDaLeggere.get(i).getPreferredSize().getWidth(), (int)bottoniDaLeggere.get(i).getPreferredSize().getHeight());
+			}			
 			bottoniDaLeggere.get(i).addActionListener(listener);
 			
 			add(bottoniDaLeggere.get(i));
 	    }
+	    
+//	    if (altezza < (int)this.getPreferredSize().getHeight())
+//	    	this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(), altezzaPrima+altezza));
 	}
 	
 	public void prendiCronologia()
@@ -343,6 +385,7 @@ public class PannelloProfilo extends JPanel
 		if (bottoniCronologia.size() == 0)
 		{
 			Iterator it = lettore.getCronologia().entrySet().iterator();
+			System.out.println(lettore.getCronologia());
 		    while (it.hasNext())
 		    {
 		        Map.Entry pairs = (Map.Entry)it.next();
@@ -358,6 +401,7 @@ public class PannelloProfilo extends JPanel
 				}
 		    }
 		}
+		
 		int larghezza = 0;
 	    for (int i = 0; i < bottoniCronologia.size(); i++)
 	    {
@@ -387,7 +431,7 @@ public class PannelloProfilo extends JPanel
 			
 			if (larghezza >= this.getPreferredSize().getHeight())
 				this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(),
-						(int)this.getPreferredSize().getHeight()+larghezza/2));
+						(int)this.getPreferredSize().getHeight()+larghezza));
 			
 	    }
 	}

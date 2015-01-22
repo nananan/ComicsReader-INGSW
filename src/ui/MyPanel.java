@@ -55,22 +55,28 @@ public class MyPanel extends JPanel
 	private boolean eStatoRichiestoIlFiltro;
 	private boolean eStatoRichiestoIlProfiloAltroUtente;
 	private Lettore lettoreVisto;
+	private PannelloScrollPane pannelloScrollDestro;
 	
 	public MyPanel() throws IOException 
 	{
 		super();
 		this.setLayout(new BorderLayout());
-		pannelloDestro = new PannelloDestro(this);
-		pannelloSopra = new PannelloSopra(this, (int)pannelloDestro.getPreferredSize().getWidth());
+		pannelloScrollDestro = new PannelloScrollPane(new PannelloDestro(this), null);
+		pannelloScrollDestro.getVerticalScrollBar().setUnitIncrement(15);
+		pannelloScrollDestro.getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(new Color(91,84,84)));
+		pannelloScrollDestro.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		pannelloSopra = new PannelloSopra(this, (int)pannelloScrollDestro.getPreferredSize().getWidth());
 		
 		this.lettore = AppManager.getLettore();
 		
-		this.add(pannelloDestro,BorderLayout.EAST);
+		this.add(pannelloScrollDestro,BorderLayout.EAST);
 		this.add(pannelloSinistro,BorderLayout.WEST);
 		this.add(pannelloSopra, BorderLayout.NORTH);
 		PremiPerDiscover();
 	
 		this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);
+		
+		this.validate();
 		
 	}
 	
@@ -110,7 +116,7 @@ public class MyPanel extends JPanel
 		if (!mapPannelliCentrali.containsKey("Filtri"))
 		{
 			mapPannelliCentrali.put("Filtri", new PannelloCentrale(this, 
-					(int)pannelloDestro.getPreferredSize().getWidth()));
+					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
 			mapPannelliCentrali.get("Filtri").setRicercaFiltri(filtri, statoFumetto, tipoFumetto);
 			this.add(mapPannelliCentrali.get("Filtri"), BorderLayout.CENTER);
 			this.validate();
@@ -134,7 +140,7 @@ public class MyPanel extends JPanel
 		if (!mapPannelliCentrali.containsKey("Ricerca"))
 		{
 			mapPannelliCentrali.put("Ricerca", new PannelloCentrale(this, 
-					(int)pannelloDestro.getPreferredSize().getWidth()));
+					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
 			mapPannelliCentrali.get("Ricerca").setRicerca(tipoDaCercare, nomeDaCercare);
 			this.add(mapPannelliCentrali.get("Ricerca"), BorderLayout.CENTER);
 			this.validate();
@@ -177,9 +183,10 @@ public class MyPanel extends JPanel
 		if (!mapPannelliCentrali.containsKey("Discover"))
 		{
 			mapPannelliCentrali.put("Discover", new PannelloCentrale(this, 
-					(int)pannelloDestro.getPreferredSize().getWidth()));
+					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
 			mapPannelliCentrali.get("Discover").setDiscover();
 			this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);
+			this.validate();
 		}
 		else
 		{
@@ -194,7 +201,6 @@ public class MyPanel extends JPanel
 		if (pannelloSotto != null)
 			remove(pannelloSotto);
 		
-		this.validate();
 		repaint();
 	}
 	
@@ -300,6 +306,7 @@ public class MyPanel extends JPanel
 	public void PremiPerProfiloUtente()
 	{
 		rimuoviPrecedenti();
+		rimuoviBooleani();
 		
 		eStatoRichiestoIlProfilo = true;
 		if (mapPannelliProfilo.get(lettore.getIdFacebook()) == null)
@@ -352,16 +359,14 @@ public class MyPanel extends JPanel
 		if (!mapPannelliCentrali.containsKey("PiuVotati"))
 		{
 			mapPannelliCentrali.put("PiuVotati", new PannelloCentrale(this, 
-					(int)pannelloDestro.getPreferredSize().getWidth()));
+					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
 			mapPannelliCentrali.get("PiuVotati").setTopRated();
 			this.add(mapPannelliCentrali.get("PiuVotati"), BorderLayout.CENTER);
 			this.validate();
 		}
 		else
-		{
 //			mapPannelliCentrali.get("PiuVotati").setTopRead();
 			this.add(mapPannelliCentrali.get("PiuVotati"), BorderLayout.CENTER);
-		}	
 		
 		repaint();
 	}
@@ -450,14 +455,13 @@ public class MyPanel extends JPanel
 	    pannelloSinistro.deselezionaBottoni();
 		pannelloSopra.setBooleanaPerBottoneFiltro(false);
 
-	    this.validate();
 	}
 	
 	@Override
 	protected void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
-		pannelloDestro.paintComponents(g);
+		pannelloScrollDestro.getPanel().paintComponents(g);
 	}
 
 	public Lettore getLettore()

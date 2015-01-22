@@ -2,6 +2,7 @@ package domain;
 
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import technicalService.GestoreDataBase;
 import technicalService.TuplaFumetto;
@@ -19,7 +20,7 @@ public class Lettore {
 	private HashMap<String, Lettore> follows;
 	private HashMap<String, Fumetto> preferiti;
 	private HashMap<String, Fumetto> daLeggere;
-	private HashMap<String, Fumetto> cronologia;
+	private LinkedHashMap<String, Fumetto> cronologia;
 	
 	private TuplaLettore tuplaLettore;
 	private GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
@@ -135,13 +136,13 @@ public class Lettore {
 	
 		if(cronologia != null) return;
 		
-		cronologia = new HashMap<>();
+		cronologia = new LinkedHashMap<>();
 	
 		TuplaFumetto tuplaFumetto = tuplaLettore.getCronologia(idFacebook);
 		while(tuplaFumetto.prossima()){
 			Fumetto fumetto = new Fumetto(tuplaFumetto, tuplaFumetto.getData());
-			System.out.println(tuplaFumetto.getNome()+" "+tuplaFumetto.getData());
-			cronologia.put(fumetto.getData(), fumetto);
+			String nome_data = fumetto.getNome()+fumetto.getData();
+			cronologia.put(nome_data, fumetto);
 		}	
 	}
 	
