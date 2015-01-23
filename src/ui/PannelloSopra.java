@@ -2,8 +2,10 @@ package ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Panel;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,9 +23,11 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -48,6 +52,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 	private static final String[] stringheFiltri = { "Artista", "Autore", "Fumetto" };
 
 	private JComboBox boxFiltri;
+	private Throwable e1;
 	
 	public PannelloSopra(final MyPanel panel, int larghezzaPerJMenu) 
 	{
@@ -198,7 +203,23 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		}
 		else if (e.getActionCommand().equals(privateSession.getActionCommand()))
 		{
-			System.out.println("SESSIONE PRIVATA");
+			if (privateSession.getForeground() == Color.WHITE)
+			{
+				AppManager.setSessionePrivata();
+				privateSession.setForeground(Color.RED);
+				JFrame op = new JFrame();
+//				JPanel p = new JPanel();
+//				p.setBackground(Color.BLACK);
+//				op.setContentPane(p);
+				JOptionPane.showMessageDialog(op, "Sessione Privata", "Info Stato", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else
+			{
+				AppManager.setSessioneOnline();
+				privateSession.setForeground(Color.WHITE);
+				JOptionPane.showMessageDialog(new Frame(), "Sessione Online", "Info Stato", JOptionPane.INFORMATION_MESSAGE);
+			}
+		
 		}
 		else if (e.getActionCommand().equals(offlineSession.getActionCommand()))
 		{

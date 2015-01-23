@@ -20,12 +20,20 @@ public class PannelloScrollPane extends JScrollPane
 {
 	private JPanel panel;
 	
-	public PannelloScrollPane(JPanel panel, File file) 
+	public PannelloScrollPane(JPanel panel, int aggiungi, Color color) 
 	{
 		super(panel);
+		this.setPreferredSize(new Dimension((int)panel.getPreferredSize().getWidth()+aggiungi,
+				442));
 		this.panel = panel;
 		setOpaque(false);
-		setBorder(BorderFactory.createLineBorder(Color.black,2));
+		setBorder(BorderFactory.createLineBorder(color,1));
+		
+		this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		this.getVerticalScrollBar().setUnitIncrement(15);
+		this.getVerticalScrollBar().setValueIsAdjusting(true);
+		this.getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(color));
+		this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 	
 	public JPanel getPanel()

@@ -39,7 +39,6 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 	
 	private static final int PIACE = 0;
 	private static final int NON_PIACE = 1;
-	private static final int INDEFINITO_PREFERITI = 2;
 	
 	private static final int AGGIUNTO_DA_LEGGERE = 0;
 	private static final int AGGIUNGERE_DA_LEGGERE = 1;

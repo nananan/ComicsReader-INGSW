@@ -41,9 +41,8 @@ public class MyPanel extends JPanel
 	private PannelloScrollPane pannelloScrollCapitoli;
 	private HashMap<String,PannelloScrollPane> arrayPannelli = new HashMap<>();
 	private HashMap<String,PannelloCentrale> mapPannelliCentrali = new HashMap<>();
-	private HashMap<String,PannelloScrollPane> mapPannelliProfilo = new HashMap<>();
+	private HashMap<String,PannelloProfilo> mapPannelliProfilo = new HashMap<>();
 	private PannelloScrollPane pannelloScrollFiltraggio;
-	private PannelloScrollPane pannelloScrollProfilo;
 	
 	private Lettore lettore;
 	private PannelloSotto pannelloSotto;
@@ -57,14 +56,13 @@ public class MyPanel extends JPanel
 	private Lettore lettoreVisto;
 	private PannelloScrollPane pannelloScrollDestro;
 	
+	private static Color COLORE = Color.GRAY;
+	
 	public MyPanel() throws IOException 
 	{
 		super();
 		this.setLayout(new BorderLayout());
-		pannelloScrollDestro = new PannelloScrollPane(new PannelloDestro(this), null);
-		pannelloScrollDestro.getVerticalScrollBar().setUnitIncrement(15);
-		pannelloScrollDestro.getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(new Color(91,84,84)));
-		pannelloScrollDestro.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		pannelloScrollDestro = new PannelloScrollPane(new PannelloDestro(this), 0, new Color(91,84,84));
 		pannelloSopra = new PannelloSopra(this, (int)pannelloScrollDestro.getPreferredSize().getWidth());
 		
 		this.lettore = AppManager.getLettore();
@@ -87,10 +85,7 @@ public class MyPanel extends JPanel
 		this.remove(pannelloSinistro);
 		pannelloFiltraggio = new PannelloFiltraggio(this, (int)mapPannelliCentrali.get("Discover").getPreferredSize().getHeight());
 		pannelloSopra.setBooleanaPerBottoneFiltro(false);
-		pannelloScrollFiltraggio = new PannelloScrollPane(pannelloFiltraggio, null);
-		pannelloScrollFiltraggio.getVerticalScrollBar().setUnitIncrement(15);
-		pannelloScrollFiltraggio.getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(new Color(91,84,84)));
-		pannelloScrollFiltraggio.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		pannelloScrollFiltraggio = new PannelloScrollPane(pannelloFiltraggio, 0, new Color(91,84,84));
 		this.add(pannelloScrollFiltraggio, BorderLayout.WEST);
 		this.validate();
 		repaint();
@@ -156,8 +151,8 @@ public class MyPanel extends JPanel
 	
 	public void getPannelloRicerca()
 	{
-		if (pannelloScrollProfilo != null)
-			remove(pannelloScrollProfilo);
+		if (pannelloProfilo != null)
+			remove(pannelloProfilo);
 		Iterator it = arrayPannelli.entrySet().iterator();
 		while (it.hasNext())
 		{
@@ -239,13 +234,9 @@ public class MyPanel extends JPanel
 			arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
 					new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
 							mapPannelliCentrali.get("Discover").getWidth(),
-							mapPannelliCentrali.get("Discover").getHeight(), this), null));
+							mapPannelliCentrali.get("Discover").getHeight(), this), 0, COLORE));
 			
-			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
-			arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
-			arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			setIndietro(fumetto.getNome());
-			
 			this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
 		}
 		else
@@ -260,13 +251,9 @@ public class MyPanel extends JPanel
 				arrayPannelli.put(fumetto.getNome(), new PannelloScrollPane(
 						new PannelloDescrizioneFumetto(fumetto, immagineCopertinaFumetto, 
 								mapPannelliCentrali.get("Discover").getWidth(),
-								mapPannelliCentrali.get("Discover").getHeight(), this), null));
+								mapPannelliCentrali.get("Discover").getHeight(), this), 0, COLORE));
 				
-				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUnitIncrement(15);
-				arrayPannelli.get(fumetto.getNome()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
-				arrayPannelli.get(fumetto.getNome()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 				setIndietro(fumetto.getNome());
-				
 				this.add(arrayPannelli.get(fumetto.getNome()), BorderLayout.CENTER);
 			}
 		}
@@ -288,12 +275,9 @@ public class MyPanel extends JPanel
 	    pannelloVisualizzatore = new PannelloVisualizzatore(mapPannelliCentrali.get("Discover").getWidth(), 
 				mapPannelliCentrali.get("Discover").getHeight(), this);
 	    
-		pannelloScrollCapitoli = new PannelloScrollPane(pannelloVisualizzatore, null);
-		pannelloScrollCapitoli.getVerticalScrollBar().setUnitIncrement(15);
-		pannelloScrollCapitoli.getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
+		pannelloScrollCapitoli = new PannelloScrollPane(pannelloVisualizzatore, 0, COLORE);
 		((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()).avviaVisualizzazione(volume,numeroCapitolo,1);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
-	    pannelloScrollCapitoli.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	    pannelloSotto = new PannelloSotto(this);
 	    this.add(pannelloSotto, BorderLayout.SOUTH);
 	    
@@ -311,11 +295,8 @@ public class MyPanel extends JPanel
 		eStatoRichiestoIlProfilo = true;
 		if (mapPannelliProfilo.get(lettore.getIdFacebook()) == null)
 		{
-			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(this, 
-					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth(), this.lettore), null));
-			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUnitIncrement(15);
-			mapPannelliProfilo.get(lettore.getIdFacebook()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
-			mapPannelliProfilo.get(lettore.getIdFacebook()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloProfilo(this, 
+					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth(),this.lettore));
 			
 			this.add(mapPannelliProfilo.get(lettore.getIdFacebook()),BorderLayout.CENTER);
 			this.validate();
@@ -390,12 +371,8 @@ public class MyPanel extends JPanel
 		
 		if (mapPannelliProfilo.get(utente.getIdFacebook()) == null)
 		{
-			mapPannelliProfilo.put(utente.getIdFacebook(), new PannelloScrollPane(new PannelloProfilo(this, 
-					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth(), utente), null));
-			mapPannelliProfilo.get(utente.getIdFacebook()).getVerticalScrollBar().setUnitIncrement(15);
-			mapPannelliProfilo.get(utente.getIdFacebook()).getVerticalScrollBar().setUI(new MyScrollBarUI().setColor(Color.GRAY));
-			mapPannelliProfilo.get(utente.getIdFacebook()).setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			
+			mapPannelliProfilo.put(utente.getIdFacebook(), new PannelloProfilo(this, 
+					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth(),utente));
 			this.add(mapPannelliProfilo.get(utente.getIdFacebook()),BorderLayout.CENTER);
 			this.validate();
 		}

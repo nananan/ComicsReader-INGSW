@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
+import domain.AppManager;
 import domain.Fumetto;
 import domain.Lettore;
 import domain.Volume;
@@ -32,7 +33,6 @@ public class BottoneCapitolo extends MyButton
 			public void mouseReleased(MouseEvent e)
 			{
 				super.mouseReleased(e);
-				
 				lettore.inserisciCronologia(fumetto);
 				panel.PremiPerCapitolo(volume, fumetto, numeroCapitolo, immagineCopertinaFumetto);
 			
