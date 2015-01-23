@@ -451,4 +451,17 @@ public class MyPanel extends JPanel
 		return pannelloProfilo;
 	}
 
+	public void aggiungiProva(File file)
+	{
+		rimuoviBooleani();
+		rimuoviPrecedenti();
+		
+        PannelloProvaOffline prova = new PannelloProvaOffline(file);
+
+        add(prova, BorderLayout.CENTER);
+        this.validate();
+        
+        repaint();
+	}
+
 }

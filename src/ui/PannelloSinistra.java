@@ -10,11 +10,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.xml.crypto.Data;
@@ -30,6 +34,7 @@ public class PannelloSinistra extends JPanel
 	MyButton buttonDiscover = new MyButton("Scopri");
 	MyButton buttonTopRead = new MyButton("Top Read");
 	MyButton buttonTopRated = new MyButton("Top Rated Comics");
+	MyButton buttonFileLocali = new MyButton("File Locali");
 	
 	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 7;
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() ;
@@ -56,12 +61,16 @@ public class PannelloSinistra extends JPanel
 		  
 		buttonTopRated.setBounds(buttonDiscover.getX(), 3+buttonTopRead.getY()+(int)buttonTopRead.getPreferredSize().getHeight(), (int)buttonTopRated.getPreferredSize().getWidth(), (int)buttonTopRated.getPreferredSize().getHeight());
 		add(buttonTopRated);
+
+		buttonFileLocali.setBounds(buttonDiscover.getX(), 3+buttonTopRated.getY()+(int)buttonTopRated.getPreferredSize().getHeight(), (int)buttonFileLocali.getPreferredSize().getWidth(), (int)buttonFileLocali.getPreferredSize().getHeight());
+		add(buttonFileLocali);
 		
 		MyListener listener = new MyListener();
 		
 		buttonDiscover.addActionListener(listener);
 		buttonTopRead.addActionListener(listener);
 		buttonTopRated.addActionListener(listener);
+		buttonFileLocali.addActionListener(listener);
 	
 	}
 	
@@ -180,6 +189,29 @@ public class PannelloSinistra extends JPanel
 				panel.premiPerAverePiuLetti();
 			else if (source == buttonTopRated)
 				panel.premiPerAverePiuVotati();
+			else if (source == buttonFileLocali)
+			{
+				FileLocali x = new FileLocali();
+		        File folder = new File(x.fileChooser.getSelectedFile().toString());
+		        JFileChooser chooser = new JFileChooser();
+		        
+		        File[] listOfFiles = folder.listFiles();
+		        
+		        Arrays.sort(listOfFiles, new Comparator<File>()
+				{
+		        	public int compare(File file1, File file2) {
+		        		return Integer.parseInt(file1.getName()) - Integer.parseInt(file2.getName());
+		        	};
+				});
+		        
+		        for (File file : listOfFiles)
+				{
+					System.out.println(file.getName());
+				}
+		        
+		        panel.aggiungiProva(listOfFiles[0]);
+		        
+			}
 		}
 	}
 	
