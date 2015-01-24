@@ -65,7 +65,7 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 	
 	public void vaiAPaginaSuccessiva()
 	{
-		if (visualizzatoreCapitoli.paginaSuccesiva())
+		if (visualizzatoreCapitoli.paginaSuccessiva())
 			immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
 		
 		controllaAltezzaPagina();

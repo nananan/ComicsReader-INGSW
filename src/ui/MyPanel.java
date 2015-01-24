@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import sun.security.provider.certpath.OCSP.RevocationStatus;
 import technicalService.GestoreDataBase;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
@@ -57,6 +58,7 @@ public class MyPanel extends JPanel
 	private Lettore lettoreVisto;
 	private PannelloScrollPane pannelloScrollDestro;
 	private int visualizzatore;
+	private PannelloLoading loading;
 	
 	private static Color COLORE = Color.GRAY;
 	
@@ -172,6 +174,9 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerDiscover()
 	{
+//		PannelloLoading loading = new PannelloLoading();
+//		add(loading);
+		
 		rimuoviPrecedenti();
 		rimuoviBooleani();
 		pannelloSopra.setBooleanaPerBottoneFiltro(true);
@@ -182,12 +187,14 @@ public class MyPanel extends JPanel
 			mapPannelliCentrali.put("Discover", new PannelloCentrale(this, 
 					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
 			mapPannelliCentrali.get("Discover").setDiscover();
+//			remove(loading);
 			this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);
 			this.validate();
 		}
 		else
 		{
 //			mapPannelliCentrali.get("Discover").setDiscover();
+//			remove(loading);
 			this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);
 		}	
 			
@@ -295,12 +302,17 @@ public class MyPanel extends JPanel
 		rimuoviPrecedenti();
 		rimuoviBooleani();
 		
+		loading = new PannelloLoading(mapPannelliCentrali.get("Discover"));
+//		this.add(loading, BorderLayout.CENTER);
+		new Thread(loading).start();
+		repaint();
+		
 		eStatoRichiestoIlProfilo = true;
 		if (mapPannelliProfilo.get(lettore.getIdFacebook()) == null)
 		{
 			mapPannelliProfilo.put(lettore.getIdFacebook(), new PannelloProfilo(this, 
 					(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth(),this.lettore));
-			
+			remove(loading);
 			this.add(mapPannelliProfilo.get(lettore.getIdFacebook()),BorderLayout.CENTER);
 			this.validate();
 		}

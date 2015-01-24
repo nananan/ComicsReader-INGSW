@@ -97,7 +97,7 @@ public class VisualizzatoreCapitoli {
 		return true;
 	}
 	
-	public boolean paginaSuccesiva(){
+	public boolean paginaSuccessiva(){
 		boolean boolRitorno;
 		if(boolRitorno = haPaginaSuccessiva()){
 			numeroPaginaCorrente++;
