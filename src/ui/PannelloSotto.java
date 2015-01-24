@@ -25,14 +25,14 @@ public class PannelloSotto extends JPanel
 	private ImageIcon image = new ImageIcon("image/play.png");
 	private ImageIcon imageNext = new ImageIcon("image/next.png");
 	private ImageIcon imagePrev = new ImageIcon("image/prev-icon.png");
-	private Image scaledImage = null;
 	
 	private JButton play = new JButton();
 	private JButton next = new JButton();
 	private JButton prev = new JButton();
 	
 	private MyPanel panel;
-	
+	private int visualizzatore;
+
 	private MyListener listener;
 	
 	public PannelloSotto(final MyPanel panel) 
@@ -99,16 +99,27 @@ public class PannelloSotto extends JPanel
 //		g.drawImage(image, 0,0, this);
 	}
 	
+	public void setVisualizzatore(int visualizzatore)
+	{
+		this.visualizzatore = visualizzatore;
+	}
+	
+	public int getVisualizzatore()
+	{
+		return visualizzatore;
+	}
+	
 	private class MyListener implements ActionListener 
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
 			Object source = e.getSource();
-			if (source == next) 
+			if (source == next)
 				panel.premiPerPaginaSuccessiva();
 			else if (source == prev) 
 				panel.premiPerPaginaPrecedente();
 		}
 	}
+
 }

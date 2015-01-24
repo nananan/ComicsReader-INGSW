@@ -193,7 +193,6 @@ public class PannelloSinistra extends JPanel
 			{
 				FileLocali x = new FileLocali();
 		        File folder = new File(x.fileChooser.getSelectedFile().toString());
-		        JFileChooser chooser = new JFileChooser();
 		        
 		        File[] listOfFiles = folder.listFiles();
 		        
@@ -204,12 +203,7 @@ public class PannelloSinistra extends JPanel
 		        	};
 				});
 		        
-		        for (File file : listOfFiles)
-				{
-					System.out.println(file.getName());
-				}
-		        
-		        panel.aggiungiProva(listOfFiles[0]);
+		        panel.premiPerPannelloVisualizzazioneOffline(listOfFiles);
 		        
 			}
 		}

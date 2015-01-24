@@ -39,6 +39,7 @@ public class MyPanel extends JPanel
 	PannelloVisualizzatore pannelloVisualizzatore;
 	
 	private PannelloScrollPane pannelloScrollCapitoli;
+	private PannelloScrollPane pannelloScrollOffline;
 	private HashMap<String,PannelloScrollPane> arrayPannelli = new HashMap<>();
 	private HashMap<String,PannelloCentrale> mapPannelliCentrali = new HashMap<>();
 	private HashMap<String,PannelloProfilo> mapPannelliProfilo = new HashMap<>();
@@ -55,6 +56,7 @@ public class MyPanel extends JPanel
 	private boolean eStatoRichiestoIlProfiloAltroUtente;
 	private Lettore lettoreVisto;
 	private PannelloScrollPane pannelloScrollDestro;
+	private int visualizzatore;
 	
 	private static Color COLORE = Color.GRAY;
 	
@@ -354,11 +356,17 @@ public class MyPanel extends JPanel
 	
 	public void premiPerPaginaSuccessiva()
 	{
-		pannelloVisualizzatore.vaiAPaginaSuccessiva();
+		if (pannelloSotto.getVisualizzatore() == 0)
+			pannelloVisualizzatore.vaiAPaginaSuccessiva();
+		else
+			((PannelloVisualizzatoreOffline) pannelloScrollOffline.getPanel()).vaiAPaginaSuccessiva();
 	}
 	public void premiPerPaginaPrecedente()
 	{
-		pannelloVisualizzatore.vaiAPaginaPrecedente();
+		if (pannelloSotto.getVisualizzatore() == 0)
+			pannelloVisualizzatore.vaiAPaginaPrecedente();
+		else
+			((PannelloVisualizzatoreOffline) pannelloScrollOffline.getPanel()).vaiAPaginaPrecedente();
 	}
 	
 	public void premiPerAvereProfiloDiAltroUtente(Lettore utente)
@@ -451,17 +459,25 @@ public class MyPanel extends JPanel
 		return pannelloProfilo;
 	}
 
-	public void aggiungiProva(File file)
+	public void premiPerPannelloVisualizzazioneOffline(File[] file)
 	{
 		rimuoviBooleani();
 		rimuoviPrecedenti();
 		
-        PannelloProvaOffline prova = new PannelloProvaOffline(file);
-
-        add(prova, BorderLayout.CENTER);
-        this.validate();
-        
-        repaint();
+		pannelloScrollOffline = new PannelloScrollPane(new PannelloVisualizzatoreOffline(this, mapPannelliCentrali.get("Discover").getWidth(), 
+					mapPannelliCentrali.get("Discover").getHeight()), 0, COLORE);
+		
+		
+		((PannelloVisualizzatoreOffline) pannelloScrollOffline.getPanel()).avviaVisualizzazione(file, 1);
+		this.add(pannelloScrollOffline, BorderLayout.CENTER);
+	    pannelloSotto = new PannelloSotto(this);
+	    this.add(pannelloSotto, BorderLayout.SOUTH);
+	    pannelloSotto.setVisualizzatore(1);
+	    
+//	    pannelloSinistro.aggiungiBottoneVolume(immagineCopertinaFumetto, fumetto);
+	    
+		this.validate();
+		repaint();
 	}
-
+	
 }
