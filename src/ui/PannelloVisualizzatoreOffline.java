@@ -38,11 +38,6 @@ public class PannelloVisualizzatoreOffline extends JPanel
 	
 	public void avviaVisualizzazione(File[] file, int primaPaginaDaVisualizzare)
 	{
-		for (File files : file)
-		{
-			System.out.println(files.getName());
-		}
-		
 		visualizzatoreOffline.visualizzaCapitoli(file, primaPaginaDaVisualizzare);
 		immagineCorrente = visualizzatoreOffline.visualizzaPaginaCorrente();
 

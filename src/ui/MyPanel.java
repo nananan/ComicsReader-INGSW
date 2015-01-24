@@ -280,9 +280,10 @@ public class MyPanel extends JPanel
 		pannelloScrollCapitoli = new PannelloScrollPane(pannelloVisualizzatore, 0, COLORE);
 		((PannelloVisualizzatore) pannelloScrollCapitoli.getPanel()).avviaVisualizzazione(volume,numeroCapitolo,1);
 		this.add(pannelloScrollCapitoli, BorderLayout.CENTER);
-	    pannelloSotto = new PannelloSotto(this);
+	    pannelloSotto = new PannelloSotto(this, (int)pannelloSinistro.getPreferredSize().getWidth(),
+	    		(int)pannelloScrollDestro.getPreferredSize().getWidth());
 	    this.add(pannelloSotto, BorderLayout.SOUTH);
-	    
+	    pannelloSotto.setPagina(1);
 	    pannelloSinistro.aggiungiBottoneVolume(immagineCopertinaFumetto, fumetto);
 	    
 		this.validate();
@@ -318,7 +319,7 @@ public class MyPanel extends JPanel
 		if (!mapPannelliCentrali.containsKey("PiuLetti"))
 		{
 			mapPannelliCentrali.put("PiuLetti", new PannelloCentrale(this, 
-					(int)pannelloDestro.getPreferredSize().getWidth()));
+					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
 			mapPannelliCentrali.get("PiuLetti").setTopRead();
 			this.add(mapPannelliCentrali.get("PiuLetti"), BorderLayout.CENTER);
 			this.validate();
@@ -356,17 +357,34 @@ public class MyPanel extends JPanel
 	
 	public void premiPerPaginaSuccessiva()
 	{
+		
 		if (pannelloSotto.getVisualizzatore() == 0)
-			pannelloVisualizzatore.vaiAPaginaSuccessiva();
+		{
+			pannelloSotto.setEnableBottoniNextPrev(1, true);
+			if (pannelloVisualizzatore.controllaPaginaSuccessiva())
+				pannelloVisualizzatore.vaiAPaginaSuccessiva();
+			else
+				pannelloSotto.setEnableBottoniNextPrev(0, false);
+		}
 		else
 			((PannelloVisualizzatoreOffline) pannelloScrollOffline.getPanel()).vaiAPaginaSuccessiva();
+		
+		pannelloSotto.setPagina(pannelloVisualizzatore.getPagina());
 	}
+	
 	public void premiPerPaginaPrecedente()
 	{
 		if (pannelloSotto.getVisualizzatore() == 0)
-			pannelloVisualizzatore.vaiAPaginaPrecedente();
+		{
+			pannelloSotto.setEnableBottoniNextPrev(0, true);
+			if (pannelloVisualizzatore.controllaPaginaPrecedente())
+				pannelloVisualizzatore.vaiAPaginaPrecedente();
+			else
+				pannelloSotto.setEnableBottoniNextPrev(1, false);
+		}
 		else
 			((PannelloVisualizzatoreOffline) pannelloScrollOffline.getPanel()).vaiAPaginaPrecedente();
+		pannelloSotto.setPagina(pannelloVisualizzatore.getPagina());
 	}
 	
 	public void premiPerAvereProfiloDiAltroUtente(Lettore utente)
@@ -419,6 +437,7 @@ public class MyPanel extends JPanel
 			remove(pannelloScrollCapitoli);
 			remove(pannelloSotto);
 			pannelloSinistro.rimuoviBottoniDelVolume();
+			this.validate();
 		}
 		
 		Iterator it = arrayPannelli.entrySet().iterator();
@@ -437,9 +456,15 @@ public class MyPanel extends JPanel
 	        	remove(mapPannelliProfilo.get(pairs.getKey()));
 	    }
 	    
+	    if (pannelloScrollOffline != null)
+	    {
+	    	remove(pannelloScrollOffline);
+	    	remove(pannelloSotto);
+	    	this.validate();
+	    }
+	    
 	    pannelloSinistro.deselezionaBottoni();
 		pannelloSopra.setBooleanaPerBottoneFiltro(false);
-
 	}
 	
 	@Override
@@ -470,7 +495,8 @@ public class MyPanel extends JPanel
 		
 		((PannelloVisualizzatoreOffline) pannelloScrollOffline.getPanel()).avviaVisualizzazione(file, 1);
 		this.add(pannelloScrollOffline, BorderLayout.CENTER);
-	    pannelloSotto = new PannelloSotto(this);
+	    pannelloSotto = new PannelloSotto(this, (int)pannelloSinistro.getPreferredSize().getWidth(),
+	    		(int)pannelloScrollDestro.getPreferredSize().getWidth());
 	    this.add(pannelloSotto, BorderLayout.SOUTH);
 	    pannelloSotto.setVisualizzatore(1);
 	    
@@ -478,6 +504,30 @@ public class MyPanel extends JPanel
 	    
 		this.validate();
 		repaint();
+	}
+
+	public void premiPerCapitoloPrecedente()
+	{
+		pannelloSotto.setEnableBottoniSuccPrec(1, true);
+		if (pannelloVisualizzatore.controllaCapitoloPrecedente())
+			pannelloVisualizzatore.vaiACapitoloPrecedente();
+		else
+		{
+			pannelloSotto.setEnableBottoniSuccPrec(0, false);
+//			pannelloSotto.setEnableBottoniSuccPrec(1, true);
+		}
+	}
+
+	public void premiPerCapitoloSuccessivo()
+	{
+		pannelloSotto.setEnableBottoniSuccPrec(0, true);
+		if (pannelloVisualizzatore.controllaCapitoloSuccessivo())
+			pannelloVisualizzatore.vaiACapitoloSuccessivo();
+		else
+		{
+//			pannelloSotto.setEnableBottoniSuccPrec(0, true);
+			pannelloSotto.setEnableBottoniSuccPrec(1, false);
+		}
 	}
 	
 }

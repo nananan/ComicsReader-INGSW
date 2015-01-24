@@ -22,7 +22,7 @@ public class BottoneCapitolo extends MyButton
 			final Image immagineCopertinaFumetto, final int numeroCapitolo, final MyPanel panel,
 			final Fumetto fumetto, final Lettore lettore)
 	{
-		super(nome, larghezza, color);
+		super(nome, larghezza, color, new Color(35,148,188));
 		
 		this.volume = volume;
 		this.numeroCapitolo = numeroCapitolo;

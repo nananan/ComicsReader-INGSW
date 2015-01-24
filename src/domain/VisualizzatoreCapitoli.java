@@ -70,6 +70,11 @@ public class VisualizzatoreCapitoli {
 		}
 	}
 	
+	public int getNumeroPagina()
+	{
+		return numeroPaginaCorrente+1;
+	}
+	
 	public Image visualizzaPaginaCorrente(){
 			try {
 				System.out.println(numeroPaginaCorrente);

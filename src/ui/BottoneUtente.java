@@ -49,7 +49,7 @@ public class BottoneUtente extends JButton implements ActionListener
 		setFocusPainted(false);
 		setForeground(Color.WHITE);
 		setContentAreaFilled(false);
-		setFont(new Font("Caladea", Font.BOLD, larghezza));
+		setFont(new Font("Caladea", Font.HANGING_BASELINE, larghezza));
 		this.lettore = lettore;
 		
 		addActionListener(this);

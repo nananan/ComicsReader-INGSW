@@ -22,22 +22,23 @@ import domain.VisualizzatoreCapitoli;
 
 public class PannelloSotto extends JPanel
 {
-	private ImageIcon image = new ImageIcon("image/play.png");
+	private Text indicePagina;
 	private ImageIcon imageNext = new ImageIcon("image/next.png");
 	private ImageIcon imagePrev = new ImageIcon("image/prev-icon.png");
 	
-	private JButton play = new JButton();
 	private JButton next = new JButton();
 	private JButton prev = new JButton();
+	private MyButton capitoloPrecedente;
+	private MyButton capitoloSuccessivo;
 	
 	private MyPanel panel;
 	private int visualizzatore;
 
 	private MyListener listener;
 	
-	public PannelloSotto(final MyPanel panel) 
+	public PannelloSotto(final MyPanel panel, int larghezzaPannelloSinistra, int larghezzaPannelloDestro) 
 	{
-//		int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+		int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 //		int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 //		
 //		setBounds(180, 30, larghezza-200, altezza-50);
@@ -51,19 +52,27 @@ public class PannelloSotto extends JPanel
 		this.panel = panel;
 		listener = new MyListener();
 		
-		//PLAY
-		Image imageScaled = image.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
-		image.setImage(imageScaled);
+		capitoloPrecedente = new MyButton("Capitolo Precedente", 13, Color.WHITE, new Color(35,148,188));
+		capitoloPrecedente.setBounds(larghezzaPannelloSinistra, (int)getPreferredSize().getHeight()/4, 
+				(int)capitoloPrecedente.getPreferredSize().getWidth(), (int)capitoloPrecedente.getPreferredSize().getHeight());
+		add(capitoloPrecedente);
+		capitoloPrecedente.addActionListener(listener);
 		
-		play.setIcon(image);
-		play.setPressedIcon(image);
-		play.setBorderPainted(false);
-		play.setFocusPainted(false);
-		play.setBackground(getBackground());
-		play.setBounds((int)getPreferredSize().getWidth()/2, (int)getPreferredSize().getHeight()/4, image.getIconWidth(), image.getIconHeight());
+		capitoloSuccessivo = new MyButton("Capitolo Successivo", 13, Color.WHITE, new Color(35,148,188));
+		capitoloSuccessivo.setBounds(larghezza - larghezzaPannelloDestro - (int)capitoloSuccessivo.getPreferredSize().getWidth(), 
+				(int)getPreferredSize().getHeight()/4, 
+				(int)capitoloSuccessivo.getPreferredSize().getWidth(), (int)capitoloSuccessivo.getPreferredSize().getHeight());
+		add(capitoloSuccessivo);
+		capitoloSuccessivo.addActionListener(listener);
+		
+		//PLAY
+		indicePagina = new Text("Pagina: ", 14, Color.WHITE);
+		indicePagina.setBounds((int)getPreferredSize().getWidth()/2, (int)getPreferredSize().getHeight()/4,
+				(int)indicePagina.getPreferredSize().getWidth(),
+				(int)indicePagina.getPreferredSize().getHeight());
 		
 		//NEXT
-		imageScaled = imageNext.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
+		Image imageScaled = imageNext.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
 		imageNext.setImage(imageScaled);
 		
 		next.setIcon(imageNext);
@@ -71,7 +80,8 @@ public class PannelloSotto extends JPanel
 		next.setBorderPainted(false);
 		next.setFocusPainted(false);
 		next.setBackground(getBackground());
-		next.setBounds((int)getPreferredSize().getWidth()/2 + image.getImage().getWidth(null)*2, (int)getPreferredSize().getHeight()/4, imageNext.getIconWidth(), imageNext.getIconHeight());
+		next.setBounds(indicePagina.getX() + (int)indicePagina.getPreferredSize().getWidth()*2, 
+				(int)getPreferredSize().getHeight()/4, imageNext.getIconWidth(), imageNext.getIconHeight());
 		
 		//PREV
 		imageScaled = imagePrev.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
@@ -82,12 +92,13 @@ public class PannelloSotto extends JPanel
 		prev.setBorderPainted(false);
 		prev.setFocusPainted(false);
 		prev.setBackground(getBackground());
-		prev.setBounds((int)getPreferredSize().getWidth()/2 - image.getImage().getWidth(null)*2, (int)getPreferredSize().getHeight()/4, imagePrev.getIconWidth(), imagePrev.getIconHeight());
+		prev.setBounds(indicePagina.getX() - (int)indicePagina.getPreferredSize().getWidth()-20, 
+				(int)getPreferredSize().getHeight()/4, imagePrev.getIconWidth(), imagePrev.getIconHeight());
 
 		next.addActionListener(listener);
 		prev.addActionListener(listener);
 
-		add(play);
+		add(indicePagina);
 		add(next);
 		add(prev);
 	}
@@ -96,7 +107,6 @@ public class PannelloSotto extends JPanel
 	protected void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
-//		g.drawImage(image, 0,0, this);
 	}
 	
 	public void setVisualizzatore(int visualizzatore)
@@ -109,6 +119,25 @@ public class PannelloSotto extends JPanel
 		return visualizzatore;
 	}
 	
+	public void setPagina(int numeroPagina)
+	{
+		indicePagina.removeAll();
+		indicePagina.setText("Pagina: "+numeroPagina);
+		indicePagina.setBounds((int)getPreferredSize().getWidth()/2, (int)getPreferredSize().getHeight()/4,
+				(int)indicePagina.getPreferredSize().getWidth(),
+				(int)indicePagina.getPreferredSize().getHeight());
+		
+		repaint();
+	}
+	
+	public void setEnableBottoniSuccPrec(int indice, boolean bool)
+	{
+		if (indice == 0)
+			capitoloPrecedente.setEnabled(bool);
+		else
+			capitoloSuccessivo.setEnabled(bool);
+	}
+	
 	private class MyListener implements ActionListener 
 	{
 		@Override
@@ -119,7 +148,19 @@ public class PannelloSotto extends JPanel
 				panel.premiPerPaginaSuccessiva();
 			else if (source == prev) 
 				panel.premiPerPaginaPrecedente();
+			else if (source == capitoloPrecedente)
+				panel.premiPerCapitoloPrecedente();
+			else if (source == capitoloSuccessivo)
+				panel.premiPerCapitoloSuccessivo();
 		}
+	}
+
+	public void setEnableBottoniNextPrev(int indice, boolean bool)
+	{
+		if (indice == 0)
+			next.setEnabled(bool);
+		else
+			prev.setEnabled(bool);
 	}
 
 }

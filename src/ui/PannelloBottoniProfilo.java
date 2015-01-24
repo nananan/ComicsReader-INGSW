@@ -22,7 +22,6 @@ public class PannelloBottoniProfilo extends JPanel
 		this.setLayout(null);
 
 		listaJSeparator = new ArrayList<>();
-		
 	}
 	
 	public void setPreferiti_DaLeggere(ArrayList<BottoneFumettoProfilo> bottoni)

@@ -64,7 +64,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		setLayout(null);
 		
 		buttonOptions = new JMenu(lettore.getNome());
-		buttonOptions.setFont(new Font("Caladea", Font.BOLD, 13));
+		buttonOptions.setFont(new Font("Caladea", Font.HANGING_BASELINE, 13));
 		buttonOptions.setForeground(Color.WHITE);
 		buttonOptions.setPreferredSize(new Dimension(larghezzaPerJMenu,20));
 		int X = (int)getPreferredSize().getWidth() - (int)buttonOptions.getPreferredSize().getWidth();
@@ -98,7 +98,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		buttonOptions.getItem(2).addActionListener(this);
 		buttonOptions.getItem(3).addActionListener(this);
 		
-		buttonFiltra = new MyButton("Filtra");
+		buttonFiltra = new MyButton("Filtra", new Color(35,148,188));
 		buttonFiltra.setBounds(-7, 2, (int)buttonFiltra.getPreferredSize().getWidth(), (int)buttonFiltra.getPreferredSize().getHeight());
 		add(buttonFiltra);
 		buttonFiltra.addMouseListener(new MouseAdapter() {
@@ -184,7 +184,7 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 		button.setForeground(Color.WHITE);
-		button.setFont(new Font("Caladea", Font.BOLD, 13));
+		button.setFont(new Font("Caladea", Font.HANGING_BASELINE, 13));
 		button.setContentAreaFilled(false);
 		button.setPreferredSize(new Dimension((int) buttonOptions.getPreferredSize().getWidth(), 20));
 	}

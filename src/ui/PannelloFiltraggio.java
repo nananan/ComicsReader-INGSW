@@ -22,7 +22,8 @@ public class PannelloFiltraggio extends JPanel
 	private MyPanel panel;
 	private Text textGenere;
 	private Text textStato;
-
+	private static Color COLORE = new Color(35,148,188);
+	
 	private MyButton buttonManga;
 	private MyButton buttonFumetti;
 	private MyButton clean;
@@ -61,12 +62,12 @@ public class PannelloFiltraggio extends JPanel
 		tipo.setBounds(10, 10, (int)tipo.getPreferredSize().getWidth(), (int)tipo.getPreferredSize().getHeight());
 		add(tipo);
 		
-		buttonManga = new MyButton("Orientale");
+		buttonManga = new MyButton("Orientale", COLORE);
 		buttonManga.setBounds(10, 10+tipo.getY()+(int)tipo.getPreferredSize().getHeight(), (int)buttonManga.getPreferredSize().getWidth(), (int)buttonManga.getPreferredSize().getHeight());
 		buttonManga.addActionListener(listener);
 		add(buttonManga);
 
-		buttonFumetti = new MyButton("Occidentale");
+		buttonFumetti = new MyButton("Occidentale", COLORE);
 		buttonFumetti.setBounds(10, buttonManga.getY()+(int)buttonManga.getPreferredSize().getHeight() -5, (int)buttonFumetti.getPreferredSize().getWidth(), (int)buttonFumetti.getPreferredSize().getHeight());
 		buttonFumetti.addActionListener(listener);
 		add(buttonFumetti);
@@ -76,12 +77,12 @@ public class PannelloFiltraggio extends JPanel
 		textStato.setBounds(10,10 + buttonFumetti.getY()+(int)buttonFumetti.getPreferredSize().getHeight(), (int)textStato.getPreferredSize().getWidth(), (int)textStato.getPreferredSize().getHeight());
 		add(textStato);
 		
-		buttonStatoCompleto = new MyButton("Completo");
+		buttonStatoCompleto = new MyButton("Completo", COLORE);
 		buttonStatoCompleto.setBounds(10, 10 + textStato.getY()+(int)textStato.getPreferredSize().getHeight(), (int)buttonStatoCompleto.getPreferredSize().getWidth(), (int)buttonStatoCompleto.getPreferredSize().getHeight());
 		buttonStatoCompleto.addActionListener(listener);
 		add(buttonStatoCompleto);
 		
-		buttonStatoIncompleto = new MyButton("Incompleto");
+		buttonStatoIncompleto = new MyButton("Incompleto", COLORE);
 		buttonStatoIncompleto.setBounds(10, buttonStatoCompleto.getY()+(int)buttonStatoCompleto.getPreferredSize().getHeight() - 5, (int)buttonStatoIncompleto.getPreferredSize().getWidth(), (int)buttonStatoIncompleto.getPreferredSize().getHeight());
 		buttonStatoIncompleto.addActionListener(listener);
 		add(buttonStatoIncompleto);
@@ -97,7 +98,7 @@ public class PannelloFiltraggio extends JPanel
 		
 		for (int i = 0; i < nomiGeneriFiltri.length; i++)
 		{
-			bottoniGeneriFiltri[i] = new MyButton(nomiGeneriFiltri[i]);
+			bottoniGeneriFiltri[i] = new MyButton(nomiGeneriFiltri[i], COLORE);
 			
 			if (i == 0)
 				bottoniGeneriFiltri[i].setBounds(10, 10 + textGenere.getY()+(int)textGenere.getPreferredSize().getHeight(), (int)bottoniGeneriFiltri[i].getPreferredSize().getWidth(), (int)bottoniGeneriFiltri[i].getPreferredSize().getHeight());
@@ -114,7 +115,7 @@ public class PannelloFiltraggio extends JPanel
 		
 		
 		//BUTTON FINE, TORNA AL MENU PRINCIPALE
-		fine = new MyButton("Fine");
+		fine = new MyButton("Fine", COLORE);
 		fine.setBounds((int)this.getPreferredSize().getWidth()-(int)fine.getPreferredSize().getWidth() - 10, 
 				10 + bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getY() + 
 				(int)bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getPreferredSize().getHeight() , 
@@ -124,7 +125,7 @@ public class PannelloFiltraggio extends JPanel
 		add(fine);
 		
 		//BUTTON PER CANCELLARE I FILTRI
-		clean = new MyButton("Clean");
+		clean = new MyButton("Clean", COLORE);
 		clean.setBounds(this.getInsets().bottom, 10 + bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getY() + (int)bottoniGeneriFiltri[bottoniGeneriFiltri.length-1].getPreferredSize().getHeight() , (int)clean.getPreferredSize().getWidth()+this.getInsets().bottom,20);
 		clean.addActionListener(listener);
 		add(clean);

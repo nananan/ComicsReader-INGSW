@@ -38,6 +38,8 @@ public class PannelloProfilo extends JPanel
 	MyButton bottoneCronologia;
 	private JSeparator jseparator;
 	
+	private static Color COLORE = Color.DARK_GRAY;
+	
 	private ArrayList<BottoneFumettoProfilo> bottoniFumettiPreferiti;
 	private ArrayList<BottoneFumettoProfilo> bottoniDaLeggere;
 	private ArrayList<BottoneCronologia> bottoniCronologia;
@@ -103,27 +105,27 @@ public class PannelloProfilo extends JPanel
 		nomeAccount.setBounds(30 + forImage.getX() + (int)forImage.getPreferredSize().getWidth(), 10 + nome.getY() + (int)nome.getPreferredSize().getHeight(), (int)nomeAccount.getPreferredSize().getWidth(), (int)nomeAccount.getPreferredSize().getHeight());
 		add(nomeAccount);
 		
-		bottoneFollows = new MyButton("Follows("+lettore.getNumFollow()+")", 20, Color.WHITE);
+		bottoneFollows = new MyButton("Follows("+lettore.getNumFollow()+")", 20, Color.WHITE, COLORE);
 		bottoneFollows.setBounds(forImage.getX(), 15+forImage.getY()+(int)forImage.getPreferredSize().getHeight(), (int)bottoneFollows.getPreferredSize().getWidth(),(int)bottoneFollows.getPreferredSize().getHeight());
 		add(bottoneFollows);
 		bottoneFollows.addActionListener(listener);
 		
-		bottoneFollower = new MyButton("Follower("+lettore.getNumFollower()+")", 20, Color.WHITE);
+		bottoneFollower = new MyButton("Follower("+lettore.getNumFollower()+")", 20, Color.WHITE, COLORE);
 		bottoneFollower.setBounds(25+bottoneFollows.getX()+(int)bottoneFollows.getPreferredSize().getWidth(), bottoneFollows.getY(), (int)bottoneFollower.getPreferredSize().getWidth(),(int)bottoneFollower.getPreferredSize().getHeight());
 		add(bottoneFollower);
 		bottoneFollower.addActionListener(listener);
 		
-		bottonePreferiti = new MyButton("Preferiti", 20, Color.WHITE);
+		bottonePreferiti = new MyButton("Preferiti", 20, Color.WHITE, COLORE);
 		bottonePreferiti.setBounds(25+bottoneFollower.getX()+(int)bottoneFollower.getPreferredSize().getWidth(), bottoneFollows.getY(), (int)bottonePreferiti.getPreferredSize().getWidth(),(int)bottonePreferiti.getPreferredSize().getHeight());
 		add(bottonePreferiti);
 		bottonePreferiti.addActionListener(listener);
 		
-		bottoneDaLeggere = new MyButton("Da Leggere", 20, Color.WHITE);
+		bottoneDaLeggere = new MyButton("Da Leggere", 20, Color.WHITE, COLORE);
 		bottoneDaLeggere.setBounds(25+bottonePreferiti.getX()+(int)bottonePreferiti.getPreferredSize().getWidth(), bottoneFollows.getY(), (int)bottoneDaLeggere.getPreferredSize().getWidth(),(int)bottoneDaLeggere.getPreferredSize().getHeight());
 		add(bottoneDaLeggere);
 		bottoneDaLeggere.addActionListener(listener);
 		
-		bottoneCronologia = new MyButton("Cronologia", 20, Color.WHITE);
+		bottoneCronologia = new MyButton("Cronologia", 20, Color.WHITE, COLORE);
 		bottoneCronologia.setBounds(25+bottoneDaLeggere.getX()+(int)bottoneDaLeggere.getPreferredSize().getWidth(), bottoneFollows.getY(),(int)bottoneCronologia.getPreferredSize().getWidth(),(int)bottoneCronologia.getPreferredSize().getHeight());
 		add(bottoneCronologia);
 		bottoneCronologia.addActionListener(listener);
@@ -307,7 +309,6 @@ public class PannelloProfilo extends JPanel
 		if (pannelloDelProfilo.get("Cronologia") == null)
 		{
 			Iterator it = lettore.getCronologia().entrySet().iterator();
-			System.out.println(lettore.getCronologia());
 		    while (it.hasNext())
 		    {
 		        Map.Entry pairs = (Map.Entry)it.next();
@@ -338,11 +339,11 @@ public class PannelloProfilo extends JPanel
 	
 	private void rimuoviComponentiPrecedenti()
 	{
-		bottonePreferiti.setForeground(Color.WHITE);
-		bottoneFollows.setForeground(Color.WHITE);
-		bottoneFollower.setForeground(Color.WHITE);
-		bottoneDaLeggere.setForeground(Color.WHITE);
-		bottoneCronologia.setForeground(Color.WHITE);
+		bottonePreferiti.setPremuto();
+		bottoneFollows.setPremuto();
+		bottoneFollower.setPremuto();
+		bottoneDaLeggere.setPremuto();
+		bottoneCronologia.setPremuto();
 		
 		if (pannelloDelProfilo.get("Preferiti") != null)
 			remove(pannelloDelProfilo.get("Preferiti"));

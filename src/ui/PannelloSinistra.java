@@ -31,10 +31,12 @@ public class PannelloSinistra extends JPanel
 {
 	MyPanel panel;
 	
-	MyButton buttonDiscover = new MyButton("Scopri");
-	MyButton buttonTopRead = new MyButton("Top Read");
-	MyButton buttonTopRated = new MyButton("Top Rated Comics");
-	MyButton buttonFileLocali = new MyButton("File Locali");
+	private static Color COLORE = new Color(35,148,188);
+	
+	MyButton buttonDiscover = new MyButton("Scopri", COLORE);
+	MyButton buttonTopRead = new MyButton("Top Read", COLORE);
+	MyButton buttonTopRated = new MyButton("Top Rated Comics", COLORE);
+	MyButton buttonFileLocali = new MyButton("File Locali", COLORE);
 	
 	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 7;
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() ;
@@ -105,7 +107,7 @@ public class PannelloSinistra extends JPanel
 				(int)bottoneIndietro.getPreferredSize().getWidth(), 
 				(int)bottoneIndietro.getPreferredSize().getHeight());
 		
-		tornaIndietro = new MyButton("Torna al Fumetto", 14, new Color(91,84,84));
+		tornaIndietro = new MyButton("Torna al Fumetto", 14, new Color(91,84,84), COLORE);
 		tornaIndietro.setBounds(bottoneIndietro.getX()+(int)bottoneIndietro.getPreferredSize().getWidth()-10,
 				copertinaFumetto.getY()+(int)copertinaFumetto.getPreferredSize().getHeight()+3, 
 				(int)tornaIndietro.getPreferredSize().getWidth(), 
@@ -157,16 +159,27 @@ public class PannelloSinistra extends JPanel
 	}
 	
 	public void setColorBottoneDiscover(Color color)
-	{
+	{	
+		setPremutoBottoni();
 		buttonDiscover.setForeground(color);
 	}
 	public void setColorBottoneTopRead(Color color)
 	{
+		setPremutoBottoni();
 		buttonTopRead.setForeground(color);
 	}
 	public void setColorBottoneTopRated(Color color)
 	{
+		setPremutoBottoni();
 		buttonTopRated.setForeground(color);
+	}
+	
+	private void setPremutoBottoni()
+	{
+		buttonDiscover.setPremuto();
+		buttonTopRead.setPremuto();
+		buttonTopRated.setPremuto();
+		buttonFileLocali.setPremuto();
 	}
 	
 	@Override

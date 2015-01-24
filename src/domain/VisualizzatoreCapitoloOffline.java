@@ -74,30 +74,4 @@ public class VisualizzatoreCapitoloOffline
 		}
 		return boolRitorno;
 	}
-
-//	public static void main(String[] args) throws SQLException, MalformedURLException, ClassNotFoundException {
-//		
-//		GestoreDataBase genereBase = GestoreDataBase.getIstanza();
-//		TuplaFumetto tuplaF = genereBase.creaTuplaFumetto("666 Satan");
-//		tuplaF.prossima();
-//		Fumetto fumetto = new Fumetto(tuplaF);
-//		fumetto.apriFumetto();
-//		Volume[] volumi = fumetto.getVolumi();
-//		volumi[0].caricaCapitoli();
-//		Capitolo[] capitoli = volumi[0].getCapitoli();
-//		System.out.println(capitoli.length);
-//		double startTime = System.currentTimeMillis();		
-//
-//		VisualizzatoreCapitoli visualizzatoreCapitoli = VisualizzatoreCapitoli.getVisualizzatoreCapitoli();
-//		visualizzatoreCapitoli.visualizzaCapitoli(capitoli, 1, 1);
-//		double endTime = System.currentTimeMillis();		
-//
-//		System.out.println(visualizzatoreCapitoli.visualizzaPaginaCorrente());
-//		System.out.println((endTime - startTime)/1000);
-//		visualizzatoreCapitoli.capitoloSuccessivo();
-//		
-//		GestoreDataBase.disconnetti();
-//
-//		
-//	}	
 }

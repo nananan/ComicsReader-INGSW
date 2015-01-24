@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +41,18 @@ public class BottoneFumetto extends JButton implements ActionListener
 		this.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		this.scaledImage = image;
 		this.fumetto = fumetto;
-
+		
+		addMouseMotionListener(new MouseMotionAdapter() {
+		      public void mouseMoved(MouseEvent event) {
+		    	  BottoneFumetto.this.setBorder(BorderFactory.createLineBorder(new Color(35,148,188),3));
+		      }
+		    });
+	    addMouseListener(new MouseAdapter() {
+	      public void mouseExited(MouseEvent event) {
+	    	  BottoneFumetto.this.setBorder(BorderFactory.createLineBorder(Color.black,2));
+	        }
+	      });
+		
 		addActionListener(this);
 	}	
 	
@@ -49,11 +61,22 @@ public class BottoneFumetto extends JButton implements ActionListener
 		super();
 		this.panel = panel;
 		
-		this.scaledImageDaPassare = image.getScaledInstance(200, 300, Image.SCALE_SMOOTH);;
+		this.scaledImageDaPassare = image;
 		image = image.getScaledInstance(larghezza, altezza, Image.SCALE_SMOOTH);
 		this.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		this.scaledImage = image;
 		this.fumetto = fumetto;
+		
+		addMouseMotionListener(new MouseMotionAdapter() {
+		      public void mouseMoved(MouseEvent event) {
+		    	  BottoneFumetto.this.setBorder(BorderFactory.createLineBorder(new Color(35,148,188),3));
+		      }
+		    });
+	    addMouseListener(new MouseAdapter() {
+	      public void mouseExited(MouseEvent event) {
+	    	  BottoneFumetto.this.setBorder(BorderFactory.createLineBorder(Color.black,2));
+	        }
+	      });
 		
 		addActionListener(this);
 	}	

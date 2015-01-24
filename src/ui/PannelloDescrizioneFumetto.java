@@ -179,7 +179,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		else
 			setBottone(bottonePreferiti, imageMeno, 25, 25);
 		bottonePreferiti.setText("Preferiti");
-		bottonePreferiti.setFont(new Font("Caladea", Font.BOLD, 14));
+		bottonePreferiti.setFont(new Font("Caladea", Font.HANGING_BASELINE, 14));
 		bottonePreferiti.setForeground(Color.DARK_GRAY);
 		bottonePreferiti.setBounds(5+(int)forImage.getPreferredSize().getWidth()+(int)forImage.getInsets().bottom, 2+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottonePreferiti.getPreferredSize().getWidth(), (int)bottonePreferiti.getPreferredSize().getHeight());
 		
@@ -192,7 +192,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		else
 			setBottone(bottoneDaLeggere, imageMeno, 25, 25);
 		bottoneDaLeggere.setText("Da Leggere");
-		bottoneDaLeggere.setFont(new Font("Caladea", Font.BOLD, 14));
+		bottoneDaLeggere.setFont(new Font("Caladea", Font.HANGING_BASELINE, 14));
 		bottoneDaLeggere.setForeground(Color.DARK_GRAY);
 		bottoneDaLeggere.setBounds(10+bottonePreferiti.getX()+(int)bottonePreferiti.getPreferredSize().getWidth(), 2+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottoneDaLeggere.getPreferredSize().getWidth(), (int)bottoneDaLeggere.getPreferredSize().getHeight());
 		bottoneDaLeggere.addActionListener(listener);
@@ -210,6 +210,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 		add(descrizione);
 
 		stringaVolumi = new Text("Volumi", 24, Color.DARK_GRAY);
+//		stringaVolumi.setFont(new Font("Caladea", Font.BOLD, 14));
 		stringaVolumi.setBounds(10,10 + descrizione.getY()+(int)descrizione.getPreferredSize().getHeight(), (int)stringaVolumi.getPreferredSize().getWidth(), (int)stringaVolumi.getPreferredSize().getHeight());
 		add(stringaVolumi);
 		

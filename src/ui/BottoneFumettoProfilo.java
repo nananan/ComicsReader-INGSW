@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 
@@ -55,6 +56,17 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 		
 		this.setPreferredSize(new Dimension(200, 300));
 		this.setBorder(BorderFactory.createLineBorder(Color.black,3));
+		
+		addMouseMotionListener(new MouseMotionAdapter() {
+		      public void mouseMoved(MouseEvent event) {
+		    	  BottoneFumettoProfilo.this.setBorder(BorderFactory.createLineBorder(new Color(35,148,188),3));
+		      }
+		    });
+	    addMouseListener(new MouseAdapter() {
+	      public void mouseExited(MouseEvent event) {
+	    	  BottoneFumettoProfilo.this.setBorder(BorderFactory.createLineBorder(Color.black,3));
+	        }
+	      });
 		
 		if (stato == INDEFINITO_DA_LEGGERE)
 		{

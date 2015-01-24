@@ -131,7 +131,7 @@ public class BottoneFollow extends JPanel
 		
 		if (stato == FOLLOWING)
 		{
-			bottonePerFollow = new MyButton("Following", 18, Color.WHITE);
+			bottonePerFollow = new MyButton("Following", 18, Color.WHITE, Color.WHITE);
 			bottonePerFollow.addMouseMotionListener(new MouseMotionAdapter() {
 			      public void mouseMoved(MouseEvent event) {
 			    	  bottonePerFollow.setText("Unfollow");
@@ -144,7 +144,7 @@ public class BottoneFollow extends JPanel
 			      });
 		}
 		else if (stato == FOLLOW && !lettoreCorrente.eFollows(lettore))
-			bottonePerFollow = new MyButton("Follow", 18, Color.WHITE);
+			bottonePerFollow = new MyButton("Follow", 18, Color.WHITE, Color.WHITE);
 		
 		bottonePerFollow.setBounds((int)this.getPreferredSize().getWidth() - 100, (int)bottoneUtente.getPreferredSize().getHeight()/3, (int)bottonePerFollow.getPreferredSize().getWidth(), (int)bottonePerFollow.getPreferredSize().getHeight());
 		bottonePerFollow.addActionListener(listener);

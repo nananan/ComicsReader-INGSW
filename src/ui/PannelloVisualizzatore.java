@@ -30,6 +30,7 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 	private int npx;
 	private int panelHeight;
 	private MyPanel panel;
+	private int numeroCapitoli;
 	
 	public PannelloVisualizzatore(int panelWidth, int panelHeight, MyPanel panel) 
 	{
@@ -48,7 +49,8 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 	{
 		visualizzatoreCapitoli.visualizzaCapitoli(volume.getCapitoli(), numeroCapitoloDaLeggere, primaPaginaDaVisualizzare);
 		immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
-
+		this.numeroCapitoli = volume.getNumeroCapitoli();
+		
 		int w = immagineCorrente.getWidth(this);
 		if(w < this.panelWidth) {
 			npx = (Math.abs(this.panelWidth - w)/2);
@@ -79,6 +81,21 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 		controllaAltezzaPagina();
 		
 		repaint();
+	}
+	
+	public boolean controllaPaginaSuccessiva()
+	{
+		return visualizzatoreCapitoli.haPaginaSuccessiva();
+	}
+	
+	public boolean controllaPaginaPrecedente()
+	{
+		return visualizzatoreCapitoli.haPaginaPrecedente();
+	}
+	
+	public int getPagina()
+	{
+		return visualizzatoreCapitoli.getNumeroPagina();
 	}
 	
 	public VisualizzatoreCapitoli getVisualizzatoreCapitoli()
@@ -120,6 +137,35 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 	public void keyTyped(KeyEvent e)
 	{
 		// TODO Auto-generated method stub
+	}
+
+	public void vaiACapitoloPrecedente()
+	{
+		if (visualizzatoreCapitoli.capitoloPrecedente())
+			immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
 		
+		controllaAltezzaPagina();
+		
+		repaint();
+	}
+	
+	public void vaiACapitoloSuccessivo()
+	{
+		if (visualizzatoreCapitoli.capitoloSuccessivo())
+			immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
+		
+		controllaAltezzaPagina();
+		
+		repaint();
+	}
+
+	public boolean controllaCapitoloSuccessivo()
+	{
+		return visualizzatoreCapitoli.haCapitoloSuccessivo();
+	}
+	
+	public boolean controllaCapitoloPrecedente()
+	{
+		return visualizzatoreCapitoli.haCapitoloPrecedente();
 	}
 }

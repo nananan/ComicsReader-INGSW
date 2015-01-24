@@ -131,7 +131,6 @@ public class StarRater extends JPanel {
           for (int i = 0; i < listeners.size(); i++) {
             listeners.get(i).handleSelection(StarRater.this.selection);
           }
-          System.out.println(StarRater.this.selection);
           lettore.vota(fumetto, StarRater.this.selection);
           repaint();
         }

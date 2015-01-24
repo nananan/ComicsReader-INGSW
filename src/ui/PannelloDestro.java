@@ -77,8 +77,8 @@ public class PannelloDestro extends JPanel
 	    int altezza = 0;
 	    for (int i = 0; i < copertineCronologiaFollow.size(); i++)
 		{
-	    	JButton nome = new JButton(nomeFollow.get(i).getNome()+" ha letto");
-	    	nome.setFont(new Font("Caladea", Font.BOLD, 11));
+	    	MyButton nome = new MyButton(nomeFollow.get(i).getNome()+" ha letto", new Color(35,148,188));
+	    	nome.setFont(new Font("Caladea", Font.HANGING_BASELINE, 11));
 	    	nome.setBackground(this.getBackground());
 	    	nome.setBorderPainted(false);
 	    	nome.setForeground(Color.WHITE);
@@ -107,7 +107,7 @@ public class PannelloDestro extends JPanel
 				
 				
 				nomeFumetto = new JTextArea(copertineCronologiaFollow.get(i).getFumetto().getNome());
-				nomeFumetto.setFont(new Font("Caladea", Font.BOLD, 12));
+				nomeFumetto.setFont(new Font("Caladea", Font.HANGING_BASELINE, 12));
 				nomeFumetto.setForeground(Color.WHITE);
 				nomeFumetto.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-100, 50));
 				nomeFumetto.setBackground(this.getBackground());
@@ -132,7 +132,7 @@ public class PannelloDestro extends JPanel
 				
 				
 				nomeFumetto = new JTextArea(copertineCronologiaFollow.get(i).getFumetto().getNome());
-				nomeFumetto.setFont(new Font("Caladea", Font.BOLD, 14));
+				nomeFumetto.setFont(new Font("Caladea", Font.HANGING_BASELINE, 14));
 				nomeFumetto.setForeground(Color.WHITE);
 				nomeFumetto.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth()-100, 50));
 				nomeFumetto.setBackground(this.getBackground());

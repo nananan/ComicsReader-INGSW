@@ -22,8 +22,8 @@ public class Login extends JPanel
 	JPasswordField textAreaPassword = new JPasswordField();
 	Text insertName = new Text("UserName");
 	Text insertPassword = new Text("Password");
-	MyButton buttonOk = new MyButton("Ok");
-	MyButton buttonAnnulla = new MyButton("Annulla");
+	MyButton buttonOk = new MyButton("Ok",new Color(35,148,188));
+	MyButton buttonAnnulla = new MyButton("Annulla",new Color(35,148,188));
 	
 	private Lettore lettore; 
 	
