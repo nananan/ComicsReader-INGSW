@@ -10,7 +10,7 @@ public class GestoreDataBase {
 	
 	private static final String USER = "manueliana";
 	private static final String PASS = "ciaosonoricca";
-   	private static final String CONNECTION_URL = "jdbc:mariadb://10.0.6.1:5061/comics_reader";
+   	private static final String CONNECTION_URL = "jdbc:mariadb://5.196.65.101:5061/comics_reader";
     private static final String DRIVER = "org.mariadb.jdbc.Driver"; 
     private static Connection connection;
     private static Statement statement;
@@ -112,8 +112,21 @@ public class GestoreDataBase {
 	public TuplaLettore creaTuplaLettore(String idFacebook){
 		String query = "SELECT id_facebook, nome, url_foto,numFollows,numFollower "
 				+ "FROM utente "
-				+ "WHERE id_facebook = \""+idFacebook+"\""; 
+				+ "WHERE id_facebook = \""+idFacebook+"\";"; 
 		return new TuplaLettore(query);
+	}
+	public TuplaSegnalibro creaTuplaSegnalibro(String utente){
+		String query = "SELECT utente,nome_fumetto,numero_volume,numero_capitolo,numero_pagina "
+				+ "FROM segnalibro "
+				+ "WHERE utente= \""+utente+"\";";
+		return new TuplaSegnalibro(query);
+	}
+	
+	public TuplaSegnalibro creaTuplaSegnalibro(String utente,String fumetto){
+		String query = "SELECT utente,nome_fumetto,numero_volume,numero_capitolo,numero_pagina "
+				+ "FROM segnalibro "
+				+ "WHERE utente= \""+utente+"\" and nome_fumetto=\""+fumetto+"\";";
+		return new TuplaSegnalibro(query);
 	}
 	public String getTramaFumetto(String fumetto) {
 		String query = " SELECT trama FROM fumetto WHERE nome =\""+fumetto+"\";";
@@ -340,9 +353,14 @@ public class GestoreDataBase {
 	}
 	
 	public void aggiungiSegnalibro(String lettore,String nomeFumetto,int numeroVolume, int numeroCapitolo, int numeroPagina){
-//		String query = "call agginugiSegnalibro(\""+lettore+"\",\""+nomeFumetto+"\","
-//				+numeroVolume+","+numeroCapitolo+","+numeroPagina+");";
-//		DataBase.getStatement().execute(query);
+		String query = "call add_Segnalibro(\""+lettore+"\",\""+nomeFumetto+"\","
+				+numeroVolume+","+numeroCapitolo+","+numeroPagina+");";
+		try {
+			GestoreDataBase.getStatement().execute(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}	
 	
 	public void rimuoviFollow(String lettore,String idFollow){

@@ -24,7 +24,9 @@ import domain.Volume;
 
 public class PannelloVisualizzatore extends JPanel implements KeyListener
 {
-	private final VisualizzatoreCapitoli visualizzatoreCapitoli = VisualizzatoreCapitoli.getVisualizzatoreCapitoli();
+	private final VisualizzatoreCapitoli visualizzatoreCapitoli = VisualizzatoreCapitoli.getIstanza();
+	private static final String PATH_GIF= "image/loading.gif";
+	private static Image gif;
 	private Image immagineCorrente;
 	private int panelWidth;
 	private int npx;
@@ -37,6 +39,12 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 		super();
 		setBackground(Color.GRAY);
 		setLayout(null);
+		try {
+			gif = ImageIO.read(new File(PATH_GIF));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.panelWidth = panelWidth;
 		this.panelHeight = panelHeight;
 		this.panel = panel;
@@ -47,7 +55,8 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 	
 	public void avviaVisualizzazione(Volume volume,int numeroCapitoloDaLeggere, int primaPaginaDaVisualizzare)
 	{
-		visualizzatoreCapitoli.visualizzaCapitoli(volume.getCapitoli(), numeroCapitoloDaLeggere, primaPaginaDaVisualizzare);
+		
+		visualizzatoreCapitoli.visualizzaCapitoli(volume, numeroCapitoloDaLeggere, primaPaginaDaVisualizzare);
 		immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
 		this.numeroCapitoli = volume.getNumeroCapitoli();
 		
@@ -62,25 +71,38 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 		
 		controllaAltezzaPagina();
 	}
-	
+	public Image getImmagineCorrente() {
+		return this.visualizzatoreCapitoli.visualizzaPaginaCorrente();
+	}
+	public void visualizzaPaginaCorrente(){
+		if(visualizzatoreCapitoli.visualizzaPaginaCorrente()==null)
+		{
+			immagineCorrente=gif;
+			controllaAltezzaPagina();
+			repaint();
+			ThreadPagina loading = new ThreadPagina(this);
+			loading.start();
+		}
+		else{
+			immagineCorrente=visualizzatoreCapitoli.visualizzaPaginaCorrente();
+			controllaAltezzaPagina();
+			repaint();
+		}
+	}
 	public void vaiAPaginaSuccessiva()
 	{
-		if (visualizzatoreCapitoli.paginaSuccessiva())
-			immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
-		
-		controllaAltezzaPagina();
-		
-		repaint();
+		if (visualizzatoreCapitoli.haPaginaSuccessiva()){
+			visualizzatoreCapitoli.paginaSuccessiva();
+			visualizzaPaginaCorrente();
+		}
 	}
 	
 	public void vaiAPaginaPrecedente()
 	{
-		if (visualizzatoreCapitoli.paginaPrecedente())
-			immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
-		
-		controllaAltezzaPagina();
-		
-		repaint();
+		if (visualizzatoreCapitoli.haPaginaPrecedente()){
+			visualizzatoreCapitoli.paginaPrecedente();
+			visualizzaPaginaCorrente();
+		}
 	}
 	
 	public boolean controllaPaginaSuccessiva()
@@ -95,7 +117,7 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 	
 	public int getPagina()
 	{
-		return visualizzatoreCapitoli.getNumeroPagina();
+		return visualizzatoreCapitoli.numeroPagina();
 	}
 	
 	public VisualizzatoreCapitoli getVisualizzatoreCapitoli()
@@ -141,24 +163,21 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 
 	public void vaiACapitoloPrecedente()
 	{
-		if (visualizzatoreCapitoli.capitoloPrecedente())
-			immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
-		
-		controllaAltezzaPagina();
-		
-		repaint();
+		if (visualizzatoreCapitoli.haCapitoloPrecedente()){
+			visualizzatoreCapitoli.capitoloPrecedente();
+			visualizzaPaginaCorrente();
+		}
 	}
 	
 	public void vaiACapitoloSuccessivo()
 	{
-		if (visualizzatoreCapitoli.capitoloSuccessivo())
-			immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
+		if (visualizzatoreCapitoli.haCapitoloSuccessivo()){
+			visualizzatoreCapitoli.capitoloSuccessivo();
+			visualizzaPaginaCorrente();
+		}
 		
-		controllaAltezzaPagina();
-		
-		repaint();
 	}
-
+	
 	public boolean controllaCapitoloSuccessivo()
 	{
 		return visualizzatoreCapitoli.haCapitoloSuccessivo();

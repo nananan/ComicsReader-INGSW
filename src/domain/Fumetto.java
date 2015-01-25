@@ -4,9 +4,11 @@ package domain;
 import java.awt.Image;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
+
 import downloader.CopertinaVolumeDownloaderManager;
 import technicalService.GestoreDataBase;
 import technicalService.TuplaFumetto;
+import technicalService.TuplaSegnalibro;
 import technicalService.TuplaVolume;
 
 public class Fumetto {
@@ -27,9 +29,11 @@ public class Fumetto {
 	private String dataLettura;
 	
 	private Volume[] volumi;
+	private Segnalibro segnalibro;
 	private int numeroVolumi;
 	private int ultimeCopertineInserite;
 	private static GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
+
 		
 	private CopertinaVolumeDownloaderManager dowloaderManager = CopertinaVolumeDownloaderManager.getCopertinaDowloader();
 	
@@ -58,7 +62,8 @@ public class Fumetto {
 		url = tuplaFumetto.getUrlCopertina();
 		valutazioneMedia = tuplaFumetto.getValutazioneMedia();
 		numeroLetture = tuplaFumetto.getNumeroLetture(); 
-				
+			
+		segnalibro = null;
 		generi = null;
 		numeroVolumi = 0;
 		volumi = null;
@@ -77,6 +82,7 @@ public class Fumetto {
 				
 		dataLettura = data;
 		
+		segnalibro = null;
 		generi = null;
 		numeroVolumi = 0;
 		volumi = null;
@@ -96,12 +102,18 @@ public class Fumetto {
 	{
 		return numeroVolumi;
 	}
-	
+	public Segnalibro getSegnalibro(){
+		return segnalibro;
+	}
 	public String getData()
 	{
 		return dataLettura;
 	}
-
+	public void setSegnalibro(){
+		TuplaSegnalibro tupla = gestoreDB.creaTuplaSegnalibro(AppManager.getLettore().getIdFacebook(), nome);
+		if(tupla.prossima())
+			segnalibro = new Segnalibro(tupla);
+	}
 	public void apriFumetto(){
 		
 		if(numeroVolumi != 0) return;
@@ -109,6 +121,7 @@ public class Fumetto {
 		descrizione = gestoreDB.getTramaFumetto(nome);
 		generi = gestoreDB.getGeneri(nome);
 		numeroVolumi =  gestoreDB.getNumeroVolumi(nome);
+		setSegnalibro();
 		
 		if(numeroVolumi ==0 )return;
 		
