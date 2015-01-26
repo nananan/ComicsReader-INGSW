@@ -34,7 +34,8 @@ public class VisualizzatoreCapitoli {
 	}
 	public void visualizzaCapitoli(Volume volume,int numeroCapitoloPagina, int numeroPaginaIniziale){
 		
-		indiceCapitoloPaginaCentrale =numeroCapitoloPagina-1;
+		int primoVolume = volume.getCapitoli()[0].getNumero();
+		indiceCapitoloPaginaCentrale =numeroCapitoloPagina -primoVolume;
 		indicePaginaCentrale = numeroPaginaIniziale-1;
 		
 		Capitolo[] capitoliDaVisualizzare = volume.getCapitoli();
@@ -50,7 +51,7 @@ public class VisualizzatoreCapitoli {
 			pagine[i] = new Image[capitoliDaVisualizzare[i].getNumeroPagine()];
 		}
 		
-		downloaderPagine.iniziaScaricamento(pagine,stringhe[0],indiceCapitoloPaginaCentrale,indicePaginaCentrale);
+		downloaderPagine.iniziaScaricamento(pagine,stringhe[0],indiceCapitoloPaginaCentrale,indicePaginaCentrale,primoVolume);
 	}
 	public int numeroPagina(){
 		return indicePaginaCentrale+1;

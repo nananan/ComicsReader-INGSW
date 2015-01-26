@@ -18,7 +18,7 @@ public class Login extends JPanel
 {
 	PannelloLogin panel = null;
 	
-	JTextField textAreaName = new JTextField("100000001659558");
+	JTextField textAreaName = new JTextField("946707932005920");
 	JPasswordField textAreaPassword = new JPasswordField();
 	Text insertName = new Text("UserName");
 	Text insertPassword = new Text("Password");

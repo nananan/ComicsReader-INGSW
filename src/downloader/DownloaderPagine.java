@@ -27,7 +27,7 @@ public class DownloaderPagine {
 	private int indiceCapitoloPaginaIniziale;
 	private int indiceCapitoloPaginaCentrale;
 	private int indiceCapitoloPaginaFinale;
-	
+	private int numeroPrimoCapitolo;
 	private String urlVolumeDaScaricare;
 	
 	private ScaricatorePagine[] scaricatori;
@@ -39,7 +39,7 @@ public class DownloaderPagine {
 		condition = lock.newCondition();
 	}
 	
-	public void iniziaScaricamento(Image[][] pagine, String urlVolume, int iCapitolo, int iPagina) {
+	public void iniziaScaricamento(Image[][] pagine, String urlVolume, int iCapitolo, int iPagina,int numeroPrimoCapitolo) {
 		this.pagine = pagine;
 		urlVolumeDaScaricare = urlVolume;
 		indiceCapitoloPaginaCentrale = iCapitolo;
@@ -48,6 +48,7 @@ public class DownloaderPagine {
 		indiceCapitoloPaginaFinale = iCapitolo;
 		numeroDownloadAttivi=0;
 		numeroDownloadConclusi=0;
+		this.numeroPrimoCapitolo=numeroPrimoCapitolo;
 		if(indicePaginaFinale >= pagine[indiceCapitoloPaginaCentrale].length){
 			indicePaginaFinale = indicePaginaFinale - pagine[indiceCapitoloPaginaCentrale].length;
 			indiceCapitoloPaginaFinale++;
@@ -83,7 +84,7 @@ public class DownloaderPagine {
 	
 	public String generaUrlPagina(int capitolo, int pagina){
 		System.out.println(capitolo +" "+ pagina);
-		String url = urlVolumeDaScaricare+"/"+(capitolo+1)+"/"+(pagina+1);
+		String url = urlVolumeDaScaricare+"/"+(numeroPrimoCapitolo+capitolo)+"/"+(pagina+1);
 		System.out.println(url);
 		return url;
 	}
@@ -252,20 +253,20 @@ public class DownloaderPagine {
 	}
 	
 	public static void main(String[] args) {
-		DownloaderPagine dw = new DownloaderPagine();
-		Image[][] pagine = new Image[5][];
-		pagine[0]= new Image[49];
-		pagine[1]= new Image[29];
-		pagine[2]=new Image[26];
-		pagine[3]= new Image[19];
-		pagine[4]= new Image[17];
-		String urlVolume="http://5.196.65.101/~ComicsReader/Fumetti/Death%20Note/Volume%2001";
-		int indiceCapitolo=0;
-		int indicePagina=0;
-		dw.iniziaScaricamento(pagine, urlVolume, indiceCapitolo, indicePagina);
-		
-		dw.scaricaPagineCapitoloSuccessivo();
-	
+//		DownloaderPagine dw = new DownloaderPagine();
+//		Image[][] pagine = new Image[5][];
+//		pagine[0]= new Image[49];
+//		pagine[1]= new Image[29];
+//		pagine[2]=new Image[26];
+//		pagine[3]= new Image[19];
+//		pagine[4]= new Image[17];
+//		String urlVolume="http://5.196.65.101/~ComicsReader/Fumetti/Death%20Note/Volume%2001";
+//		int indiceCapitolo=0;
+//		int indicePagina=0;
+//		dw.iniziaScaricamento(pagine, urlVolume, indiceCapitolo, indicePagina);
+//		
+//		dw.scaricaPagineCapitoloSuccessivo();
+//	
 	}
 
 	void await(){
