@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.sql.SQLException;
@@ -41,6 +42,7 @@ public class PannelloSinistra extends JPanel
 	MyButton buttonTopRead = new MyButton("Top Read", COLORE);
 	MyButton buttonTopRated = new MyButton("Top Rated Comics", COLORE);
 	MyButton buttonFileLocali = new MyButton("File Locali", COLORE);
+	MyButton buttonAmici = new MyButton("Amici", COLORE);
 	
 	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 7;
 	int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() ;
@@ -76,6 +78,9 @@ public class PannelloSinistra extends JPanel
 
 		buttonFileLocali.setBounds(buttonDiscover.getX(), 3+buttonTopRated.getY()+(int)buttonTopRated.getPreferredSize().getHeight(), (int)buttonFileLocali.getPreferredSize().getWidth(), (int)buttonFileLocali.getPreferredSize().getHeight());
 		add(buttonFileLocali);
+
+		buttonAmici.setBounds(buttonDiscover.getX(), 3+buttonFileLocali.getY()+(int)buttonFileLocali.getPreferredSize().getHeight(), (int)buttonAmici.getPreferredSize().getWidth(), (int)buttonAmici.getPreferredSize().getHeight());
+		add(buttonAmici);
 		
 		listener = new MyListener();
 		
@@ -83,6 +88,7 @@ public class PannelloSinistra extends JPanel
 		buttonTopRead.addActionListener(listener);
 		buttonTopRated.addActionListener(listener);
 		buttonFileLocali.addActionListener(listener);
+		buttonAmici.addActionListener(listener);
 	
 	}
 	
@@ -160,6 +166,8 @@ public class PannelloSinistra extends JPanel
 		buttonDiscover.setForeground(Color.WHITE);
 		buttonTopRead.setForeground(Color.WHITE);
 		buttonTopRated.setForeground(Color.WHITE);
+		buttonFileLocali.setForeground(Color.WHITE);
+		buttonAmici.setForeground(Color.WHITE);
 	}
 	
 	public void setColorBottoneDiscover(Color color)
@@ -245,7 +253,17 @@ public class PannelloSinistra extends JPanel
 			{
 				setImmagineBottone(bottoneSegnalibro, "image/segnalibro.png");
 				panel.premiPerInserireSegnalibro(fumetto);
-				
+			}
+			else if (source == buttonAmici)
+			{
+				try
+				{
+					panel.PremiPerAmici();
+				} catch (IOException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

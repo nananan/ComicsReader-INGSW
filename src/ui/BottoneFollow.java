@@ -49,7 +49,6 @@ public class BottoneFollow extends JPanel
 		this.stato = stato;
 		
 		listener = new MyListener();
-		
 		bottoneUtente = new BottoneUtente(getURL(lettore.getUrlFoto(), 150, 150), panel, lettoreFoll);
 		bottoneUtente.setPreferredSize(new Dimension(150, 150));
 		bottoneUtente.setBorder(BorderFactory.createLineBorder(Color.black,2));
@@ -105,11 +104,10 @@ public class BottoneFollow extends JPanel
 		Image scaledImageFumetto = bufferedImage.getScaledInstance(w, h, bufferedImage.SCALE_AREA_AVERAGING);
 		
 		file.deleteOnExit();
-		
 		return scaledImageFumetto;
 	}
 	
-	public Image getImage()
+	public Image getScaledImage()
 	{
 		return bottoneUtente.getImageScaled();
 	}
@@ -149,7 +147,7 @@ public class BottoneFollow extends JPanel
 		bottonePerFollow.setBounds((int)this.getPreferredSize().getWidth() - 100, (int)bottoneUtente.getPreferredSize().getHeight()/3, (int)bottonePerFollow.getPreferredSize().getWidth(), (int)bottonePerFollow.getPreferredSize().getHeight());
 		bottonePerFollow.addActionListener(listener);
 		add(bottonePerFollow);
-		
+
 		repaint();
 	}
 	
@@ -157,7 +155,7 @@ public class BottoneFollow extends JPanel
 	public void paintComponents(Graphics g)
 	{
 		super.paintComponents(g);
-		g.drawImage(this.getImage(), 0, 0, this);
+		g.drawImage(this.getScaledImage(), 0, 0, this);
 	}
 	
 	private class MyListener implements ActionListener

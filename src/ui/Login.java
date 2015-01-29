@@ -20,11 +20,11 @@ public class Login extends JPanel
 {
 	PannelloLogin panel = null;
 	
-	JTextField textAreaName = new JTextField();
+	JTextField textAreaName = new JTextField("eliana-c@live.it");
 
 	WebLogin webLogin = new WebLogin();
 
-	JPasswordField textAreaPassword = new JPasswordField();
+	JPasswordField textAreaPassword = new JPasswordField("nisdunimfe");
 	Text insertName = new Text("UserName");
 	Text insertPassword = new Text("Password");
 	MyButton buttonOk = new MyButton("Ok",new Color(35,148,188));

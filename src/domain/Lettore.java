@@ -288,6 +288,12 @@ public class Lettore {
 		return null;
 	}
 	
+	public HashMap<String, Lettore> getAmici()
+	{
+		caricaAmiciFb();
+		return amiciFb;
+	}
+	
 	public int getNumFollow() {
 		caricaFollows();
 		return numFollow = follows.size();

@@ -222,7 +222,8 @@ public class PannelloProfilo extends JPanel
 				
 				listaBottoniFollowCorrente.add(bottoneFollowCorrente);
 		    }
-
+		    
+			pannelloDelProfilo.put("Follow", new PannelloScrollPane(new PannelloBottoniProfilo(this.larghezza+100), 5, SFONDO));
 		    ((PannelloBottoniProfilo) pannelloDelProfilo.get("Follow").getPanel()).setFollow_Follower(listaBottoniFollowCorrente);
 			
 			pannelloDelProfilo.get("Follow").setBounds(0, 5 + jseparator.getY()+(int)jseparator.getPreferredSize().getHeight(), 
@@ -423,10 +424,10 @@ public class PannelloProfilo extends JPanel
 				g.drawImage(bottone.getImageScaled(), 0,0, this);
 		if (aggiungiFollows)
 			for (BottoneFollow bottone : listaBottoniFollowCorrente)
-				g.drawImage(bottone.getImage(), 0, 0, this);
+				g.drawImage(bottone.getScaledImage(), 0, 0, this);
 		if (aggiungiFollowers)
 			for (BottoneFollow bottone : listaBottoniFollowerCorrente)
-				g.drawImage(bottone.getImage(), 0, 0, this);
+				g.drawImage(bottone.getScaledImage(), 0, 0, this);
 		if (aggiungiDaLeggere)
 			for (BottoneFumettoProfilo bottone : bottoniDaLeggere)
 				g.drawImage(bottone.getImageScaled(), 0,0, this);

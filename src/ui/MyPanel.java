@@ -61,6 +61,7 @@ public class MyPanel extends JPanel
 	private PannelloScrollPane pannelloScrollDestro;
 	private int visualizzatore;
 	private PannelloLoading loading;
+	private PannelloScrollPane pannelloAmici;
 	
 	private static Color COLORE = Color.GRAY;
 	
@@ -372,6 +373,25 @@ public class MyPanel extends JPanel
 		repaint();
 	}
 	
+	public void PremiPerAmici() throws IOException
+	{
+		rimuoviBooleani();
+		rimuoviPrecedenti();
+		
+		if (pannelloAmici == null)
+		{
+			pannelloAmici = new PannelloScrollPane(new PannelloAmici(this,
+				(int)mapPannelliCentrali.get("Discover").getPreferredSize().getWidth()), 0, COLORE);
+			
+			this.add(pannelloAmici);
+			this.validate();
+		}
+		else
+			add(pannelloAmici);
+		
+		repaint();
+	}
+	
 	public void premiPerPaginaSuccessiva()
 	{
 		
@@ -482,6 +502,9 @@ public class MyPanel extends JPanel
 	    }
 	    if (pannelloVisualizzatore != null)
 	    	remove(pannelloVisualizzatore);
+	    
+	    if (pannelloAmici != null)
+			remove(pannelloAmici);
 	    
 	    pannelloSinistro.deselezionaBottoni();
 		pannelloSopra.setBooleanaPerBottoneFiltro(false);
