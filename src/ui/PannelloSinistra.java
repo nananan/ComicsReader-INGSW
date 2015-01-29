@@ -23,7 +23,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.xml.crypto.Data;
 
+import com.sun.org.apache.xml.internal.utils.NSInfo;
+
+import domain.AppManager;
 import domain.Fumetto;
+import domain.Lettore;
 import technicalService.GestoreDataBase;
 
 
@@ -44,6 +48,12 @@ public class PannelloSinistra extends JPanel
 	private MyButton tornaIndietro;
 	private JButton bottoneIndietro;
 	private JLabel copertinaFumetto;
+	private JButton bottoneSegnalibro;
+	private MyButton inserisciSegnalibro;
+
+	public Fumetto fumetto;
+	public Image immaginePerFumetto;
+	private MyListener listener;
 	
 	public PannelloSinistra(final MyPanel panel) 
 	{
@@ -67,7 +77,7 @@ public class PannelloSinistra extends JPanel
 		buttonFileLocali.setBounds(buttonDiscover.getX(), 3+buttonTopRated.getY()+(int)buttonTopRated.getPreferredSize().getHeight(), (int)buttonFileLocali.getPreferredSize().getWidth(), (int)buttonFileLocali.getPreferredSize().getHeight());
 		add(buttonFileLocali);
 		
-		MyListener listener = new MyListener();
+		listener = new MyListener();
 		
 		buttonDiscover.addActionListener(listener);
 		buttonTopRead.addActionListener(listener);
@@ -78,75 +88,69 @@ public class PannelloSinistra extends JPanel
 	
 	public void aggiungiBottoneVolume(Image immagineCopertinaFumetto, final Fumetto fumetto)
 	{
-		immagineCopertinaFumetto = immagineCopertinaFumetto.getScaledInstance(larghezza, 300, Image.SCALE_SMOOTH);
+		this.fumetto = fumetto;
+		this.immaginePerFumetto = immagineCopertinaFumetto.getScaledInstance(larghezza, 300, Image.SCALE_SMOOTH);
 		
 		copertinaFumetto = new JLabel(new ImageIcon(immagineCopertinaFumetto));
 		
 		copertinaFumetto.setBounds(0, (int)this.getPreferredSize().getHeight()-
-	    		(int)copertinaFumetto.getPreferredSize().getHeight() - 40 -
+	    		(int)copertinaFumetto.getPreferredSize().getHeight() - 70 -
 	    		(int)copertinaFumetto.getPreferredSize().getHeight()/2, 
 	    		(int)copertinaFumetto.getPreferredSize().getWidth(), 
 	    		(int)copertinaFumetto.getPreferredSize().getHeight());
 		copertinaFumetto.setBorder(BorderFactory.createLineBorder(Color.black,2));
 		
+		bottoneSegnalibro = new JButton();
+		setImmagineBottone(bottoneSegnalibro, "image/toSegnalibro.png");
+		
+		bottoneSegnalibro.setBounds(this.getInsets().bottom, copertinaFumetto.getY()+
+				(int)copertinaFumetto.getPreferredSize().getHeight(), 
+				(int)bottoneSegnalibro.getPreferredSize().getWidth(), 
+				(int)bottoneSegnalibro.getPreferredSize().getHeight());
+		
+		inserisciSegnalibro = new MyButton("Segnalibro", 14, new Color(91,84,84), COLORE);
+		inserisciSegnalibro.setBounds(bottoneSegnalibro.getX()+(int)bottoneSegnalibro.getPreferredSize().getWidth()-10,
+				copertinaFumetto.getY()+(int)copertinaFumetto.getPreferredSize().getHeight()+3, 
+				(int)inserisciSegnalibro.getPreferredSize().getWidth(), 
+				(int)inserisciSegnalibro.getPreferredSize().getHeight());
 		
 		bottoneIndietro = new JButton();
-		ImageIcon imageMenu = new ImageIcon("image/reading.png");
-		Image imageScaled = imageMenu.getImage().getScaledInstance(30, 30, Image.SCALE_AREA_AVERAGING);
-		imageMenu.setImage(imageScaled);
-		
-		bottoneIndietro .setIcon(imageMenu);
-		bottoneIndietro .setPressedIcon(imageMenu);
-		bottoneIndietro .setBorderPainted(false);
-		bottoneIndietro .setFocusPainted(false);
-		bottoneIndietro .setContentAreaFilled(false);
-		bottoneIndietro .setBackground(this.getBackground());
-		
-		bottoneIndietro.setBounds(this.getInsets().bottom, copertinaFumetto.getY()+
-				(int)copertinaFumetto.getPreferredSize().getHeight(), 
+		setImmagineBottone(bottoneIndietro, "image/reading.png");
+
+		bottoneIndietro.setBounds(this.getInsets().bottom, bottoneSegnalibro.getY()+
+				(int)bottoneSegnalibro.getPreferredSize().getHeight(), 
 				(int)bottoneIndietro.getPreferredSize().getWidth(), 
 				(int)bottoneIndietro.getPreferredSize().getHeight());
 		
 		tornaIndietro = new MyButton("Torna al Fumetto", 14, new Color(91,84,84), COLORE);
 		tornaIndietro.setBounds(bottoneIndietro.getX()+(int)bottoneIndietro.getPreferredSize().getWidth()-10,
-				copertinaFumetto.getY()+(int)copertinaFumetto.getPreferredSize().getHeight()+3, 
+				bottoneSegnalibro.getY()+(int)bottoneSegnalibro.getPreferredSize().getHeight()+3, 
 				(int)tornaIndietro.getPreferredSize().getWidth(), 
 				(int)tornaIndietro.getPreferredSize().getHeight());
 		
-		final Image immaginePerFumetto = immagineCopertinaFumetto;
-		tornaIndietro.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseReleased(MouseEvent e)
-			{
-				super.mouseReleased(e);
-				panel.PremiPerFumetto(fumetto, immaginePerFumetto);
-			}
-		});
-		
-		bottoneIndietro.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseReleased(MouseEvent e)
-			{
-				super.mouseReleased(e);
-				panel.PremiPerFumetto(fumetto, immaginePerFumetto);
-			}
-		});
+		bottoneIndietro.addActionListener(listener);
+		tornaIndietro.addActionListener(listener);
+		bottoneSegnalibro.addActionListener(listener);
+		inserisciSegnalibro.addActionListener(listener);
 		
 		this.add(copertinaFumetto);
 		this.add(bottoneIndietro);
 		this.add(tornaIndietro);
+		this.add(bottoneSegnalibro);
+		this.add(inserisciSegnalibro);
 		repaint();
 	}
 	
 	public void rimuoviBottoniDelVolume()
 	{
-		if (copertinaFumetto != null && bottoneIndietro != null && tornaIndietro != null)
+		if (copertinaFumetto != null && bottoneIndietro != null && tornaIndietro != null
+				&& bottoneSegnalibro != null && inserisciSegnalibro != null)
 		{
 			this.remove(copertinaFumetto);
 			this.remove(bottoneIndietro);
 			this.remove(tornaIndietro);
+			this.remove(bottoneSegnalibro);
+			this.remove(inserisciSegnalibro);
 		}
 		repaint();
 	}
@@ -180,6 +184,20 @@ public class PannelloSinistra extends JPanel
 		buttonTopRead.setPremuto();
 		buttonTopRated.setPremuto();
 		buttonFileLocali.setPremuto();
+	}
+	
+	private void setImmagineBottone(JButton bottone, String pathImmagine)
+	{
+		ImageIcon imageMenu = new ImageIcon(pathImmagine);
+		Image imageScaled = imageMenu.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		imageMenu.setImage(imageScaled);
+		
+		bottone.setIcon(imageMenu);
+		bottone.setPressedIcon(imageMenu);
+		bottone.setBorderPainted(false);
+		bottone.setFocusPainted(false);
+		bottone.setContentAreaFilled(false);
+		bottone.setBackground(this.getBackground());
 	}
 	
 	@Override
@@ -218,6 +236,16 @@ public class PannelloSinistra extends JPanel
 		        
 		        panel.premiPerPannelloVisualizzazioneOffline(listOfFiles);
 		        
+			}
+			else if (source == bottoneIndietro || source == tornaIndietro)
+			{
+				panel.PremiPerFumetto(fumetto, immaginePerFumetto);
+			}
+			else if (source == bottoneSegnalibro || source == inserisciSegnalibro)
+			{
+				setImmagineBottone(bottoneSegnalibro, "image/segnalibro.png");
+				panel.premiPerInserireSegnalibro(fumetto);
+				
 			}
 		}
 	}

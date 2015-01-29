@@ -52,6 +52,16 @@ public class TuplaLettore extends Tupla{
 		return new TuplaFumetto(query );
 	}
 	
+	public TuplaSegnalibro getSegnalibri(String utente)
+	{
+		String query = "SELECT f.nome, f.autore, f.artista,f.completa,f.occidentale,f.url_copertina_primo_volume,"
+				+ "f.valutazione_media,f.numero_letture "
+				+ "FROM fumetto as f, segnalibro as s "
+				+ "WHERE s.utente =\""+utente+"\" and s.nome_fumetto = f.nome ";
+		
+		return new TuplaSegnalibro(query );
+	}
+	
 	public String getIdFacebook() {
 		
 		try {

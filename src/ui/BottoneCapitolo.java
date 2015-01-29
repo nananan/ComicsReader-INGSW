@@ -34,7 +34,7 @@ public class BottoneCapitolo extends MyButton
 			{
 				super.mouseReleased(e);
 				lettore.inserisciCronologia(fumetto);
-				panel.PremiPerCapitolo(volume, fumetto, numeroCapitolo, immagineCopertinaFumetto);
+				panel.PremiPerCapitolo(volume, fumetto, numeroCapitolo, immagineCopertinaFumetto, 1);
 			
 				
 			}

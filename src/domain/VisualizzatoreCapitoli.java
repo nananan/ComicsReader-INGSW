@@ -3,6 +3,7 @@ package domain;
 import java.awt.Image;
 
 import technicalService.GestoreDataBase;
+import ui.PannelloDescrizioneFumetto;
 import domain.Capitolo;
 import downloader.DownloaderPagine;
 
@@ -28,12 +29,15 @@ public class VisualizzatoreCapitoli {
 			istanza = new VisualizzatoreCapitoli();
 		return istanza;
 	}
-	public void mettiSegnalibro(){
-		GestoreDataBase.getIstanza().aggiungiSegnalibro(AppManager.getLettore().getIdFacebook(), fumettoDaVisualizzare, 
-				volumeDaVisualizzare, indiceCapitoloPaginaCentrale+1, indicePaginaCentrale+1);
+	public void mettiSegnalibro(String nomeFumetto, int numVolume, int numCapitolo, int numPagina){
+//		GestoreDataBase.getIstanza().aggiungiSegnalibro(AppManager.getLettore().getIdFacebook(), fumettoDaVisualizzare, 
+//				volumeDaVisualizzare, indiceCapitoloPaginaCentrale+1, indicePaginaCentrale+1);
+		GestoreDataBase.getIstanza().aggiungiSegnalibro(AppManager.getLettore().getIdFacebook(), nomeFumetto, 
+				numVolume, numCapitolo, numPagina);
 	}
 	public void visualizzaCapitoli(Volume volume,int numeroCapitoloPagina, int numeroPaginaIniziale){
 		
+		volume.caricaCapitoli();
 		int primoVolume = volume.getCapitoli()[0].getNumero();
 		indiceCapitoloPaginaCentrale =numeroCapitoloPagina -primoVolume;
 		indicePaginaCentrale = numeroPaginaIniziale-1;

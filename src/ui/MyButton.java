@@ -70,13 +70,13 @@ public class MyButton extends JButton
 		    });
 	    addMouseListener(new MouseAdapter() {
 	      public void mouseExited(MouseEvent event) {
-	    	  if (!premo)
+//	    	  if (!premo)
 	    		  MyButton.this.setForeground(Color.WHITE);
 	        }
-	      public void mouseReleased(MouseEvent event) {
-	    	  premo = true;
-	    	  MyButton.this.setForeground(colorePress);
-	        }
+//	      public void mouseReleased(MouseEvent event) {
+//	    	  premo = true;
+//	    	  MyButton.this.setForeground(colorePress);
+//	        }
 	    });
 	}
 	

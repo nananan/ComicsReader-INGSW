@@ -112,7 +112,7 @@ public class Fumetto {
 	public void setSegnalibro(){
 		TuplaSegnalibro tupla = gestoreDB.creaTuplaSegnalibro(AppManager.getLettore().getIdFacebook(), nome);
 		if(tupla.prossima())
-			segnalibro = new Segnalibro(tupla);
+			segnalibro = new Segnalibro(tupla, this);
 	}
 	public void apriFumetto(){
 		
@@ -121,7 +121,6 @@ public class Fumetto {
 		descrizione = gestoreDB.getTramaFumetto(nome);
 		generi = gestoreDB.getGeneri(nome);
 		numeroVolumi =  gestoreDB.getNumeroVolumi(nome);
-		setSegnalibro();
 		
 		if(numeroVolumi ==0 )return;
 		
@@ -142,6 +141,8 @@ public class Fumetto {
 		for(int i =0; i < 4; i++, ultimeCopertineInserite++){
 			volumi[i].setCopertina(copertineVolumi[i]);
 		}
+		
+		setSegnalibro();
 	}
 	
 	public void caricaProssimeCopertine(){
@@ -192,6 +193,11 @@ public class Fumetto {
 		return volumi;
 	}
 
+	public Volume getNumeroVolume(int numeroVolume)
+	{
+		return volumi[numeroVolume-1];
+	}
+	
 	public String getArtista() {
 		return artista;
 	}

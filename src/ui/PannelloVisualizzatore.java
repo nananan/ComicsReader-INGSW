@@ -33,6 +33,8 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 	private int panelHeight;
 	private MyPanel panel;
 	private int numeroCapitoli;
+	private Volume volume;
+	private int numeroCapitolo;
 	
 	public PannelloVisualizzatore(int panelWidth, int panelHeight, MyPanel panel) 
 	{
@@ -55,7 +57,8 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 	
 	public void avviaVisualizzazione(Volume volume,int numeroCapitoloDaLeggere, int primaPaginaDaVisualizzare)
 	{
-		
+		this.volume = volume;
+		this.numeroCapitolo = numeroCapitoloDaLeggere;
 		visualizzatoreCapitoli.visualizzaCapitoli(volume, numeroCapitoloDaLeggere, primaPaginaDaVisualizzare);
 		immagineCorrente = visualizzatoreCapitoli.visualizzaPaginaCorrente();
 		this.numeroCapitoli = volume.getNumeroCapitoli();
@@ -115,9 +118,19 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 		return visualizzatoreCapitoli.haPaginaPrecedente();
 	}
 	
-	public int getPagina()
+	public int getNumeroPagina()
 	{
 		return visualizzatoreCapitoli.numeroPagina();
+	}
+	
+	public int getNumeroCapitolo()
+	{
+		return numeroCapitolo;
+	}
+	
+	public int getNumeroVolume()
+	{
+		return volume.getNumero();
 	}
 	
 	public VisualizzatoreCapitoli getVisualizzatoreCapitoli()
@@ -166,6 +179,7 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 		if (visualizzatoreCapitoli.haCapitoloPrecedente()){
 			visualizzatoreCapitoli.capitoloPrecedente();
 			visualizzaPaginaCorrente();
+			numeroCapitolo--;
 		}
 	}
 	
@@ -174,6 +188,7 @@ public class PannelloVisualizzatore extends JPanel implements KeyListener
 		if (visualizzatoreCapitoli.haCapitoloSuccessivo()){
 			visualizzatoreCapitoli.capitoloSuccessivo();
 			visualizzaPaginaCorrente();
+			numeroCapitolo++;
 		}
 		
 	}

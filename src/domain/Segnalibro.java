@@ -6,15 +6,15 @@ public class Segnalibro {
 	
 	private String fumetto;
 	private String lettore;
-	private int volume;
+	private Volume volume;
 	private int capitolo;
 	private int pagina;
 	
-	public int getVolume() {
+	public Volume getVolume() {
 		return volume;
 	}
 
-	public void setVolume(int volume) {
+	public void setVolume(Volume volume) {
 		this.volume = volume;
 	}
 
@@ -38,10 +38,15 @@ public class Segnalibro {
 		this.pagina = pagina;
 	}
 
-	public Segnalibro(TuplaSegnalibro tuplaSegnalibro){
-		fumetto = tuplaSegnalibro.getFumetto();
+	public int getPagina()
+	{
+		return pagina;
+	}
+	
+	public Segnalibro(TuplaSegnalibro tuplaSegnalibro, Fumetto fumetto){
+		this.fumetto = tuplaSegnalibro.getFumetto();
 		lettore = tuplaSegnalibro.getLettore();
-		volume = tuplaSegnalibro.getVolume();
+		volume = fumetto.getNumeroVolume(tuplaSegnalibro.getVolume());
 		capitolo = tuplaSegnalibro.getCapitolo();
 		pagina = tuplaSegnalibro.getPagina();
 	}

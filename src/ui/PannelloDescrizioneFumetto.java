@@ -20,7 +20,9 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -74,6 +76,8 @@ public class PannelloDescrizioneFumetto extends JPanel
 	private Volume volumi[];
 	
 	private String ultimoPannelloInstanziato;
+	private JButton bottoneSegnalibro;
+	private boolean ePresenteUnSegnalibro;
 	
 	public PannelloDescrizioneFumetto(Fumetto fumetto, Image immagineCopertinaFumetto, int panelWidth, int panelHeight,final MyPanel panel) 
 	{
@@ -256,6 +260,17 @@ public class PannelloDescrizioneFumetto extends JPanel
 		bottoneIndietro.setBounds(nome.getX()+((int)this.getPreferredSize().getWidth()-(int)bottoneIndietro.getPreferredSize().getWidth()-20), nome.getY()*2, 30, 30);
 		add(bottoneIndietro);
 		bottoneIndietro.addActionListener(listener);
+		
+		if (this.fumetto.getSegnalibro() != null)
+		{
+			aggiungiSegnalibro();
+			ePresenteUnSegnalibro = true;
+		}
+	}
+	
+	public boolean getBooleanSegnalibro()
+	{
+		return ePresenteUnSegnalibro;
 	}
 	
 	public Fumetto getFumetto()
@@ -300,6 +315,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 			{
 				remove(myButton);
 			}
+			
 			bottoniCapitoli.clear();
 		}
 		
@@ -330,6 +346,7 @@ public class PannelloDescrizioneFumetto extends JPanel
 				setPreferredSize(new Dimension((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight()+(int)bottoniCapitoli.get(j-1).getPreferredSize().getHeight()));
 			}
 		}
+		repaint();
 	}
 	
 	public void disegnaCopertineVolumi(int indiceIniziale, int indiceFinale, int tipo)
@@ -373,11 +390,43 @@ public class PannelloDescrizioneFumetto extends JPanel
 			bottoneAvantiVolumi.setEnabled(false);
 	}
 	
+	public void setBiancoTitoliCapitoli()
+	{
+		for (BottoneCapitolo bottoneCapitolo : bottoniCapitoli)
+		{
+			bottoneCapitolo.setForeground(Color.WHITE);
+		}
+	}
+	
 	public void setUltimoLettoreVisto(Lettore lettoreVisto)
 	{
 		this.ultimoLettoreVisto = lettoreVisto;
 	}
 	
+	public void aggiungiSegnalibro()
+	{
+		if (bottoneSegnalibro != null)
+		{
+			this.remove(bottoneSegnalibro);
+			bottoneSegnalibro = new JButton();
+		}
+		else
+			bottoneSegnalibro = new JButton();
+			
+//		setBottone(bottonePreferiti, imageMeno, 25, 25);
+		bottoneSegnalibro.setText("Segnalibro");
+		bottoneSegnalibro.setFont(new Font("Caladea", Font.HANGING_BASELINE, 14));
+		bottoneSegnalibro.setForeground(Color.DARK_GRAY);
+		bottoneSegnalibro.setBounds(10+bottoneDaLeggere.getX()+(int)bottoneDaLeggere.getPreferredSize().getWidth()+(int)bottoneDaLeggere.getInsets().bottom, 5+ starRated.getY() + (int) starRated.getPreferredSize().getHeight(), (int)bottoneSegnalibro.getPreferredSize().getWidth(), (int)bottoneSegnalibro.getPreferredSize().getHeight());
+		bottoneSegnalibro.setBorderPainted(false);
+		bottoneSegnalibro.setFocusPainted(false);
+		bottoneSegnalibro.setContentAreaFilled(false);
+		bottoneSegnalibro.setBackground(this.getBackground());
+		bottoneSegnalibro.addActionListener(listener);
+		add(bottoneSegnalibro);
+		
+	}
+
 	private class MyListener implements ActionListener 
 	{
 		@Override
@@ -466,6 +515,13 @@ public class PannelloDescrizioneFumetto extends JPanel
 					panel.getLettore().rimuoviDaLeggere(fumetto);
 					setBottone(bottoneDaLeggere, imagePiu, 25, 25);
 				}
+			}
+			else if (source == bottoneSegnalibro)
+			{
+				fumetto.setSegnalibro();
+				panel.PremiPerCapitolo(fumetto.getSegnalibro().getVolume(), fumetto, 
+						fumetto.getSegnalibro().getCapitolo(), 
+						fumetto.getCopertina(), fumetto.getSegnalibro().getPagina());
 			}
 			
 			repaint();

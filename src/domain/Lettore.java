@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import technicalService.GestoreDataBase;
 import technicalService.TuplaFumetto;
 import technicalService.TuplaLettore;
+import technicalService.TuplaSegnalibro;
 
 public class Lettore {
 	
@@ -15,15 +16,15 @@ public class Lettore {
 	private String urlFoto;
 	private int numFollow;
 	private int numFollower;
-	
 	private String[] idAmiciFB;
-
+	
 	private HashMap<String, Lettore> follower;
 	private HashMap<String, Lettore> follows;
 	private HashMap<String, Fumetto> preferiti;
 	private HashMap<String, Fumetto> daLeggere;
 	private LinkedHashMap<String, Fumetto> cronologia;
 	private HashMap<String,Lettore> amiciFb;
+	
 	private TuplaLettore tuplaLettore;
 	private GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
 	
@@ -61,6 +62,7 @@ public class Lettore {
 		daLeggere = null;
 		cronologia = null;
 	}
+	
 	public void setIdAmiciFB(String[] amiciId){
 		idAmiciFB=amiciId;
 	}
@@ -80,6 +82,7 @@ public class Lettore {
 			amiciFb.put(idFacebook,new Lettore(idFacebook,nome,urlFoto, numFollow, numFollower));
 		}
 	}
+	
 	public void caricaFollows(){
 		
 		if(follows != null) return;
@@ -335,6 +338,7 @@ public class Lettore {
 		caricaCronologia();
 		return cronologia;
 	}
+
 	public int getNumeroFollowerAltroLettore()
 	{
 		return numFollower;
