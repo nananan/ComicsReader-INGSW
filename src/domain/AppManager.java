@@ -12,17 +12,19 @@ public class AppManager
 	private static	int statoApp;
 	
 	private static Lettore utenteLettore;
+	private static GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
 	
-	public static void effettuaLogin(String idLettore)
+	public static void effettuaLogin(String idLettore, String nome, String url,String[] idAmici)
 	{
-		GestoreDataBase.getIstanza();
+		gestoreDB = GestoreDataBase.getIstanza();
 		GestoreDataBase.connetti();
+		gestoreDB.aggiungiUtente(idLettore,nome ,url);
 		TuplaLettore tuplaLettore = GestoreDataBase.getIstanza().creaTuplaLettore(idLettore);
 		tuplaLettore.prossima();
 		utenteLettore = new Lettore(tuplaLettore);
+		utenteLettore.setIdAmiciFB(idAmici);
 		statoApp = SESSIONE_ONLINE;
 	}
-	
 	public static void setSessionePrivata()
 	{
 		statoApp = SESSIONE_PRIVATA;

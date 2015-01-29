@@ -16,12 +16,14 @@ public class Lettore {
 	private int numFollow;
 	private int numFollower;
 	
+	private String[] idAmiciFB;
+
 	private HashMap<String, Lettore> follower;
 	private HashMap<String, Lettore> follows;
 	private HashMap<String, Fumetto> preferiti;
 	private HashMap<String, Fumetto> daLeggere;
 	private LinkedHashMap<String, Fumetto> cronologia;
-	
+	private HashMap<String,Lettore> amiciFb;
 	private TuplaLettore tuplaLettore;
 	private GestoreDataBase gestoreDB = GestoreDataBase.getIstanza();
 	
@@ -59,7 +61,25 @@ public class Lettore {
 		daLeggere = null;
 		cronologia = null;
 	}
-	
+	public void setIdAmiciFB(String[] amiciId){
+		idAmiciFB=amiciId;
+	}
+	public void caricaAmiciFb(){
+		if(amiciFb != null) return;
+		
+		amiciFb = new HashMap<>();
+		
+		for(String amico : idAmiciFB){
+			TuplaLettore tupla=gestoreDB.creaTuplaLettore(amico);
+			tupla.prossima();
+			String idFacebook = tupla.getIdFacebook();
+			String nome = tupla.getNome();
+			String urlFoto = tupla.getUrlFoto();
+			int numFollow = tupla.getNumFollows();
+			int numFollower = tupla.getNumFollower();
+			amiciFb.put(idFacebook,new Lettore(idFacebook,nome,urlFoto, numFollow, numFollower));
+		}
+	}
 	public void caricaFollows(){
 		
 		if(follows != null) return;

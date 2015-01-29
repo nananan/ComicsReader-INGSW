@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import web.GestoreJSON;
+import web.WebLogin;
 import domain.AppManager;
 import domain.Lettore;
 
@@ -18,7 +20,10 @@ public class Login extends JPanel
 {
 	PannelloLogin panel = null;
 	
-	JTextField textAreaName = new JTextField("946707932005920");
+	JTextField textAreaName = new JTextField();
+
+	WebLogin webLogin = new WebLogin();
+
 	JPasswordField textAreaPassword = new JPasswordField();
 	Text insertName = new Text("UserName");
 	Text insertPassword = new Text("Password");
@@ -67,16 +72,25 @@ public class Login extends JPanel
 		buttonOk.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e)
 			{
-				String text = textAreaName.getText();
+				String email = textAreaName.getText();
+				String pass = textAreaPassword.getText();
 				
-				AppManager.effettuaLogin(text);
+				webLogin.setEmail(email);
+				webLogin.setPass(pass);
+				webLogin.clickLoginBotton();
 				
+				GestoreJSON gestoreJSON = new GestoreJSON(webLogin.getURLAmiciJSON(), webLogin.getURLUtenteJSON());
+				
+				String id=gestoreJSON.getIdUtente();
+				String nome = gestoreJSON.getNomeUtente();
+				String url = webLogin.getURLFoto(id);
+				String[] amiciId = gestoreJSON.getIdAmici();
+				AppManager.effettuaLogin(id,nome,url,amiciId);
 				lettore = AppManager.getLettore();
 				
 //				if (textAreaPassword.getText().isEmpty())
 //					System.out.println("inserisci la password");
 				
-				System.out.println(text);
 				pressedOk = true;
 			}
 		 });

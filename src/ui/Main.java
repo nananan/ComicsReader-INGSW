@@ -42,35 +42,4 @@ public class Main extends Thread{
 		f.repaint();
 		GestoreDataBase.disconnetti();
 	}
-
-	private static void deleteSng(String ng){
-		try {
-			File temp = File.createTempFile("preferiti",".txt");
-			temp.deleteOnExit();
-
-	        BufferedWriter out = new BufferedWriter(new FileWriter(temp));
-	        PrintWriter pw = new PrintWriter(out,true);
-	        BufferedReader in = new BufferedReader(new FileReader(ng));
-	        	        
-	        //scandisco le righe del file e non considero la riga che voglio eliminare
-	        String linea = in.readLine();
-	        while (linea != null) {
-				if (!linea.equals(ng+".xml")) {
-					pw.println(linea);
-				}
-				linea = in.readLine();
-	       }
-
-	        in.close();
-	        out.close();
-	        //pw.close();
-
-
-	        File file= temp;
-	        FileOutputStream fos=new FileOutputStream(file);
-	        
-	    } catch (IOException e) {
-	    }
-	}
-	
 }

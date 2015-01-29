@@ -296,7 +296,15 @@ public class GestoreDataBase {
 			e.printStackTrace();
 		}	
 	}
-
+	public void aggiungiUtente(String idLettore, String nome, String urlFoto)
+	{		
+		String query = "call login(\""+idLettore+"\",\""+nome+"\",\""+urlFoto+"\");";
+		try{
+			getStatement().execute(query);
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
 	public void aggiungiFollow(String lettore,String follow){
 		
 		String query = "INSERT INTO segue(utente_follower,utente_follow)values (\""+lettore
