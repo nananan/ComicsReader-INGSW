@@ -24,7 +24,7 @@ public class Login extends JPanel
 
 	WebLogin webLogin = new WebLogin();
 
-	JPasswordField textAreaPassword = new JPasswordField("nisdunimfe");
+	JPasswordField textAreaPassword = new JPasswordField("");
 	Text insertName = new Text("UserName");
 	Text insertPassword = new Text("Password");
 	MyButton buttonOk = new MyButton("Ok",new Color(35,148,188));

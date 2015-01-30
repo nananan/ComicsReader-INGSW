@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jws.WebParam;
+
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.Page;
@@ -20,7 +22,6 @@ public class WebLogin
 	private final static String URL_LOGIN = "https://www.facebook.com/dialog/oauth?client_id=1526250877630357&redirect_uri=http://5.196.65.101/~ComicsReader/facebook/comicsLogin.php&scope=user_friends,user_photos";
 	private static String URL_FRIENDS ="https://graph.facebook.com/me/friends?";
 	private static String URL_USER ="https://graph.facebook.com/me?";
-	private static String URL_USER_PHOTO ="https://graph.facebook.com/me/picture?";
 	
 	private WebClient webClient;
     private HtmlPage page1;
@@ -103,19 +104,19 @@ public class WebLogin
     	try
 		{
 			page2=loginBotton.click();
-//			page2=webClient.getPage(page1.getUrl());
-//			HtmlBody body = (HtmlBody) page2.getBody();
-//			System.out.println(body.asXml());
+			
+			System.out.println(page2.getUrl());
+			HtmlPage page3 = webClient.getPage(page2.getUrl());
 			String accessToken =page2.getBody().getTextContent().replaceFirst("\n", ""); 
 			URL_FRIENDS+=accessToken;
 			URL_USER+=accessToken;
-			URL_USER_PHOTO+=accessToken;
-			System.out.println(URL_USER_PHOTO);
 //			String url = page2.getUrl().toString();
 //			System.out.println(url);
 //			HtmlPage pagFac = webClient.getPage(url);
 //			System.out.println(form);
 //			System.out.println(URL_FRIENDS);
+			
+			System.out.println(page3.asXml());
 			
 		} catch (IOException e)
 		{
