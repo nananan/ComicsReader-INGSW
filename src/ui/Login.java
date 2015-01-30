@@ -31,6 +31,7 @@ public class Login extends JPanel
 	Text insertPassword = new Text("Password");
 	MyButton buttonOk = new MyButton("Ok",new Color(35,148,188));
 	MyButton buttonAnnulla = new MyButton("Annulla",new Color(35,148,188));
+	MyButton buttonPrimoAccesso = new MyButton("Primo Accesso",new Color(35,148,188));
 	
 	private Lettore lettore; 
 	
@@ -111,7 +112,42 @@ public class Login extends JPanel
 		buttonOk.setPreferredSize(new Dimension(70,altezzaButton));
 		buttonOk.setBounds(larghezza-(int)buttonAnnulla.getPreferredSize().getWidth()-(int)buttonOk.getPreferredSize().getWidth(), altezza-(int)buttonOk.getPreferredSize().getHeight(), (int)buttonOk.getPreferredSize().getWidth(), (int)buttonOk.getPreferredSize().getHeight());
 		panel.add(buttonOk);
+		
+		buttonPrimoAccesso.setPreferredSize(new Dimension(120,altezzaButton));
+		buttonPrimoAccesso.setBounds(larghezza-(int)buttonOk.getPreferredSize().getHeight() - (int)buttonAnnulla.getPreferredSize().getWidth()
+				- (int)buttonPrimoAccesso.getPreferredSize().getWidth()-20, 
+				altezza-(int)buttonAnnulla.getPreferredSize().getHeight(), 
+				(int)buttonPrimoAccesso.getPreferredSize().getWidth(), 
+				(int)buttonPrimoAccesso.getPreferredSize().getHeight());
+		panel.add(buttonPrimoAccesso);
+		
 		buttonOk.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e)
+			{
+				String email = textAreaName.getText();
+				String pass = textAreaPassword.getText();
+				
+				webLogin.setEmail(email);
+				webLogin.setPass(pass);
+				webLogin.clickLoginBotton();
+				
+				GestoreJSON gestoreJSON = new GestoreJSON(webLogin.getURLAmiciJSON(), webLogin.getURLUtenteJSON());
+				
+				String id=gestoreJSON.getIdUtente();
+				String nome = gestoreJSON.getNomeUtente();
+				String url = webLogin.getURLFoto(id);
+				String[] amiciId = gestoreJSON.getIdAmici();
+				AppManager.effettuaLogin(id,nome,url,amiciId);
+				lettore = AppManager.getLettore();
+				
+//				if (textAreaPassword.getText().isEmpty())
+//					System.out.println("inserisci la password");
+				
+				pressedOk = true;
+			}
+		 });
+		
+		buttonPrimoAccesso.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e)
 			{
 				String email = textAreaName.getText();
