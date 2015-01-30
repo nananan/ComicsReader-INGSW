@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -61,6 +63,46 @@ public class Login extends JPanel
 		textAreaPassword.setEchoChar('*');
 		textAreaPassword.setBounds(panel.getInsets().bottom*2, altezzaText +insertPassword.getY(),(int) textAreaPassword.getPreferredSize().getWidth(),(int) textAreaPassword.getPreferredSize().getHeight());
 		panel.add(textAreaPassword);
+		textAreaPassword.addKeyListener(new KeyListener()
+		{
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				if(e.getKeyChar() == KeyEvent.VK_ENTER)
+				{
+					String email = textAreaName.getText();
+					String pass = textAreaPassword.getText();
+					
+					webLogin.setEmail(email);
+					webLogin.setPass(pass);
+					webLogin.clickLoginBotton();
+					
+					GestoreJSON gestoreJSON = new GestoreJSON(webLogin.getURLAmiciJSON(), webLogin.getURLUtenteJSON());
+					
+					String id=gestoreJSON.getIdUtente();
+					String nome = gestoreJSON.getNomeUtente();
+					String url = webLogin.getURLFoto(id);
+					String[] amiciId = gestoreJSON.getIdAmici();
+					AppManager.effettuaLogin(id,nome,url,amiciId);
+					lettore = AppManager.getLettore();
+					
+	//				if (textAreaPassword.getText().isEmpty())
+	//					System.out.println("inserisci la password");
+					
+					pressedOk = true;
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+			}
+		});
 		
 		buttonAnnulla.setPreferredSize(new Dimension(90,altezzaButton));
 		buttonAnnulla.setBounds(larghezza-(int)buttonAnnulla.getPreferredSize().getWidth(), altezza-(int)buttonAnnulla.getPreferredSize().getHeight(), (int)buttonAnnulla.getPreferredSize().getWidth(), (int)buttonAnnulla.getPreferredSize().getHeight());
