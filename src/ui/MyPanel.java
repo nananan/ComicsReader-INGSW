@@ -41,6 +41,7 @@ public class MyPanel extends JPanel
 	PannelloProfilo pannelloProfilo;
 	PannelloVisualizzatore pannelloVisualizzatore;
 	
+	private boolean primoAvvio=true;
 	private PannelloScrollPane pannelloScrollCapitoli;
 	private PannelloScrollPane pannelloScrollOffline;
 	private HashMap<String,PannelloScrollPane> arrayPannelliDescrizione = new HashMap<>();
@@ -59,30 +60,27 @@ public class MyPanel extends JPanel
 	private boolean eStatoRichiestoIlProfiloAltroUtente;
 	private Lettore lettoreVisto;
 	private PannelloScrollPane pannelloScrollDestro;
-	private int visualizzatore;
-	private PannelloLoading loading;
 	private PannelloScrollPane pannelloAmici;
-	
 	private static Color COLORE = Color.GRAY;
 	
-	public MyPanel() throws IOException 
+	public MyPanel()
 	{
 		super();
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());	
+		this.add(pannelloSinistro,BorderLayout.WEST);
+		PremiPerDiscover();
+		this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);	
+	}
+	
+	public void setLettore(){
+		this.lettore = AppManager.getLettore();
 		pannelloScrollDestro = new PannelloScrollPane(new PannelloDestro(this), 0, new Color(91,84,84));
 		pannelloSopra = new PannelloSopra(this, (int)pannelloScrollDestro.getPreferredSize().getWidth());
-		
-		this.lettore = AppManager.getLettore();
-		
-		this.add(pannelloScrollDestro,BorderLayout.EAST);
-		this.add(pannelloSinistro,BorderLayout.WEST);
 		this.add(pannelloSopra, BorderLayout.NORTH);
-		PremiPerDiscover();
-	
-		this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);
-		
+		this.add(pannelloScrollDestro,BorderLayout.EAST);
+		pannelloSopra.setBooleanaPerBottoneFiltro(true);
+		primoAvvio=false;
 		this.validate();
-		
 	}
 	
 	public void PremiPerFiltraggio()
@@ -117,8 +115,7 @@ public class MyPanel extends JPanel
 		
 		if (!mapPannelliCentrali.containsKey("Filtri"))
 		{
-			mapPannelliCentrali.put("Filtri", new PannelloCentrale(this, 
-					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
+			mapPannelliCentrali.put("Filtri", new PannelloCentrale(this));
 			mapPannelliCentrali.get("Filtri").setRicercaFiltri(filtri, statoFumetto, tipoFumetto);
 			this.add(mapPannelliCentrali.get("Filtri"), BorderLayout.CENTER);
 			this.validate();
@@ -135,14 +132,15 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerAvereRisultatiDellaRicerca(String tipoDaCercare, String nomeDaCercare)
 	{
-		rimuoviPrecedenti();
-		rimuoviBooleani();
+		
+			rimuoviPrecedenti();
+			rimuoviBooleani();
+		
 		eStatoRichiestoLaRicerca = true;
 		
 		if (!mapPannelliCentrali.containsKey("Ricerca"))
 		{
-			mapPannelliCentrali.put("Ricerca", new PannelloCentrale(this, 
-					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
+			mapPannelliCentrali.put("Ricerca", new PannelloCentrale(this));
 			mapPannelliCentrali.get("Ricerca").setRicerca(tipoDaCercare, nomeDaCercare);
 			this.add(mapPannelliCentrali.get("Ricerca"), BorderLayout.CENTER);
 			this.validate();
@@ -177,18 +175,16 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerDiscover()
 	{
-//		PannelloLoading loading = new PannelloLoading();
-//		add(loading);
-		
+		if(!primoAvvio){
 		rimuoviPrecedenti();
 		rimuoviBooleani();
 		pannelloSopra.setBooleanaPerBottoneFiltro(true);
+		}
 		pannelloSinistro.setColorBottoneDiscover(new Color(35,148,188));
 		eStatoRichiestoIlDiscover = true;
 		if (!mapPannelliCentrali.containsKey("Discover"))
 		{
-			mapPannelliCentrali.put("Discover", new PannelloCentrale(this, 
-					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
+			mapPannelliCentrali.put("Discover", new PannelloCentrale(this));
 			mapPannelliCentrali.get("Discover").setDiscover();
 //			remove(loading);
 			this.add(mapPannelliCentrali.get("Discover"), BorderLayout.CENTER);
@@ -238,8 +234,9 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto) 
 	{
-		rimuoviPrecedenti();
 		
+		
+		rimuoviPrecedenti();
 		if (arrayPannelliDescrizione.isEmpty())
 		{
 			arrayPannelliDescrizione.put(fumetto.getNome(), new PannelloScrollPane(
@@ -268,7 +265,7 @@ public class MyPanel extends JPanel
 				this.add(arrayPannelliDescrizione.get(fumetto.getNome()), BorderLayout.CENTER);
 			}
 		}
-		
+
 		this.validate();
 		repaint();
 		if (((PannelloDescrizioneFumetto) arrayPannelliDescrizione.get(fumetto.getNome()).getPanel()).getBooleanSegnalibro())
@@ -336,8 +333,7 @@ public class MyPanel extends JPanel
 		eStatoRichiestoPiuLetti = true;
 		if (!mapPannelliCentrali.containsKey("PiuLetti"))
 		{
-			mapPannelliCentrali.put("PiuLetti", new PannelloCentrale(this, 
-					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
+			mapPannelliCentrali.put("PiuLetti", new PannelloCentrale(this));
 			mapPannelliCentrali.get("PiuLetti").setTopRead();
 			this.add(mapPannelliCentrali.get("PiuLetti"), BorderLayout.CENTER);
 			this.validate();
@@ -360,8 +356,7 @@ public class MyPanel extends JPanel
 		
 		if (!mapPannelliCentrali.containsKey("PiuVotati"))
 		{
-			mapPannelliCentrali.put("PiuVotati", new PannelloCentrale(this, 
-					(int)pannelloScrollDestro.getPreferredSize().getWidth()));
+			mapPannelliCentrali.put("PiuVotati", new PannelloCentrale(this));
 			mapPannelliCentrali.get("PiuVotati").setTopRated();
 			this.add(mapPannelliCentrali.get("PiuVotati"), BorderLayout.CENTER);
 			this.validate();
@@ -458,6 +453,7 @@ public class MyPanel extends JPanel
 	
 	private void rimuoviPrecedenti()
 	{
+		if(primoAvvio)
 		if (mapPannelliCentrali.get("Ricerca") != null)
 			remove(mapPannelliCentrali.get("Ricerca"));
 		if (mapPannelliCentrali.get("Discover") != null)

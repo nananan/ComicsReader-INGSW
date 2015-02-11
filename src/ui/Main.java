@@ -16,6 +16,7 @@ import java.sql.SQLException;
 
 import javax.swing.JFrame;
 
+import domain.AppManager;
 import technicalService.GestoreDataBase;
 
 
@@ -23,9 +24,14 @@ public class Main extends Thread{
 
 	public static void main(String[] args) throws Exception 
 	{
-		GestoreDataBase.connetti();
-		JFrame f = new FrameLogin();
-		while (!((FrameLogin) f).getPanel().pareCheHaInseritoTutto())
+		
+		ComimcsReaderFrame comicsReader = new ComimcsReaderFrame();
+		ControllaStatoApp controllaStatoApp = new ControllaStatoApp();
+		AppManager.provaConnessione();
+		controllaStatoApp.start();
+		comicsReader.run();
+		FrameLogin login = new FrameLogin();
+		while (!((FrameLogin) login).getPanel().pareCheHaInseritoTutto())
 		{
 			try
 			{
@@ -37,9 +43,7 @@ public class Main extends Thread{
 			}
 		}
 
-		f.setVisible(false);
-		f = new MyFrame(((FrameLogin) f).getPanel().getLettore());
-		f.repaint();
-		GestoreDataBase.disconnetti();
+		login.setVisible(false);
+		comicsReader.setVisible(true);
 	}
 }

@@ -62,10 +62,11 @@ public class PannelloCentrale extends JPanel
 	
 	private String arrayNumeriClassifica[];
 	
-	public PannelloCentrale(final MyPanel panel, int larghezzaPannello)
+	public PannelloCentrale(final MyPanel panel)
 	{
 		super();	
 		setBackground(Color.GRAY);
+		int larghezzaPannello = ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 3) - 40;
 		setPreferredSize(new Dimension(larghezza-larghezzaPannello*2, altezza));
 		this.setBorder(BorderFactory.createLineBorder(Color.black,1));
 		setLayout(null);

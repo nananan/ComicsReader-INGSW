@@ -25,6 +25,13 @@ public class AppManager
 		utenteLettore.setIdAmiciFB(idAmici);
 		statoApp = SESSIONE_ONLINE;
 	}
+	
+	public static boolean dbConnesso(){
+		return GestoreDataBase.eConnesso();
+	}
+	public static void provaConnessione(){
+		GestoreDataBase.connetti();
+	}
 	public static void setSessionePrivata()
 	{
 		statoApp = SESSIONE_PRIVATA;

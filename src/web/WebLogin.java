@@ -49,7 +49,6 @@ public class WebLogin
 		    Logger logger = Logger.getLogger ("");
 		    logger.setLevel (Level.OFF);
 			page1 = webClient.getPage(URL_LOGIN);
-			System.out.println(page1);
 			form = page1.getForms().get(0);
 			loginBotton = form.getInputByName("login");
 			email = form.getInputByName("email");
@@ -100,23 +99,16 @@ public class WebLogin
     	this.email.setValueAttribute(email);
     }
    
-    public void clickLoginBotton(){
+    public void clickLoginBotton() throws ErroreAutenticazioneException{
     	try
 		{
 			page2=loginBotton.click();
-			
-			System.out.println(page2.getUrl());
-			HtmlPage page3 = webClient.getPage(page2.getUrl());
 			String accessToken =page2.getBody().getTextContent().replaceFirst("\n", ""); 
+			if(!accessToken.contains("access_token")){
+				throw new ErroreAutenticazioneException();
+			}
 			URL_FRIENDS+=accessToken;
 			URL_USER+=accessToken;
-//			String url = page2.getUrl().toString();
-//			System.out.println(url);
-//			HtmlPage pagFac = webClient.getPage(url);
-//			System.out.println(form);
-//			System.out.println(URL_FRIENDS);
-			
-			System.out.println(page3.asXml());
 			
 		} catch (IOException e)
 		{

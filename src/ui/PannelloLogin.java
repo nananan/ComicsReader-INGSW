@@ -19,9 +19,6 @@ public class PannelloLogin extends JPanel
 	
 	public PannelloLogin(int larghezza, int altezza) 
 	{
-//		int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/costanteDivisione;
-//		int altezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()/(costanteDivisione+1);
-		
 		setBounds(0, 0, larghezza, altezza);
 		setBorder(BorderFactory.createLineBorder(Color.black,3));
 		setLayout(null);

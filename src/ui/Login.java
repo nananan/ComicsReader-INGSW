@@ -3,36 +3,44 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
+import web.ErroreAutenticazioneException;
 import web.GestoreJSON;
 import web.WebLogin;
 import domain.AppManager;
 import domain.Lettore;
 
 
-public class Login extends JPanel
+public class Login extends JPanel 
 {
-	PannelloLogin panel = null;
 	
-	JTextField textAreaName = new JTextField("eliana-c@live.it");
+	private JTextField textAreaName = new JTextField("manuel.drago@hotmail.it");
+	private JTextPane erroreLogin = new JTextPane();
 
-	WebLogin webLogin = new WebLogin();
-
-	JPasswordField textAreaPassword = new JPasswordField("");
-	Text insertName = new Text("UserName");
-	Text insertPassword = new Text("Password");
-	MyButton buttonOk = new MyButton("Ok",new Color(35,148,188));
-	MyButton buttonAnnulla = new MyButton("Annulla",new Color(35,148,188));
-	MyButton buttonPrimoAccesso = new MyButton("Primo Accesso",new Color(35,148,188));
-	
+	private WebLogin webLogin = new WebLogin();
+	private PannelloLoading pannelloLoading = PannelloLoading.getIstanza();
+	private JPasswordField textAreaPassword = new JPasswordField("dragon@");
+	private JButton buttonOk = new JButton("Login");
+	private JButton buttonAnnulla = new JButton("Annulla");
 	private Lettore lettore; 
 	
 	boolean pressedOk = false;
@@ -40,30 +48,54 @@ public class Login extends JPanel
 	public Login(int larghezza, int altezza) 
 	{
 		super();
-		this.setBackground(new Color(137,130,130));
-		this.setLayout(new BorderLayout());
+		this.setBackground(new Color(18, 19, 20));
+		this.setLayout(null);
 		
-		int altezzaText = altezza/11;
-		int altezzaButton = altezza/9;
+		int altezzaText = altezza/14;
+		int altezzaButton = 30;
+		int distanzaBordo = 35;
+		int distanzaText = 15;
+		int larghezzaText = larghezza -(distanzaBordo*2);
 		
-		panel = new PannelloLogin(larghezza,altezza);
-		this.add(panel, BorderLayout.CENTER);
-		insertName.setPreferredSize(new Dimension(larghezza,altezzaText));
-		insertName.setBounds(panel.getInsets().bottom*2, altezzaText,(int) insertName.getPreferredSize().getWidth(),(int) insertName.getPreferredSize().getHeight());
-		panel.add(insertName);
+		JLabel iconLabel = new JLabel();
+		iconLabel.setIcon(new ImageIcon("image/iconLogin.png"));
+		iconLabel.setPreferredSize(new Dimension(150, 200));
+		iconLabel.setBounds(12+larghezza/2-(int)iconLabel.getPreferredSize().getWidth()/2, (int)getPreferredSize().getHeight(), (int)iconLabel.getPreferredSize().getWidth(), (int)iconLabel.getPreferredSize().getHeight());
+		this.add(iconLabel);
+		JLabel nomeLabel = new JLabel();
+		ImageIcon iconCR= new  ImageIcon("image/ComicsReader.jpg");
+		nomeLabel.setIcon(iconCR);
+		nomeLabel.setPreferredSize(new Dimension(iconCR.getIconHeight(), iconCR.getIconWidth()));
+		nomeLabel.setBounds(25, nomeLabel.getIcon().getIconHeight()+nomeLabel.getY(), iconCR.getIconWidth(), (int)nomeLabel.getPreferredSize().getHeight());
+		this.add(nomeLabel);
+	
+		textAreaName.setPreferredSize(new Dimension(larghezzaText, altezzaText));
+		textAreaName.setBounds(distanzaBordo, altezza-altezza/3,(int) textAreaName.getPreferredSize().getWidth(),(int) textAreaName.getPreferredSize().getHeight());
+
+		textAreaName.setUI(new TextAreaUI("Email Facebook", Color.gray));
+		this.add(textAreaName);
 		
-		textAreaName.setPreferredSize(new Dimension(larghezza/3, altezzaText));
-		textAreaName.setBounds(panel.getInsets().bottom*2, altezzaText + insertName.getY(),(int) textAreaName.getPreferredSize().getWidth(),(int) textAreaName.getPreferredSize().getHeight());
-		panel.add(textAreaName);
-		
-		insertPassword.setPreferredSize(new Dimension(larghezza, altezzaText));
-		insertPassword.setBounds(panel.getInsets().bottom*2, altezzaText*2 + textAreaName.getY(),(int) insertPassword.getPreferredSize().getWidth(),(int) insertPassword.getPreferredSize().getHeight());
-		panel.add(insertPassword);
+//		insertPassword.setPreferredSize(new Dimension(larghezza, altezzaText));
+//		insertPassword.setBounds(l, altezzaText*2 + textAreaName.getY(),(int) insertPassword.getPreferredSize().getWidth(),(int) insertPassword.getPreferredSize().getHeight());
+//		panel.add(insertPassword);
 		
 		textAreaPassword.setPreferredSize(new Dimension((int)textAreaName.getPreferredSize().getWidth(), altezzaText));
 		textAreaPassword.setEchoChar('*');
-		textAreaPassword.setBounds(panel.getInsets().bottom*2, altezzaText +insertPassword.getY(),(int) textAreaPassword.getPreferredSize().getWidth(),(int) textAreaPassword.getPreferredSize().getHeight());
-		panel.add(textAreaPassword);
+
+//		textAreaPassword.setUI(new TextAreaUI("Password",Color.gray));
+		textAreaPassword.setBounds(distanzaBordo, altezzaText+textAreaName.getY()+distanzaText,(int) textAreaPassword.getPreferredSize().getWidth(),(int) textAreaPassword.getPreferredSize().getHeight());
+		this.add(textAreaPassword);
+		
+		String errore  = "Login Fallito. L'email facebook o \nla password è sbagliata.";
+		erroreLogin.setBackground(new Color(18, 19, 20));
+		erroreLogin.setText(errore);
+		erroreLogin.setForeground(Color.red);
+		erroreLogin.setPreferredSize(new Dimension(larghezza, altezzaText));
+		erroreLogin.setBounds(distanzaBordo,240,(int) erroreLogin.getPreferredSize().getWidth(),(int) erroreLogin.getPreferredSize().getHeight());
+		erroreLogin.setEditable(false);
+		this.add(erroreLogin);
+		erroreLogin.setVisible(false);
+		
 		textAreaPassword.addKeyListener(new KeyListener()
 		{
 			@Override
@@ -75,101 +107,31 @@ public class Login extends JPanel
 			public void keyReleased(KeyEvent e)
 			{
 				if(e.getKeyChar() == KeyEvent.VK_ENTER)
-				{
-					String email = textAreaName.getText();
-					String pass = textAreaPassword.getText();
+					provaLogin();
 					
-					webLogin.setEmail(email);
-					webLogin.setPass(pass);
-					webLogin.clickLoginBotton();
-					
-					GestoreJSON gestoreJSON = new GestoreJSON(webLogin.getURLAmiciJSON(), webLogin.getURLUtenteJSON());
-					
-					String id=gestoreJSON.getIdUtente();
-					String nome = gestoreJSON.getNomeUtente();
-					String url = webLogin.getURLFoto(id);
-					String[] amiciId = gestoreJSON.getIdAmici();
-					AppManager.effettuaLogin(id,nome,url,amiciId);
-					lettore = AppManager.getLettore();
-					
-	//				if (textAreaPassword.getText().isEmpty())
-	//					System.out.println("inserisci la password");
-					
-					pressedOk = true;
-				}
 			}
 			
 			@Override
 			public void keyPressed(KeyEvent e)
 			{
+				
 			}
 		});
 		
 		buttonAnnulla.setPreferredSize(new Dimension(90,altezzaButton));
-		buttonAnnulla.setBounds(larghezza-(int)buttonAnnulla.getPreferredSize().getWidth(), altezza-(int)buttonAnnulla.getPreferredSize().getHeight(), (int)buttonAnnulla.getPreferredSize().getWidth(), (int)buttonAnnulla.getPreferredSize().getHeight());
-		panel.add(buttonAnnulla);
+		buttonAnnulla.setBounds(larghezza-(distanzaBordo)-90, textAreaPassword.getY()+textAreaPassword.getHeight()+distanzaText, (int)buttonAnnulla.getPreferredSize().getWidth(), (int)buttonAnnulla.getPreferredSize().getHeight());
+		buttonAnnulla.setBackground(new Color(4, 174, 218));
+		this.add(buttonAnnulla);
 		
-		buttonOk.setPreferredSize(new Dimension(70,altezzaButton));
-		buttonOk.setBounds(larghezza-(int)buttonAnnulla.getPreferredSize().getWidth()-(int)buttonOk.getPreferredSize().getWidth(), altezza-(int)buttonOk.getPreferredSize().getHeight(), (int)buttonOk.getPreferredSize().getWidth(), (int)buttonOk.getPreferredSize().getHeight());
-		panel.add(buttonOk);
-		
-		buttonPrimoAccesso.setPreferredSize(new Dimension(120,altezzaButton));
-		buttonPrimoAccesso.setBounds(larghezza-(int)buttonOk.getPreferredSize().getHeight() - (int)buttonAnnulla.getPreferredSize().getWidth()
-				- (int)buttonPrimoAccesso.getPreferredSize().getWidth()-20, 
-				altezza-(int)buttonAnnulla.getPreferredSize().getHeight(), 
-				(int)buttonPrimoAccesso.getPreferredSize().getWidth(), 
-				(int)buttonPrimoAccesso.getPreferredSize().getHeight());
-		panel.add(buttonPrimoAccesso);
+		buttonOk.setPreferredSize(new Dimension(90,altezzaButton));
+		buttonOk.setBounds(distanzaBordo, textAreaPassword.getY()+textAreaPassword.getHeight()+distanzaText, (int)buttonOk.getPreferredSize().getWidth(), (int)buttonOk.getPreferredSize().getHeight());
+		buttonOk.setBackground(new Color(4, 174, 218));
+		this.add(buttonOk);
 		
 		buttonOk.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e)
 			{
-				String email = textAreaName.getText();
-				String pass = textAreaPassword.getText();
-				
-				webLogin.setEmail(email);
-				webLogin.setPass(pass);
-				webLogin.clickLoginBotton();
-				
-				GestoreJSON gestoreJSON = new GestoreJSON(webLogin.getURLAmiciJSON(), webLogin.getURLUtenteJSON());
-				
-				String id=gestoreJSON.getIdUtente();
-				String nome = gestoreJSON.getNomeUtente();
-				String url = webLogin.getURLFoto(id);
-				String[] amiciId = gestoreJSON.getIdAmici();
-				AppManager.effettuaLogin(id,nome,url,amiciId);
-				lettore = AppManager.getLettore();
-				
-//				if (textAreaPassword.getText().isEmpty())
-//					System.out.println("inserisci la password");
-				
-				pressedOk = true;
-			}
-		 });
-		
-		buttonPrimoAccesso.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e)
-			{
-				String email = textAreaName.getText();
-				String pass = textAreaPassword.getText();
-				
-				webLogin.setEmail(email);
-				webLogin.setPass(pass);
-				webLogin.clickLoginBotton();
-				
-				GestoreJSON gestoreJSON = new GestoreJSON(webLogin.getURLAmiciJSON(), webLogin.getURLUtenteJSON());
-				
-				String id=gestoreJSON.getIdUtente();
-				String nome = gestoreJSON.getNomeUtente();
-				String url = webLogin.getURLFoto(id);
-				String[] amiciId = gestoreJSON.getIdAmici();
-				AppManager.effettuaLogin(id,nome,url,amiciId);
-				lettore = AppManager.getLettore();
-				
-//				if (textAreaPassword.getText().isEmpty())
-//					System.out.println("inserisci la password");
-				
-				pressedOk = true;
+				provaLogin();
 			}
 		 });
 		
@@ -185,7 +147,6 @@ public class Login extends JPanel
 	{
 		if (pressedOk)
 		{
-			System.out.println(lettore.getNome());
 //			if (textAreaPassword.getText().isEmpty() || textAreaName.getText().isEmpty())
 //			{	
 //				pressedOk = false;
@@ -206,7 +167,31 @@ public class Login extends JPanel
 		}
 		return false;
 	}
-	
+	private void provaLogin(){
+		String email = textAreaName.getText();
+		String pass = textAreaPassword.getText();
+		try
+		{
+			webLogin.setEmail(email);
+			webLogin.setPass(pass);
+			webLogin.clickLoginBotton();
+			GestoreJSON gestoreJSON = new GestoreJSON(webLogin.getURLAmiciJSON(), webLogin.getURLUtenteJSON());
+			
+			String id=gestoreJSON.getIdUtente();
+			String nome = gestoreJSON.getNomeUtente();
+			String url = webLogin.getURLFoto(id);
+			String[] amiciId = gestoreJSON.getIdAmici();
+			AppManager.effettuaLogin(id,nome,url,amiciId);
+			lettore = AppManager.getLettore();
+			pressedOk = true;
+		} catch (ErroreAutenticazioneException e1)
+		{
+			erroreLogin.setVisible(true);
+		}
+		finally{
+			
+		}
+	}
 	public Lettore getLettore()
 	{
 		return lettore;
@@ -215,7 +200,7 @@ public class Login extends JPanel
 	@Override
 	protected void paintComponent(Graphics g) 
 	{
-		super.paintComponent(g);		
+		super.paintComponent(g);
+		
 	}
-
 }
