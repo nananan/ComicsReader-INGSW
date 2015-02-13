@@ -101,6 +101,7 @@ public class BottoneFumetto extends JButton implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		scaledImageDaPassare = scaledImageDaPassare.getScaledInstance(200, 300, Image.SCALE_SMOOTH);
 		panel.PremiPerFumetto(fumetto, scaledImageDaPassare);
 	}
 	

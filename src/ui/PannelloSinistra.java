@@ -231,18 +231,22 @@ public class PannelloSinistra extends JPanel
 			else if (source == buttonFileLocali)
 			{
 				FileLocali x = new FileLocali();
-		        File folder = new File(x.fileChooser.getSelectedFile().toString());
-		        
-		        File[] listOfFiles = folder.listFiles();
-		        
-		        Arrays.sort(listOfFiles, new Comparator<File>()
+				File folder = null;;
+				if (x.fileChooser.getSelectedFile() != null)
 				{
-		        	public int compare(File file1, File file2) {
-		        		return Integer.parseInt(file1.getName()) - Integer.parseInt(file2.getName());
-		        	};
-				});
+					folder  = new File(x.fileChooser.getSelectedFile().toString());
 		        
-		        panel.premiPerPannelloVisualizzazioneOffline(listOfFiles);
+			        File[] listOfFiles = folder.listFiles();
+			        
+			        Arrays.sort(listOfFiles, new Comparator<File>()
+					{
+			        	public int compare(File file1, File file2) {
+			        		return Integer.parseInt(file1.getName()) - Integer.parseInt(file2.getName());
+			        	};
+					});
+		        
+		        	panel.premiPerPannelloVisualizzazioneOffline(listOfFiles);
+				}
 		        
 			}
 			else if (source == bottoneIndietro || source == tornaIndietro)

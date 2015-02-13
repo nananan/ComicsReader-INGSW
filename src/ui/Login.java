@@ -1,7 +1,9 @@
 package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.InputMethodEvent;
@@ -12,6 +14,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -20,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
@@ -33,13 +38,14 @@ import domain.Lettore;
 public class Login extends JPanel 
 {
 	
-	private JTextField textAreaName = new JTextField("manuel.drago@hotmail.it");
+	private JTextField textAreaName = new JTextField("eliana-c@live.it");
 	private JTextPane erroreLogin = new JTextPane();
 
 	private WebLogin webLogin = new WebLogin();
 	private PannelloLoading pannelloLoading = PannelloLoading.getIstanza();
-	private JPasswordField textAreaPassword = new JPasswordField("dragon@");
+	private JPasswordField textAreaPassword = new JPasswordField("nisdunimfe56");
 	private JButton buttonOk = new JButton("Login");
+	private JButton buttonIscriviti = new JButton("Iscriviti");
 	private JButton buttonAnnulla = new JButton("Annulla");
 	private Lettore lettore; 
 	
@@ -81,12 +87,19 @@ public class Login extends JPanel
 		
 		textAreaPassword.setPreferredSize(new Dimension((int)textAreaName.getPreferredSize().getWidth(), altezzaText));
 		textAreaPassword.setEchoChar('*');
-
 //		textAreaPassword.setUI(new TextAreaUI("Password",Color.gray));
 		textAreaPassword.setBounds(distanzaBordo, altezzaText+textAreaName.getY()+distanzaText,(int) textAreaPassword.getPreferredSize().getWidth(),(int) textAreaPassword.getPreferredSize().getHeight());
 		this.add(textAreaPassword);
 		
-		String errore  = "Login Fallito. L'email facebook o \nla password è sbagliata.";
+		buttonIscriviti.setBounds(textAreaPassword.getX()-20, textAreaPassword.getY()+(int)textAreaPassword.getPreferredSize().getHeight(),(int) buttonIscriviti.getPreferredSize().getWidth(),(int) buttonIscriviti.getPreferredSize().getHeight());
+		buttonIscriviti.setFont(new Font("Caladea",Font.BOLD, 12));
+		buttonIscriviti.setForeground(Color.WHITE);
+		buttonIscriviti.setBackground(this.getBackground());
+		buttonIscriviti.setBorderPainted(false);
+		buttonIscriviti.setContentAreaFilled(false);
+		this.add(buttonIscriviti);
+		
+		String errore  = "Login Fallito. L'email facebook o \nla password è sbagliata. Oppure iscriviti";
 		erroreLogin.setBackground(new Color(18, 19, 20));
 		erroreLogin.setText(errore);
 		erroreLogin.setForeground(Color.red);
@@ -119,12 +132,12 @@ public class Login extends JPanel
 		});
 		
 		buttonAnnulla.setPreferredSize(new Dimension(90,altezzaButton));
-		buttonAnnulla.setBounds(larghezza-(distanzaBordo)-90, textAreaPassword.getY()+textAreaPassword.getHeight()+distanzaText, (int)buttonAnnulla.getPreferredSize().getWidth(), (int)buttonAnnulla.getPreferredSize().getHeight());
+		buttonAnnulla.setBounds(larghezza-(distanzaBordo)-90, buttonIscriviti.getY()+buttonIscriviti.getHeight(), (int)buttonAnnulla.getPreferredSize().getWidth(), (int)buttonAnnulla.getPreferredSize().getHeight());
 		buttonAnnulla.setBackground(new Color(4, 174, 218));
 		this.add(buttonAnnulla);
 		
 		buttonOk.setPreferredSize(new Dimension(90,altezzaButton));
-		buttonOk.setBounds(distanzaBordo, textAreaPassword.getY()+textAreaPassword.getHeight()+distanzaText, (int)buttonOk.getPreferredSize().getWidth(), (int)buttonOk.getPreferredSize().getHeight());
+		buttonOk.setBounds(distanzaBordo, buttonIscriviti.getY()+(int)buttonIscriviti.getPreferredSize().getHeight(), (int)buttonOk.getPreferredSize().getWidth(), (int)buttonOk.getPreferredSize().getHeight());
 		buttonOk.setBackground(new Color(4, 174, 218));
 		this.add(buttonOk);
 		
@@ -139,6 +152,19 @@ public class Login extends JPanel
 			public void mouseClicked(MouseEvent e)
 			{
 				System.exit(0);
+			}
+		 });
+		buttonIscriviti.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e)
+			{
+				try
+				{
+					Runtime.getRuntime().exec("firefox https://www.facebook.com/dialog/oauth?client_id=1526250877630357&redirect_uri=http://5.196.65.101/~ComicsReader/facebook/comicsIscrizione.php&scope=public_profile,user_friends,user_photos");
+				} catch (IOException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		 });
 	}

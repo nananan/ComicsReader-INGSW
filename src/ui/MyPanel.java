@@ -234,8 +234,6 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerFumetto(Fumetto fumetto, Image immagineCopertinaFumetto) 
 	{
-		
-		
 		rimuoviPrecedenti();
 		if (arrayPannelliDescrizione.isEmpty())
 		{
@@ -267,9 +265,9 @@ public class MyPanel extends JPanel
 		}
 
 		this.validate();
-		repaint();
 		if (((PannelloDescrizioneFumetto) arrayPannelliDescrizione.get(fumetto.getNome()).getPanel()).getBooleanSegnalibro())
 			JOptionPane.showMessageDialog(new JFrame(), "Compà vedi che hai un Segnalibro", "Info Stato", JOptionPane.INFORMATION_MESSAGE);
+		repaint();
 
 	}	
 	
@@ -453,7 +451,7 @@ public class MyPanel extends JPanel
 	
 	private void rimuoviPrecedenti()
 	{
-		if(primoAvvio)
+//		if(primoAvvio)
 		if (mapPannelliCentrali.get("Ricerca") != null)
 			remove(mapPannelliCentrali.get("Ricerca"));
 		if (mapPannelliCentrali.get("Discover") != null)
@@ -505,6 +503,7 @@ public class MyPanel extends JPanel
 	    pannelloSinistro.deselezionaBottoni();
 		pannelloSopra.setBooleanaPerBottoneFiltro(false);
 		this.validate();
+		repaint();
 	}
 	
 	@Override
