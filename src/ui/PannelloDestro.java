@@ -77,7 +77,7 @@ public class PannelloDestro extends JPanel
 	    int altezza = 0;
 	    for (int i = 0; i < copertineCronologiaFollow.size(); i++)
 		{
-	    	MyButton nome = new MyButton(nomeFollow.get(i).getNome()+" ha letto", new Color(35,148,188));
+	    	MyButton nome = new MyButton(nomeFollow.get(i).getNome()+" ha letto",11, Color.WHITE, new Color(35,148,188));
 	    	nome.setFont(new Font("Caladea", Font.HANGING_BASELINE, 11));
 	    	nome.setBackground(this.getBackground());
 	    	nome.setBorderPainted(false);

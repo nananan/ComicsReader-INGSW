@@ -185,6 +185,11 @@ public class PannelloSinistra extends JPanel
 		setPremutoBottoni();
 		buttonTopRated.setForeground(color);
 	}
+	public void setColorBottoneAmici(Color color)
+	{
+		setPremutoBottoni();
+		buttonAmici.setForeground(color);
+	}
 	
 	private void setPremutoBottoni()
 	{
@@ -192,6 +197,7 @@ public class PannelloSinistra extends JPanel
 		buttonTopRead.setPremuto();
 		buttonTopRated.setPremuto();
 		buttonFileLocali.setPremuto();
+		buttonAmici.setPremuto();
 	}
 	
 	private void setImmagineBottone(JButton bottone, String pathImmagine)

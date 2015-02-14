@@ -61,6 +61,7 @@ public class MyPanel extends JPanel
 	private Lettore lettoreVisto;
 	private PannelloScrollPane pannelloScrollDestro;
 	private PannelloScrollPane pannelloAmici;
+	private boolean eStatoRichiestoAmici;
 	private static Color COLORE = Color.GRAY;
 	
 	public MyPanel()
@@ -225,6 +226,8 @@ public class MyPanel extends JPanel
 			((PannelloDescrizioneFumetto) arrayPannelliDescrizione.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("ProfiloAltroUtente");
 			((PannelloDescrizioneFumetto) arrayPannelliDescrizione.get(nomeFumetto).getPanel()).setUltimoLettoreVisto(lettoreVisto);
 		}
+		else if (eStatoRichiestoAmici)
+			((PannelloDescrizioneFumetto) arrayPannelliDescrizione.get(nomeFumetto).getPanel()).setUltimoPannelloInstanziato("Amici");
 	}
 	
 	private void setUltimoLettoreVisto(Lettore lettoreVisto)
@@ -275,15 +278,8 @@ public class MyPanel extends JPanel
 	{
 		rimuoviPrecedenti();
 		rimuoviBooleani();
-//		Iterator it = arrayPannelli.entrySet().iterator();
-//	    while (it.hasNext())
-//	    {
-//	        Map.Entry pairs = (Map.Entry)it.next();
-//	        if (it != null)
-//	        	remove(arrayPannelli.get(pairs.getKey()));
-//	    }
-	    
-	    pannelloVisualizzatore = new PannelloVisualizzatore(mapPannelliCentrali.get("Discover").getWidth(), 
+
+		pannelloVisualizzatore = new PannelloVisualizzatore(mapPannelliCentrali.get("Discover").getWidth(), 
 				mapPannelliCentrali.get("Discover").getHeight(), this);
 	    
 		pannelloScrollCapitoli = new PannelloScrollPane(pannelloVisualizzatore, 0, COLORE);
@@ -371,6 +367,8 @@ public class MyPanel extends JPanel
 		rimuoviBooleani();
 		rimuoviPrecedenti();
 		
+		eStatoRichiestoAmici = true;
+		pannelloSinistro.setColorBottoneAmici(new Color(35,148,188));
 		if (pannelloAmici == null)
 		{
 			pannelloAmici = new PannelloScrollPane(new PannelloAmici(this,
@@ -387,7 +385,6 @@ public class MyPanel extends JPanel
 	
 	public void premiPerPaginaSuccessiva()
 	{
-		
 		if (pannelloSotto.getVisualizzatore() == 0)
 		{
 			pannelloSotto.setEnableBottoniNextPrev(1, true);

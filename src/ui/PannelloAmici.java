@@ -32,7 +32,7 @@ public class PannelloAmici extends JPanel
 	{
 		super();	
 		setBackground(Color.GRAY);
-		setPreferredSize(new Dimension(larghezza-larghezzaPannello*2, altezza));
+		setPreferredSize(new Dimension(larghezza, altezza));
 		setLayout(null);
 		this.panel = panel;
 		
@@ -66,13 +66,17 @@ public class PannelloAmici extends JPanel
 						(int)listaBottoniFollowCorrente.get(i).getPreferredSize().getHeight());
 			else
 				listaBottoniFollowCorrente.get(i).setBounds(listaBottoniFollowCorrente.get(i-1).getX(),
-						10+listaBottoniFollowCorrente.get(i-1).getY() + 
-						(int)listaBottoniFollowCorrente.get(i-1).getPreferredSize().getHeight(), 
+						10+listaJSeparator.get(i-1).getY(), 
 						(int)listaBottoniFollowCorrente.get(i).getPreferredSize().getWidth(),
 						(int)listaBottoniFollowCorrente.get(i).getPreferredSize().getHeight());
 			
 			this.add(listaBottoniFollowCorrente.get(i));
 			larg += listaBottoniFollowCorrente.get(i).getPreferredSize().getHeight();
+			
+			
+			if (larg >= this.getPreferredSize().getHeight())
+				this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(),
+						larg+100 + (int)listaBottoniFollowCorrente.get(listaBottoniFollowCorrente.size()-1).getPreferredSize().getHeight()/2));
 			
 			if (i != listaBottoniFollowCorrente.size()-1)
 			{
@@ -81,16 +85,12 @@ public class PannelloAmici extends JPanel
 				listaJSeparator.get(i).setForeground(Color.GRAY);
 				listaJSeparator.get(i).setPreferredSize(new Dimension((int)this.getPreferredSize().getHeight(),
 						(int)listaJSeparator.get(i).getPreferredSize().getHeight()));
-				listaJSeparator.get(i).setBounds(10, 10+listaBottoniFollowCorrente.get(i).getY()+
+				listaJSeparator.get(i).setBounds(10, 5+listaBottoniFollowCorrente.get(i).getY()+
 						(int)listaBottoniFollowCorrente.get(i).getPreferredSize().getHeight(), 
-						(int)this.getPreferredSize().getWidth()-13, (int)listaJSeparator.get(i).getPreferredSize().getHeight());
+						(int)this.getPreferredSize().getWidth()-15, (int)listaJSeparator.get(i).getPreferredSize().getHeight());
 				this.add(listaJSeparator.get(i));
 				
 			}
-			
-			if (larg >= this.getPreferredSize().getHeight())
-				this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(),
-						20 +larg + (int)listaBottoniFollowCorrente.get(listaBottoniFollowCorrente.size()-1).getPreferredSize().getHeight()/2));
 			
 		}
 	}

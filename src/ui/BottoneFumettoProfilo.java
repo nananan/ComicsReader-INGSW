@@ -143,7 +143,6 @@ public class BottoneFumettoProfilo extends JButton implements ActionListener
 				
 				bottoneStatoDaLeggere.setBackground(Color.GRAY);
 				add(bottoneStatoDaLeggere);
-				System.out.println("STATO: "+statoBottoneDaLeggere);
 				bottoneStatoDaLeggere.addActionListener(listener);
 			}
 		}

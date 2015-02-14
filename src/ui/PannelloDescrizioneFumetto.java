@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -447,6 +448,16 @@ public class PannelloDescrizioneFumetto extends JPanel
 					panel.premiPerAverePiuVotati();
 				else if (ultimoPannelloInstanziato.equals("ProfiloAltroUtente"))
 					panel.premiPerAvereProfiloDiAltroUtente(ultimoLettoreVisto);
+				else if (ultimoPannelloInstanziato.equals("Amici"))
+				{
+					try
+					{
+						panel.PremiPerAmici();
+					} catch (IOException e1)
+					{
+						e1.printStackTrace();
+					}
+				}
 			}
 			else if (source == bottoneIndietroVolumi)   //BOTTONE INDIETRO VOLUMI
 			{
