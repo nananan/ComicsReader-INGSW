@@ -32,7 +32,6 @@ public class FileLocali extends JFrame {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         fileChooser.setFileFilter(new FileLocaliFilter());
 //        fileChooser.setCurrentDirectory(new File("C:/"));
-
         
         fileMenu.setLabel("File");
         

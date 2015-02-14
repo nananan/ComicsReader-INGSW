@@ -84,4 +84,9 @@ public class MyButton extends JButton
 	{
 		premo=false;
 	}
+	
+	public void setPremo()
+	{
+		premo = true;
+	}
 }

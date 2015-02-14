@@ -41,7 +41,7 @@ public class PannelloSinistra extends JPanel
 	MyButton buttonDiscover = new MyButton("Scopri", COLORE);
 	MyButton buttonTopRead = new MyButton("Top Read", COLORE);
 	MyButton buttonTopRated = new MyButton("Top Rated Comics", COLORE);
-	MyButton buttonFileLocali = new MyButton("File Locali", COLORE);
+	MyButton buttonFileLocali = new MyButton("File Locali", 14, Color.WHITE, COLORE);
 	MyButton buttonAmici = new MyButton("Amici", COLORE);
 	
 	int larghezza = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 7;
@@ -56,6 +56,16 @@ public class PannelloSinistra extends JPanel
 	public Fumetto fumetto;
 	public Image immaginePerFumetto;
 	private MyListener listener;
+
+	private boolean discover;
+
+	private boolean topRead;
+
+	private boolean topRated;
+
+	private boolean amici;
+
+	private boolean fileLocali;
 	
 	public PannelloSinistra(final MyPanel panel) 
 	{
@@ -173,31 +183,70 @@ public class PannelloSinistra extends JPanel
 	public void setColorBottoneDiscover(Color color)
 	{	
 		setPremutoBottoni();
+		deselezionaBottoni();
+		discover = true;
+		amici = false;
+		topRead = false;
+		topRated = false;
 		buttonDiscover.setForeground(color);
+		buttonDiscover.setPremo();
 	}
 	public void setColorBottoneTopRead(Color color)
 	{
 		setPremutoBottoni();
+		deselezionaBottoni();
+		topRead = true;
+		discover = false;
+		amici = false;
+		topRated = false;
 		buttonTopRead.setForeground(color);
+		buttonTopRead.setPremo();
 	}
 	public void setColorBottoneTopRated(Color color)
 	{
 		setPremutoBottoni();
+		deselezionaBottoni();
+		topRated = true;
+		discover = false;
+		amici = false;
+		topRead = false;
 		buttonTopRated.setForeground(color);
+		buttonTopRated.setPremo();
 	}
 	public void setColorBottoneAmici(Color color)
 	{
 		setPremutoBottoni();
+		deselezionaBottoni();
+		amici = true;
+		discover = false;
+		topRated = false;
+		topRead = false;
 		buttonAmici.setForeground(color);
+		buttonAmici.setPremo();
+	}
+	
+	public void setColorBottoneFileLocali(Color color)
+	{
+		setPremutoBottoni();
+		deselezionaBottoni();
+//		fileLocali = true;
+//		buttonFileLocali.setForeground(color);
+//		buttonFileLocali.setPremo();
 	}
 	
 	private void setPremutoBottoni()
 	{
+		buttonFileLocali.setForeground(Color.WHITE);
 		buttonDiscover.setPremuto();
 		buttonTopRead.setPremuto();
 		buttonTopRated.setPremuto();
 		buttonFileLocali.setPremuto();
 		buttonAmici.setPremuto();
+//		discover = false;
+//		topRead = false;
+//		topRated = false;
+//		fileLocali = false;
+//		amici = false;
 	}
 	
 	private void setImmagineBottone(JButton bottone, String pathImmagine)
@@ -236,8 +285,11 @@ public class PannelloSinistra extends JPanel
 				panel.premiPerAverePiuVotati();
 			else if (source == buttonFileLocali)
 			{
+				setPremutoBottoni();
+				deselezionaBottoni();
+				buttonFileLocali.setForeground(Color.WHITE);
 				FileLocali x = new FileLocali();
-				File folder = null;;
+				File folder = null;
 				if (x.fileChooser.getSelectedFile() != null)
 				{
 					folder  = new File(x.fileChooser.getSelectedFile().toString());
@@ -253,7 +305,15 @@ public class PannelloSinistra extends JPanel
 		        
 		        	panel.premiPerPannelloVisualizzazioneOffline(listOfFiles);
 				}
-		        
+				
+				if (discover)
+					setColorBottoneDiscover(new Color(35,148,188));
+				else if (amici)
+					setColorBottoneAmici(new Color(35,148,188));
+				else if (topRead)
+					setColorBottoneTopRead(new Color(35,148,188));
+				else if (topRated)
+					setColorBottoneTopRated(new Color(35,148,188));
 			}
 			else if (source == bottoneIndietro || source == tornaIndietro)
 			{

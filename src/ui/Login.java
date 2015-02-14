@@ -38,12 +38,12 @@ import domain.Lettore;
 public class Login extends JPanel 
 {
 	
-	private JTextField textAreaName = new JTextField("eliana-c@live.it");
+	private JTextField textAreaName = new JTextField("");
 	private JTextPane erroreLogin = new JTextPane();
 
-	private WebLogin webLogin = new WebLogin();
+	private WebLogin webLogin;
 	private PannelloLoading pannelloLoading = PannelloLoading.getIstanza();
-	private JPasswordField textAreaPassword = new JPasswordField("nisdunimfe56");
+	private JPasswordField textAreaPassword = new JPasswordField("");
 	private JButton buttonOk = new JButton("Login");
 	private JButton buttonIscriviti = new JButton("Iscriviti");
 	private JButton buttonAnnulla = new JButton("Annulla");
@@ -198,11 +198,12 @@ public class Login extends JPanel
 		String pass = textAreaPassword.getText();
 		try
 		{
+			webLogin = new WebLogin();
 			webLogin.setEmail(email);
 			webLogin.setPass(pass);
 			webLogin.clickLoginBotton();
-			GestoreJSON gestoreJSON = new GestoreJSON(webLogin.getURLAmiciJSON(), webLogin.getURLUtenteJSON());
 			
+			GestoreJSON gestoreJSON = new GestoreJSON(webLogin.getURLAmiciJSON(), webLogin.getURLUtenteJSON());
 			String id=gestoreJSON.getIdUtente();
 			String nome = gestoreJSON.getNomeUtente();
 			String url = webLogin.getURLFoto(id);

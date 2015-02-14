@@ -525,6 +525,8 @@ public class MyPanel extends JPanel
 		rimuoviBooleani();
 		rimuoviPrecedenti();
 		
+//		pannelloSinistro.setColorBottoneFileLocali(new Color(35,148,188));
+		
 		pannelloScrollOffline = new PannelloScrollPane(new PannelloVisualizzatoreOffline(this, mapPannelliCentrali.get("Discover").getWidth(), 
 					mapPannelliCentrali.get("Discover").getHeight()), 0, COLORE);
 		
