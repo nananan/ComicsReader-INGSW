@@ -90,7 +90,7 @@ public class PannelloAmici extends JPanel
 			
 			if (larg >= this.getPreferredSize().getHeight())
 				this.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(),
-						larg + (int)listaBottoniFollowCorrente.get(listaBottoniFollowCorrente.size()-1).getPreferredSize().getHeight()/2));
+						20 +larg + (int)listaBottoniFollowCorrente.get(listaBottoniFollowCorrente.size()-1).getPreferredSize().getHeight()/2));
 			
 		}
 	}

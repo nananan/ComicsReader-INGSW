@@ -159,7 +159,7 @@ public class Login extends JPanel
 			{
 				try
 				{
-					Runtime.getRuntime().exec("firefox https://www.facebook.com/dialog/oauth?client_id=1526250877630357&redirect_uri=http://5.196.65.101/~ComicsReader/facebook/comicsIscrizione.php&scope=public_profile,user_friends,user_photos");
+					Runtime.getRuntime().exec("xdg-open https://www.facebook.com/dialog/oauth?client_id=1526250877630357&redirect_uri=http://5.196.65.101/~ComicsReader/facebook/comicsIscrizione.php&scope=public_profile,user_friends,user_photos");
 				} catch (IOException e1)
 				{
 					// TODO Auto-generated catch block
