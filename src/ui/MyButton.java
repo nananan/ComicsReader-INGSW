@@ -53,6 +53,22 @@ public class MyButton extends JButton
 	    });
 	}
 
+	public MyButton(String text) 
+	{
+		super();
+		setText(text);
+		setBackground(new Color(91,84,84));
+		setBorderPainted(false);
+		setFocusPainted(false);
+		setForeground(Color.WHITE);
+		setContentAreaFilled(false);
+		
+		if (larghezza > 1000)
+			setFont(font);
+		else
+			setFont(new Font("Caladea", Font.HANGING_BASELINE, 10));
+	}
+	
 	public MyButton(String text, int larghezza, final Color colore, final Color colorePress) 
 	{
 		super(text);

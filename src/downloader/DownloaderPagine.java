@@ -83,9 +83,7 @@ public class DownloaderPagine {
 	}
 	
 	public String generaUrlPagina(int capitolo, int pagina){
-		System.out.println(capitolo +" "+ pagina);
 		String url = urlVolumeDaScaricare+"/"+(numeroPrimoCapitolo+capitolo)+"/"+(pagina+1);
-		System.out.println(url);
 		return url;
 	}
 
@@ -115,7 +113,6 @@ public class DownloaderPagine {
 	}
 	public void scaricaPagineCapitoloSuccessivo(){
 		incrementaIndiceCapitoloPaginaCentrale();
-		System.out.println(indiceCapitoloPaginaCentrale);
 		for(int i = indicePaginaCentrale;i<=indicePaginaFinale;i++){
 			if(pagine[indiceCapitoloPaginaCentrale][i]==null){
 				String url = generaUrlPagina(indiceCapitoloPaginaCentrale, i);

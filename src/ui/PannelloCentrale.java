@@ -126,11 +126,11 @@ public class PannelloCentrale extends JPanel
 		add(textDiscover);
 		bottoniFumetti = new ArrayList<>();
 		
-		if (filtri.size() == 0 && statoFumetto == 0 && tipoFumetto == 0)
-		{
-			panel.PremiPerDiscover();
-			return;
-		}
+//		if (filtri.size() == 0 && statoFumetto == 0 && tipoFumetto == 0)
+//		{
+//			panel.PremiPerDiscover();
+//			return;
+//		}
 		libreria.caricaFumettiPerFiltri(filtri, statoFumetto, tipoFumetto);
 		
 		aggiungiFumettoAlPannello(libreria.fumettiFiltratiCorrente());
@@ -208,7 +208,7 @@ public class PannelloCentrale extends JPanel
 		int j=0, i=0;
 		indiceFumetti = 0;
 		bottoniFumetti.clear();
-		if (fumettiDaAggiungere[0] == null)
+		if (fumettiDaAggiungere.length == 0)
 		{
 			aggiungiStringaFumettoNonTrovato();
 			return;

@@ -92,13 +92,12 @@ public class PannelloFiltraggio extends JPanel
 		textGenere.setBounds(10,10 + buttonStatoIncompleto.getY()+(int)buttonStatoIncompleto.getPreferredSize().getHeight(), (int)textGenere.getPreferredSize().getWidth(), (int)textGenere.getPreferredSize().getHeight());
 		add(textGenere);
 		
-	
-			nomiGeneriFiltri = Fumetto.getTuttiGeneri();
-			bottoniGeneriFiltri = new MyButton[nomiGeneriFiltri.length];
+		nomiGeneriFiltri = Fumetto.getTuttiGeneri();
+		bottoniGeneriFiltri = new MyButton[nomiGeneriFiltri.length];
 		
 		for (int i = 0; i < nomiGeneriFiltri.length; i++)
 		{
-			bottoniGeneriFiltri[i] = new MyButton(nomiGeneriFiltri[i], COLORE);
+			bottoniGeneriFiltri[i] = new MyButton(nomiGeneriFiltri[i]);
 			
 			if (i == 0)
 				bottoniGeneriFiltri[i].setBounds(10, 10 + textGenere.getY()+(int)textGenere.getPreferredSize().getHeight(), (int)bottoniGeneriFiltri[i].getPreferredSize().getWidth(), (int)bottoniGeneriFiltri[i].getPreferredSize().getHeight());
@@ -239,7 +238,7 @@ public class PannelloFiltraggio extends JPanel
 				buttonManga.setForeground(Color.WHITE);
 				buttonStatoCompleto.setForeground(Color.WHITE);
 				buttonStatoIncompleto.setForeground(Color.WHITE);
-				
+				clean.setForeground(Color.WHITE);
 				filtri.clear();
 			}
 			

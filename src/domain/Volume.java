@@ -39,7 +39,6 @@ public class Volume {
 		int nPrimoC=gestoreDB.primoCapitoloVolume(nomeFumetto,numero);
 		
 		capitoli = new Capitolo[numeroCapitoli];
-		System.out.println(numeroCapitoli);
 		while(tuplaCapitolo.prossima())
 		{		
 			Capitolo capitolo = new Capitolo(tuplaCapitolo);

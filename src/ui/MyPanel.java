@@ -87,6 +87,8 @@ public class MyPanel extends JPanel
 	public void PremiPerFiltraggio()
 	{
 		GestoreDataBase.connetti();
+//		rimuoviPrecedenti();
+//		rimuoviBooleani();
 		
 		this.remove(pannelloSinistro);
 		pannelloFiltraggio = new PannelloFiltraggio(this, (int)mapPannelliCentrali.get("Discover").getPreferredSize().getHeight());
@@ -99,15 +101,15 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerPannelloSinistro()
 	{
-		GestoreDataBase.connetti();
+//		GestoreDataBase.connetti();
 	
-		pannelloSopra.setBooleanaPerBottoneFiltro(true);
+//		pannelloSopra.setBooleanaPerBottoneFiltro(true);
 		
 		rimuoviPrecedenti();
 		rimuoviBooleani();
 		pannelloSopra.setBooleanaPerBottoneFiltro(true);
 		eStatoRichiestoIlFiltro = true;
-		
+
 		ArrayList<String> filtri = pannelloFiltraggio.getArrayDiFiltri();
 		int statoFumetto = pannelloFiltraggio.getStatoFumetto();
 		int tipoFumetto = pannelloFiltraggio.getTipoFumetto();
@@ -133,9 +135,8 @@ public class MyPanel extends JPanel
 	
 	public void PremiPerAvereRisultatiDellaRicerca(String tipoDaCercare, String nomeDaCercare)
 	{
-		
-			rimuoviPrecedenti();
-			rimuoviBooleani();
+		rimuoviPrecedenti();
+		rimuoviBooleani();
 		
 		eStatoRichiestoLaRicerca = true;
 		

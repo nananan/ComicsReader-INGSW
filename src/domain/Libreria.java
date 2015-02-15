@@ -120,11 +120,9 @@ public class Libreria
 	public boolean giaCaricati(){
 		
 		tuplaFumetto = gestoreDB.creaTuplaFumetto(indiceUltimoFumetto);
-		System.out.println(indiceUltimoFumetto);
 		tuplaFumetto.prossima();
 		String nome=tuplaFumetto.getNome();
 		tuplaFumetto.precedente();
-		System.out.println(nome);
 		return fumetti.containsKey(nome);	
 	}
 	public void caricaFumettiPerFiltri(ArrayList<String> generi,
@@ -137,7 +135,6 @@ public class Libreria
 		fumettiFiltriCorrenti = new Fumetto[MAX_NUMERO_FUMETTI];
 		int cont=0;
 		for(;tupla.prossima();indiceUltimoFumettoFiltrato++,cont++){
-			System.out.println(tupla.getNome());
 			fumettiFiltriCorrenti[cont]=getFumetto(tupla.getNome());
 		}		
 	}

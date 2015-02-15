@@ -117,7 +117,6 @@ public class TuplaLettore extends Tupla{
 		String rimuoviPreferito = "DELETE FROM preferiti WHERE utente=\""+idFacebookCorrente+"\" "
 				+ "and nome_fumetto=\""+nomeFumetto+"\";";
 		
-		System.out.println(rimuoviPreferito);
 	}
 
 }

@@ -175,6 +175,8 @@ public class PannelloSopra extends JMenuBar implements ActionListener, ItemListe
 	
 	public void setBooleanaPerBottoneFiltro(boolean booleana)
 	{
+		if (booleana)
+			buttonFiltra.setForeground(Color.WHITE);
 		buttonFiltra.setEnabled(booleana);
 	}
 	

@@ -14,12 +14,10 @@ public class ControllaStatoApp extends Thread
 			while(!AppManager.dbConnesso()){
 				AppManager.provaConnessione();
 				numeroTentativo++;
-				System.out.println(numeroTentativo);
 				if(numeroTentativo == NUM_MAX_TENTATIVI){
 					System.out.println("errore connessione");
 				}
 			}
-			System.out.println(numeroTentativo);
 			numeroTentativo=0;
 			try
 			{
