@@ -28,9 +28,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-import web.ErroreAutenticazioneException;
-import web.GestoreJSON;
-import web.WebLogin;
+import login.ErroreAutenticazioneException;
+import login.GestoreJSON;
+import login.LoginFacebook;
 import domain.AppManager;
 import domain.Lettore;
 
@@ -41,7 +41,7 @@ public class Login extends JPanel
 	private JTextField textAreaName = new JTextField("");
 	private JTextPane erroreLogin = new JTextPane();
 
-	private WebLogin webLogin;
+	private LoginFacebook webLogin;
 	private PannelloLoading pannelloLoading = PannelloLoading.getIstanza();
 	private JPasswordField textAreaPassword = new JPasswordField("");
 	private JButton buttonOk = new JButton("Login");
@@ -198,7 +198,7 @@ public class Login extends JPanel
 		String pass = textAreaPassword.getText();
 		try
 		{
-			webLogin = new WebLogin();
+			webLogin = new LoginFacebook();
 			webLogin.setEmail(email);
 			webLogin.setPass(pass);
 			webLogin.clickLoginBotton();

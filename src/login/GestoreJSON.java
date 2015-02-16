@@ -1,4 +1,4 @@
-package web;
+package login;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class GestoreJSON
 {
 	private JSONArray amiciJSON;
 	private JSONObject utenteJSON;
-	private WebLogin login = WebLogin.getIstanza();
+	private LoginFacebook login = LoginFacebook.getIstanza();
 	
 	public GestoreJSON(String url_friends, String url_user)
 	{

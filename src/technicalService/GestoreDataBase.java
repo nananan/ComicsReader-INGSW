@@ -9,7 +9,7 @@ import domain.Lettore;
 public class GestoreDataBase {
 	
 	private static final String USER = "manueliana";
-	private static final String PASS = "ciaosonoricca";
+	private static final String PASS = "ciao";
    	private static final String CONNECTION_URL = "jdbc:mariadb://5.196.65.101:5061/comics_reader";
     private static final String DRIVER = "org.mariadb.jdbc.Driver"; 
     private static Connection connection;

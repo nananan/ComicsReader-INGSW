@@ -1,4 +1,4 @@
-package web;
+package login;
 
 public class ErroreAutenticazioneException extends Exception
 {

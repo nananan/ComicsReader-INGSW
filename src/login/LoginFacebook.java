@@ -1,4 +1,4 @@
-package web;
+package login;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,7 +17,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
-public class WebLogin
+public class LoginFacebook
 {
 	private final static String URL_LOGIN = "https://www.facebook.com/dialog/oauth?client_id=1526250877630357&redirect_uri=http://5.196.65.101/~ComicsReader/facebook/comicsLogin.php&scope=user_friends,user_photos";
 	private static String URL_FRIENDS ="https://graph.facebook.com/me/friends?";
@@ -31,14 +31,14 @@ public class WebLogin
     private HtmlPasswordInput pass;
     private HtmlSubmitInput loginBotton;
     
-    private static WebLogin istanza;
+    private static LoginFacebook istanza;
     
-    public static WebLogin getIstanza(){
+    public static LoginFacebook getIstanza(){
     	if(istanza==null)
-    		istanza = new WebLogin();
+    		istanza = new LoginFacebook();
     	return istanza;
     }
-    public WebLogin()
+    public LoginFacebook()
     {
     	try{
     	

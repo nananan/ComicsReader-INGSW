@@ -4,7 +4,6 @@ import java.awt.Image;
 
 import technicalService.GestoreDataBase;
 import ui.PannelloDescrizioneFumetto;
-import domain.Capitolo;
 import downloader.DownloaderPagine;
 
 public class VisualizzatoreCapitoli {
